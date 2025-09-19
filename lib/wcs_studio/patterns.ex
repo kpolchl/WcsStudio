@@ -1,5 +1,4 @@
 defmodule WcsStudio.Pattern do
-  @moduledoc false
   use Ecto.Schema
   import Ecto.Changeset
   import Ecto.Query
@@ -17,17 +16,41 @@ defmodule WcsStudio.Pattern do
 
   def get_all() do
     WcsStudio.Repo.all(WcsStudio.Pattern)
+    |> WcsStudio.Repo.preload(:dance_type)
+  end
+
+  def get_by_dance_type_id(dance_type_id) do
+    WcsStudio.Pattern
+    |> where(dance_type_id: ^dance_type_id)
+    |> WcsStudio.Repo.all()
+  end
+
+  def get_by_id_name_or_description(dance_type_id, query_string) do
+    from(p in WcsStudio.Pattern,
+      where: p.dance_type_id == ^dance_type_id and (ilike(p.name, ^"%#{query_string}%") or ilike(p.description, ^"%#{query_string}%"))
+    )
+    |> WcsStudio.Repo.all()
   end
 
   def add(dance_type_id, name, description, video_url \\ "test") do
     %__MODULE__{}
-    |> changeset(%{dance_type_id: dance_type_id, name: name, description: description, video_url: video_url})
+    |> changeset(%{
+      dance_type_id: dance_type_id,
+      name: name,
+      description: description,
+      video_url: video_url
+    })
     |> WcsStudio.Repo.insert()
   end
 
   def update_pattern(dance_type, dance_type_id, name, description, video_url) do
     dance_type
-    |> changeset(%{dance_type_id: dance_type_id, name: name, description: description, video_url: video_url})
+    |> changeset(%{
+      dance_type_id: dance_type_id,
+      name: name,
+      description: description,
+      video_url: video_url
+    })
     |> WcsStudio.Repo.update()
   end
 
@@ -42,5 +65,4 @@ defmodule WcsStudio.Pattern do
     |> validate_required([:name, :description, :dance_type_id])
     |> foreign_key_constraint(:dance_type_id)
   end
-
 end
