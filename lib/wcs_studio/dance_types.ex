@@ -14,6 +14,13 @@ defmodule WcsStudio.DanceType do
     WcsStudio.Repo.all(WcsStudio.DanceType)
   end
 
+  def get_first do
+    from(p in WcsStudio.DanceType,
+      limit: 1
+    )
+    |> WcsStudio.Repo.one()
+  end
+
   def get_by_id(id) do
     WcsStudio.Repo.get(WcsStudio.DanceType , id)
   end

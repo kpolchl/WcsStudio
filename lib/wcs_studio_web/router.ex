@@ -17,8 +17,9 @@ defmodule WcsStudioWeb.Router do
   scope "/", WcsStudioWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
-    get "/home", HomeController, :index # temp named index
+#    get "/", PageController, :home
+    get "/", HomeController, :index
+    live "/patterns", PatternsLive
   end
 
   # Other scopes may use custom stacks.
