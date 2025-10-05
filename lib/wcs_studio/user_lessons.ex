@@ -6,7 +6,7 @@ defmodule WcsStudio.UserLesson do
 
   schema "user_lessons" do
     field :attended, :boolean
-    belongs_to :user, WcsStudio.User
+    belongs_to :user, WcsStudio.Accounts.User
     belongs_to :lesson, WcsStudio.Lesson
   end
 

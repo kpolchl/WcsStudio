@@ -1,0 +1,98 @@
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900">
+
+    <!-- Hero Carousel -->
+    <section class="relative w-full overflow-hidden h-64 sm:h-80 md:h-[60vh] lg:h-[70vh] -mt-16">
+        <div id="carousel" class="flex transition-transform duration-700 ease-in-out">
+            <%= for slide <- @slides do %>
+            <div class="w-full flex-shrink-0 relative">
+                <img src={slide.image_url} alt={slide.title} class="w-full h-full object-cover"/>
+
+                <div class="absolute top-16 left-16 flex flex-col items-start text-left px-6 pt-12">
+                    <h2 class="text-3xl md:text-8xl font-mono font-bold text-white drop-shadow-lg ">
+                        <%= slide.title %>
+                    </h2>
+                    <p class="mt-1 text-sm md:text-lg text-white drop-shadow font-mono">
+                        <%= slide.subtitle %>
+                    </p>
+                </div>
+
+            </div>
+            <% end %>
+        </div>
+
+        <!-- Navigation Arrows -->
+        <button id="prev" class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white bg-opacity-70 rounded-full p-3 hover:bg-opacity-100 shadow-lg">
+            <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+        </button>
+        <button id="next" class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white bg-opacity-70 rounded-full p-3 hover:bg-opacity-100 shadow-lg">
+            <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+        </button>
+    </section>
+
+    <!-- Features / Gallery Section -->
+    <section class="py-12 md:py-20 bg-gray-100 dark:bg-gray-800">
+        <div class="mx-auto max-w-screen-4xl px-4 md:px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+            <!-- Example Card -->
+            <a href="/dance_types" class="group relative flex flex-col h-64 rounded-lg shadow-lg overflow-hidden bg-white dark:bg-gray-900 transition transform hover:scale-105">
+                <img src={~p"/images/slide1.jpg"}
+                     alt="VR" class="absolute inset-0 w-full h-full object-cover transition duration-300 group-hover:scale-110"/>
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-50"></div>
+                <span class="relative p-4 text-white font-semibold text-lg md:text-xl">Dance Types</span>
+            </a>
+
+            <a href="/patterns" class="group relative flex flex-col h-64 rounded-lg shadow-lg overflow-hidden bg-white dark:bg-gray-900 transition transform hover:scale-105">
+                <img src={~p"/images/slide2.jpg"}
+                     alt="Tech" class="absolute inset-0 w-full h-full object-cover transition duration-300 group-hover:scale-110"/>
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-50"></div>
+                <span class="relative p-4 text-white font-semibold text-lg md:text-xl">Dance Patterns</span>
+            </a>
+
+            <a href="/blog" class="group relative flex flex-col h-64 rounded-lg shadow-lg overflow-hidden bg-white dark:bg-gray-900 transition transform hover:scale-105">
+                <img src={~p"/images/slide3.jpg"}
+                     alt="Dev" class="absolute inset-0 w-full h-full object-cover transition duration-300 group-hover:scale-110"/>
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-50"></div>
+                <span class="relative p-4 text-white font-semibold text-lg md:text-xl">Blog</span>
+            </a>
+
+            <a href="/" class="group relative flex flex-col h-64 rounded-lg shadow-lg overflow-hidden bg-white dark:bg-gray-900 transition transform hover:scale-105">
+                <img src={~p"/images/slide1.jpg"}
+                     alt="Retro" class="absolute inset-0 w-full h-full object-cover transition duration-300 group-hover:scale-110"/>
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-50"></div>
+                <span class="relative p-4 text-white font-semibold text-lg md:text-xl">About</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-12 md:py-20 bg-blue-600 text-white text-center">
+        <h2 class="text-3xl md:text-5xl font-bold mb-4">Join the Future of Tech</h2>
+        <p class="text-lg md:text-2xl mb-6">Stay updated with the latest trends in VR, Dev, and Retro Tech</p>
+        <a href="#" class="bg-white text-blue-600 font-semibold px-8 py-3 rounded-lg hover:bg-gray-200 transition">Get Started</a>
+    </section>
+
+</div>
+
+<script>
+    const carousel = document.getElementById("carousel");
+    const slides = carousel.children;
+    let currentIndex = 0;
+
+    document.getElementById("next").addEventListener("click", () => {
+        currentIndex = (currentIndex + 1) % slides.length;
+        carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
+    });
+
+    document.getElementById("prev").addEventListener("click", () => {
+        currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+        carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
+    });
+
+    setInterval(() => {
+        currentIndex = (currentIndex + 1) % slides.length;
+        carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
+    }, 10000);
+</script>

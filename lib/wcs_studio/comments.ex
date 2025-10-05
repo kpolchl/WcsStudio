@@ -7,7 +7,7 @@ defmodule WcsStudio.Comment do
   schema "comments" do
     field :body, :string
     belongs_to :post, WcsStudio.Post
-    belongs_to :user, WcsStudio.User
+    belongs_to :user, WcsStudio.Accounts.User
     timestamps()
     end
 
