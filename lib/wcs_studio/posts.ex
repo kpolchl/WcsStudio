@@ -7,17 +7,18 @@ defmodule WcsStudio.Post do
   schema "posts" do
     field :title, :string
     field :body, :string
-    belongs_to :user, WcsStudio.User
+    belongs_to :user, WcsStudio.Accounts.User
     has_many :comments , WcsStudio.Comment
     timestamps()
   end
   @doc """
   Returns all posts from the database, preloading associated comments.
   """
-  def get_posts() do
+  def get_all() do
     WcsStudio.Post
     |> WcsStudio.Repo.all()
     |> WcsStudio.Repo.preload(:comments)
+    |> WcsStudio.Repo.preload(:user)
   end
 
   def get_post_by_id(id) do

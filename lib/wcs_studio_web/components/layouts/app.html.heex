@@ -1,4 +1,3 @@
-<.flash_group flash={@flash} />
 <nav class="sticky top-0 z-50 bg-gray-800/50 after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-white/10">
     <div class="w-full max-w-9xl px-2 sm:px-6 lg:px-8">
         <div class="relative flex h-16 items-center justify-between">
@@ -10,13 +9,15 @@
                     <span class="sr-only">Open main menu</span>
                     <!-- Icon when menu is closed. -->
                     <!-- Menu open: "hidden", Menu closed: "block" -->
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" class="block h-6 w-6" id="menu-icon-closed">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"
+                         class="block h-6 w-6" id="menu-icon-closed">
                         <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" stroke-linecap="round"
                               stroke-linejoin="round"/>
                     </svg>
                     <!-- Icon when menu is open. -->
                     <!-- Menu open: "block", Menu closed: "hidden" -->
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" class="hidden h-6 w-6" id="menu-icon-open">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"
+                         class="hidden h-6 w-6" id="menu-icon-open">
                         <path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                 </button>
@@ -25,110 +26,145 @@
             <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <!--Logo-->
                 <div class="flex shrink-0 items-center">
-                    <a href="/" class="text-2xl font-bold tracking-tight">
+                    <.link href={~p"/"} class="text-2xl font-bold tracking-tight">
                         WcsStudio<span class="text-pink-600">.</span>
-                    </a>
+                    </.link>
                 </div>
 
                 <div class="hidden sm:ml-6 sm:block">
                     <div class="flex space-x-4">
                         <!-- Current: "bg-gray-950/50 text-white", Default: "text-gray-300 hover:bg-white/5 hover:text-white" -->
-                        <a href="/"
+                        <.link href={~p"/dance_types"}
                            class="relative group rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">
                             Dance Types
                             <span class="absolute left-0 -bottom-1 h-0.5 w-0 bg-pink-600 transition-all group-hover:w-full"></span>
-                        </a>
-                        <a href="/patterns"
+                        </.link>
+                        <.link href={~p"/patterns"}
                            class="relative group rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">
                             Patterns
                             <span class="absolute left-0 -bottom-1 h-0.5 w-0 bg-pink-600 transition-all group-hover:w-full"></span>
-                        </a>
-                        <a href="/"
+                        </.link>
+                        <.link href={~p"/blog"}
                            class="relative group rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">
                             Blog
                             <span class="absolute left-0 -bottom-1 h-0.5 w-0 bg-pink-600 transition-all group-hover:w-full"></span>
-                        </a>
-                        <a href="/"
+                        </.link>
+                        <.link href={~p"/"}
                            class="relative group rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">
                             About
                             <span class="absolute left-0 -bottom-1 h-0.5 w-0 bg-pink-600 transition-all group-hover:w-full"></span>
-                        </a>
-                        <a href="/"
+                        </.link>
+                        <.link href={~p"/"}
                            class="relative group rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">
                             Contact
                             <span class="absolute left-0 -bottom-1 h-0.5 w-0 bg-pink-600 transition-all group-hover:w-full"></span>
-                        </a>
+                        </.link>
+                        <%= if @current_user && @current_user.role == "admin" do %>
+                            <.link href={~p"/lessons"} class="relative group rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">
+                            Lessons
+                            <span class="absolute left-0 -bottom-1 h-0.5 w-0 bg-pink-600 transition-all group-hover:w-full"></span>
+                            </.link>
+                        <% end %>
                     </div>
                 </div>
             </div>
             <div class="relative flex items-center pr-2 sm:ml-6 sm:pr-0">
 
                 <div class="relative inline-flex" id="user-menu-container">
+                    <%= if @current_user do %>
                     <button type="button" id="user-menu-button" aria-expanded="false" aria-haspopup="true"
                             onclick="document.getElementById('user-menu').classList.toggle('hidden'); this.setAttribute('aria-expanded', this.getAttribute('aria-expanded') === 'true' ? 'false' : 'true')"
                             class="relative flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Open user menu</span>
-                        <img src={~p"/images/user_icon.png"}
+                        <img src={@current_user.profile_pic}
                              alt=""
                              class="size-8 rounded-full bg-gray-800 outline -outline-offset-1 outline-white/10"/>
                     </button>
 
-                    <div id="user-menu" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1"
+                    <div id="user-menu" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button"
+                         tabindex="-1"
                          class="hidden absolute right-0 mt-10 w-48 rounded-md bg-gray-800 py-1 outline -outline-offset-1 outline-white/10 z-10">
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-white/5 focus:bg-white/5 focus:outline-none" role="menuitem" tabindex="-1" id="user-menu-item-0">Your profile</a>
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-white/5 focus:bg-white/5 focus:outline-none" role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a>
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-white/5 focus:bg-white/5 focus:outline-none" role="menuitem" tabindex="-1" id="user-menu-item-2">Sign out</a>
-                    </div>
-                </div>
-
-                <script>
-                    // Optional: Click outside to close the dropdown
-                    document.addEventListener('click', function(event) {
-                        const userMenuContainer = document.getElementById('user-menu-container');
-                        const userMenu = document.getElementById('user-menu');
-                        const userMenuButton = document.getElementById('user-menu-button');
-
-                        if (userMenuContainer && !userMenuContainer.contains(event.target) && !userMenu.classList.contains('hidden')) {
-                            userMenu.classList.add('hidden');
-                            userMenuButton.setAttribute('aria-expanded', 'false');
-                        }
-                    });
-
-                    // Mobile menu toggle logic
-                    document.getElementById('mobile-menu-button').addEventListener('click', function() {
-                        const mobileMenu = document.getElementById('mobile-menu');
-                        const isExpanded = this.getAttribute('aria-expanded') === 'true';
-
-                        mobileMenu.classList.toggle('hidden');
-                        this.setAttribute('aria-expanded', !isExpanded);
-
-                        // Toggle icons
-                        document.getElementById('menu-icon-closed').classList.toggle('hidden', !isExpanded);
-                        document.getElementById('menu-icon-open').classList.toggle('hidden', isExpanded);
-                    });
-                </script>
-            </div>
+                        <.link href={~p"/users/settings"}
+                        class="block px-4 py-2 text-sm text-gray-300 hover:bg-white/5 focus:bg-white/5 focus:outline-none" role="menuitem" tabindex="-1" id="user-menu-item-0">
+                        Your profile
+                    </.link>
+                    <.link href={~p"/users/settings"} class="block px-4 py-2 text-sm text-gray-300
+                    hover:bg-white/5 focus:bg-white/5 focus:outline-none" role="menuitem" tabindex="-1"
+                    id="user-menu-item-1">
+                    Settings
+                </.link>
+                <.link href={~p"/users/log_out"} method="delete" class="block px-4 py-2 text-sm text-gray-300 hover:bg-white/5
+                focus:bg-white/5 focus:outline-none" role="menuitem" tabindex="-1" id="user-menu-item-2">
+                Sign out
+            </.link>
         </div>
+        <% else %>
+        <.link
+        href={~p"/users/register"}
+        class="relative group rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">
+        Register
+        <span class="absolute left-0 -bottom-1 h-0.5 w-0 bg-pink-600 transition-all group-hover:w-full"></span>
+    </.link>
+    <.link
+    href={~p"/users/log_in"}
+    class="relative group rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">
+    Log in
+    <span class="absolute left-0 -bottom-1 h-0.5 w-0 bg-pink-600 transition-all group-hover:w-full"></span>
+    </.link>
+
+<% end %>
+
+</div>
+
+<script>
+    // Optional: Click outside to close the dropdown
+    document.addEventListener('click', function (event) {
+        const userMenuContainer = document.getElementById('user-menu-container');
+        const userMenu = document.getElementById('user-menu');
+        const userMenuButton = document.getElementById('user-menu-button');
+
+        if (userMenuContainer && !userMenuContainer.contains(event.target) && !userMenu.classList.contains('hidden')) {
+            userMenu.classList.add('hidden');
+            userMenuButton.setAttribute('aria-expanded', 'false');
+        }
+    });
+
+    // Mobile menu toggle logic
+    document.getElementById('mobile-menu-button').addEventListener('click', function () {
+        const mobileMenu = document.getElementById('mobile-menu');
+        const isExpanded = this.getAttribute('aria-expanded') === 'true';
+
+        mobileMenu.classList.toggle('hidden');
+        this.setAttribute('aria-expanded', !isExpanded);
+
+        // Toggle icons
+        document.getElementById('menu-icon-closed').classList.toggle('hidden', !isExpanded);
+        document.getElementById('menu-icon-open').classList.toggle('hidden', isExpanded);
+    });
+</script>
+</div>
+</div>
+</div>
+<!-- Removed el-disclosure and added standard div for mobile menu -->
+<div id="mobile-menu" class="hidden sm:hidden">
+    <div class="space-y-1 px-2 pt-2 pb-3">
+        <!-- Current: "bg-gray-950/50 text-white", Default: "text-gray-300 hover:bg-white/5 hover:text-white" -->
+        <.link href={~p"/"} aria-current="page"
+           class="block rounded-md bg-gray-950/50 px-3 py-2 text-base font-medium text-white">Dance Types</.link>
+        <.link href={~p"/"}
+           class="block rounded-md px-3 py-2 text-base font-font-medium text-gray-300 hover:bg-white/5 hover:text-white">Patterns</.link>
+        <.link href={~p"/"}
+           class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Blog</.link>
+        <.link href={~p"/"}
+           class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">About</.link>
+        <.link href={~p"/"}
+           class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Contact</.link>
     </div>
-    <!-- Removed el-disclosure and added standard div for mobile menu -->
-    <div id="mobile-menu" class="hidden sm:hidden">
-        <div class="space-y-1 px-2 pt-2 pb-3">
-            <!-- Current: "bg-gray-950/50 text-white", Default: "text-gray-300 hover:bg-white/5 hover:text-white" -->
-            <a href="#" aria-current="page"
-               class="block rounded-md bg-gray-950/50 px-3 py-2 text-base font-medium text-white">Dance Types</a>
-            <a href="#"
-               class="block rounded-md px-3 py-2 text-base font-font-medium text-gray-300 hover:bg-white/5 hover:text-white">Patterns</a>
-            <a href="#"
-               class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Blog</a>
-            <a href="#"
-               class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">About</a>
-            <a href="#"
-               class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Contact</a>
-        </div>
-    </div>
+</div>
 </nav>
-<main class="px-4 py-20 sm:px-6 lg:px-8">
+
+<main class="">
     <div class="mx-auto">
         <.flash_group flash={@flash} />
         <%= @inner_content %>
