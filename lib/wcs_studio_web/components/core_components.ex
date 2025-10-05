@@ -90,6 +90,311 @@ defmodule WcsStudioWeb.CoreComponents do
   end
 
   @doc """
+  Render pattern block.
+
+  # Examples
+  """
+
+  attr :pattern, :map, required: true, doc: "Pattern data"
+
+  def pattern(assigns) do
+    ~H"""
+    <div
+      id={"-card-#{@pattern.id}"}
+      phx-click={JS.toggle(to: "#expanded-body-#{@pattern.id}") |> JS.toggle(to: "#preview-body-#{@pattern.id}")}
+      class="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 mb-6 cursor-pointer hover:shadow-lg flex-grow text-black">
+
+      <div class="p-6 flex items-start justify-between">
+        <div class="flex-1 min-w-0">
+          <div class="flex flex-wrap gap-1.5 mb-2">
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800 border border-purple-200">
+              {@pattern.dance_type.name}
+            </span>
+          </div>
+          <h2 class="text-2xl font-bold text-gray-900 mb-2 "><%= @pattern.name %></h2>
+        </div>
+      </div>
+
+      <!-- Collapsed body preview -->
+      <div class="px-6 pb-4 pt-0" id={"preview-body-#{@pattern.id}"}>
+        <p class="text-gray-600 line-clamp-1">
+          <%= @pattern.general_description %>
+        </p>
+      </div>
+
+      <!-- Expanded content -->
+      <div id={"expanded-body-#{@pattern.id}"} class="px-6 pb-6 pt-0 hidden border-t border-gray-100 mt-4">
+        <!-- Description -->
+        <div class="mb-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-3 flex items-center">
+                <!-- Description icon -->
+                <svg class="w-5 h-5 text-pink-500 mr-2" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M2 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
+                </svg>
+                Pattern Description
+            </h3>
+            <div class="bg-pink-50 p-4 rounded-lg border border-pink-100">
+                <p class="text-gray-700 leading-relaxed">
+                <%= @pattern.general_description %>
+                </p>
+            </div>
+        </div>
+
+        <div class="mb-6">
+          <h3 class="text-lg font-semibold text-gray-800 mb-3 flex items-center">
+              Step Breakdown
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="bg-purple-50 p-4 rounded-lg border border-purple-100">
+                  <h4 class="font-medium text-purple-800 mb-2">For Leaders</h4>
+                  <p>
+                    <%= @pattern.leader_description %>
+                  </p>
+              </div>
+              <div class="bg-blue-50 p-4 rounded-lg border border-blue-100">
+                  <h4 class="font-medium text-blue-800 mb-2">For Followers</h4>
+                  <p>
+                    <%= @pattern.follower_description %>
+                  </p>
+              </div>
+          </div>
+        </div>
+
+        <!-- Video -->
+        <div class="mt-6">
+          <video class="w-full rounded-lg" controls>
+            <source src={@pattern.video_url} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex justify-end gap-3 mt-6">
+          <button phx-click="open_update_modal" phx-value-id={@pattern.id}
+            class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 border border-green-700 rounded">
+            Update
+          </button>
+
+          <button phx-click="delete_pattern" phx-value-id={@pattern.id} class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 border border-red-700 rounded">
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+    """
+
+  end
+
+
+
+
+  @doc """
+    renders a lesson block
+
+  ## Examples
+
+  """
+
+  attr :lesson, :map, required: true, doc: "lesson data"
+
+  def lesson_box(assigns) do
+    ~H"""
+    <div id={"lesson-card-#{@lesson.id}"}
+      phx-click={JS.toggle(to: "#expanded-body-#{@lesson.id}") |> JS.toggle(to: "#preview-body-#{@lesson.id}")}
+      class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden transition-all duration-300 mb-6 cursor-pointer hover:shadow-md  max-w-4xl mx-auto ">
+
+      <div class="p-6 flex items-start justify-between">
+        <div class="flex-1 min-w-0">
+            <div class="flex flex-wrap gap-1.5 mb-2">
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800 border border-purple-200">
+                {@lesson.dance_type.name}
+              </span>
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 border border-green-200">
+                {@lesson.level.name}
+              </span>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-900 mb-2"> {@lesson.title} </h2>
+            <div class="flex items-center text-sm text-gray-500">
+              <!-- Calendar SVG -->
+              <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+              </svg>
+              <span class="mr-3">{@lesson.date}</span>
+
+              <!-- Map Marker SVG -->
+              <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+              </svg>
+              <span>{@lesson.place}</span>
+            </div>
+        </div>
+        <div class="flex-shrink-0 transition-transform duration-300 ml-4">
+            <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center">
+                <i class="fa-solid fa-chevron-down text-blue-500"></i>
+            </div>
+        </div>
+      </div>
+
+      <!-- Collapsed body preview -->
+      <div class="px-6 pb-4 pt-0" id={"preview-body-#{@lesson.id}"}>
+        <div class="flex items-center text-sm text-gray-500">
+          <div class="flex -space-x-2 mr-3">
+            <%= for instructor <- @lesson.instructors do %>
+              <div class="w-6 h-6 rounded-full bg-blue-200 border-2 border-white flex items-center justify-center text-xs font-bold text-gray-700">
+              <%= String.first(instructor.username) %>
+              </div>
+            <% end %>
+          </div>
+
+          <span><%= length(@lesson.instructors) %> instructor<%= if length(@lesson.instructors) != 1, do: "s" %></span>
+        </div>
+      </div>
+
+      <!-- Expanded content -->
+      <div class="px-6 pb-6 pt-0 hidden border-t border-gray-100 mt-4" id={"expanded-body-#{@lesson.id}"}>
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-2 mt-6 ">
+          <!-- Box 1 -->
+          <div class="p-6 rounded-xl bg-white shadow-lg card-hover border-l-4 border-blue-500">
+            <div class="flex items-center mb-4">
+              <!-- Patterns icon -->
+              <div class="bg-blue-100 p-2 rounded-lg mr-3">
+                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                </svg>
+              </div>
+              <h2 class="text-xl font-bold text-gray-800">Patterns</h2>
+            </div>
+            <div class="space-y-3">
+              <%= for pattern <- @lesson.patterns do %>
+              <div class=" bg-gray-50 p-3 rounded-lg flex items-center hover:shadow-md">
+                <i class="fas fa-circle text-blue-500 text-xs mr-3"></i>
+                <span class="font-medium text-gray-700"><%= pattern.name %></span>
+              </div>
+              <% end %>
+            </div>
+          </div>
+
+          <!-- Box 2 instructors -->
+          <div class="p-6 rounded-xl bg-white shadow-lg card-hover border-l-4 border-purple-500">
+             <div class="flex items-center mb-4">
+              <!-- instructors icon -->
+              <div class="bg-purple-100 p-2 rounded-lg mr-3">
+                <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                </svg>
+              </div>
+              <h2 class="text-xl font-bold text-gray-800">Instructors</h2>
+            </div>
+            <div class="space-y-4">
+              <%= for instructor <- @lesson.instructors do %>
+              <div class="flex items-center p-3 rounded-lg hover:shadow-md">
+                <div class="w-10 h-10 rounded-full bg-purple-200 flex items-center justify-center mr-3">
+                    <span class="font-bold text-purple-700"></span>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-gray-800"><%= instructor.username %></h3>
+                    <p class="text-sm text-gray-500">Dance Master</p>
+                </div>
+              </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <!-- Video section - full width below boxes -->
+        <div class="mt-6">
+          <div class="p-6 rounded-xl bg-white shadow-lg card-hover border-l-4 border-red-500 max-w-2xl mx-auto">
+            <div class="flex items-center mb-4">
+              <!-- Play icon -->
+              <div class="bg-red-100 p-2 rounded-lg mr-3">
+                <svg class="w-5 h-5 text-red-600" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z"/>
+                </svg>
+              </div>
+              <h2 class="text-xl font-bold text-gray-800">Video</h2>
+            </div>
+            <video class="w-full rounded-lg" controls>
+              <source src= {@lesson.lesson_vid_url} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
+        <!-- Actions -->
+        <div class="flex justify-end gap-3 mt-6">
+          <button phx-click="open_update_modal" phx-value-id={@lesson.id}
+            class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 border border-green-700 rounded">
+            Update
+          </button>
+
+          <button phx-click="delete_lesson" phx-value-id={@lesson.id} class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 border border-red-700 rounded">
+            Delete
+          </button>
+
+        </div>
+      </div>
+    </div>
+    """
+  end
+
+
+
+  @doc """
+  Renders post block.
+
+  ## Examples
+
+  """
+
+  attr :post, :map, required: true, doc: "Post data"
+
+  def post(assigns) do
+    ~H"""
+    <div
+      id={"post-card-#{@post.id}"}
+      phx-click={JS.toggle(to: "#expanded-body-#{@post.id}") |> JS.toggle(to: "#preview-body-#{@post.id}")}
+      class="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 mb-6 cursor-pointer hover:shadow-lg"
+    >
+      <div class="p-6 flex items-start space-x-4">
+        <div class="flex-shrink-0">
+          <img src={@post.user.profile_pic}
+            alt="/images/user_icon.png"
+            class="w-12 h-12 rounded-full bg-gray-800 justify-center flex text-white text-lg font-bold"/>
+        </div>
+
+        <div class="flex-1 min-w-0">
+          <h2 class="text-xl font-bold text-gray-800 truncate"><%= @post.title %></h2>
+          <p class="text-sm text-gray-500 mt-1"><%= @post.user.username  %> • <%= @post.inserted_at %></p>
+        </div>
+
+        <div class="flex-shrink-0 transition-transform duration-300">
+          <i class="fa-solid fa-chevron-down text-gray-400"></i>
+        </div>
+      </div>
+
+      <!-- Collapsed body preview -->
+      <div class="px-6 pb-4 pt-0" id={"preview-body-#{@post.id}"}>
+        <p class="text-gray-600 line-clamp-1">
+          <%= @post.body %>
+        </p>
+      </div>
+
+      <!-- Expanded content -->
+      <div class="px-6 pb-6 pt-0 hidden border-t border-gray-100 mt-4" id={"expanded-body-#{@post.id}"}>
+        <p class="text-gray-600 mb-4"><%= @post.body %></p>
+        <div class="flex items-center justify-between mt-6">
+          <div class="flex space-x-4 text-gray-500">
+            <div class="flex items-center">
+              <i class="fa-regular fa-comment mr-1"></i>
+              <span>12</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    """
+  end
+
+  @doc """
   Renders flash notices.
 
   ## Examples

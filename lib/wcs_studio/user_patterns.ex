@@ -6,7 +6,7 @@ defmodule WcsStudio.UserPattern do
 
   schema "user_patterns" do
     field :status, :string
-    belongs_to :user, WcsStudio.User
+    belongs_to :user, WcsStudio.Accounts.User
     belongs_to :pattern , WcsStudio.Pattern
     timestamps()
   end

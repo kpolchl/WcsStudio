@@ -83,6 +83,7 @@ defmodule WcsStudioWeb do
     quote do
       # HTML escaping functionality
       import Phoenix.HTML
+      import Phoenix.LiveView.Helpers
       # Core UI components and translation
       import WcsStudioWeb.CoreComponents
       import WcsStudioWeb.Gettext

@@ -7,7 +7,9 @@ defmodule WcsStudio.DanceType do
   schema "dance_types" do
     field :name, :string
     field :description, :string
+    field :icon_url, :string
     has_many :patterns, WcsStudio.Pattern
+    has_many :lessons, WcsStudio.Lesson
   end
 
   def get_all() do
@@ -31,9 +33,9 @@ defmodule WcsStudio.DanceType do
     |> WcsStudio.Repo.update()
   end
 
-  def add(name, description) do
+  def add(name, description, icon_url \\ "temp") do
     %__MODULE__{}
-    |> changeset(%{name: name, description: description})
+    |> changeset(%{name: name, description: description, icon_url: icon_url})
     |> WcsStudio.Repo.insert()
   end
 
@@ -43,7 +45,7 @@ defmodule WcsStudio.DanceType do
 
   defp changeset(dance_type, params \\ %{}) do
     dance_type
-    |> cast(params, [:name, :description])
+    |> cast(params, [:name, :description, :icon_url])
     |> validate_required([:name, :description])
   end
 
