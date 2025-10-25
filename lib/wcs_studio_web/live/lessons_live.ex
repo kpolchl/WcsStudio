@@ -5,6 +5,8 @@ defmodule WcsStudioWeb.LessonsLive do
   alias WcsStudio.Accounts.User
   alias WcsStudio.DanceType
   alias WcsStudio.Levels
+  alias WcsStudio.VideoProcess
+  alias WcsStudio.UserLesson
 
   def mount(_params, _session, socket) do
     first_lesson = Lesson.get_first()
@@ -18,59 +20,53 @@ defmodule WcsStudioWeb.LessonsLive do
       instructors: User.get_instructors(),
       patterns: Pattern.get_by_dance_type_id(first_lesson.dance_type_id),
       form: to_form(Ecto.Changeset.change(%WcsStudio.Lesson{})),
-      show_modal: false,
-      show_update_modal: false,
-      selected_lesson: nil,
-      selected_instructor_ids: [],
-      selected_pattern_ids: []
+      modal_state: nil,
+      expanded_lesson_id: nil
     )
-    {:ok, socket
-          |> allow_upload(:video,
-               accept: ~w(.mp4),
-               max_entries: 1,
-               max_file_size: 100_000_000  # 100MB in bytes
-             )}
+    {:ok, socket}
   end
 
-  # video_upload handlers
+  def handle_params(params, _uri, socket) do
+    # Build a map of lesson_id => true for lessons the user attended
+    attended_map = case socket.assigns[:current_user] do
+      nil ->
+        %{}
+      current_user ->
+        user_lessons = WcsStudio.UserLesson.get_user_lessons(current_user.id)
+        Enum.reduce(user_lessons, %{}, fn user_lesson, acc ->
+          Map.put(acc, user_lesson.lesson_id, true)
+        end)
+    end
+
+    {:noreply,
+      socket
+      |> assign(:attended_map, attended_map)
+      |> assign(:expanded_lesson_id, nil)}
+  end
+
   def handle_event("validate", _params, socket) do
     {:noreply, socket}
-  end
-
-  def handle_event("cancel-upload", %{"ref" => ref}, socket) do
-    {:noreply, cancel_upload(socket, :video, ref)}
   end
 
   def handle_event("save", %{"lesson" => lesson_params}, socket) do
     dance_type_id = socket.assigns.selected_dance_type_id
     level_id = socket.assigns.selected_level_id
 
-    # Handle video upload
-    video_url = case consume_uploaded_entries(socket, :video, fn %{path: path}, entry ->
-      ext = Path.extname(entry.client_name)
-      filename = "#{System.unique_integer([:positive])}#{ext}"
-      dest = Path.join([:code.priv_dir(:wcs_studio), "static", "uploads", filename])
-
-      File.mkdir_p!(Path.dirname(dest))
-      File.cp!(path, dest)
-
-      {:ok, "/uploads/#{filename}"}
-    end) do
-      [url | _] -> url
-      [] -> Map.get(lesson_params, "lesson_vid_url", "")
-    end
-
+    lesson_vid_url = lesson_params
+                     |> Map.get("lesson_vid_url", "")
+                     |> VideoProcess.parse_youtube_url()
     title = Map.get(lesson_params, "title")
     instructor_ids = Map.get(lesson_params, "instructor_ids", [])
     pattern_ids = Map.get(lesson_params, "pattern_ids", [])
     place = Map.get(lesson_params, "place")
     date = Map.get(lesson_params, "date")
 
-    case WcsStudio.Lesson.add(title, instructor_ids, pattern_ids, level_id, place, video_url, date, dance_type_id) do
+    case WcsStudio.Lesson.add(title, instructor_ids, pattern_ids, level_id, place, lesson_vid_url, date, dance_type_id) do
       {:ok, lesson} ->
         {:noreply,
           socket
-          |> put_flash(:info, "Lesson dodany!")
+          |> assign(modal_state: nil)
+          |> put_flash(:success, "Lesson created successfully!")
           |> push_navigate(to: ~p"/lessons")}
 
       {:error, changeset} ->
@@ -78,71 +74,47 @@ defmodule WcsStudioWeb.LessonsLive do
     end
   end
 
-  def handle_event("choose", %{"selected_dance_type_id" => selected_dance_type_id, "selected_level_id" => selected_level_id}, socket) do
-    dance_type_id = String.to_integer(selected_dance_type_id)
-    level_id = String.to_integer(selected_level_id)
-
-    socket =
-      assign(socket,
-        lessons: Lesson.get_by_dance_type_and_level(dance_type_id, level_id),
-        selected_level_id: level_id,
-        selected_dance_type_id: dance_type_id,
-        patterns: Pattern.get_by_dance_type_id(dance_type_id)
-      )
-    {:noreply, socket}
-  end
-
   def handle_event("open_modal", _, socket) do
-    {:noreply, assign(socket, show_modal: true)}
+    {:noreply, assign(socket,
+      modal_state: :create,
+      form: to_form(Ecto.Changeset.change(%WcsStudio.Lesson{}))
+    )}
   end
 
   def handle_event("close_modal", _, socket) do
-    {:noreply, assign(socket, show_modal: false)}
+    {:noreply, assign(socket, modal_state: nil)}
   end
 
   def handle_event("update_lesson", %{"lesson" => lesson_params}, socket) do
-    lesson = socket.assigns.selected_lesson
-    dance_type_id = socket.assigns.selected_dance_type_id
-    level_id = socket.assigns.selected_level_id
+    case socket.assigns.modal_state do
+      {:edit, lesson, _instructor_ids, _pattern_ids} ->
+        dance_type_id = socket.assigns.selected_dance_type_id
+        level_id = socket.assigns.selected_level_id
 
-    # Handle video upload
-    video_url = case consume_uploaded_entries(socket, :video, fn %{path: path}, entry ->
-      ext = Path.extname(entry.client_name)
-      filename = "#{System.unique_integer([:positive])}#{ext}"
-      dest = Path.join([:code.priv_dir(:wcs_studio), "static", "uploads", filename])
+        lesson_vid_url = lesson_params
+                         |> Map.get("lesson_vid_url", "")
+                         |> VideoProcess.parse_youtube_url()
+        instructor_ids = Map.get(lesson_params, "instructor_ids", [])
+        pattern_ids = Map.get(lesson_params, "pattern_ids", [])
+        title = Map.get(lesson_params, "title")
+        place = Map.get(lesson_params, "place")
+        date = Map.get(lesson_params, "date")
 
-      File.mkdir_p!(Path.dirname(dest))
-      File.cp!(path, dest)
+        case Lesson.update(lesson, title, instructor_ids, pattern_ids, level_id, place, lesson_vid_url, date, dance_type_id) do
+          {:ok, updated_lesson} ->
+            updated_lessons = Lesson.get_by_dance_type_and_level(dance_type_id, level_id)
 
-      {:ok, "/uploads/#{filename}"}
-    end) do
-      [url | _] -> url
-      [] -> Map.get(lesson_params, "lesson_vid_url", lesson.lesson_vid_url)
-    end
+            {:noreply,
+              socket
+              |> assign(lessons: updated_lessons, modal_state: nil)
+              |> put_flash(:success, "Lesson updated successfully!")}
 
-    instructor_ids = Map.get(lesson_params, "instructor_ids", [])
-    pattern_ids = Map.get(lesson_params, "pattern_ids", [])
-    title = Map.get(lesson_params, "title")
-    place = Map.get(lesson_params, "place")
-    date = Map.get(lesson_params, "date")
+          {:error, changeset} ->
+            {:noreply, assign(socket, form: to_form(changeset))}
+        end
 
-    case Lesson.update(lesson, title, instructor_ids, pattern_ids, level_id, place, video_url, date, dance_type_id) do
-      {:ok, updated_lesson} ->
-        updated_lessons = Lesson.get_by_dance_type_and_level(dance_type_id, level_id)
-
-        {:noreply,
-          socket
-          |> assign(
-               lessons: updated_lessons,
-               show_update_modal: false,
-               selected_lesson: nil,
-               selected_instructor_ids: [],
-               selected_pattern_ids: []
-             )
-          |> put_flash(:info, "Lesson updated!")}
-
-      {:error, changeset} ->
-        {:noreply, assign(socket, form: to_form(changeset))}
+      _ ->
+        {:noreply, socket}
     end
   end
 
@@ -154,21 +126,9 @@ defmodule WcsStudioWeb.LessonsLive do
 
     {:noreply,
       assign(socket,
-        show_update_modal: true,
-        selected_lesson: lesson,
-        selected_instructor_ids: instructor_ids,
-        selected_pattern_ids: pattern_ids,
+        modal_state: {:edit, lesson, instructor_ids, pattern_ids},
         form: to_form(changeset)
       )}
-  end
-
-  def handle_event("close_update_modal", _, socket) do
-    {:noreply, assign(socket,
-      show_update_modal: false,
-      selected_lesson: nil,
-      selected_instructor_ids: [],
-      selected_pattern_ids: []
-    )}
   end
 
   @impl true
@@ -177,7 +137,7 @@ defmodule WcsStudioWeb.LessonsLive do
       {:ok, _pattern} ->
         {:noreply,
           socket
-          |> put_flash(:info, "Lesson deleted!")
+          |> put_flash(:success, "Lesson deleted successfully!")
           |> push_navigate(to: ~p"/lessons")}
 
       {:error, _reason} ->
@@ -185,194 +145,276 @@ defmodule WcsStudioWeb.LessonsLive do
     end
   end
 
-  # Helper for error messages
-  defp error_to_string(:too_large), do: "Video file is too large (max 100MB)"
-  defp error_to_string(:too_many_files), do: "You can only upload one video at a time"
-  defp error_to_string(:not_accepted), do: "Invalid video format. Please use MP4, MOV, AVI, or WebM"
+  def handle_event("toggle_lesson", %{"id" => id}, socket) do
+    id = String.to_integer(id)
+    new_id = if socket.assigns.expanded_lesson_id == id, do: nil, else: id
+    {:noreply, assign(socket, :expanded_lesson_id, new_id)}
+  end
+
+  def handle_event("choose_dance_type", %{"dance_type_id" => dance_type_id}, socket) do
+    dance_type_id = String.to_integer(dance_type_id)
+    level_id = socket.assigns.selected_level_id
+
+    socket =
+      assign(socket,
+        lessons: Lesson.get_by_dance_type_and_level(dance_type_id, level_id),
+        selected_dance_type_id: dance_type_id,
+        patterns: Pattern.get_by_dance_type_id(dance_type_id)
+      )
+    {:noreply, socket}
+  end
+
+  def handle_event("choose_level", %{"level_id" => level_id}, socket) do
+    level_id = String.to_integer(level_id)
+    dance_type_id = socket.assigns.selected_dance_type_id
+
+    socket =
+      assign(socket,
+        lessons: Lesson.get_by_dance_type_and_level(dance_type_id, level_id),
+        selected_level_id: level_id
+      )
+    {:noreply, socket}
+  end
+
+  # Updated to toggle attendance based on UserLesson existence
+  def handle_event("toggle_attendance", %{"lesson_id" => lesson_id, "user_id" => user_id}, socket) do
+    lesson_id_int = String.to_integer(lesson_id)
+    user_id_int = String.to_integer(user_id)
+
+    # Check if user attended this lesson (UserLesson record exists)
+    currently_attended = Map.get(socket.assigns.attended_map, lesson_id_int, false)
+
+    updated_attended_map = if currently_attended do
+      # User attended, so remove the UserLesson record
+      case WcsStudio.UserLesson.get_user_lesson(user_id_int, lesson_id_int) do
+        nil ->
+          socket.assigns.attended_map
+        user_lesson ->
+          WcsStudio.UserLesson.delete(user_lesson)
+          Map.delete(socket.assigns.attended_map, lesson_id_int)
+      end
+    else
+      # User didn't attend, so create UserLesson record
+      WcsStudio.UserLesson.add(user_id_int, lesson_id_int)
+      Map.put(socket.assigns.attended_map, lesson_id_int, true)
+    end
+
+    {:noreply,
+      socket
+      |> assign(:attended_map, updated_attended_map)
+      |> put_flash(:info, if(currently_attended, do: "Attendance removed!", else: "Attendance marked!"))}
+  end
 
   def render(assigns) do
     ~H"""
     <div class="my-8 mx-8">
-      <button phx-click="open_modal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">Add lesson</button>
-      <div class="max-w-md mx-auto flex justify-center">
-        <form phx-change="choose" class="relative flex items-center">
-          <select name="selected_dance_type_id" class="z-10 items-center py-4 pl-12 pr-12 rounded-s-lg">
-            <%= for dance_type <- @dance_types do %>
-              <option value={dance_type.id} selected={dance_type.id == @selected_dance_type_id}>
-                <%= dance_type.name %>
-              </option>
-            <% end %>
-          </select>
-
-          <select name="selected_level_id" class="z-10 items-center py-4 pl-12 pr-12 rounded-r-lg">
-            <%= for level <- @levels do %>
-              <option value={level.id} selected={level.id == @selected_level_id}>
-                <%= level.name %>
-              </option>
-            <% end %>
-          </select>
-        </form>
+      <!-- Header -->
+      <div class="mb-12 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent mb-4 py-2">
+          <%= gettext("Lessons") %>
+        </h1>
+        <p class="text-xl text-slate-400 max-w-2xl mx-auto">
+          <%= gettext("Browse and track your dance lessons by type and level") %>
+        </p>
       </div>
 
-      <div class=" mt-4 p-4">
-        <%= for lesson <- @lessons do %>
-          <.lesson_box lesson={lesson}>
-          </.lesson_box>
+      <!-- Dance Type Filters -->
+      <div class="flex flex-wrap justify-center gap-4 mt-8">
+        <%= for dance_type <- @dance_types do %>
+          <button
+            phx-click="choose_dance_type"
+            phx-value-dance_type_id={dance_type.id}
+            class={[
+              "px-6 py-2 rounded-lg font-medium transition-all duration-300",
+              if(@selected_dance_type_id == dance_type.id,
+                do: "bg-gradient-to-r from-pink-500 to-purple-500 text-white hover:shadow-lg hover:shadow-pink-500/25",
+                else: "bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 border border-slate-700/50")
+            ]}
+          >
+            <%= DanceType.get_name(dance_type, @locale) %>
+          </button>
         <% end %>
       </div>
 
-      <%= if @show_update_modal do %>
-      <.modal id="update-lesson-modal" show={true} on_cancel={JS.push("close_update_modal")}>
-        <:title class="font-bold text-8" >Update lesson</:title>
-        <:subtitle class="font-bold text-8">Edit the lesson details</:subtitle>
-
-        <.form for={@form} phx-submit="update_lesson" phx-change="validate">
-          <.input type="text" field={@form[:title]} label="Title" />
-
-      <div>
-        <label class="font-bold text-8">Instructors</label>
-        <div>
-          <%= for instructor <- @instructors do %>
-          <ul>
-            <li>
-            <input
-            type="checkbox"
-            name="lesson[instructor_ids][]"
-            value={instructor.id}
-            checked={instructor.id in @selected_instructor_ids}
-            />
-            <%= instructor.username %>
-            </li>
-          </ul>
-          <% end %>
-        </div>
+      <!-- Level Filters -->
+      <div class="flex flex-wrap justify-center gap-4 mt-4">
+        <%= for level <- @levels do %>
+          <button
+            phx-click="choose_level"
+            phx-value-level_id={level.id}
+            class={[
+              "px-6 py-2 rounded-lg font-medium transition-all duration-300",
+              if(@selected_level_id == level.id,
+                do: "bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-lg hover:shadow-blue-500/25",
+                else: "bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 border border-slate-700/50")
+            ]}
+          >
+            <%= level.name %>
+          </button>
+        <% end %>
       </div>
 
-      <div>
-        <label class="font-bold text-8">Patterns</label>
-
-        <div class="flex flex-wrap gap-4  justify-left text-lg font-serif">
-          <%= for pattern <- @patterns do %>
-            <ul>
-              <li>
-              <input
-              type="checkbox"
-              name="lesson[pattern_ids][]"
-              value={pattern.id}
-              checked={pattern.id in @selected_pattern_ids}
-              />
-              <%= pattern.name %>
-              </li>
-            </ul>
-          <% end %>
+      <!-- Add Lesson Button (Admin Only) -->
+      <%= if @current_user && @current_user.role == "admin" do %>
+        <div class="max-w-2xl mx-auto my-8">
+          <button
+            phx-click="open_modal"
+            class="w-full sm:w-auto bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
+          >
+            <i class="fas fa-plus"></i>
+            <span><%= gettext("Add New Lesson") %></span>
+          </button>
         </div>
-      </div>
-          <.input type="date" field={@form[:date]} label="Date" />
-
-          <div class="mt-4">
-            <label class="block text-sm font-semibold leading-6 text-zinc-800">
-              Upload Video (Optional)
-            </label>
-            <.live_file_input upload={@uploads.video} class="mt-2" />
-
-            <%= for entry <- @uploads.video.entries do %>
-              <div class="mt-2 flex items-center gap-2">
-                <span class="text-sm"><%= entry.client_name %></span>
-                <button type="button" phx-click="cancel-upload" phx-value-ref={entry.ref} class="text-red-600 text-sm">
-                  Cancel
-                </button>
-              </div>
-              <div class="mt-1 h-2 bg-gray-200 rounded">
-                <div class="h-full bg-blue-500 rounded" style={"width: #{entry.progress}%"}></div>
-              </div>
-            <% end %>
-
-            <%= for err <- upload_errors(@uploads.video) do %>
-              <p class="mt-2 text-sm text-red-600"><%= error_to_string(err) %></p>
-            <% end %>
-
-          </div>
-
-          <.input type="select" field={@form[:place]}  label="Place" options={[{"Buma Square Business Park, Wadowicka 6", "Buma Square Business Park, Wadowicka 6"}]}/>
-          <button class="btn">Save</button>
-        </.form>
-      </.modal>
       <% end %>
 
-      <%= if @show_modal do %>
-      <.modal id="new-lesson-modal" show={true} on_cancel={JS.push("close_modal")}>
-        <:title class="font-bold text-8" >New lesson</:title>
-        <:subtitle class="font-bold text-8">Fill out the form to add a new lesson</:subtitle>
+      <!-- Modals -->
+      <%= case @modal_state do %>
+        <% :create -> %>
+          <.form_modal
+            id="new-lesson-modal"
+            show={true}
+            title={gettext("New Lesson")}
+            subtitle={gettext("Fill out the form to add a new lesson")}
+            form={@form}
+            on_cancel={JS.push("close_modal")}
+            on_submit="save"
+          >
+            <.input type="text" field={@form[:title]} label={gettext("Title")} />
 
-        <.form for={@form} phx-submit="save" phx-change="validate">
-          <.input type="text" field={@form[:title]} label="Title" />
-      <div>
-        <label class="font-bold text-8">Instructors</label>
-        <div>
-          <%= for instructor <- @instructors do %>
-          <ul>
-            <li>
-            <input
-              type="checkbox"
-              name="lesson[instructor_ids][]"
-              value={instructor.id}
-              checked={instructor.id in (@form[:instructor_ids].value || [])}
+            <!-- Instructors -->
+            <div class="space-y-2">
+              <label class="block text-sm font-semibold text-slate-800"><%= gettext("Instructors") %></label>
+              <div class="bg-slate-550 rounded-lg p-4 border border-slate-600 space-y-2 max-h-48 overflow-y-auto">
+                <%= for instructor <- @instructors do %>
+                  <label class="flex items-center gap-3 p-2 hover:bg-slate-700/50 rounded-lg cursor-pointer transition-colors">
+                    <input
+                      type="checkbox"
+                      name="lesson[instructor_ids][]"
+                      value={instructor.id}
+                      checked={instructor.id in (@form[:instructor_ids].value || [])}
+                      class="rounded border-slate-600 bg-slate-800/50 text-pink-500 focus:ring-2 focus:ring-pink-500 focus:ring-opacity-20 transition-all duration-300"
+                    />
+                    <span class="text-slate-200"><%= instructor.username %></span>
+                  </label>
+                <% end %>
+              </div>
+            </div>
+
+            <!-- Patterns -->
+            <div class="space-y-2">
+              <label class="block text-sm font-semibold text-slate-800"><%= gettext("Patterns") %></label>
+              <div class="bg-slate-550 rounded-lg p-4 border border-slate-600 space-y-2 max-h-48 overflow-y-auto">
+                <%= for pattern <- @patterns do %>
+                  <label class="flex items-center gap-3 p-2 hover:bg-slate-700/50 rounded-lg cursor-pointer transition-colors">
+                    <input
+                      type="checkbox"
+                      name="lesson[pattern_ids][]"
+                      value={pattern.id}
+                      checked={pattern.id in (@form[:pattern_ids].value || [])}
+                      class="rounded border-slate-600 bg-slate-800/50 text-pink-500 focus:ring-2 focus:ring-pink-500 focus:ring-opacity-20 transition-all duration-300"
+                    />
+                    <span class="text-slate-200"><%= pattern.name %></span>
+                  </label>
+                <% end %>
+              </div>
+            </div>
+
+            <.input type="date" field={@form[:date]} label={gettext("Date")} />
+            <.input type="select" field={@form[:place]} label={gettext("Place")} options={[{"Buma Square Business Park, Wadowicka 6", "Buma Square Business Park, Wadowicka 6"}]} />
+            <.input type="text" field={@form[:lesson_vid_url]} label={gettext("Video URL (YouTube)")} />
+          </.form_modal>
+
+        <% {:edit, _lesson, instructor_ids, pattern_ids} -> %>
+          <.form_modal
+            id="update-lesson-modal"
+            show={true}
+            title={gettext("Update Lesson")}
+            subtitle={gettext("Edit the lesson details")}
+            form={@form}
+            on_cancel={JS.push("close_modal")}
+            on_submit="update_lesson"
+            submit_label={gettext("Update")}
+            submit_class="bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700"
+          >
+            <.input type="text" field={@form[:title]} label={gettext("Title")} />
+
+            <!-- Instructors -->
+            <div class="space-y-2">
+              <label class="block text-sm font-semibold text-slate-800"><%= gettext("Instructors") %></label>
+                <div class="bg-slate-550 rounded-lg p-4 border border-slate-600 space-y-2 max-h-48 overflow-y-auto">
+                  <%= for instructor <- @instructors do %>
+                    <label class="flex items-center gap-3 p-2 hover:bg-slate-700/50 rounded-lg cursor-pointer transition-colors">
+                      <input
+                        type="checkbox"
+                        name="lesson[instructor_ids][]"
+                        value={instructor.id}
+                        checked={instructor.id in instructor_ids}
+                        class="rounded border-slate-600 bg-slate-800/50 text-pink-500 focus:ring-2 focus:ring-pink-500 focus:ring-opacity-20 transition-all duration-300"
+                      />
+                      <span class="text-slate-200"><%= instructor.username %></span>
+                    </label>
+                  <% end %>
+                </div>
+            </div>
+
+            <!-- Patterns -->
+            <div class="space-y-2">
+              <label class="block text-sm font-semibold text-slate-800"><%= gettext("Patterns") %></label>
+              <div class="bg-slate-550 rounded-lg p-4 border border-slate-600 space-y-2 max-h-48 overflow-y-auto">
+                <%= for pattern <- @patterns do %>
+                  <label class="flex items-center gap-3 p-2 hover:bg-slate-700/50 rounded-lg cursor-pointer transition-colors">
+                    <input
+                      type="checkbox"
+                      name="lesson[pattern_ids][]"
+                      value={pattern.id}
+                      checked={pattern.id in pattern_ids}
+                      class="rounded border-slate-600 bg-slate-800/50 text-pink-500 focus:ring-2 focus:ring-pink-500 focus:ring-opacity-20 transition-all duration-300"
+                    />
+                    <span class="text-slate-200"><%= pattern.name %></span>
+                  </label>
+                <% end %>
+              </div>
+            </div>
+
+            <.input type="date" field={@form[:date]} label={gettext("Date")} />
+            <.input type="select" field={@form[:place]} label={gettext("Place")} options={[{"Buma Square Business Park, Wadowicka 6", "Buma Square Business Park, Wadowicka 6"}]} />
+            <.input type="text" field={@form[:lesson_vid_url]} label={gettext("Video URL (YouTube)")} />
+          </.form_modal>
+
+        <% nil -> %>
+      <% end %>
+
+      <!-- Lessons List -->
+      <div class="mt-4 p-4">
+        <%= for lesson <- @lessons do %>
+          <.lesson_box
+            lesson={lesson}
+            current_user={@current_user}
+            expanded_lesson_id={@expanded_lesson_id}
+            attended={Map.get(@attended_map, lesson.id, false)}
+            locale={@locale}
+          />
+          <%= if @current_user && @current_user.role == "admin" do %>
+            <.confirm_modal
+              id={"confirm-delete-lesson-#{lesson.id}"}
+              title={gettext("Delete Lesson?")}
+              message={gettext("Are you sure you want to delete '%{title}'? This action cannot be undone and will remove all associated data.", title: lesson.title)}
+              confirm_event="delete_lesson"
+              confirm_value={lesson.id}
             />
-            <%= instructor.username %>
-            </li>
-          </ul>
           <% end %>
-        </div>
+        <% end %>
       </div>
 
-      <div>
-        <label class="font-bold text-8">Patterns</label>
-
-        <div class="flex flex-wrap gap-4  justify-left text-lg font-serif">
-          <%= for pattern <- @patterns do %>
-            <ul>
-              <li>
-              <input
-                type="checkbox"
-                name="lesson[pattern_ids][]"
-                value={pattern.id}
-                checked={pattern.id in (@form[:pattern_ids].value || [])}
-              />
-              <%= pattern.name %>
-              </li>
-            </ul>
-          <% end %>
-        </div>
-      </div>
-          <.input type="date" field={@form[:date]} label="Date" />
-
-          <div class="mt-4">
-            <label class="block text-sm font-semibold leading-6 text-zinc-800">
-              Upload Video (Optional)
-            </label>
-            <.live_file_input upload={@uploads.video} class="mt-2" />
-
-            <%= for entry <- @uploads.video.entries do %>
-              <div class="mt-2 flex items-center gap-2">
-                <span class="text-sm"><%= entry.client_name %></span>
-                <button type="button" phx-click="cancel-upload" phx-value-ref={entry.ref} class="text-red-600 text-sm">
-                  Cancel
-                </button>
-              </div>
-              <div class="mt-1 h-2 bg-gray-200 rounded">
-                <div class="h-full bg-blue-500 rounded" style={"width: #{entry.progress}%"}></div>
-              </div>
-            <% end %>
-
-            <%= for err <- upload_errors(@uploads.video) do %>
-              <p class="mt-2 text-sm text-red-600"><%= error_to_string(err) %></p>
-            <% end %>
-
+      <!-- Empty State -->
+      <%= if Enum.empty?(@lessons) do %>
+        <div class="text-center py-16">
+          <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-slate-800/50 flex items-center justify-center">
+            <i class="fas fa-chalkboard-teacher text-3xl text-slate-500"></i>
           </div>
-          <.input type="select" field={@form[:place]}  label="Place" options={[{"Buma Square Business Park, Wadowicka 6", "Buma Square Business Park, Wadowicka 6"}]}/>
-          <button class="btn">Save</button>
-        </.form>
-      </.modal>
+          <h3 class="text-xl font-semibold text-slate-400 mb-2"><%= gettext("No lessons found") %></h3>
+          <p class="text-slate-500"><%= gettext("Try selecting a different dance type or level") %></p>
+        </div>
       <% end %>
     </div>
     """

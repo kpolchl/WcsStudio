@@ -2,11 +2,11 @@ defmodule WcsStudioWeb.HomeController do
   use WcsStudioWeb, :controller
 
   def index(conn, _params) do
-    slides = [
-      %{image_url: "/images/slide1.jpg", title: "Dance stupid", subtitle: "Is's not so hard"},
-      %{image_url: "/images/slide2.jpg", title: "Come on break a leg", subtitle: "Mean not literally"},
-      %{image_url: "/images/slide3.jpg", title: "Even he can dance", subtitle: "Sign up today"}
-    ]
-    render(conn, :index, slides: slides)
+    lessons_number = rem(WcsStudio.Lesson.count_lessons(), 10)
+    posts_number = rem(WcsStudio.Post.count_posts(), 10)
+    patterns_number = rem(WcsStudio.Pattern.count_patterns(), 10)
+    users_number = rem(WcsStudio.Accounts.count_users(), 10)
+
+    render(conn, :index , lessons_number: lessons_number, posts_number: posts_number, patterns_number: patterns_number, users_number: users_number)
   end
 end

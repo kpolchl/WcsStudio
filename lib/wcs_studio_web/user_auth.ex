@@ -60,11 +60,14 @@ defmodule WcsStudioWeb.UserAuth do
   #     end
   #
   defp renew_session(conn) do
+    locale = get_session(conn, :locale)
+
     delete_csrf_token()
 
     conn
     |> configure_session(renew: true)
     |> clear_session()
+    |> put_session(:locale, locale)
   end
 
   @doc """
@@ -73,6 +76,9 @@ defmodule WcsStudioWeb.UserAuth do
   It clears all session data for safety. See renew_session.
   """
   def log_out_user(conn) do
+
+    locale = get_session(conn, :locale)
+
     user_token = get_session(conn, :user_token)
     user_token && Accounts.delete_user_session_token(user_token)
 
@@ -83,6 +89,7 @@ defmodule WcsStudioWeb.UserAuth do
     conn
     |> renew_session()
     |> delete_resp_cookie(@remember_me_cookie)
+    |> put_session(:locale, locale)
     |> redirect(to: ~p"/")
   end
 
@@ -186,6 +193,16 @@ defmodule WcsStudioWeb.UserAuth do
         |> Phoenix.LiveView.put_flash(:error, "Unauthorized")
         |> Phoenix.LiveView.redirect(to: "/")}
     end
+  end
+
+  def on_mount(:set_locale, _params, session, socket) do
+    locale = session["locale"] || "pl"
+    Gettext.put_locale(WcsStudioWeb.Gettext, locale)
+
+    {:cont,
+      socket
+      |> Phoenix.Component.assign(:locale, locale)
+    }
   end
 
   defp mount_current_user(socket, session) do

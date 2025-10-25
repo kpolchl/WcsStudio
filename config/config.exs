@@ -7,6 +7,10 @@
 # General application configuration
 import Config
 
+config :wcs_studio, WcsStudioWeb.Gettext,
+       default_locale: "en",
+       locales: ~w(en pl)
+
 config :wcs_studio,
   ecto_repos: [WcsStudio.Repo],
   generators: [timestamp_type: :utc_datetime]
@@ -64,3 +68,5 @@ config :phoenix, :json_library, Jason
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"
+
+

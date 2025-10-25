@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="goth" type="mix">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/_build/dev/lib/goth/ebin" />
+      <root url="file://$PROJECT_DIR$/_build/dev/lib/goth/ebin" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/deps/goth/lib" />
+      <root url="file://$PROJECT_DIR$/deps/goth/lib" />
+    </SOURCES>
+  </library>
+</component>

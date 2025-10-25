@@ -3,10 +3,13 @@ defmodule WcsStudio.Post do
   use Ecto.Schema
   import Ecto.Query
   import Ecto.Changeset
+  import WcsStudioWeb.Gettext
 
   schema "posts" do
     field :title, :string
     field :body, :string
+    field :subject, :string
+    field :tags, :string
     belongs_to :user, WcsStudio.Accounts.User
     has_many :comments , WcsStudio.Comment
     timestamps()
@@ -21,11 +24,19 @@ defmodule WcsStudio.Post do
     |> WcsStudio.Repo.preload(:user)
   end
 
+  def count_posts() do
+    from(ul in WcsStudio.Post,select: count())
+    |> WcsStudio.Repo.one()
+  end
+
   def get_post_by_id(id) do
     WcsStudio.Post
     |> where(id: ^id)
+    |> preload(:user)
+    |> preload(comments: [:user])
     |> WcsStudio.Repo.one()
   end
+
 
   def get_post_comments(post_id) do
     WcsStudio.Post
@@ -35,13 +46,13 @@ defmodule WcsStudio.Post do
 
   end
 
-  def update_post(post, new_title ,new_body) do
+  def update_post(post, new_title, new_subject, new_body, new_tags) do
     post
     |> changeset(%{title: new_title, body: new_body})
     |> WcsStudio.Repo.update()
   end
 
-  def add(title, body, user_id) do
+  def add(title, subject, body, tags, user_id) do
     %__MODULE__{}
     |> changeset(%{title: title, body: body, user_id: user_id})
     |> WcsStudio.Repo.insert()
@@ -51,10 +62,28 @@ defmodule WcsStudio.Post do
     WcsStudio.Repo.delete(post)
   end
 
+  def estimate_read_time(body) do
+    word_count = body
+                 |> String.split(~r/\s+/)
+                 |> Enum.filter(&(&1 != ""))
+                 |> length()
+
+    minutes = max(1, round(word_count / 225))
+
+    "#{minutes} min #{gettext("read")}"
+  end
+
+  def parse_tags(tags) do
+    tags
+    |> String.split(":")
+    |> Enum.filter(&(&1 != ""))
+  end
+
+
   defp changeset(post, params \\ %{}) do
     post
-    |> cast(params , [:title, :body, :user_id])
-    |> validate_required([:title, :body, :user_id])
+    |> cast(params , [:title, :subject, :body, :tags, :user_id])
+    |> validate_required([:title, :subject, :body, :tags, :user_id])
     |> foreign_key_constraint(:user_id)
   end
 

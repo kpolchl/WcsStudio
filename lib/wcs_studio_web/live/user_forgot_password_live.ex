@@ -5,24 +5,26 @@ defmodule WcsStudioWeb.UserForgotPasswordLive do
 
   def render(assigns) do
     ~H"""
-    <div class="mx-auto max-w-sm">
-      <.header class="text-center">
-        Forgot your password?
-        <:subtitle>We'll send a password reset link to your inbox</:subtitle>
-      </.header>
+    <div class="px-4 py-4">
+      <div class="mx-auto max-w-sm">
+        <.header class="text-center">
+          Forgot your password?
+          <:subtitle>We'll send a password reset link to your inbox</:subtitle>
+        </.header>
 
-      <.simple_form for={@form} id="reset_password_form" phx-submit="send_email">
-        <.input field={@form[:email]} type="email" placeholder="Email" required />
-        <:actions>
-          <.button phx-disable-with="Sending..." class="w-full">
-            Send password reset instructions
-          </.button>
-        </:actions>
-      </.simple_form>
-      <p class="text-center text-sm mt-4">
-        <.link href={~p"/users/register"}>Register</.link>
-        | <.link href={~p"/users/log_in"}>Log in</.link>
-      </p>
+        <.simple_form for={@form} id="reset_password_form" phx-submit="send_email">
+          <.input field={@form[:email]} type="email" placeholder="Email" required />
+          <:actions>
+            <.button phx-disable-with="Sending..." class="w-full bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-pink-500/25 hover:-translate-y-0.5">
+              Send password reset instructions
+            </.button>
+          </:actions>
+        </.simple_form>
+        <p class="text-center text-sm mt-4">
+          <.link href={~p"/users/register"} class="text-pink-400 hover:text-pink-300 hover:underline transition-colors duration-300 font-medium">Register</.link>
+          | <.link href={~p"/users/log_in"} class="text-pink-400 hover:text-pink-300 hover:underline transition-colors duration-300 font-medium">Log in</.link>
+        </p>
+      </div>
     </div>
     """
   end

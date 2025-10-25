@@ -1,167 +1,224 @@
-<nav class="sticky top-0 z-50 bg-gray-800/50 after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-white/10">
-    <div class="w-full max-w-9xl px-2 sm:px-6 lg:px-8">
-        <div class="relative flex h-16 items-center justify-between">
-            <div class="flex items-center sm:hidden">
-                <!-- Mobile menu button-->
-                <button type="button" id="mobile-menu-button" aria-controls="mobile-menu" aria-expanded="false"
-                        class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-white/5 hover:text-white focus:outline-2 focus:-outline-offset-1 focus:outline-indigo-500">
-                    <span class="absolute -inset-0.5"></span>
-                    <span class="sr-only">Open main menu</span>
-                    <!-- Icon when menu is closed. -->
-                    <!-- Menu open: "hidden", Menu closed: "block" -->
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"
-                         class="block h-6 w-6" id="menu-icon-closed">
-                        <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" stroke-linecap="round"
-                              stroke-linejoin="round"/>
-                    </svg>
-                    <!-- Icon when menu is open. -->
-                    <!-- Menu open: "block", Menu closed: "hidden" -->
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"
-                         class="hidden h-6 w-6" id="menu-icon-open">
-                        <path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </button>
-            </div>
-
-            <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                <!--Logo-->
-                <div class="flex shrink-0 items-center">
-                    <.link href={~p"/"} class="text-2xl font-bold tracking-tight">
-                        WcsStudio<span class="text-pink-600">.</span>
+<nav class="sticky top-0 z-50 backdrop-blur-md bg-slate-900/80 border-b border-slate-700/50 shadow-lg">
+    <div class="px-4 mx-auto">
+        <div class="flex justify-between h-16">
+            <div class="flex items-center">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <.link href={~p"/"} class="text-2xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent">
+                        WcsStudio
                     </.link>
                 </div>
 
-                <div class="hidden sm:ml-6 sm:block">
-                    <div class="flex space-x-4">
-                        <!-- Current: "bg-gray-950/50 text-white", Default: "text-gray-300 hover:bg-white/5 hover:text-white" -->
-                        <.link href={~p"/dance_types"}
-                           class="relative group rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">
-                            Dance Types
-                            <span class="absolute left-0 -bottom-1 h-0.5 w-0 bg-pink-600 transition-all group-hover:w-full"></span>
+                <!-- Desktop Navigation -->
+                <div class="hidden md:ml-10 md:flex md:items-center md:space-x-1">
+                    <.link href={~p"/dance_types"} class="relative text-slate-300 hover:text-white px-4 py-2 text-sm font-medium transition-all duration-300 group">
+                        <%= gettext("Dance Types") %>
+                        <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-pink-500 to-purple-500 transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+                    </.link>
+                    <.link href={~p"/patterns"} class="relative text-slate-300 hover:text-white px-4 py-2 text-sm font-medium transition-all duration-300 group">
+                        <%= gettext("Patterns") %>
+                        <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-pink-500 to-purple-500 transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+                    </.link>
+                    <%= if @current_user && @current_user.role == "admin" do %>
+                        <.link href={~p"/lessons"} class="relative text-slate-300 hover:text-white px-4 py-2 text-sm font-medium transition-all duration-300 group">
+                            <%= gettext("Lessons") %>
+                            <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-pink-500 to-purple-500 transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
                         </.link>
-                        <.link href={~p"/patterns"}
-                           class="relative group rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">
-                            Patterns
-                            <span class="absolute left-0 -bottom-1 h-0.5 w-0 bg-pink-600 transition-all group-hover:w-full"></span>
-                        </.link>
-                        <.link href={~p"/blog"}
-                           class="relative group rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">
-                            Blog
-                            <span class="absolute left-0 -bottom-1 h-0.5 w-0 bg-pink-600 transition-all group-hover:w-full"></span>
-                        </.link>
-                        <.link href={~p"/"}
-                           class="relative group rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">
-                            About
-                            <span class="absolute left-0 -bottom-1 h-0.5 w-0 bg-pink-600 transition-all group-hover:w-full"></span>
-                        </.link>
-                        <.link href={~p"/"}
-                           class="relative group rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">
-                            Contact
-                            <span class="absolute left-0 -bottom-1 h-0.5 w-0 bg-pink-600 transition-all group-hover:w-full"></span>
-                        </.link>
-                        <%= if @current_user && @current_user.role == "admin" do %>
-                            <.link href={~p"/lessons"} class="relative group rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">
-                            Lessons
-                            <span class="absolute left-0 -bottom-1 h-0.5 w-0 bg-pink-600 transition-all group-hover:w-full"></span>
-                            </.link>
-                        <% end %>
-                    </div>
+                    <% end %>
+                    <.link href={~p"/blog"} class="relative text-slate-300 hover:text-white px-4 py-2 text-sm font-medium transition-all duration-300 group">
+                        <%= gettext("Blog") %>
+                        <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-pink-500 to-purple-500 transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+                    </.link>
+                    <.link href={~p"/connect"} class="relative text-slate-300 hover:text-white px-4 py-2 text-sm font-medium transition-all duration-300 group">
+                        <%= gettext("Connect") %>
+                        <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-pink-500 to-purple-500 transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+                    </.link>
                 </div>
             </div>
-            <div class="relative flex items-center pr-2 sm:ml-6 sm:pr-0">
 
-                <div class="relative inline-flex" id="user-menu-container">
+            <div class="flex items-center space-x-4">
+
+                <!-- User menu (desktop) -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <.locale_switcher
+                    current_locale={assigns[:locale] || "pl"}
+                    current_path={if assigns[:conn], do: @conn.request_path, else: assigns[:current_path] || "/"}
+                    />
                     <%= if @current_user do %>
-                    <button type="button" id="user-menu-button" aria-expanded="false" aria-haspopup="true"
-                            onclick="document.getElementById('user-menu').classList.toggle('hidden'); this.setAttribute('aria-expanded', this.getAttribute('aria-expanded') === 'true' ? 'false' : 'true')"
-                            class="relative flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
-                        <span class="absolute -inset-1.5"></span>
-                        <span class="sr-only">Open user menu</span>
-                        <img src={@current_user.profile_pic}
-                             alt=""
-                             class="size-8 rounded-full bg-gray-800 outline -outline-offset-1 outline-white/10"/>
+                    <div class="relative" id="user-menu-container" phx-click-away={JS.add_class("hidden", to: "#user-menu")}>
+                        <button
+                            type="button"
+                            phx-click={JS.toggle(to: "#user-menu", in: {"ease-out duration-100", "opacity-0 scale-95", "opacity-100 scale-100"}, out: {"ease-in duration-75", "opacity-100 scale-100", "opacity-0 scale-95"})}
+                            class="flex items-center space-x-3 p-1 rounded-lg hover:bg-slate-800/50 transition-all duration-300 group border border-transparent hover:border-slate-700/50"
+                        >
+                            <div class="flex flex-col items-end">
+                                <span class="text-sm font-medium text-white"><%= @current_user.username %></span>
+                                <span class="text-xs text-slate-400"><%= @current_user.role %></span>
+                            </div>
+                            <div class="relative">
+                                <img
+                                    src={@current_user.profile_pic_url}
+                                    alt={@current_user.username}
+                                    class="size-8 rounded-full bg-gray-800 outline -outline-offset-1 outline-white/10"
+                                />
+                                <div class="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-slate-900"></div>
+                            </div>
+                            <i class="fas fa-chevron-down text-slate-400 text-xs transition-transform duration-300 group-hover:rotate-180"></i>
+                        </button>
+
+                        <div
+                            id="user-menu"
+                            class="hidden absolute right-0 mt-3 w-80 rounded-xl bg-slate-800/95 backdrop-blur-xl border border-slate-700/50 shadow-2xl py-2 z-50"
+                            phx-update="ignore"
+                        >
+                            <!-- User Profile Section -->
+                            <div class="px-4 py-3 border-b border-slate-700/50">
+                                <div class="flex items-center space-x-3">
+                                    <div class="relative">
+                                        <div class="w-12 h-12 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 flex items-center justify-center text-white font-bold shadow-lg">
+                                            <img
+                                                src={@current_user.profile_pic_url}
+                                                alt={@current_user.username}
+                                                class="size-12 rounded-full bg-gray-800 outline -outline-offset-1 outline-white/10 "
+                                            />
+                                        </div>
+                                        <div class="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-green-500 rounded-full border-2 border-slate-800"></div>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-sm font-semibold text-white truncate"><%= @current_user.username %></p>
+                                        <p class="text-xs text-slate-400 truncate"><%= @current_user.email %></p>
+                                        <div class="flex items-center mt-1">
+                                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gradient-to-r from-pink-500/20 to-purple-500/20 text-pink-300 border border-pink-500/30">
+                                                <i class="fas fa-crown text-xs mr-1"></i> <%= @current_user.role %>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Menu Items -->
+                            <div class="py-1">
+                                <.link href={~p"/user_profile"} class="flex items-center px-4 py-2.5 text-sm text-slate-300 hover:bg-slate-700/50 hover:text-white transition-colors duration-200 group">
+                                    <i class="fas fa-user-circle w-5 mr-3 text-slate-400 group-hover:text-cyan-400 transition-colors duration-200"></i>
+                                    <%= gettext("Your Profile") %>
+                                </.link>
+                                <.link href={~p"/users/settings"} class="flex items-center px-4 py-2.5 text-sm text-slate-300 hover:bg-slate-700/50 hover:text-white transition-colors duration-200 group">
+                                    <i class="fas fa-cog w-5 mr-3 text-slate-400 group-hover:text-blue-400 transition-colors duration-200"></i>
+                                    <%= gettext("Account Settings") %>
+                                </.link>
+                            </div>
+
+                            <!-- Divider -->
+                            <div class="border-t border-slate-700/50 my-1"></div>
+
+                            <!-- Footer Menu Items -->
+                            <div class="py-1">
+                                <.link href={~p"/users/log_out"} method="delete" class="flex items-center px-4 py-2.5 text-sm text-red-400 hover:bg-red-500/10 transition-colors duration-200 group">
+                                    <i class="fas fa-sign-out-alt w-5 mr-3 group-hover:text-red-500 transition-colors duration-200"></i>
+                                    <%= gettext("Sign out") %>
+                                </.link>
+                            </div>
+                        </div>
+                    </div>
+                    <% else %>
+                        <.link href={~p"/users/log_in"} class="text-slate-300 hover:text-white px-4 py-2 text-sm font-medium transition-colors duration-300">
+                            <%= gettext("Log in") %>
+                        </.link>
+                        <.link href={~p"/users/register"} class="bg-gradient-to-r from-pink-500 to-purple-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:shadow-lg hover:shadow-pink-500/25 hover:-translate-y-0.5">
+                            <%= gettext("Register") %>
+                        </.link>
+                    <% end %>
+                </div>
+
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button
+                        type="button"
+                        phx-click={JS.toggle(to: "#mobile-menu") |> JS.toggle(to: "#menu-icon-open") |> JS.toggle(to: "#menu-icon-close")}
+                        class="inline-flex items-center justify-center p-2 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white transition-colors duration-300"
+                        aria-controls="mobile-menu"
+                    >
+                        <span class="sr-only">Open main menu</span>
+                        <svg id="menu-icon-open" class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                        <svg id="menu-icon-close" class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
                     </button>
-
-                    <div id="user-menu" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button"
-                         tabindex="-1"
-                         class="hidden absolute right-0 mt-10 w-48 rounded-md bg-gray-800 py-1 outline -outline-offset-1 outline-white/10 z-10">
-                        <.link href={~p"/users/settings"}
-                        class="block px-4 py-2 text-sm text-gray-300 hover:bg-white/5 focus:bg-white/5 focus:outline-none" role="menuitem" tabindex="-1" id="user-menu-item-0">
-                        Your profile
-                    </.link>
-                    <.link href={~p"/users/settings"} class="block px-4 py-2 text-sm text-gray-300
-                    hover:bg-white/5 focus:bg-white/5 focus:outline-none" role="menuitem" tabindex="-1"
-                    id="user-menu-item-1">
-                    Settings
-                </.link>
-                <.link href={~p"/users/log_out"} method="delete" class="block px-4 py-2 text-sm text-gray-300 hover:bg-white/5
-                focus:bg-white/5 focus:outline-none" role="menuitem" tabindex="-1" id="user-menu-item-2">
-                Sign out
-            </.link>
+                </div>
+            </div>
         </div>
-        <% else %>
-        <.link
-        href={~p"/users/register"}
-        class="relative group rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">
-        Register
-        <span class="absolute left-0 -bottom-1 h-0.5 w-0 bg-pink-600 transition-all group-hover:w-full"></span>
-    </.link>
-    <.link
-    href={~p"/users/log_in"}
-    class="relative group rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">
-    Log in
-    <span class="absolute left-0 -bottom-1 h-0.5 w-0 bg-pink-600 transition-all group-hover:w-full"></span>
-    </.link>
-
-<% end %>
-
-</div>
-
-<script>
-    // Optional: Click outside to close the dropdown
-    document.addEventListener('click', function (event) {
-        const userMenuContainer = document.getElementById('user-menu-container');
-        const userMenu = document.getElementById('user-menu');
-        const userMenuButton = document.getElementById('user-menu-button');
-
-        if (userMenuContainer && !userMenuContainer.contains(event.target) && !userMenu.classList.contains('hidden')) {
-            userMenu.classList.add('hidden');
-            userMenuButton.setAttribute('aria-expanded', 'false');
-        }
-    });
-
-    // Mobile menu toggle logic
-    document.getElementById('mobile-menu-button').addEventListener('click', function () {
-        const mobileMenu = document.getElementById('mobile-menu');
-        const isExpanded = this.getAttribute('aria-expanded') === 'true';
-
-        mobileMenu.classList.toggle('hidden');
-        this.setAttribute('aria-expanded', !isExpanded);
-
-        // Toggle icons
-        document.getElementById('menu-icon-closed').classList.toggle('hidden', !isExpanded);
-        document.getElementById('menu-icon-open').classList.toggle('hidden', isExpanded);
-    });
-</script>
-</div>
-</div>
-</div>
-<!-- Removed el-disclosure and added standard div for mobile menu -->
-<div id="mobile-menu" class="hidden sm:hidden">
-    <div class="space-y-1 px-2 pt-2 pb-3">
-        <!-- Current: "bg-gray-950/50 text-white", Default: "text-gray-300 hover:bg-white/5 hover:text-white" -->
-        <.link href={~p"/"} aria-current="page"
-           class="block rounded-md bg-gray-950/50 px-3 py-2 text-base font-medium text-white">Dance Types</.link>
-        <.link href={~p"/"}
-           class="block rounded-md px-3 py-2 text-base font-font-medium text-gray-300 hover:bg-white/5 hover:text-white">Patterns</.link>
-        <.link href={~p"/"}
-           class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Blog</.link>
-        <.link href={~p"/"}
-           class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">About</.link>
-        <.link href={~p"/"}
-           class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Contact</.link>
     </div>
-</div>
+
+    <!-- Mobile menu -->
+    <div
+        class="md:hidden hidden backdrop-blur-lg bg-slate-900/95 border-b border-slate-700/50 shadow-xl"
+        id="mobile-menu"
+        phx-click-away={JS.add_class("hidden", to: "#mobile-menu") |> JS.add_class("hidden", to: "#menu-icon-close") |> JS.remove_class("hidden", to: "#menu-icon-open")}
+    >
+        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            <.link href={~p"/dance_types"} class="text-slate-300 hover:text-white hover:bg-slate-800/50 block px-3 py-3 rounded-lg text-base font-medium transition-all duration-300 border border-transparent hover:border-slate-700">
+                <%= gettext("Dance Types") %>
+            </.link>
+            <.link href={~p"/patterns"} class="text-slate-300 hover:text-white hover:bg-slate-800/50 block px-3 py-3 rounded-lg text-base font-medium transition-all duration-300 border border-transparent hover:border-slate-700">
+                <%= gettext("Patterns") %>
+            </.link>
+            <%= if @current_user && @current_user.role == "admin" do %>
+                <.link href={~p"/lessons"} class="text-slate-300 hover:text-white hover:bg-slate-800/50 block px-3 py-3 rounded-lg text-base font-medium transition-all duration-300 border border-transparent hover:border-slate-700">
+                    <%= gettext("Lessons") %>
+                </.link>
+            <% end %>
+            <.link href={~p"/blog"} class="text-slate-300 hover:text-white hover:bg-slate-800/50 block px-3 py-3 rounded-lg text-base font-medium transition-all duration-300 border border-transparent hover:border-slate-700">
+                <%= gettext("Blog") %>
+            </.link>
+            <.link href={~p"/connect"} class="text-slate-300 hover:text-white hover:bg-slate-800/50 block px-3 py-3 rounded-lg text-base font-medium transition-all duration-300 border border-transparent hover:border-slate-700">
+                <%= gettext("Connect") %>
+            </.link>
+            <div class="md:hidden pt-4 border-t border-slate-700/50 mt-4">
+                <.mobile_locale_switcher
+                current_locale={assigns[:locale] || "pl"}
+                current_path={if assigns[:conn], do: @conn.request_path, else: assigns[:current_path] || "/"}
+                />
+            </div>
+
+            <!-- Mobile User Section -->
+            <div class="pt-4 pb-3 border-t border-slate-700 mt-4">
+                <%= if @current_user do %>
+                    <div class="flex items-center px-3 py-2">
+                        <div class="flex-shrink-0">
+                            <img src={@current_user.profile_pic_url} alt={@current_user.username} class="h-10 w-10 rounded-full bg-gray-800 outline -outline-offset-1 outline-white/10"/>
+                        </div>
+                        <div class="ml-3">
+                            <div class="text-base font-medium text-white"><%= @current_user.username %></div>
+                            <div class="text-sm font-medium text-slate-400"><%= gettext("Welcome Back!") %></div>
+                        </div>
+                    </div>
+                    <div class="mt-3 px-2 space-y-1">
+                        <.link href={~p"/user_profile"} class="block px-3 py-2 rounded-lg text-base font-medium text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all duration-300">
+                            <%= gettext("Your Profile") %>
+                        </.link>
+                        <.link href={~p"/users/settings"} class="block px-3 py-2 rounded-lg text-base font-medium text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all duration-300">
+                            <%= gettext("Settings") %>
+                        </.link>
+                        <.link href={~p"/users/log_out"} method="delete" class="block px-3 py-2 rounded-lg text-base font-medium text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all duration-300">
+                            <%= gettext("Sign out") %>
+                        </.link>
+                    </div>
+                <% else %>
+                    <div class="mt-3 px-2 space-y-2">
+                        <.link href={~p"/users/log_in"} class="block px-3 py-2 rounded-lg text-base font-medium text-slate-300 hover:text-white hover:bg-slate-800/50 transition-all duration-300 text-center">
+                            <%= gettext("Log in") %>
+                        </.link>
+                        <.link href={~p"/users/register"} class="block px-3 py-2 rounded-lg text-base font-medium bg-gradient-to-r from-pink-500 to-purple-500 text-white transition-all duration-300 hover:shadow-lg hover:shadow-pink-500/25 text-center">
+                            <%= gettext("Register") %>
+                        </.link>
+                    </div>
+                <% end %>
+            </div>
+        </div>
+    </div>
 </nav>
 
 <main class="">

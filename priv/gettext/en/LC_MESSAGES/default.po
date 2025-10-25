@@ -1,0 +1,1012 @@
+## "msgid"s in this file come from POT (.pot) files.
+###
+### Do not add, change, or remove "msgid"s manually here as
+### they're tied to the ones in the corresponding POT file
+### (with the same domain).
+###
+### Use "mix gettext.extract --merge" or "mix gettext.merge"
+### to merge POT files into PO files.
+msgid ""
+msgstr ""
+"Language: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: lib/wcs_studio_web/components/core_components.ex:1178
+#, elixir-autogen, elixir-format
+msgid "Actions"
+msgstr ""
+
+#: lib/wcs_studio_web/components/core_components.ex:840
+#, elixir-autogen, elixir-format
+msgid "Attempting to reconnect"
+msgstr ""
+
+#: lib/wcs_studio_web/live/lessons_live.ex:212
+#, elixir-autogen, elixir-format
+msgid "Browse and track your dance lessons by type and level"
+msgstr ""
+
+#: lib/wcs_studio_web/components/core_components.ex:831
+#, elixir-autogen, elixir-format
+msgid "Error!"
+msgstr ""
+
+#: lib/wcs_studio_web/components/core_components.ex:852
+#, elixir-autogen, elixir-format
+msgid "Hang in there while we get back on track"
+msgstr ""
+
+#: lib/wcs_studio_web/components/layouts/app.html.heex:24
+#: lib/wcs_studio_web/components/layouts/app.html.heex:170
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:200
+#: lib/wcs_studio_web/live/lessons_live.ex:209
+#, elixir-autogen, elixir-format
+msgid "Lessons"
+msgstr ""
+
+#: lib/wcs_studio_web/components/core_components.ex:847
+#, elixir-autogen, elixir-format
+msgid "Something went wrong!"
+msgstr ""
+
+#: lib/wcs_studio_web/components/core_components.ex:830
+#, elixir-autogen, elixir-format
+msgid "Success!"
+msgstr ""
+
+#: lib/wcs_studio_web/components/core_components.ex:835
+#, elixir-autogen, elixir-format
+msgid "We can't find the internet"
+msgstr ""
+
+#: lib/wcs_studio_web/components/core_components.ex:82
+#: lib/wcs_studio_web/components/core_components.ex:248
+#: lib/wcs_studio_web/components/core_components.ex:790
+#, elixir-autogen, elixir-format
+msgid "close"
+msgstr ""
+
+#: lib/wcs_studio_web/components/layouts/app.html.heex:107
+#: lib/wcs_studio_web/live/user_settings_live.ex:338
+#, elixir-autogen, elixir-format
+msgid "Account Settings"
+msgstr ""
+
+#: lib/wcs_studio_web/live/dance_types_live.ex:54
+#, elixir-autogen, elixir-format
+msgid "All Styles"
+msgstr ""
+
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:176
+#, elixir-autogen, elixir-format
+msgid "Articles"
+msgstr ""
+
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:136
+#, elixir-autogen, elixir-format
+msgid "Available only for admin unless I record my own videos"
+msgstr ""
+
+#: lib/wcs_studio_web/components/layouts/app.html.heex:29
+#: lib/wcs_studio_web/components/layouts/app.html.heex:174
+#: lib/wcs_studio_web/live/blog_live.ex:48
+#, elixir-autogen, elixir-format
+msgid "Blog"
+msgstr ""
+
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:156
+#, elixir-autogen, elixir-format
+msgid "Blog & Insights"
+msgstr ""
+
+#: lib/wcs_studio_web/live/dance_types_live.ex:32
+#, elixir-autogen, elixir-format
+msgid "Browse through variable dance styles, from around the world that admin is learning or already knows."
+msgstr ""
+
+#: lib/wcs_studio_web/components/core_components.ex:350
+#, elixir-autogen, elixir-format
+msgid "Click to expand pattern details"
+msgstr ""
+
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:40
+#, elixir-autogen, elixir-format
+msgid "Community"
+msgstr ""
+
+#: lib/wcs_studio_web/components/layouts/app.html.heex:33
+#: lib/wcs_studio_web/components/layouts/app.html.heex:177
+#, elixir-autogen, elixir-format
+msgid "Connect"
+msgstr ""
+
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:43
+#, elixir-autogen, elixir-format
+msgid "Connect with passionate dancers"
+msgstr ""
+
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:223
+#, elixir-autogen, elixir-format
+msgid "Contact Me"
+msgstr ""
+
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:10
+#, elixir-autogen, elixir-format
+msgid "Dance"
+msgstr ""
+
+#: lib/wcs_studio_web/components/core_components.ex:588
+#, elixir-autogen, elixir-format
+msgid "Dance Instructor"
+msgstr ""
+
+#: lib/wcs_studio_web/live/patterns_live.ex:219
+#, elixir-autogen, elixir-format
+msgid "Dance Patterns"
+msgstr ""
+
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:93
+#, elixir-autogen, elixir-format
+msgid "Dance Styles"
+msgstr ""
+
+#: lib/wcs_studio_web/components/layouts/app.html.heex:15
+#: lib/wcs_studio_web/components/layouts/app.html.heex:163
+#: lib/wcs_studio_web/live/dance_types_live.ex:29
+#, elixir-autogen, elixir-format
+msgid "Dance Types"
+msgstr ""
+
+#: lib/wcs_studio_web/components/core_components.ex:120
+#: lib/wcs_studio_web/components/core_components.ex:463
+#: lib/wcs_studio_web/components/core_components.ex:650
+#, elixir-autogen, elixir-format
+msgid "Delete"
+msgstr ""
+
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:185
+#, elixir-autogen, elixir-format
+msgid "Detailed breakdowns"
+msgstr ""
+
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:10
+#, elixir-autogen, elixir-format
+msgid "Elevated"
+msgstr ""
+
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:157
+#, elixir-autogen, elixir-format
+msgid "Enthusiast insights into dancing techniques"
+msgstr ""
+
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:115
+#, elixir-autogen, elixir-format
+msgid "Explore complex descriptions of sequences"
+msgstr ""
+
+#: lib/wcs_studio_web/live/patterns_live.ex:222
+#, elixir-autogen, elixir-format
+msgid "Explore our collection of dance patterns with step-by-step instructions, video demonstrations, and detailed breakdowns for leaders and followers."
+msgstr ""
+
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:96
+#, elixir-autogen, elixir-format
+msgid "Explore →"
+msgstr ""
+
+#: lib/wcs_studio_web/components/core_components.ex:396
+#, elixir-autogen, elixir-format
+msgid "For Followers"
+msgstr ""
+
+#: lib/wcs_studio_web/components/core_components.ex:382
+#, elixir-autogen, elixir-format
+msgid "For Leaders"
+msgstr ""
+
+#: lib/wcs_studio_web/live/connect_live.ex:28
+#: lib/wcs_studio_web/live/connect_live.ex:34
+#, elixir-autogen, elixir-format
+msgid "Full Stack Developer & Content Creator"
+msgstr ""
+
+#: lib/wcs_studio_web/components/core_components.ex:365
+#, elixir-autogen, elixir-format
+msgid "General Description"
+msgstr ""
+
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:75
+#, elixir-autogen, elixir-format
+msgid "I'm not a pro but I made this page to have one place for dancing content"
+msgstr ""
+
+#: lib/wcs_studio_web/components/core_components.ex:578
+#, elixir-autogen, elixir-format
+msgid "Instructors"
+msgstr ""
+
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:40
+#, elixir-autogen, elixir-format
+msgid "Join Our"
+msgstr ""
+
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:214
+#, elixir-autogen, elixir-format
+msgid "Join some community mastering their craft through this comprehensive platform"
+msgstr ""
+
+#: lib/wcs_studio_web/live/dance_types_live.ex:69
+#, elixir-autogen, elixir-format
+msgid "Latin"
+msgstr ""
+
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:117
+#, elixir-autogen, elixir-format
+msgid "Learn More →"
+msgstr ""
+
+#: lib/wcs_studio_web/components/layouts/app.html.heex:125
+#: lib/wcs_studio_web/components/layouts/app.html.heex:212
+#: lib/wcs_studio_web/live/user_login_live.ex:31
+#: lib/wcs_studio_web/live/user_registration_live.ex:16
+#: lib/wcs_studio_web/live/user_reset_password_live.ex:38
+#, elixir-autogen, elixir-format
+msgid "Log in"
+msgstr ""
+
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:177
+#, elixir-autogen, elixir-format
+msgid "Madman articles about dancing or something"
+msgstr ""
+
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:13
+#, elixir-autogen, elixir-format
+msgid "Master the art of movement comprehensive resources"
+msgstr ""
+
+#: lib/wcs_studio_web/components/layouts/root.html.heex:35
+#, elixir-autogen, elixir-format
+msgid "Master the art of partner dancing"
+msgstr ""
+
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:192
+#, elixir-autogen, elixir-format
+msgid "Members"
+msgstr ""
+
+#: lib/wcs_studio_web/live/dance_types_live.ex:152
+#, elixir-autogen, elixir-format
+msgid "No dance types found "
+msgstr ""
+
+#: lib/wcs_studio_web/live/lessons_live.ex:411
+#, elixir-autogen, elixir-format
+msgid "No lessons found"
+msgstr ""
+
+#: lib/wcs_studio_web/live/patterns_live.ex:397
+#, elixir-autogen, elixir-format
+msgid "No patterns found"
+msgstr ""
+
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:201
+#, elixir-autogen, elixir-format
+msgid "Not sharable admin only"
+msgstr ""
+
+#: lib/wcs_studio_web/components/core_components.ex:560
+#: lib/wcs_studio_web/components/layouts/app.html.heex:19
+#: lib/wcs_studio_web/components/layouts/app.html.heex:166
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:184
+#, elixir-autogen, elixir-format
+msgid "Patterns"
+msgstr ""
+
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:25
+#, elixir-autogen, elixir-format
+msgid "Perfect Your"
+msgstr ""
+
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:159
+#, elixir-autogen, elixir-format
+msgid "Read More →"
+msgstr ""
+
+#: lib/wcs_studio_web/live/blog_live.ex:51
+#, elixir-autogen, elixir-format
+msgid "Read and cry"
+msgstr ""
+
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:212
+#, elixir-autogen, elixir-format
+msgid "Ready to Track your progress?"
+msgstr ""
+
+#: lib/wcs_studio_web/components/layouts/app.html.heex:128
+#: lib/wcs_studio_web/components/layouts/app.html.heex:215
+#: lib/wcs_studio_web/live/user_reset_password_live.ex:37
+#, elixir-autogen, elixir-format
+msgid "Register"
+msgstr ""
+
+#: lib/wcs_studio_web/components/core_components.ex:213
+#: lib/wcs_studio_web/live/blog_live.ex:81
+#, elixir-autogen, elixir-format
+msgid "Save"
+msgstr ""
+
+#: lib/wcs_studio_web/components/layouts/app.html.heex:203
+#, elixir-autogen, elixir-format
+msgid "Settings"
+msgstr ""
+
+#: lib/wcs_studio_web/components/core_components.ex:415
+#, elixir-autogen, elixir-format
+msgid "Showcase Video"
+msgstr ""
+
+#: lib/wcs_studio_web/components/layouts/app.html.heex:118
+#: lib/wcs_studio_web/components/layouts/app.html.heex:206
+#, elixir-autogen, elixir-format
+msgid "Sign out"
+msgstr ""
+
+#: lib/wcs_studio_web/live/dance_types_live.ex:99
+#, elixir-autogen, elixir-format
+msgid "Social"
+msgstr ""
+
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:72
+#, elixir-autogen, elixir-format
+msgid "Some of my resources about dancing"
+msgstr ""
+
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:193
+#, elixir-autogen, elixir-format
+msgid "Sort of community"
+msgstr ""
+
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:218
+#, elixir-autogen, elixir-format
+msgid "Start Learning Today"
+msgstr ""
+
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:28
+#, elixir-autogen, elixir-format
+msgid "Step-by-step patterns and some instruction for dancers at admin level"
+msgstr ""
+
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:114
+#, elixir-autogen, elixir-format
+msgid "Steps"
+msgstr ""
+
+#: lib/wcs_studio_web/live/dance_types_live.ex:84
+#, elixir-autogen, elixir-format
+msgid "Swing"
+msgstr ""
+
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:25
+#, elixir-autogen, elixir-format
+msgid "Technique"
+msgstr ""
+
+#: lib/wcs_studio_web/live/lessons_live.ex:412
+#, elixir-autogen, elixir-format
+msgid "Try selecting a different dance type or level"
+msgstr ""
+
+#: lib/wcs_studio_web/live/dance_types_live.ex:153
+#, elixir-autogen, elixir-format
+msgid "Try selecting a different filter"
+msgstr ""
+
+#: lib/wcs_studio_web/live/patterns_live.ex:398
+#, elixir-autogen, elixir-format
+msgid "Try selecting a different filter or adjusting your search"
+msgstr ""
+
+#: lib/wcs_studio_web/components/core_components.ex:455
+#: lib/wcs_studio_web/live/patterns_live.ex:351
+#, elixir-autogen, elixir-format
+msgid "Update"
+msgstr ""
+
+#: lib/wcs_studio_web/components/core_components.ex:642
+#, elixir-autogen, elixir-format
+msgid "Update Lesson"
+msgstr ""
+
+#: lib/wcs_studio_web/components/core_components.ex:603
+#, elixir-autogen, elixir-format
+msgid "Video Lesson"
+msgstr ""
+
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:135
+#, elixir-autogen, elixir-format
+msgid "Video Lessons"
+msgstr ""
+
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:94
+#, elixir-autogen, elixir-format
+msgid "View dance types I know"
+msgstr ""
+
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:138
+#, elixir-autogen, elixir-format
+msgid "Watch Now →"
+msgstr ""
+
+#: lib/wcs_studio_web/components/layouts/app.html.heex:195
+#, elixir-autogen, elixir-format
+msgid "Welcome Back!"
+msgstr ""
+
+#: lib/wcs_studio_web/components/layouts/app.html.heex:103
+#: lib/wcs_studio_web/components/layouts/app.html.heex:200
+#, elixir-autogen, elixir-format
+msgid "Your Profile"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_profile.ex:275
+#, elixir-autogen, elixir-format
+msgid "Browse Patterns"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_profile.ex:259
+#, elixir-autogen, elixir-format
+msgid "Details"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_profile.ex:202
+#, elixir-autogen, elixir-format
+msgid "Lesson Attendance"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_profile.ex:222
+#, elixir-autogen, elixir-format, fuzzy
+msgid "My Patterns"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_profile.ex:148
+#, elixir-autogen, elixir-format
+msgid "My QR Code"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_profile.ex:271
+#, elixir-autogen, elixir-format, fuzzy
+msgid "No patterns yet"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_profile.ex:185
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Pattern Progress"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_profile.ex:117
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Patterns Mastered"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_profile.ex:127
+#, elixir-autogen, elixir-format
+msgid "Practice Time"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_profile.ex:169
+#, elixir-autogen, elixir-format
+msgid "Scan to connect with other dancers"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_profile.ex:272
+#, elixir-autogen, elixir-format
+msgid "Start your dance journey by exploring and tracking patterns"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_profile.ex:227
+#, elixir-autogen, elixir-format
+msgid "View All"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_registration_live.ex:14
+#, elixir-autogen, elixir-format
+msgid "Already registered?"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_login_live.ex:11
+#, elixir-autogen, elixir-format
+msgid "Don't have an account?"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_login_live.ex:9
+#, elixir-autogen, elixir-format
+msgid "Log in to account"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_registration_live.ex:32
+#: lib/wcs_studio_web/live/user_reset_password_live.ex:19
+#, elixir-autogen, elixir-format
+msgid "Oops, something went wrong! Please check the errors below."
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_registration_live.ex:12
+#, elixir-autogen, elixir-format
+msgid "Register for an account"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_reset_password_live.ex:10
+#: lib/wcs_studio_web/live/user_reset_password_live.ex:31
+#, elixir-autogen, elixir-format
+msgid "Reset Password"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_login_live.ex:13
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Sign up"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_login_live.ex:15
+#, elixir-autogen, elixir-format
+msgid "for an account now."
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_registration_live.ex:18
+#, elixir-autogen, elixir-format
+msgid "to your account now."
+msgstr ""
+
+#: lib/wcs_studio_web/components/core_components.ex:546
+#, elixir-autogen, elixir-format, fuzzy
+msgid "1 instructor"
+msgid_plural "%{count} instructors"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/wcs_studio_web/components/core_components.ex:486
+#: lib/wcs_studio_web/live/user_profile.ex:17
+#, elixir-autogen, elixir-format
+msgid "Attended"
+msgstr ""
+
+#: lib/wcs_studio_web/components/core_components.ex:119
+#: lib/wcs_studio_web/components/core_components.ex:214
+#: lib/wcs_studio_web/live/user_settings_live.ex:447
+#: lib/wcs_studio_web/live/user_settings_live.ex:517
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Cancel"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_login_live.ex:26
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Forgot your password ?"
+msgstr ""
+
+#: lib/wcs_studio_web/components/core_components.ex:316
+#: lib/wcs_studio_web/live/user_profile.ex:19
+#: lib/wcs_studio_web/live/user_profile.ex:51
+#, elixir-autogen, elixir-format
+msgid "In Progress"
+msgstr ""
+
+#: lib/wcs_studio_web/components/core_components.ex:317
+#: lib/wcs_studio_web/live/user_profile.ex:19
+#: lib/wcs_studio_web/live/user_profile.ex:52
+#, elixir-autogen, elixir-format
+msgid "Learned"
+msgstr ""
+
+#: lib/wcs_studio_web/components/core_components.ex:485
+#, elixir-autogen, elixir-format
+msgid "Not Attended"
+msgstr ""
+
+#: lib/wcs_studio_web/components/core_components.ex:715
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Read more"
+msgstr ""
+
+#: lib/wcs_studio_web/components/core_components.ex:315
+#, elixir-autogen, elixir-format
+msgid "Start"
+msgstr ""
+
+#: lib/wcs_studio_web/components/core_components.ex:707
+#: lib/wcs_studio_web/live/blog_post_live.ex:71
+#, elixir-autogen, elixir-format
+msgid "Unknown date"
+msgstr ""
+
+#: lib/wcs_studio_web/components/core_components.ex:423
+#: lib/wcs_studio_web/components/core_components.ex:611
+#, elixir-autogen, elixir-format
+msgid "YouTube video player"
+msgstr ""
+
+#: lib/wcs_studio_web/live/blog_post_live.ex:54
+#, elixir-autogen, elixir-format
+msgid "Back to Blog"
+msgstr ""
+
+#: lib/wcs_studio_web/live/blog_post_live.ex:122
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Comments"
+msgstr ""
+
+#: lib/wcs_studio_web/live/blog_post_live.ex:146
+#, elixir-autogen, elixir-format
+msgid "Post Comment"
+msgstr ""
+
+#: lib/wcs_studio_web/live/blog_post_live.ex:158
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Sign In"
+msgstr ""
+
+#: lib/wcs_studio_web/live/blog_post_live.ex:153
+#, elixir-autogen, elixir-format
+msgid "Sign in to leave a comment"
+msgstr ""
+
+#: lib/wcs_studio_web/live/blog_post_live.ex:131
+#, elixir-autogen, elixir-format
+msgid "Add your thoughts"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_registration_live.ex:39
+#, elixir-autogen, elixir-format
+msgid "Create an account"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_login_live.ex:20
+#: lib/wcs_studio_web/live/user_registration_live.ex:35
+#: lib/wcs_studio_web/live/user_settings_live.ex:350
+#, elixir-autogen, elixir-format
+msgid "Email"
+msgstr ""
+
+#: lib/wcs_studio_web/live/blog_post_live.ex:168
+#, elixir-autogen, elixir-format
+msgid "No comments yet. Be the first to share your thoughts!"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_login_live.ex:21
+#: lib/wcs_studio_web/live/user_registration_live.ex:36
+#, elixir-autogen, elixir-format
+msgid "Password"
+msgstr ""
+
+#: lib/wcs_studio_web/live/blog_post_live.ex:137
+#, elixir-autogen, elixir-format
+msgid "Share your thoughts on this article..."
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_login_live.ex:24
+#, elixir-autogen, elixir-format
+msgid "Keep me logged in"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_settings_live.ex:457
+#: lib/wcs_studio_web/live/user_settings_live.ex:527
+#, elixir-autogen, elixir-format
+msgid "%{progress}% complete"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_settings_live.ex:494
+#, elixir-autogen, elixir-format
+msgid "(JPG, PNG, or WebP • Max 3MB • Optimized to 512px)"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_settings_live.ex:424
+#, elixir-autogen, elixir-format
+msgid "(JPG, PNG, or WebP • Max 5MB)"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_settings_live.ex:187
+#, elixir-autogen, elixir-format
+msgid "A link to confirm your email change has been sent to the new address."
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_profile.ex:17
+#, elixir-autogen, elixir-format
+msgid "All"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_profile.ex:107
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Attended Lessons"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_settings_live.ex:362
+#, elixir-autogen, elixir-format
+msgid "Change Email"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_settings_live.ex:401
+#, elixir-autogen, elixir-format
+msgid "Change Password"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_settings_live.ex:472
+#, elixir-autogen, elixir-format
+msgid "Change profile picture"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_settings_live.ex:361
+#: lib/wcs_studio_web/live/user_settings_live.ex:400
+#, elixir-autogen, elixir-format
+msgid "Changing..."
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_reset_password_live.ex:26
+#: lib/wcs_studio_web/live/user_settings_live.ex:388
+#, elixir-autogen, elixir-format
+msgid "Confirm new password"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_settings_live.ex:248
+#, elixir-autogen, elixir-format
+msgid "Could not read file: %{reason}"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_settings_live.ex:484
+#, elixir-autogen, elixir-format
+msgid "Current QR code"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_settings_live.ex:356
+#: lib/wcs_studio_web/live/user_settings_live.ex:394
+#, elixir-autogen, elixir-format
+msgid "Current password"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_settings_live.ex:414
+#, elixir-autogen, elixir-format
+msgid "Current profile picture"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_settings_live.ex:18
+#, elixir-autogen, elixir-format
+msgid "Email change link is invalid or it has expired."
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_settings_live.ex:15
+#, elixir-autogen, elixir-format
+msgid "Email changed successfully."
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_settings_live.ex:138
+#, elixir-autogen, elixir-format
+msgid "Failed to update QR code in database."
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_settings_live.ex:92
+#, elixir-autogen, elixir-format
+msgid "Failed to update profile picture in database."
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_settings_live.ex:551
+#, elixir-autogen, elixir-format
+msgid "File is too large (max 5MB for profile pictures, 3MB for QR codes)"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_settings_live.ex:552
+#, elixir-autogen, elixir-format
+msgid "File type not accepted (use .jpg, .jpeg, .png, or .webp)"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_settings_live.ex:277
+#, elixir-autogen, elixir-format
+msgid "Image conversion failed: %{reason}"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_settings_live.ex:240
+#, elixir-autogen, elixir-format
+msgid "Invalid image file"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_settings_live.ex:247
+#, elixir-autogen, elixir-format
+msgid "Invalid image format"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_profile.ex:90
+#, elixir-autogen, elixir-format
+msgid "Joined"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_settings_live.ex:339
+#, elixir-autogen, elixir-format
+msgid "Manage your account email address and password settings"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_reset_password_live.ex:22
+#: lib/wcs_studio_web/live/user_settings_live.ex:384
+#, elixir-autogen, elixir-format
+msgid "New password"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_profile.ex:19
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Not Learned"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_profile.ex:50
+#, elixir-autogen, elixir-format
+msgid "Not Started"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_reset_password_live.ex:67
+#, elixir-autogen, elixir-format
+msgid "Password reset successfully."
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_settings_live.ex:144
+#, elixir-autogen, elixir-format
+msgid "Please select a QR code image before uploading."
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_settings_live.ex:98
+#, elixir-autogen, elixir-format
+msgid "Please select a picture before uploading."
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_settings_live.ex:408
+#, elixir-autogen, elixir-format
+msgid "Profile Picture"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_settings_live.ex:84
+#, elixir-autogen, elixir-format
+msgid "Profile picture updated successfully!"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_profile.ex:142
+#: lib/wcs_studio_web/live/user_profile.ex:165
+#: lib/wcs_studio_web/live/user_settings_live.ex:478
+#, elixir-autogen, elixir-format, fuzzy
+msgid "QR Code"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_settings_live.ex:130
+#, elixir-autogen, elixir-format
+msgid "QR code updated successfully!"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_reset_password_live.ex:85
+#, elixir-autogen, elixir-format
+msgid "Reset password link is invalid or it has expired."
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_reset_password_live.ex:30
+#, elixir-autogen, elixir-format
+msgid "Resetting..."
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_settings_live.ex:553
+#, elixir-autogen, elixir-format
+msgid "Too many files (max 1)"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_settings_live.ex:554
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Unknown error"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_settings_live.ex:542
+#, elixir-autogen, elixir-format
+msgid "Upload QR Code"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_settings_live.ex:493
+#, elixir-autogen, elixir-format
+msgid "Upload QR code"
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_settings_live.ex:103
+#: lib/wcs_studio_web/live/user_settings_live.ex:149
+#, elixir-autogen, elixir-format
+msgid "Upload failed. Please ensure you're uploading a valid image file."
+msgstr ""
+
+#: lib/wcs_studio_web/live/user_settings_live.ex:423
+#, elixir-autogen, elixir-format
+msgid "Upload new profile picture"
+msgstr ""
+
+#: lib/wcs_studio_web/live/patterns_live.ex:315
+#, elixir-autogen, elixir-format
+msgid "Add New Pattern"
+msgstr ""
+
+#: lib/wcs_studio_web/live/patterns_live.ex:382
+#, elixir-autogen, elixir-format
+msgid "Are you sure you want to delete '%{name}'? This action cannot be undone and will remove all associated data."
+msgstr ""
+
+#: lib/wcs_studio_web/live/patterns_live.ex:381
+#, elixir-autogen, elixir-format
+msgid "Delete Pattern?"
+msgstr ""
+
+#: lib/wcs_studio_web/live/patterns_live.ex:347
+#, elixir-autogen, elixir-format
+msgid "Edit the pattern details"
+msgstr ""
+
+#: lib/wcs_studio_web/live/patterns_live.ex:327
+#, elixir-autogen, elixir-format
+msgid "Fill out the form to add a new pattern"
+msgstr ""
+
+#: lib/wcs_studio_web/live/patterns_live.ex:335
+#: lib/wcs_studio_web/live/patterns_live.ex:357
+#, elixir-autogen, elixir-format
+msgid "Follower Description EN"
+msgstr ""
+
+#: lib/wcs_studio_web/live/patterns_live.ex:338
+#: lib/wcs_studio_web/live/patterns_live.ex:360
+#, elixir-autogen, elixir-format
+msgid "Follower Description PL"
+msgstr ""
+
+#: lib/wcs_studio_web/live/patterns_live.ex:333
+#: lib/wcs_studio_web/live/patterns_live.ex:355
+#, elixir-autogen, elixir-format, fuzzy
+msgid "General Description EN"
+msgstr ""
+
+#: lib/wcs_studio_web/live/patterns_live.ex:336
+#: lib/wcs_studio_web/live/patterns_live.ex:358
+#, elixir-autogen, elixir-format, fuzzy
+msgid "General Description PL"
+msgstr ""
+
+#: lib/wcs_studio_web/live/patterns_live.ex:334
+#: lib/wcs_studio_web/live/patterns_live.ex:356
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Leader Description EN"
+msgstr ""
+
+#: lib/wcs_studio_web/live/patterns_live.ex:337
+#: lib/wcs_studio_web/live/patterns_live.ex:359
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Leader Description PL"
+msgstr ""
+
+#: lib/wcs_studio_web/live/patterns_live.ex:326
+#, elixir-autogen, elixir-format, fuzzy
+msgid "New Pattern"
+msgstr ""
+
+#: lib/wcs_studio_web/live/patterns_live.ex:332
+#: lib/wcs_studio_web/live/patterns_live.ex:354
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Pattern Name"
+msgstr ""
+
+#: lib/wcs_studio_web/live/patterns_live.ex:287
+#, elixir-autogen, elixir-format
+msgid "Search patterns..."
+msgstr ""
+
+#: lib/wcs_studio_web/live/patterns_live.ex:243
+#, elixir-autogen, elixir-format
+msgid "Select Dance Type"
+msgstr ""
+
+#: lib/wcs_studio_web/live/patterns_live.ex:346
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Update Pattern"
+msgstr ""
+
+#: lib/wcs_studio_web/live/patterns_live.ex:339
+#: lib/wcs_studio_web/live/patterns_live.ex:361
+#, elixir-autogen, elixir-format
+msgid "Video URL (YouTube)"
+msgstr ""
+
+#: lib/wcs_studio/posts.ex:73
+#, elixir-autogen, elixir-format
+msgid "read"
+msgstr ""

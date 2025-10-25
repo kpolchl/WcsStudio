@@ -12,7 +12,8 @@ defmodule WcsStudio.Accounts.User do
     field :confirmed_at, :utc_datetime
     field :role, :string, default: "user"
     field :course_enrolled, :boolean, default: false
-    field :profile_pic, :string, default: "temp/user_icon.png"
+    field :profile_pic_url, :string, default: "temp/user_icon.png"
+    field :qr_code_url, :string, default: "images/default_qr_code.png"
     has_many :post, WcsStudio.Post
     has_many :comment , WcsStudio.Comment
     has_many :user_lesson , WcsStudio.UserLesson
@@ -173,4 +174,11 @@ defmodule WcsStudio.Accounts.User do
       add_error(changeset, :current_password, "is not valid")
     end
   end
+
+  def profile_pic_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:profile_pic_url])
+  end
+
+
 end

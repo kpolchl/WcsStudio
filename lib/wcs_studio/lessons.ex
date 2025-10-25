@@ -34,7 +34,13 @@ defmodule WcsStudio.Lesson do
     from(p in WcsStudio.Lesson,
       limit: 1
     )
-    |> WcsStudio.Repo.one()
+    |> WcsStudio.Repo.one() || %{dance_type_id: 1, level_id: 1}
+  end
+
+  def count_lessons do
+    from(ul in WcsStudio.Lesson,select: count())
+      |> WcsStudio.Repo.one()
+
   end
 
   def get_by_dance_type_and_level(dance_type_id, level_id) do
