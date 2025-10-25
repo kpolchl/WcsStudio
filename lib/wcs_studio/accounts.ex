@@ -350,4 +350,17 @@ defmodule WcsStudio.Accounts do
       {:error, :user, changeset, _} -> {:error, changeset}
     end
   end
+
+  def update_user_profile_pic_url(user, profile_pic_url) do
+    user
+    |> User.profile_pic_changeset(%{profile_pic_url: profile_pic_url})
+    |> Repo.update()
+  end
+
+  def count_users() do
+    from(ul in WcsStudio.Accounts.User,select: count())
+    |> WcsStudio.Repo.one()
+  end
+
+
 end

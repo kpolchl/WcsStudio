@@ -9,6 +9,6 @@ defmodule WcsStudioWeb.Layouts do
   `use WcsStudioWeb, :live_view`.
   """
   use WcsStudioWeb, :html
-
+  import WcsStudioWeb.Components.LocaleSwitcher
   embed_templates "layouts/*"
 end

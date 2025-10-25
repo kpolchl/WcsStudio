@@ -54,7 +54,9 @@ defmodule WcsStudioWeb do
       use Phoenix.LiveView,
         layout: {WcsStudioWeb.Layouts, :app}
 
+
       unquote(html_helpers())
+      import WcsStudioWeb.Components.LocaleSwitcher
     end
   end
 

@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="google_gax" type="mix">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/_build/dev/lib/google_gax/ebin" />
+      <root url="file://$PROJECT_DIR$/_build/dev/lib/google_gax/ebin" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/deps/google_gax/lib" />
+      <root url="file://$PROJECT_DIR$/deps/google_gax/lib" />
+    </SOURCES>
+  </library>
+</component>

@@ -21,12 +21,81 @@ import "phoenix_html"
 import {Socket} from "phoenix"
 import {LiveSocket} from "phoenix_live_view"
 import topbar from "../vendor/topbar"
+import PieChart from "./hooks/pie_chart";
+
+let Hooks = {
+    PieChart: PieChart
+};
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/live", Socket, {
   longPollFallbackMs: 2500,
-  params: {_csrf_token: csrfToken}
+  params: {_csrf_token: csrfToken},
+    hooks: Hooks
 })
+
+// ===== ADD FLASH FUNCTIONALITY HERE =====
+// Flash message auto-dismiss with progress bar
+let flashTimeouts = new Map();
+
+// Handle flash mounted event
+window.addEventListener("flash:mounted", (e) => {
+    const flash = e.target;
+    const progressBar = flash.querySelector('.progress-bar');
+
+    if (progressBar) {
+        // Force reflow to ensure animation starts
+        progressBar.offsetHeight;
+
+        // Start progress bar animation
+        requestAnimationFrame(() => {
+            progressBar.style.transition = 'width 5s linear';
+            progressBar.style.width = '100%';
+        });
+    }
+
+    // Set timeout to remove flash
+    const timeoutId = setTimeout(() => {
+        flash.style.transition = 'all 0.3s ease-in-out';
+        flash.style.opacity = '0';
+        flash.style.transform = 'translateX(100%) scale(0.95)';
+
+        setTimeout(() => {
+            if (flash.parentNode) {
+                flash.parentNode.removeChild(flash);
+            }
+        }, 300);
+    }, 5000);
+
+    flashTimeouts.set(flash, timeoutId);
+});
+
+// Clear timeout when flash is manually closed
+document.addEventListener('click', (e) => {
+    const closeButton = e.target.closest('[role="alert"] button');
+    if (closeButton) {
+        const flash = e.target.closest('[role="alert"]');
+        if (flash) {
+            const timeoutId = flashTimeouts.get(flash);
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+                flashTimeouts.delete(flash);
+            }
+        }
+    }
+});
+
+// Clean up on page navigation
+document.addEventListener("phx:page-loading-start", () => {
+    flashTimeouts.forEach((timeoutId, flash) => {
+        clearTimeout(timeoutId);
+        if (flash.parentNode) {
+            flash.parentNode.removeChild(flash);
+        }
+    });
+    flashTimeouts.clear();
+});
+// ===== END FLASH FUNCTIONALITY =====
 
 // Show progress bar on live navigation and form submits
 topbar.config({barColors: {0: "#29d"}, shadowColor: "rgba(0, 0, 0, .3)"})

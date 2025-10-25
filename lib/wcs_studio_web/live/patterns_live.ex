@@ -2,6 +2,9 @@ defmodule WcsStudioWeb.PatternsLive do
   use WcsStudioWeb, :live_view
   alias WcsStudio.Pattern
   alias WcsStudio.DanceType
+  alias WcsStudio.UserPattern
+  alias WcsStudio.GoogleDrive
+  alias WcsStudio.VideoProcess
 
   def mount(_params, _session, socket) do
     first_dance_type = DanceType.get_first()
@@ -14,9 +17,9 @@ defmodule WcsStudioWeb.PatternsLive do
         patterns: Pattern.get_by_dance_type_id(first_dance_type.id),
         query: "",
         form: to_form(Ecto.Changeset.change(%WcsStudio.Pattern{})),
-        show_modal: false,
-        show_update_modal: false,
-        selected_pattern: ""
+        modal_state: nil,
+        expanded_pattern_id: nil,
+        dropdown_open: false
       )
     {:ok, socket
           |> allow_upload(:video,
@@ -25,13 +28,31 @@ defmodule WcsStudioWeb.PatternsLive do
                max_file_size: 100_000_000 )}
   end
 
-  # video upload handlers
+  def handle_params(params, _uri, socket) do
+    status_map = case socket.assigns[:current_user] do
+      nil ->
+        %{}
+      current_user ->
+        user_patterns = WcsStudio.UserPattern.get_user_patterns(current_user.id)
+        Enum.reduce(user_patterns, %{}, fn up, acc ->
+          Map.put(acc, up.pattern_id, up.status)
+        end)
+    end
+
+    {:noreply,
+      socket
+      |> assign(:status_map, status_map)
+      |> assign(:expanded_pattern_id, nil)}
+  end
+
   def handle_event("validate", _params, socket) do
     {:noreply, socket}
   end
 
-  def handle_event("cancel-upload", %{"ref" => ref}, socket) do
-    {:noreply, cancel_upload(socket, :video, ref)}
+  def handle_event("toggle_pattern", %{"id" => id}, socket) do
+    id = String.to_integer(id)
+    new_id = if socket.assigns.expanded_pattern_id == id, do: nil, else: id
+    {:noreply, assign(socket, :expanded_pattern_id, new_id)}
   end
 
   def handle_event("search", %{"query" => query}, socket) do
@@ -44,44 +65,29 @@ defmodule WcsStudioWeb.PatternsLive do
     {:noreply, socket}
   end
 
-  def handle_event("choose", %{"dance_type_id" => dance_type_id}, socket) do
-    socket =
-      assign(socket,
-        patterns: Pattern.get_by_dance_type_id(String.to_integer(dance_type_id)),
-        dance_type_id: String.to_integer(dance_type_id)
-      )
-
-    {:noreply, socket}
-  end
-
   def handle_event("save", %{"pattern" => pattern_params}, socket) do
-    dance_type_id = socket.assigns.dance_type_id
+    video_url = pattern_params
+                |> Map.get("video_url", "")
+                |> VideoProcess.parse_youtube_url()
 
-    # Handle video upload
-    video_url = case consume_uploaded_entries(socket, :video, fn %{path: path}, entry ->
-      ext = Path.extname(entry.client_name)
-      filename = "#{System.unique_integer([:positive])}#{ext}"
-      dest = Path.join([:code.priv_dir(:wcs_studio), "static", "uploads", filename])
+    attrs = %{
+      dance_type_id: socket.assigns.dance_type_id,
+      name: Map.get(pattern_params, "name"),
+      general_description_en: Map.get(pattern_params, "general_description_en"),
+      leader_description_en: Map.get(pattern_params, "leader_description_en"),
+      follower_description_en: Map.get(pattern_params, "follower_description_en"),
+      general_description_pl: Map.get(pattern_params, "general_description_pl"),
+      leader_description_pl: Map.get(pattern_params, "leader_description_pl"),
+      follower_description_pl: Map.get(pattern_params, "follower_description_pl"),
+      video_url: video_url
+    }
 
-      File.mkdir_p!(Path.dirname(dest))
-      File.cp!(path, dest)
-
-      {:ok, "/uploads/#{filename}"}
-    end) do
-      [url | _] -> url
-      [] -> Map.get(pattern_params, "video_url", "")
-    end
-
-    name = Map.get(pattern_params, "name")
-    general_description = Map.get(pattern_params, "general_description")
-    leader_description = Map.get(pattern_params, "leader_description")
-    follower_description = Map.get(pattern_params, "follower_description")
-
-    case WcsStudio.Pattern.add(dance_type_id, name, general_description, leader_description, follower_description, video_url) do
-      {:ok, pattern} ->
+    case Pattern.add(attrs) do
+      {:ok, _pattern} ->
         {:noreply,
           socket
-          |> put_flash(:info, "Pattern dodany!")
+          |> assign(modal_state: nil)
+          |> put_flash(:success, "Pattern created successfully!")
           |> push_navigate(to: ~p"/patterns")}
 
       {:error, changeset} ->
@@ -90,54 +96,51 @@ defmodule WcsStudioWeb.PatternsLive do
   end
 
   def handle_event("update_pattern", %{"pattern" => pattern_params}, socket) do
-    pattern = socket.assigns.selected_pattern
-    dance_type_id = pattern.dance_type_id
+    case socket.assigns.modal_state do
+      {:edit, pattern} ->
+        video_url = pattern_params
+                    |> Map.get("video_url", "")
+                    |> VideoProcess.parse_youtube_url()
 
-    # Handle video upload
-    video_url = case consume_uploaded_entries(socket, :video, fn %{path: path}, entry ->
-      ext = Path.extname(entry.client_name)
-      filename = "#{System.unique_integer([:positive])}#{ext}"
-      dest = Path.join([:code.priv_dir(:wcs_studio), "static", "uploads", filename])
+        attrs = %{
+          dance_type_id: pattern.dance_type_id,
+          name: Map.get(pattern_params, "name"),
+          general_description_en: Map.get(pattern_params, "general_description_en"),
+          leader_description_en: Map.get(pattern_params, "leader_description_en"),
+          follower_description_en: Map.get(pattern_params, "follower_description_en"),
+          general_description_pl: Map.get(pattern_params, "general_description_pl"),
+          leader_description_pl: Map.get(pattern_params, "leader_description_pl"),
+          follower_description_pl: Map.get(pattern_params, "follower_description_pl"),
+          video_url: video_url
+        }
 
-      File.mkdir_p!(Path.dirname(dest))
-      File.cp!(path, dest)
+        case Pattern.update(pattern, attrs) do
+          {:ok, updated_pattern} ->
+            updated_patterns = Pattern.get_by_dance_type_id(socket.assigns.dance_type_id)
 
-      {:ok, "/uploads/#{filename}"}
-    end) do
-      [url | _] -> url
-      [] -> Map.get(pattern_params, "video_url", pattern.video_url)
-    end
+            {:noreply,
+              socket
+              |> assign(patterns: updated_patterns, modal_state: nil)
+              |> put_flash(:success, "Pattern updated successfully!")}
 
-    name = Map.get(pattern_params, "name")
-    general_description = Map.get(pattern_params, "general_description")
-    leader_description = Map.get(pattern_params, "leader_description")
-    follower_description = Map.get(pattern_params, "follower_description")
+          {:error, changeset} ->
+            {:noreply, assign(socket, form: to_form(changeset))}
+        end
 
-    case Pattern.update(pattern, dance_type_id, name, general_description, leader_description, follower_description, video_url) do
-      {:ok, updated_pattern} ->
-        updated_patterns =
-          Enum.map(socket.assigns.patterns, fn p ->
-            if p.id == updated_pattern.id, do: updated_pattern, else: p
-          end)
-
-        {:noreply,
-          socket
-          |> assign(patterns: updated_patterns, show_update_modal: false, selected_pattern: nil)
-          |> put_flash(:info, "Pattern updated!")}
-
-      {:error, changeset} ->
-        {:noreply, assign(socket, form: to_form(changeset))}
+      _ ->
+        {:noreply, socket}
     end
   end
 
-
-  # zajebista redundancja
   def handle_event("open_modal", _, socket) do
-    {:noreply, assign(socket, show_modal: true)}
+    {:noreply, assign(socket,
+      modal_state: :create,
+      form: to_form(Ecto.Changeset.change(%WcsStudio.Pattern{}))
+    )}
   end
 
   def handle_event("close_modal", _, socket) do
-    {:noreply, assign(socket, show_modal: false)}
+    {:noreply, assign(socket, modal_state: nil)}
   end
 
   def handle_event("open_update_modal", %{"id" => id}, socket) do
@@ -145,14 +148,9 @@ defmodule WcsStudioWeb.PatternsLive do
 
     {:noreply,
       assign(socket,
-        show_update_modal: true,
-        selected_pattern: pattern,
+        modal_state: {:edit, pattern},
         form: to_form(Ecto.Changeset.change(pattern))
       )}
-  end
-
-  def handle_event("close_update_modal", _, socket) do
-    {:noreply, assign(socket, show_update_modal: false, selected_pattern: nil)}
   end
 
   @impl true
@@ -161,7 +159,7 @@ defmodule WcsStudioWeb.PatternsLive do
       {:ok, _pattern} ->
         {:noreply,
           socket
-          |> put_flash(:info, "Pattern deleted!")
+          |> put_flash(:success, "Pattern deleted successfully!")
           |> push_navigate(to: ~p"/patterns")}
 
       {:error, _reason} ->
@@ -169,148 +167,237 @@ defmodule WcsStudioWeb.PatternsLive do
     end
   end
 
-  # Helper for error messages
-  defp error_to_string(:too_large), do: "Video file is too large (max 100MB)"
-  defp error_to_string(:too_many_files), do: "You can only upload one video at a time"
-  defp error_to_string(:not_accepted), do: "Invalid video format. Please use MP4, MOV, AVI, or WebM"
+  def handle_event("toggle_dropdown", _, socket) do
+    {:noreply, assign(socket, :dropdown_open, !socket.assigns[:dropdown_open])}
+  end
 
+  def handle_event("close_dropdown", _, socket) do
+    {:noreply, assign(socket, :dropdown_open, false)}
+  end
+
+  def handle_event("choose", %{"dance_type_id" => id}, socket) do
+    dance_type_id = String.to_integer(id)
+
+    {:noreply,
+      socket
+      |> assign(:dance_type_id, dance_type_id)
+      |> assign(:selected_dance_type, DanceType.get_by_id(dance_type_id))
+      |> assign(:patterns, Pattern.get_by_dance_type_id(dance_type_id))
+      |> assign(:dropdown_open, false)}
+  end
+
+  def handle_event("update_status", %{"pattern_id" => pattern_id, "user_id" => user_id, "status" => status}, socket) do
+    pattern_id_int = String.to_integer(pattern_id)
+
+    new_status = case status do
+      "not_started" -> "in_progress"
+      "in_progress" -> "learned"
+      "learned" -> "learned"
+    end
+
+    case UserPattern.get_user_pattern(user_id, pattern_id) do
+      nil ->
+        UserPattern.add(pattern_id, user_id, new_status)
+      user_pattern ->
+        UserPattern.update_status(user_pattern, pattern_id, user_id, new_status)
+    end
+
+    updated_status_map = Map.put(socket.assigns.status_map, pattern_id_int, new_status)
+
+    {:noreply,
+      socket
+      |> assign(:status_map, updated_status_map)
+      |> put_flash(:info, "Status updated to #{new_status}!")}
+  end
 
   def render(assigns) do
     ~H"""
-    <!-- SELECT -->
     <div class="my-8 mx-8">
-      <div class="max-w-md mx-auto flex">
-        <form phx-change="choose" class="relative flex items-center">
-          <!-- Ikona po lewej stronie -->
-          <div class="absolute left-2 flex items-center text-gray-400 pointer-events-none" flex-shrink-0>
-            <img src={~p"/images/user_icon.png"} class="w-12 h-12 rounded-full bg-gray-800 justify-center flex text-white text-lg font-bold">
+      <!-- Header Section -->
+      <div class="mb-12 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent mb-4 py-2">
+          <%= gettext("Dance Patterns") %>
+        </h1>
+        <p class="text-xl text-slate-400 max-w-2xl mx-auto">
+          <%= gettext("Explore our collection of dance patterns with step-by-step instructions, video demonstrations, and detailed breakdowns for leaders and followers.") %>
+        </p>
+      </div>
+
+      <!-- Filters Section -->
+      <div class="max-w-2xl mx-auto mb-8">
+        <div class="flex flex-col sm:flex-row gap-3 p-4 bg-slate-800/30 rounded-xl border border-slate-700/50 shadow-lg">
+          <!-- Dance Type Selector -->
+          <div class="flex-1 relative z-50 isolation-auto" id="dance-type-selector">
+            <div phx-click-away="close_dropdown" class="relative h-full">
+              <button
+                type="button"
+                phx-click="toggle_dropdown"
+                class="w-full py-3 pl-10 pr-8 text-left bg-slate-700/50 text-slate-200 border border-slate-600/50 rounded-lg hover:border-pink-500/40 focus:outline-none focus:ring-1 focus:ring-pink-500 transition-all duration-200 flex items-center justify-between"
+              >
+                <div class="flex items-center gap-2">
+                  <i class="fas fa-filter text-slate-400 text-sm"></i>
+                  <span>
+                    <%= if @selected_dance_type do %>
+                      <%= DanceType.get_name(@selected_dance_type, @locale) %>
+                    <% else %>
+                      <%= gettext("Select Dance Type") %>
+                    <% end %>
+                  </span>
+                </div>
+                <i class="fas fa-chevron-down text-slate-400 text-xs"></i>
+              </button>
+
+              <div
+                :if={@dropdown_open}
+                class="absolute z-[9999] mt-2 w-full bg-slate-800/90 border border-slate-700/50 rounded-lg shadow-lg overflow-hidden animate-fade-in"
+              >
+                <ul class="max-h-56 overflow-y-auto">
+                  <%= for dance_type <- @dance_types do %>
+                    <li>
+                      <button
+                        type="button"
+                        phx-click="choose"
+                        phx-value-dance_type_id={dance_type.id}
+                        class={[
+                          "w-full text-left px-4 py-2 text-sm transition-all duration-150",
+                          if(dance_type.id == @dance_type_id,
+                            do: "bg-pink-600/40 text-white",
+                            else: "hover:bg-slate-700/70 text-slate-200"
+                          )
+                        ]}
+                      >
+                        <%= DanceType.get_name(dance_type, @locale) %>
+                      </button>
+                    </li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
           </div>
 
-          <select
-            name="dance_type_id"
-            class="z-10 items-center py-4 pl-12 pr-12
-                   rounded-s-lg">
-
-            <%= for dance_type <- @dance_types do %>
-              <option value={dance_type.id} selected={dance_type.id == @dance_type_id}>
-                <%= dance_type.name %>
-              </option>
-            <% end %>
-          </select>
-
-          <!-- Strzałka po prawej stronie -->
-          <div class="pointer-events-none absolute inset-y-0 right-2 flex items-center text-gray-400">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-            </svg>
+          <!-- Search Input -->
+          <div class="flex-1 relative">
+            <form phx-change="search" class="h-full">
+              <div class="relative h-full">
+                <input
+                  type="search"
+                  name="query"
+                  value={@query}
+                  class="w-full h-full py-3 pl-10 pr-8 bg-slate-700/50 text-slate-200 border border-slate-600/50 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-200"
+                  placeholder={gettext("Search patterns...")}
+                />
+                <div class="absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                  <i class="fas fa-search text-slate-400 text-sm"></i>
+                </div>
+                <%= if @query && String.length(@query) > 0 do %>
+                  <button
+                    type="button"
+                    phx-click="clear-search"
+                    class="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-300 transition-colors"
+                  >
+                    <i class="fas fa-times text-sm"></i>
+                  </button>
+                <% end %>
+              </div>
+            </form>
           </div>
-        </form>
-
-        <!-- SEARCH -->
-        <div class="relative w-full">
-          <form phx-change="search">
-            <input
-              type="search"
-              id="location-search"
-              name="query"
-              value={@query}
-              class=" p-4 w-full text-gray-900 bg-gray-50 rounded-e-lg"
-              placeholder="Search for pattern" />
-          </form>
         </div>
       </div>
 
-      <button phx-click="open_modal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded" >Add pattern</button>
+      <!-- Add Pattern Button (Admin Only) -->
+      <%= if @current_user && @current_user.role == "admin" do %>
+        <div class="max-w-2xl mx-auto mb-8">
+          <button
+            phx-click="open_modal"
+            class="w-full sm:w-auto bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
+          >
+            <i class="fas fa-plus"></i>
+            <span><%= gettext("Add New Pattern") %></span>
+          </button>
+        </div>
+      <% end %>
 
-        <%= if @show_modal do %>
-        <.modal id="new-pattern-modal" show={true} on_cancel={JS.push("close_modal")}>
-          <:title>New pattern</:title>
-          <:subtitle>Fill out the form to add a new pattern</:subtitle>
+      <!-- Modals -->
+      <%= case @modal_state do %>
+        <% :create -> %>
+          <.form_modal
+            id="new-pattern-modal"
+            show={true}
+            title={gettext("New Pattern")}
+            subtitle={gettext("Fill out the form to add a new pattern")}
+            form={@form}
+            on_cancel={JS.push("close_modal")}
+            on_submit="save"
+          >
+            <.input type="text" field={@form[:name]} label={gettext("Pattern Name")} />
+            <.input type="textarea" field={@form[:general_description_en]} label={gettext("General Description EN")} />
+            <.input type="textarea" field={@form[:leader_description_en]} label={gettext("Leader Description EN")} />
+            <.input type="textarea" field={@form[:follower_description_en]} label={gettext("Follower Description EN")} />
+            <.input type="textarea" field={@form[:general_description_pl]} label={gettext("General Description PL")} />
+            <.input type="textarea" field={@form[:leader_description_pl]} label={gettext("Leader Description PL")} />
+            <.input type="textarea" field={@form[:follower_description_pl]} label={gettext("Follower Description PL")} />
+            <.input type="text" field={@form[:video_url]} label={gettext("Video URL (YouTube)")} />
+          </.form_modal>
 
-          <.form for={@form} phx-submit="save" phx-change="validate">
-            <.input type="text" field={@form[:name]} label="Title" />
-            <.input type="textarea" field={@form[:general_description]} label="General Description" />
-            <.input type="textarea" field={@form[:leader_description]} label="Leader description" />
-            <.input type="textarea" field={@form[:follower_description]} label="Follower description" />
-            <div class="mt-4">
-            <label class="block text-sm font-semibold leading-6 text-zinc-800">
-              Upload Video (Optional)
-            </label>
-            <.live_file_input upload={@uploads.video} class="mt-2" />
+        <% {:edit, _pattern} -> %>
+          <.form_modal
+            id="update-pattern-modal"
+            show={true}
+            title={gettext("Update Pattern")}
+            subtitle={gettext("Edit the pattern details")}
+            form={@form}
+            on_cancel={JS.push("close_modal")}
+            on_submit="update_pattern"
+            submit_label={gettext("Update")}
+            submit_class="bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700"
+          >
+            <.input type="text" field={@form[:name]} label={gettext("Pattern Name")} />
+            <.input type="textarea" field={@form[:general_description_en]} label={gettext("General Description EN")} />
+            <.input type="textarea" field={@form[:leader_description_en]} label={gettext("Leader Description EN")} />
+            <.input type="textarea" field={@form[:follower_description_en]} label={gettext("Follower Description EN")} />
+            <.input type="textarea" field={@form[:general_description_pl]} label={gettext("General Description PL")} />
+            <.input type="textarea" field={@form[:leader_description_pl]} label={gettext("Leader Description PL")} />
+            <.input type="textarea" field={@form[:follower_description_pl]} label={gettext("Follower Description PL")} />
+            <.input type="text" field={@form[:video_url]} label={gettext("Video URL (YouTube)")} />
+          </.form_modal>
 
-            <%= for entry <- @uploads.video.entries do %>
-              <div class="mt-2 flex items-center gap-2">
-                <span class="text-sm"><%= entry.client_name %></span>
-                <button type="button" phx-click="cancel-upload" phx-value-ref={entry.ref} class="text-red-600 text-sm">
-                  Cancel
-                </button>
-              </div>
-              <div class="mt-1 h-2 bg-gray-200 rounded">
-                <div class="h-full bg-blue-500 rounded" style={"width: #{entry.progress}%"}></div>
-              </div>
-            <% end %>
+        <% nil -> %>
+      <% end %>
 
-            <%= for err <- upload_errors(@uploads.video) do %>
-              <p class="mt-2 text-sm text-red-600"><%= error_to_string(err) %></p>
-            <% end %>
-
-            <p class="mt-1 text-sm text-gray-500">Or enter URL below</p>
-          </div>
-
-            <.input type="text" field={@form[:video_url]} label="Video Url" />
-            <button class="btn">Save</button>
-          </.form>
-        </.modal>
-        <% end %>
-
-    <%= if @show_update_modal do %>
-    <.modal id="update-pattern-modal" show={true} on_cancel={JS.push("close_update_modal")}>
-    <:title>Update Pattern</:title>
-    <:subtitle>Edit the pattern details</:subtitle>
-
-    <.form for={@form} phx-submit="update_pattern" phx-change="validate">
-      <.input type="text" field={@form[:name]} label="Title" />
-      <.input type="textarea" field={@form[:general_description]} label="General Description" />
-      <.input type="textarea" field={@form[:leader_description]} label="Leader description" />
-      <.input type="textarea" field={@form[:follower_description]} label="Follower description" />
-
-      <div class="mt-4">
-        <label class="block text-sm font-semibold leading-6 text-zinc-800">
-          Upload Video (Optional)
-        </label>
-        <.live_file_input upload={@uploads.video} class="mt-2" />
-
-        <%= for entry <- @uploads.video.entries do %>
-          <div class="mt-2 flex items-center gap-2">
-            <span class="text-sm"><%= entry.client_name %></span>
-            <button type="button" phx-click="cancel-upload" phx-value-ref={entry.ref} class="text-red-600 text-sm">
-              Cancel
-            </button>
-          </div>
-          <div class="mt-1 h-2 bg-gray-200 rounded">
-            <div class="h-full bg-blue-500 rounded" style={"width: #{entry.progress}%"}></div>
-          </div>
-        <% end %>
-
-        <%= for err <- upload_errors(@uploads.video) do %>
-          <p class="mt-2 text-sm text-red-600"><%= error_to_string(err) %></p>
-        <% end %>
-
-        <p class="mt-1 text-sm text-gray-500">Or enter URL below</p>
-      </div>
-
-      <.input type="text" field={@form[:video_url]} label="Video Url" />
-      <button class="btn">Update</button>
-    </.form>
-    </.modal>
-    <% end %>
-      <div class=" mt-4 p-4 shadow-md rounded-lg border-t-4 border-teal-400">
-        <div class="columns-1 gap-16 sm:columns-2 sm:gap-8">
+      <!-- Patterns Grid -->
+      <div class="mt-4 p-4">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 animate-slideUp">
           <%= for pattern <- @patterns do %>
-            <.pattern pattern={pattern} />
+            <.pattern
+              pattern={pattern}
+              current_user={@current_user}
+              expanded_pattern_id={@expanded_pattern_id}
+              status={@status_map[pattern.id]}
+              locale={@locale}
+            />
+            <%= if @current_user && @current_user.role == "admin" do %>
+              <.confirm_modal
+                id={"confirm-delete-pattern-#{pattern.id}"}
+                title={gettext("Delete Pattern?")}
+                message={gettext("Are you sure you want to delete '%{name}'? This action cannot be undone and will remove all associated data.", name: pattern.name)}
+                confirm_event="delete_pattern"
+                confirm_value={pattern.id}
+              />
+            <% end %>
           <% end %>
         </div>
       </div>
+
+      <!-- Empty State -->
+      <%= if Enum.empty?(@patterns) do %>
+        <div class="text-center py-16">
+          <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-slate-800/50 flex items-center justify-center">
+            <i class="fas fa-music text-3xl text-slate-500"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-slate-400 mb-2"><%= gettext("No patterns found") %></h3>
+          <p class="text-slate-500"><%= gettext("Try selecting a different filter or adjusting your search") %></p>
+        </div>
+      <% end %>
     </div>
     """
   end

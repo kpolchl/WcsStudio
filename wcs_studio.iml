@@ -96,6 +96,16 @@
       <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/thousand_island" />
       <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/websock" />
       <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/websock_adapter" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/google_api_drive" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/google_gax" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/goth" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/jose" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/poison" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/tesla" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/cc_precompiler" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/image" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/sweet_xml" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/vix" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="phoenix" level="project" />
@@ -188,5 +198,35 @@
     <orderEntry type="library" name="phoenix_html_helpers" level="project" />
     <orderEntry type="library" name="fine" level="project" />
     <orderEntry type="library" name="cc_precompiler" level="project" />
+    <orderEntry type="library" name="cc_precompiler" level="project" />
+    <orderEntry type="library" name="lazy_html" level="project" />
+    <orderEntry type="library" name="goth" level="project" />
+    <orderEntry type="library" name="google_api_drive" level="project" />
+    <orderEntry type="library" name="fine" level="project" />
+    <orderEntry type="library" name="jose" level="project" />
+    <orderEntry type="library" name="google_gax" level="project" />
+    <orderEntry type="library" name="jsone" level="project" />
+    <orderEntry type="library" name="jsx" level="project" />
+    <orderEntry type="library" name="libdecaf" level="project" />
+    <orderEntry type="library" name="libsodium" level="project" />
+    <orderEntry type="library" name="ojson" level="project" />
+    <orderEntry type="library" name="poison" level="project" />
+    <orderEntry type="library" name="thoas" level="project" />
+    <orderEntry type="library" name="tesla" level="project" />
+    <orderEntry type="library" name="benchee_json" level="project" />
+    <orderEntry type="library" name="exjsx" level="project" />
+    <orderEntry type="library" name="tiny" level="project" />
+    <orderEntry type="library" name="jiffy" level="project" />
+    <orderEntry type="library" name="json" level="project" />
+    <orderEntry type="library" name="ibrowse" level="project" />
+    <orderEntry type="library" name="gun" level="project" />
+    <orderEntry type="library" name="msgpax" level="project" />
+    <orderEntry type="library" name="fuse" level="project" />
+    <orderEntry type="library" name="opentelemetry_process_propagator" level="project" />
+    <orderEntry type="library" name="inch_ex" level="project" />
+    <orderEntry type="library" name="httparrot" level="project" />
+    <orderEntry type="library" name="cowlib" level="project" />
+    <orderEntry type="library" name="ranch" level="project" />
+    <orderEntry type="library" name="image" level="project" />
   </component>
 </module>

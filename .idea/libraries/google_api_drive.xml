@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="google_api_drive" type="mix">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/_build/dev/lib/google_api_drive/ebin" />
+      <root url="file://$PROJECT_DIR$/_build/dev/lib/google_api_drive/ebin" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/deps/google_api_drive/lib" />
+      <root url="file://$PROJECT_DIR$/deps/google_api_drive/lib" />
+    </SOURCES>
+  </library>
+</component>

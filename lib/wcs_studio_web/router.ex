@@ -1,5 +1,6 @@
 defmodule WcsStudioWeb.Router do
   use WcsStudioWeb, :router
+  import Plug.Conn
 
   import WcsStudioWeb.UserAuth
 
@@ -11,17 +12,32 @@ defmodule WcsStudioWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug :fetch_current_user
+#    plug WcsStudioWeb.Plugs.Locale
+    plug :set_locale
   end
 
   pipeline :api do
     plug :accepts, ["json"]
   end
 
+  defp set_locale(conn, _opts) do
+    locale = get_session(conn, :locale) || "en"
+    Gettext.put_locale(WcsStudioWeb.Gettext, locale)
+
+    conn
+    |> assign(:locale, locale)
+    |> put_session(:locale, locale)
+  end
+
+
   scope "/", WcsStudioWeb do
     pipe_through :browser
 
 #    get "/", PageController, :home
     get "/", HomeController, :index
+    get "/locale/:locale", LocaleController, :set_locale
+#    get "/dance_types", DanceTypesController, :index
+#    get "/dance_types/:id", DanceTypesController, :show
   end
 
   # Other scopes may use custom stacks.
@@ -65,7 +81,10 @@ defmodule WcsStudioWeb.Router do
     pipe_through [:browser, :redirect_if_user_is_authenticated]
 
     live_session :redirect_if_user_is_authenticated,
-      on_mount: [{WcsStudioWeb.UserAuth, :redirect_if_user_is_authenticated}] do
+                 on_mount: [
+                   {WcsStudioWeb.UserAuth, :redirect_if_user_is_authenticated},
+                   {WcsStudioWeb.UserAuth, :set_locale}  # <-- usuń dodatkowe {}
+                 ] do
       live "/users/register", UserRegistrationLive, :new
       live "/users/log_in", UserLoginLive, :new
       live "/users/reset_password", UserForgotPasswordLive, :new
@@ -79,9 +98,13 @@ defmodule WcsStudioWeb.Router do
     pipe_through [:browser, :require_authenticated_user]
 
     live_session :require_authenticated_user,
-      on_mount: [{WcsStudioWeb.UserAuth, :ensure_authenticated}] do
+                 on_mount: [
+                   {WcsStudioWeb.UserAuth, :ensure_authenticated},
+                   {WcsStudioWeb.UserAuth, :set_locale}
+                 ] do
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
+      live "/lessons", LessonsLive
     end
   end
 
@@ -91,11 +114,16 @@ defmodule WcsStudioWeb.Router do
     delete "/users/log_out", UserSessionController, :delete
 
     live_session :current_user,
-      on_mount: [{WcsStudioWeb.UserAuth, :mount_current_user}] do
+                 on_mount: [
+                   {WcsStudioWeb.UserAuth, :mount_current_user},
+                   {WcsStudioWeb.UserAuth, :set_locale}
+                 ] do
       live "/patterns", PatternsLive
       live "/dance_types", DanceTypesLive
-      live "/blog", BlogLive
-      live "/lessons", LessonsLive
+      live "/blog", BlogLive, :index
+      live "/blog/:id", BlogPostLive, :show
+      live "/connect", ConnectLive
+      live "/user_profile", UserProfile
       live "/users/confirm/:token", UserConfirmationLive, :edit
       live "/users/confirm", UserConfirmationInstructionsLive, :new
     end

@@ -6,38 +6,40 @@ defmodule WcsStudioWeb.UserRegistrationLive do
 
   def render(assigns) do
     ~H"""
-    <div class="mx-auto max-w-sm">
-      <.header class="text-center">
-        Register for an account
-        <:subtitle>
-          Already registered?
-          <.link navigate={~p"/users/log_in"} class="font-semibold text-brand hover:underline">
-            Log in
-          </.link>
-          to your account now.
-        </:subtitle>
-      </.header>
+    <div class="px-4 py-4">
+      <div class="mx-auto max-w-sm">
+        <.header class="text-center">
+           <%= gettext("Register for an account")%>
+          <:subtitle>
+             <%= gettext("Already registered?")%>
+            <.link navigate={~p"/users/log_in"} class="font-semibold text-pink-400 hover:text-pink-300 hover:underline transition-colors duration-300">
+               <%= gettext("Log in")%>
+            </.link>
+             <%= gettext("to your account now.")%>
+          </:subtitle>
+        </.header>
 
-      <.simple_form
-        for={@form}
-        id="registration_form"
-        phx-submit="save"
-        phx-change="validate"
-        phx-trigger-action={@trigger_submit}
-        action={~p"/users/log_in?_action=registered"}
-        method="post"
-      >
-        <.error :if={@check_errors}>
-          Oops, something went wrong! Please check the errors below.
-        </.error>
+        <.simple_form
+          for={@form}
+          id="registration_form"
+          phx-submit="save"
+          phx-change="validate"
+          phx-trigger-action={@trigger_submit}
+          action={~p"/users/log_in?_action=registered"}
+          method="post"
+        >
+          <.error :if={@check_errors}>
+             <%= gettext("Oops, something went wrong! Please check the errors below.")%>
+          </.error>
 
-        <.input field={@form[:email]} type="email" label="Email" required />
-        <.input field={@form[:password]} type="password" label="Password" required />
+          <.input field={@form[:email]} type="email" label={gettext("Email")} required />
+          <.input field={@form[:password]} type="password" label={gettext("Password")} required />
 
-        <:actions>
-          <.button phx-disable-with="Creating account..." class="w-full">Create an account</.button>
-        </:actions>
-      </.simple_form>
+          <:actions>
+            <.button phx-disable-with="Creating account..." class="w-full bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-pink-500/25 hover:-translate-y-0.5"> <%= gettext("Create an account") %></.button>
+          </:actions>
+        </.simple_form>
+      </div>
     </div>
     """
   end

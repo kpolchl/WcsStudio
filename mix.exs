@@ -59,7 +59,8 @@ defmodule WcsStudio.MixProject do
       {:dns_cluster, "~> 0.1.1"},
       {:bandit, "~> 1.2"},
       {:bcrypt_elixir, "~> 3.0"},
-      {:lazy_html, ">= 0.1.8", only: :test}
+      {:lazy_html, ">= 0.1.8", only: :test},
+      {:image, "~> 0.37"}
     ]
   end
 

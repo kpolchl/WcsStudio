@@ -50,7 +50,7 @@ defmodule WcsStudioWeb.CoreComponents do
       data-cancel={JS.exec(@on_cancel, "phx-remove")}
       class="relative z-50 hidden"
     >
-      <div id={"#{@id}-bg"} class="bg-zinc-50/90 fixed inset-0 transition-opacity" aria-hidden="true" />
+      <div id={"#{@id}-bg"} class="bg-slate-900/80 backdrop-blur-sm fixed inset-0 transition-opacity" aria-hidden="true" />
       <div
         class="fixed inset-0 overflow-y-auto"
         aria-labelledby={"#{@id}-title"}
@@ -59,27 +59,30 @@ defmodule WcsStudioWeb.CoreComponents do
         aria-modal="true"
         tabindex="0"
       >
-        <div class="flex min-h-full items-center justify-center">
-          <div class="w-full max-w-3xl p-4 sm:p-6 lg:py-8">
+        <div class="flex min-h-full items-center justify-center p-4">
+          <div class="w-full max-w-md">
             <.focus_wrap
               id={"#{@id}-container"}
               phx-window-keydown={JS.exec("data-cancel", to: "##{@id}")}
               phx-key="escape"
               phx-click-away={JS.exec("data-cancel", to: "##{@id}")}
-              class="shadow-zinc-700/10 ring-zinc-700/10 relative hidden rounded-2xl bg-white p-14 shadow-lg ring-1 transition"
+              class="relative hidden transition"
             >
-              <div class="absolute top-6 right-5">
+              <!-- Modal Content -->
+              <div class="bg-slate-800/90 backdrop-blur-sm rounded-xl border border-slate-700/50 shadow-2xl p-6">
+                <%= render_slot(@inner_block) %>
+              </div>
+
+              <!-- Close Button -->
+              <div class="absolute -top-3 -right-3">
                 <button
                   phx-click={JS.exec("data-cancel", to: "##{@id}")}
                   type="button"
-                  class="-m-3 flex-none p-3 opacity-20 hover:opacity-40"
+                  class="w-8 h-8 rounded-full bg-slate-700 border border-slate-600/50 flex items-center justify-center text-slate-300 hover:text-white hover:bg-slate-600 transition-all duration-300 hover:shadow-lg"
                   aria-label={gettext("close")}
                 >
-                  <.icon name="hero-x-mark-solid" class="h-5 w-5" />
+                  <i class="fas fa-times text-sm"></i>
                 </button>
-              </div>
-              <div id={"#{@id}-content"}>
-                <%= render_slot(@inner_block) %>
               </div>
             </.focus_wrap>
           </div>
@@ -90,103 +93,381 @@ defmodule WcsStudioWeb.CoreComponents do
   end
 
   @doc """
+  Renders a confirmation modal for destructive actions.
+
+  ## Examples
+
+      <.confirm_modal
+        id="delete-pattern-123"
+        title="Delete Pattern?"
+        message="Are you sure you want to delete this pattern? This action cannot be undone."
+        confirm_event="confirm_delete_pattern"
+        confirm_value={@pattern.id}
+      />
+  """
+  attr :id, :string, required: true
+  attr :title, :string, required: true
+  attr :message, :string, required: true
+  attr :confirm_event, :string, required: true
+  attr :confirm_value, :any, default: nil
+  attr :cancel_text, :string, default: nil
+  attr :confirm_text, :string, default: nil
+
+  def confirm_modal(assigns) do
+    assigns =
+      assigns
+      |> assign_new(:cancel_text, fn -> gettext("Cancel") end)
+      |> assign_new(:confirm_text, fn -> gettext("Delete") end)
+
+    ~H"""
+    <.modal id={@id}>
+      <div class="text-center">
+        <!-- Warning Icon -->
+        <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-red-500 to-pink-500 mb-4">
+          <i class="fas fa-exclamation-triangle text-white text-2xl"></i>
+        </div>
+
+        <!-- Title -->
+        <h3 class="text-2xl font-bold text-slate-900 mb-3">
+          <%= @title %>
+        </h3>
+
+        <!-- Message -->
+        <p class="text-slate-600 mb-8 leading-relaxed">
+          <%= @message %>
+        </p>
+
+        <!-- Actions -->
+        <div class="flex gap-3 justify-center">
+          <button
+            phx-click={JS.exec("data-cancel", to: "##{@id}")}
+            type="button"
+            class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium py-2.5 px-6 rounded-lg transition-all duration-200"
+          >
+            <%= @cancel_text %>
+          </button>
+
+          <button
+            phx-click={@confirm_event}
+            phx-value-id={@confirm_value}
+            type="button"
+            class="bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white font-medium py-2.5 px-6 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-red-500/25"
+          >
+            <i class="fas fa-trash mr-2"></i>
+            <%= @confirm_text %>
+          </button>
+        </div>
+      </div>
+    </.modal>
+    """
+  end
+
+  @doc """
+  Renders a form modal with customizable fields.
+
+  ## Examples
+
+      <.form_modal
+        id="new-pattern-modal"
+        show={@show_modal}
+        title="New Pattern"
+        subtitle="Fill out the form to add a new pattern"
+        form={@form}
+        on_cancel={JS.push("close_modal")}
+        on_submit="save"
+      >
+        <.input type="text" field={@form[:name]} label="Title" />
+        <.input type="textarea" field={@form[:description]} label="Description" />
+      </.form_modal>
+
+      # With custom submit button styling
+      <.form_modal
+        id="update-modal"
+        show={@show_update}
+        title="Update Item"
+        form={@form}
+        on_submit="update"
+        submit_label="Update"
+        submit_class="bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700"
+      >
+        <.input type="text" field={@form[:name]} label="Name" />
+      </.form_modal>
+  """
+  attr :id, :string, required: true
+  attr :show, :boolean, default: false
+  attr :title, :string, required: true
+  attr :subtitle, :string, default: nil
+  attr :form, :any, required: true
+  attr :on_cancel, JS, default: %JS{}
+  attr :on_submit, :string, required: true
+  attr :on_change, :string, default: "validate"
+  attr :submit_label, :string, default: nil
+  attr :cancel_label, :string, default: nil
+  attr :submit_class, :string, default: nil
+
+  slot :inner_block, required: true
+
+  def form_modal(assigns) do
+    assigns =
+      assigns
+      |> assign_new(:submit_label, fn -> gettext("Save") end)
+      |> assign_new(:cancel_label, fn -> gettext("Cancel") end)
+
+    ~H"""
+    <div
+      id={@id}
+      phx-mounted={@show && show_modal(@id)}
+      phx-remove={hide_modal(@id)}
+      data-cancel={JS.exec(@on_cancel, "phx-remove")}
+      class="relative z-50 hidden"
+    >
+      <div id={"#{@id}-bg"} class="bg-slate-900/80 backdrop-blur-sm fixed inset-0 transition-opacity" aria-hidden="true" />
+      <div
+        class="fixed inset-0 overflow-y-auto"
+        aria-labelledby={"#{@id}-title"}
+        aria-describedby={"#{@id}-description"}
+        role="dialog"
+        aria-modal="true"
+        tabindex="0"
+      >
+        <div class="flex min-h-full items-center justify-center p-4">
+          <div class="w-full max-w-2xl">
+            <.focus_wrap
+              id={"#{@id}-container"}
+              phx-window-keydown={JS.exec("data-cancel", to: "##{@id}")}
+              phx-key="escape"
+              phx-click-away={JS.exec("data-cancel", to: "##{@id}")}
+              class="relative hidden rounded-2xl bg-slate-800 border border-slate-700/50 shadow-2xl transition-all transform"
+            >
+              <!-- Header -->
+              <div class="relative p-6 pb-4 border-b border-slate-700/50">
+                <button
+                  phx-click={JS.exec("data-cancel", to: "##{@id}")}
+                  type="button"
+                  class="absolute top-4 right-4 w-8 h-8 rounded-lg bg-slate-700/50 hover:bg-slate-600/50 flex items-center justify-center transition-all duration-200 group"
+                  aria-label={gettext("close")}
+                >
+                  <i class="fas fa-times text-slate-400 group-hover:text-white text-sm"></i>
+                </button>
+
+                <div class="pr-8">
+                  <h2 id={"#{@id}-title"} class="text-2xl font-bold text-white mb-1">
+                    <%= @title %>
+                  </h2>
+                  <p :if={@subtitle} id={"#{@id}-description"} class="text-slate-400 text-sm">
+                    <%= @subtitle %>
+                  </p>
+                </div>
+              </div>
+
+              <!-- Form Content -->
+              <div id={"#{@id}-content"} class="p-6">
+                <.form for={@form} phx-submit={@on_submit} phx-change={@on_change}>
+                  <div class="space-y-4">
+                    <%= render_slot(@inner_block) %>
+                  </div>
+
+                  <!-- Actions -->
+                  <div class="mt-8 flex justify-end gap-3 pt-6 border-t border-slate-700/50">
+                    <button
+                      type="button"
+                      phx-click={JS.exec("data-cancel", to: "##{@id}")}
+                      class="px-5 py-2.5 text-sm font-medium text-slate-300 bg-slate-700/50 border border-slate-600/50 rounded-lg hover:bg-slate-600/50 hover:text-white transition-all duration-200"
+                    >
+                      <%= @cancel_label %>
+                    </button>
+                    <button
+                      type="submit"
+                      class={[
+                        "px-5 py-2.5 text-sm font-medium text-white rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl hover:-translate-y-0.5 flex items-center gap-2",
+                        @submit_class || "bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600"
+                      ]}
+                    >
+                      <i class="fas fa-save text-xs"></i>
+                      <%= @submit_label %>
+                    </button>
+                  </div>
+                </.form>
+              </div>
+            </.focus_wrap>
+          </div>
+        </div>
+      </div>
+    </div>
+    """
+  end
+
+
+  @doc """
   Render pattern block.
 
   # Examples
   """
 
+  defp status_class("not_started"), do: "from-gray-400 to-gray-500 hover:from-gray-500 hover:to-gray-600"
+  defp status_class("in_progress"), do: "from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600"
+  defp status_class("learned"), do: "from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700"
+
+  defp status_icon("not_started"), do: "fa-spinner"
+  defp status_icon("in_progress"), do: "fa-spinner"
+  defp status_icon("learned"), do: "fa-check-circle"
+
+  defp status_text("not_started"), do: gettext("Start")
+  defp status_text("in_progress"), do: gettext("In Progress")
+  defp status_text("learned"), do: gettext("Learned")
+
   attr :pattern, :map, required: true, doc: "Pattern data"
+  attr :current_user, :map, required: false, doc: "current user data"
+  attr :expanded_pattern_id, :map, required: true, doc: "flag to expand or hide content"
+  attr :status, :map, required: false, doc: "for update status on the bottom"
+  attr :locale, :map, required: false, doc: "for simple translation"
+
+
 
   def pattern(assigns) do
     ~H"""
-    <div
-      id={"-card-#{@pattern.id}"}
-      phx-click={JS.toggle(to: "#expanded-body-#{@pattern.id}") |> JS.toggle(to: "#preview-body-#{@pattern.id}")}
-      class="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 mb-6 cursor-pointer hover:shadow-lg flex-grow text-black">
-
+    <div id={"-card-#{@pattern.id}"} phx-click="toggle_pattern" phx-value-id={@pattern.id} class="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700/50 shadow-xl transition-all duration-300 cursor-pointer hover:shadow-2xl hover:border-pink-500/30 hover:-translate-y-1">
       <div class="p-6 flex items-start justify-between">
         <div class="flex-1 min-w-0">
-          <div class="flex flex-wrap gap-1.5 mb-2">
-            <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800 border border-purple-200">
-              {@pattern.dance_type.name}
+          <div class="flex flex-wrap gap-2 mb-3">
+            <span class="px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-300 border border-purple-500/30">
+                  { WcsStudio.DanceType.get_name(@pattern.dance_type, @locale) }
             </span>
           </div>
-          <h2 class="text-2xl font-bold text-gray-900 mb-2 "><%= @pattern.name %></h2>
+          <h2 class="text-2xl font-bold text-white mb-2 bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
+              {@pattern.name}
+          </h2>
         </div>
       </div>
 
       <!-- Collapsed body preview -->
-      <div class="px-6 pb-4 pt-0" id={"preview-body-#{@pattern.id}"}>
-        <p class="text-gray-600 line-clamp-1">
-          <%= @pattern.general_description %>
+      <div class={if @expanded_pattern_id == @pattern.id, do: "hidden", else: "px-6 pb-4 pt-0"} id={"preview-body-#{@pattern.id}"}>
+        <p class="text-slate-400 line-clamp-2 text-sm leading-relaxed">
+          <%= WcsStudio.Pattern.get_general_description(@pattern, @locale) %>
         </p>
+        <div class="flex items-center mt-3 text-slate-500 text-xs">
+          <i class="fas fa-info-circle mr-1"></i>
+          <span><%= gettext("Click to expand pattern details") %></span>
+        </div>
+
       </div>
 
       <!-- Expanded content -->
-      <div id={"expanded-body-#{@pattern.id}"} class="px-6 pb-6 pt-0 hidden border-t border-gray-100 mt-4">
-        <!-- Description -->
-        <div class="mb-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-3 flex items-center">
-                <!-- Description icon -->
-                <svg class="w-5 h-5 text-pink-500 mr-2" fill="currentColor" viewBox="0 0 16 16">
-                  <path d="M2 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
-                </svg>
-                Pattern Description
-            </h3>
-            <div class="bg-pink-50 p-4 rounded-lg border border-pink-100">
-                <p class="text-gray-700 leading-relaxed">
-                <%= @pattern.general_description %>
-                </p>
-            </div>
-        </div>
+      <div id={"expanded-body-#{@pattern.id}"} class={unless @expanded_pattern_id == @pattern.id, do: "hidden", else: "px-6 pb-6 pt-0 border-t border-slate-700/50 mt-4"}>
 
-        <div class="mb-6">
-          <h3 class="text-lg font-semibold text-gray-800 mb-3 flex items-center">
-              Step Breakdown
-          </h3>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div class="bg-purple-50 p-4 rounded-lg border border-purple-100">
-                  <h4 class="font-medium text-purple-800 mb-2">For Leaders</h4>
-                  <p>
-                    <%= @pattern.leader_description %>
-                  </p>
+        <!-- Description -->
+        <div class="mb-6 py-4">
+          <div class="p-6 rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg">
+            <div class="flex items-center mb-4">
+              <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center mr-3 shadow-lg">
+                  <i class="fas fa-note-sticky text-xs"></i>
               </div>
-              <div class="bg-blue-50 p-4 rounded-lg border border-blue-100">
-                  <h4 class="font-medium text-blue-800 mb-2">For Followers</h4>
-                  <p>
-                    <%= @pattern.follower_description %>
-                  </p>
-              </div>
+              <h2 class="text-xl font-bold text-white"><%= gettext("General Description") %></h2>
+            </div>
+            <div class="flex items-center p-3 rounded-lg bg-slate-600/30 border border-slate-500/30">
+            <p class="text-slate-300 text-sm leading-relaxed">
+              <%= WcsStudio.Pattern.get_general_description(@pattern, @locale) %>
+            </p>
+            </div>
           </div>
         </div>
 
+        <div class="mb-6">
+          <div class="grid grid-cols-1 gap-6 md:grid-cols-2 mt-6">
+            <div class="p-6 rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg">
+              <div class="flex items-center mb-4">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center mr-3 shadow-lg">
+                  <i class="fas fa-chess-king text-white text-sm"></i>
+                </div>
+                <h2 class="text-xl font-bold text-white"><%= gettext("For Leaders") %></h2>
+              </div>
+              <div class="flex items-center p-3 rounded-lg bg-slate-600/30 border border-slate-500/30">
+              <p class="text-slate-300 text-sm leading-relaxed">
+                <%= WcsStudio.Pattern.get_leader_description(@pattern, @locale) %>
+              </p>
+              </div>
+
+            </div>
+            <div class="p-6 rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg">
+              <div class="flex items-center mb-4">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center mr-3 shadow-lg">
+                  <i class="fas fa-chess-queen text-white text-sm"></i>
+                </div>
+                <h2 class="text-xl font-bold text-white"><%= gettext("For Followers") %></h2>
+              </div>
+              <div class="flex items-center p-3 rounded-lg bg-slate-600/30 border border-slate-500/30">
+              <p class="text-slate-300 text-sm leading-relaxed">
+                <%= WcsStudio.Pattern.get_follower_description(@pattern, @locale) %>
+              </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
         <!-- Video -->
         <div class="mt-6">
-          <video class="w-full rounded-lg" controls>
-            <source src={@pattern.video_url} type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-        </div>
+            <div class="p-6 rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg  max-w-2xl mx-auto">
+              <div class="flex items-center mb-4">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center mr-3 shadow-lg">
+                  <i class="fas fa-play text-white text-sm"></i>
+                </div>
+                <h2 class="text-xl font-bold text-white"><%= gettext("Showcase Video") %></h2>
+              </div>
+              <div class="bg-slate-800/50 rounded-xl p-4 border border-slate-700/50">
+                <div class="w-full rounded-lg shadow-lg overflow-hidden">
+                  <div class="relative" style="padding-bottom: 56.25%; height: 0;">
+                    <iframe
+                      class="absolute top-0 left-0 w-full h-full"
+                      src={@pattern.video_url}
+                      title={gettext("YouTube video player")}
+                      frameborder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowfullscreen>
+                    </iframe>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
 
         <!-- Actions -->
         <div class="flex justify-end gap-3 mt-6">
-          <button phx-click="open_update_modal" phx-value-id={@pattern.id}
-            class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 border border-green-700 rounded">
-            Update
-          </button>
+          <%= if @current_user do %>
+            <% status = @status || "not_started" %>
 
-          <button phx-click="delete_pattern" phx-value-id={@pattern.id} class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 border border-red-700 rounded">
-            Delete
-          </button>
+              <button
+              phx-click="update_status"
+              phx-value-pattern_id={@pattern.id}
+              phx-value-user_id={@current_user.id}
+              phx-value-status={status}
+              class={"bg-gradient-to-r #{status_class(status)} text-white font-medium py-2 px-4 rounded-lg transition-all duration-300 hover:shadow-lg flex items-center"}>
+                <i class={"fas #{status_icon(status)} mr-2"}></i>
+                <%= status_text(status) %>
+              </button>
+            <% end %>
+
+          <%= if @current_user && @current_user.role == "admin" do %>
+            <button phx-click="open_update_modal" phx-value-id={@pattern.id}
+              class="bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 text-white font-medium py-2 px-4 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/25 hover:-translate-y-0.5 flex items-center">
+              <i class="fas fa-edit mr-2"></i>
+                <%= gettext("Update") %>
+            </button>
+
+            <button
+              phx-click={show_modal("confirm-delete-pattern-#{@pattern.id}")}
+              class="bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white font-medium py-2 px-4 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-red-500/25 hover:-translate-y-0.5 flex items-center"
+              >
+              <i class="fas fa-trash mr-2"></i>
+              <%= gettext("Delete") %>
+            </button>
+          <% end %>
         </div>
       </div>
     </div>
     """
-
   end
-
-
-
 
   @doc """
     renders a lesson block
@@ -195,141 +476,180 @@ defmodule WcsStudioWeb.CoreComponents do
 
   """
 
+  defp attended_class(false), do: "from-gray-400 to-gray-500 hover:from-gray-500 hover:to-gray-600"
+  defp attended_class(true), do: "from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700"
+
+  defp attended_icon(false), do: "fa-circle"
+  defp attended_icon(true), do: "fa-check-circle"
+
+  defp attended_text(false), do: gettext("Not Attended")
+  defp attended_text(true), do: gettext("Attended")
+
   attr :lesson, :map, required: true, doc: "lesson data"
+  attr :current_user, :map, required: true, doc: "current user data"
+  attr :expanded_lesson_id, :map, required: true, doc: "current user data"
+  attr :attended, :map, required: false, doc: "for update attended on the bottom"
+  attr :locale, :map, required: false, doc: "for localization"
+
 
   def lesson_box(assigns) do
     ~H"""
     <div id={"lesson-card-#{@lesson.id}"}
-      phx-click={JS.toggle(to: "#expanded-body-#{@lesson.id}") |> JS.toggle(to: "#preview-body-#{@lesson.id}")}
-      class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden transition-all duration-300 mb-6 cursor-pointer hover:shadow-md  max-w-4xl mx-auto ">
+      phx-click="toggle_lesson" phx-value-id={@lesson.id}
+      class="group bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 shadow-xl transition-all duration-300 mb-6 cursor-pointer hover:shadow-2xl hover:border-pink-500/30 max-w-4xl mx-auto hover:-translate-y-1">
 
       <div class="p-6 flex items-start justify-between">
         <div class="flex-1 min-w-0">
-            <div class="flex flex-wrap gap-1.5 mb-2">
-              <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800 border border-purple-200">
-                {@lesson.dance_type.name}
+            <div class="flex flex-wrap gap-2 mb-3">
+              <span class="px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-300 border border-purple-500/30">
+                <i class="fas fa-music mr-1"></i>
+                { WcsStudio.DanceType.get_name(@lesson.dance_type , @locale)}
               </span>
-              <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 border border-green-200">
+              <span class="px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-green-500/20 to-emerald-500/20 text-green-300 border border-green-500/30">
+                <i class="fas fa-chart-line mr-1"></i>
                 {@lesson.level.name}
               </span>
             </div>
-            <h2 class="text-2xl font-bold text-gray-900 mb-2"> {@lesson.title} </h2>
-            <div class="flex items-center text-sm text-gray-500">
-              <!-- Calendar SVG -->
-              <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-              </svg>
-              <span class="mr-3">{@lesson.date}</span>
-
-              <!-- Map Marker SVG -->
-              <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-              </svg>
-              <span>{@lesson.place}</span>
+            <h2 class="text-2xl font-bold text-white mb-3 bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
+              {@lesson.title}
+            </h2>
+            <div class="flex items-center text-sm text-slate-400 space-x-4">
+              <div class="flex items-center">
+                <i class="fas fa-calendar-day mr-2 text-blue-400"></i>
+                <span>{@lesson.date}</span>
+              </div>
+              <div class="flex items-center">
+                <i class="fas fa-map-marker-alt mr-2 text-red-400"></i>
+                <span>{@lesson.place}</span>
+              </div>
             </div>
         </div>
-        <div class="flex-shrink-0 transition-transform duration-300 ml-4">
-            <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center">
-                <i class="fa-solid fa-chevron-down text-blue-500"></i>
+        <div class="flex-shrink-0 transition-transform duration-300 ml-4 group">
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+              <i class={["fas fa-chevron-down text-white transition-transform duration-300",if(@expanded_lesson_id == @lesson.id, do: "rotate-180", else: "group-hover:rotate-180")]}></i>
             </div>
         </div>
       </div>
 
       <!-- Collapsed body preview -->
-      <div class="px-6 pb-4 pt-0" id={"preview-body-#{@lesson.id}"}>
-        <div class="flex items-center text-sm text-gray-500">
+      <div class={if @expanded_lesson_id == @lesson.id, do: "hidden", else: "px-6 pb-4 pt-0"} id={"preview-body-#{@lesson.id}"}>
+        <div class="flex items-center text-sm text-slate-400">
           <div class="flex -space-x-2 mr-3">
             <%= for instructor <- @lesson.instructors do %>
-              <div class="w-6 h-6 rounded-full bg-blue-200 border-2 border-white flex items-center justify-center text-xs font-bold text-gray-700">
-              <%= String.first(instructor.username) %>
+              <div class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 border-2 border-slate-800 flex items-center justify-center text-xs font-bold text-white shadow-lg">
+                <%= String.first(instructor.username) %>
               </div>
             <% end %>
           </div>
-
-          <span><%= length(@lesson.instructors) %> instructor<%= if length(@lesson.instructors) != 1, do: "s" %></span>
+          <span>
+            <i class="fas fa-users mr-1"></i>
+            <%= ngettext("1 instructor", "%{count} instructors", length(@lesson.instructors)) %>
+          </span>
         </div>
       </div>
 
       <!-- Expanded content -->
-      <div class="px-6 pb-6 pt-0 hidden border-t border-gray-100 mt-4" id={"expanded-body-#{@lesson.id}"}>
-        <div class="grid grid-cols-1 gap-6 md:grid-cols-2 mt-6 ">
-          <!-- Box 1 -->
-          <div class="p-6 rounded-xl bg-white shadow-lg card-hover border-l-4 border-blue-500">
+      <div class={unless @expanded_lesson_id == @lesson.id, do: "hidden", else: "px-6 pb-6 pt-0 border-t border-slate-700/50 mt-4"} id={"expanded-body-#{@lesson.id}"}>
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-2 mt-6">
+          <!-- Patterns Box -->
+          <div class="p-6 rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg">
             <div class="flex items-center mb-4">
-              <!-- Patterns icon -->
-              <div class="bg-blue-100 p-2 rounded-lg mr-3">
-                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                </svg>
+              <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center mr-3 shadow-lg">
+                <i class="fas fa-shapes text-white text-sm"></i>
               </div>
-              <h2 class="text-xl font-bold text-gray-800">Patterns</h2>
+              <h2 class="text-xl font-bold text-white"><%= gettext("Patterns") %></h2>
             </div>
             <div class="space-y-3">
               <%= for pattern <- @lesson.patterns do %>
-              <div class=" bg-gray-50 p-3 rounded-lg flex items-center hover:shadow-md">
-                <i class="fas fa-circle text-blue-500 text-xs mr-3"></i>
-                <span class="font-medium text-gray-700"><%= pattern.name %></span>
+              <div class="bg-slate-600/30 p-3 rounded-lg flex items-center">
+                <i class="fas fa-circle text-blue-400 text-xs mr-3 animate-pulse"></i>
+                <span class="font-medium text-slate-200"><%= pattern.name %></span>
               </div>
               <% end %>
             </div>
           </div>
 
-          <!-- Box 2 instructors -->
-          <div class="p-6 rounded-xl bg-white shadow-lg card-hover border-l-4 border-purple-500">
-             <div class="flex items-center mb-4">
-              <!-- instructors icon -->
-              <div class="bg-purple-100 p-2 rounded-lg mr-3">
-                <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-                </svg>
+          <!-- Instructors Box -->
+          <div class="p-6 rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg ">
+            <div class="flex items-center mb-4">
+              <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center mr-3 shadow-lg">
+                <i class="fas fa-users text-white text-sm"></i>
               </div>
-              <h2 class="text-xl font-bold text-gray-800">Instructors</h2>
+              <h2 class="text-xl font-bold text-white"><%= gettext("Instructors") %></h2>
             </div>
             <div class="space-y-4">
               <%= for instructor <- @lesson.instructors do %>
-              <div class="flex items-center p-3 rounded-lg hover:shadow-md">
-                <div class="w-10 h-10 rounded-full bg-purple-200 flex items-center justify-center mr-3">
-                    <span class="font-bold text-purple-700"></span>
+              <div class="flex items-center p-3 rounded-lg bg-slate-600/30 ">
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center mr-3 shadow-lg">
+                  <span class="font-bold text-white text-sm"><%= String.first(instructor.username) %></span>
                 </div>
                 <div>
-                    <h3 class="font-semibold text-gray-800"><%= instructor.username %></h3>
-                    <p class="text-sm text-gray-500">Dance Master</p>
+                  <h3 class="font-semibold text-white"><%= instructor.username %></h3>
+                  <p class="text-sm text-slate-400"><%= gettext("Dance Instructor") %></p>
                 </div>
               </div>
               <% end %>
             </div>
           </div>
         </div>
-        <!-- Video section - full width below boxes -->
+
+        <!-- Video Section -->
         <div class="mt-6">
-          <div class="p-6 rounded-xl bg-white shadow-lg card-hover border-l-4 border-red-500 max-w-2xl mx-auto">
+          <div class="p-6 rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg  max-w-2xl mx-auto">
             <div class="flex items-center mb-4">
-              <!-- Play icon -->
-              <div class="bg-red-100 p-2 rounded-lg mr-3">
-                <svg class="w-5 h-5 text-red-600" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M8 5v14l11-7z"/>
-                </svg>
+              <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center mr-3 shadow-lg">
+                <i class="fas fa-play text-white text-sm"></i>
               </div>
-              <h2 class="text-xl font-bold text-gray-800">Video</h2>
+              <h2 class="text-xl font-bold text-white"><%= gettext("Video Lesson") %></h2>
             </div>
-            <video class="w-full rounded-lg" controls>
-              <source src= {@lesson.lesson_vid_url} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
+            <div class="bg-slate-800/50 rounded-xl p-4 border border-slate-700/50">
+              <div class="w-full rounded-lg shadow-lg overflow-hidden">
+                <div class="relative" style="padding-bottom: 56.25%; height: 0;">
+                  <iframe
+                    class="absolute top-0 left-0 w-full h-full"
+                    src={@lesson.lesson_vid_url}
+                    title={gettext("YouTube video player")}
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen>
+                  </iframe>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
+
         <!-- Actions -->
-        <div class="flex justify-end gap-3 mt-6">
-          <button phx-click="open_update_modal" phx-value-id={@lesson.id}
-            class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 border border-green-700 rounded">
-            Update
-          </button>
+        <div class="flex justify-end gap-3 mt-6 pt-6 border-t border-slate-700/50">
+          <%= if @current_user do%>
+              <% attended = @attended || false %>
+              <button
+              phx-click="toggle_attendance"
+              phx-value-lesson_id={@lesson.id}
+              phx-value-user_id={@current_user.id}
+              phx-value-attended={attended}
+              class={"bg-gradient-to-r #{attended_class(attended)} text-white font-medium py-2 px-4 rounded-lg transition-all duration-300 hover:shadow-lg flex items-center"}>
+                <i class={"fas #{attended_icon(attended)} mr-2"}></i>
+                <%= attended_text(attended) %>
+              </button>
 
-          <button phx-click="delete_lesson" phx-value-id={@lesson.id} class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 border border-red-700 rounded">
-            Delete
-          </button>
+          <% end %>
 
+          <%= if @current_user && @current_user.role == "admin" do %>
+            <button phx-click="open_update_modal" phx-value-id={@lesson.id}
+              class="bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 text-white font-medium py-3 px-6 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/25 hover:-translate-y-0.5 flex items-center">
+              <i class="fas fa-edit mr-2"></i>
+                <%= gettext("Update Lesson") %>
+            </button>
+
+            <button
+              phx-click={show_modal("confirm-delete-lesson-#{@lesson.id}")}
+              class="bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white font-medium py-2 px-4 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-red-500/25 hover:-translate-y-0.5 flex items-center"
+              >
+              <i class="fas fa-trash mr-2"></i>
+                <%= gettext("Delete") %>
+            </button>
+          <% end %>
         </div>
       </div>
     </div>
@@ -347,50 +667,57 @@ defmodule WcsStudioWeb.CoreComponents do
 
   attr :post, :map, required: true, doc: "Post data"
 
-  def post(assigns) do
+  def post_highlight(assigns) do
     ~H"""
-    <div
-      id={"post-card-#{@post.id}"}
-      phx-click={JS.toggle(to: "#expanded-body-#{@post.id}") |> JS.toggle(to: "#preview-body-#{@post.id}")}
-      class="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 mb-6 cursor-pointer hover:shadow-lg"
+    <.link
+    href={"/blog/#{@post.id}"}
+    class="block group bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 shadow-xl transition-all duration-500 hover:shadow-2xl hover:border-pink-500/30 hover:-translate-y-1 overflow-hidden"
     >
-      <div class="p-6 flex items-start space-x-4">
-        <div class="flex-shrink-0">
-          <img src={@post.user.profile_pic}
-            alt="/images/user_icon.png"
-            class="w-12 h-12 rounded-full bg-gray-800 justify-center flex text-white text-lg font-bold"/>
-        </div>
+    <div class="p-8">
+    <div class="flex items-center gap-2 mb-4">
+      <span class="px-3 py-1 rounded-full text-sm bg-pink-500/20 text-pink-300 border border-pink-500/30">
+        <%= @post.subject %>
+      </span>
+      <span class="px-3 py-1 rounded-full text-sm bg-slate-700/50 text-slate-300 border border-slate-600/50 backdrop-blur-sm">
+          <%= WcsStudio.Post.estimate_read_time(@post.body) %>
+      </span>
+    </div>
 
-        <div class="flex-1 min-w-0">
-          <h2 class="text-xl font-bold text-gray-800 truncate"><%= @post.title %></h2>
-          <p class="text-sm text-gray-500 mt-1"><%= @post.user.username  %> • <%= @post.inserted_at %></p>
-        </div>
+    <h2 class="text-2xl font-bold text-white mb-4 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-pink-500 group-hover:to-purple-500 group-hover:bg-clip-text transition-all duration-300">
+      <%= @post.title %>
+    </h2>
 
-        <div class="flex-shrink-0 transition-transform duration-300">
-          <i class="fa-solid fa-chevron-down text-gray-400"></i>
+    <p class="text-slate-300 leading-relaxed mb-6 line-clamp-3">
+      <%= @post.body %>
+    </p>
+
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <img
+          src={@post.user.profile_pic_url || "/images/default-avatar.png"}
+          class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 p-0.5"
+          alt={@post.user.username}
+        >
+        <div>
+          <p class="font-medium text-white"><%= @post.user.username %></p>
+          <p class="text-sm text-slate-400">
+            <%= if @post.inserted_at do %>
+              <%= Calendar.strftime(@post.inserted_at, "%b %d, %Y") %>
+            <% else %>
+              <%= gettext("Unknown date") %>
+            <% end %>
+          </p>
         </div>
       </div>
-
-      <!-- Collapsed body preview -->
-      <div class="px-6 pb-4 pt-0" id={"preview-body-#{@post.id}"}>
-        <p class="text-gray-600 line-clamp-1">
-          <%= @post.body %>
-        </p>
-      </div>
-
-      <!-- Expanded content -->
-      <div class="px-6 pb-6 pt-0 hidden border-t border-gray-100 mt-4" id={"expanded-body-#{@post.id}"}>
-        <p class="text-gray-600 mb-4"><%= @post.body %></p>
-        <div class="flex items-center justify-between mt-6">
-          <div class="flex space-x-4 text-gray-500">
-            <div class="flex items-center">
-              <i class="fa-regular fa-comment mr-1"></i>
-              <span>12</span>
-            </div>
-          </div>
+      <div class="flex items-center gap-6 text-slate-400">
+        <div class="flex items-center gap-2 group-hover:text-pink-400 transition-colors">
+          <i class="fas fa-arrow-right"></i>
+          <span><%= gettext("Read more") %></span>
         </div>
       </div>
     </div>
+    </div>
+    </.link>
     """
   end
 
@@ -405,7 +732,7 @@ defmodule WcsStudioWeb.CoreComponents do
   attr :id, :string, doc: "the optional id of flash container"
   attr :flash, :map, default: %{}, doc: "the map of flash messages to display"
   attr :title, :string, default: nil
-  attr :kind, :atom, values: [:info, :error], doc: "used for styling and flash lookup"
+  attr :kind, :atom, values: [:info, :error, :warning, :success], doc: "used for styling and flash lookup"
   attr :rest, :global, doc: "the arbitrary HTML attributes to add to the flash container"
 
   slot :inner_block, doc: "the optional inner block that renders the flash message"
@@ -420,24 +747,72 @@ defmodule WcsStudioWeb.CoreComponents do
       phx-click={JS.push("lv:clear-flash", value: %{key: @kind}) |> hide("##{@id}")}
       role="alert"
       class={[
-        "fixed top-2 right-2 mr-2 w-80 sm:w-96 z-50 rounded-lg p-3 ring-1",
-        @kind == :info && "bg-emerald-50 text-emerald-800 ring-emerald-500 fill-cyan-900",
-        @kind == :error && "bg-rose-50 text-rose-900 shadow-md ring-rose-500 fill-rose-900"
+        "fixed top-4 right-4 z-50 rounded-2xl p-4 backdrop-blur-sm border shadow-2xl max-w-sm transform transition-all duration-300 cursor-pointer group hover:-translate-y-1",
+        @kind == :info && "bg-slate-800/80 border-cyan-500/30 text-cyan-300 shadow-cyan-500/10 hover:border-cyan-400/50",
+        @kind == :error && "bg-slate-800/80 border-rose-500/30 text-rose-300 shadow-rose-500/10 hover:border-rose-400/50",
+        @kind == :warning && "bg-slate-800/80 border-amber-500/30 text-amber-300 shadow-amber-500/10 hover:border-amber-400/50",
+        @kind == :success && "bg-slate-800/80 border-emerald-500/30 text-emerald-300 shadow-emerald-500/10 hover:border-emerald-400/50"
       ]}
+      phx-mounted={JS.dispatch("flash:mounted", to: "##{@id}")}
       {@rest}
     >
-      <p :if={@title} class="flex items-center gap-1.5 text-sm font-semibold leading-6">
-        <.icon :if={@kind == :info} name="hero-information-circle-mini" class="h-4 w-4" />
-        <.icon :if={@kind == :error} name="hero-exclamation-circle-mini" class="h-4 w-4" />
-        <%= @title %>
-      </p>
-      <p class="mt-2 text-sm leading-5"><%= msg %></p>
-      <button type="button" class="group absolute top-1 right-1 p-2" aria-label={gettext("close")}>
-        <.icon name="hero-x-mark-solid" class="h-5 w-5 opacity-40 group-hover:opacity-70" />
-      </button>
+      <div class="flex items-start gap-3">
+        <!-- Icon Container -->
+        <div class={[
+          "flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center shadow-lg",
+          @kind == :info && "bg-gradient-to-br from-cyan-500 to-blue-500",
+          @kind == :error && "bg-gradient-to-br from-rose-500 to-pink-500",
+          @kind == :warning && "bg-gradient-to-br from-amber-500 to-orange-500",
+          @kind == :success && "bg-gradient-to-br from-emerald-500 to-green-500"
+        ]}>
+          <i class={[
+            "text-white text-sm",
+            @kind == :info && "fas fa-info-circle",
+            @kind == :error && "fas fa-exclamation-triangle",
+            @kind == :warning && "fas fa-exclamation-circle",
+            @kind == :success && "fas fa-check-circle"
+          ]}></i>
+        </div>
+
+        <!-- Content -->
+        <div class="flex-1 min-w-0">
+          <p :if={@title} class="font-semibold text-white text-sm leading-6 mb-1">
+            <%= @title %>
+          </p>
+          <p class="text-sm leading-5 opacity-90"><%= msg %></p>
+        </div>
+
+        <!-- Close Button -->
+        <button
+          type="button"
+          phx-click={JS.push("lv:clear-flash", value: %{key: @kind}) |> hide("##{@id}")}
+          class="flex-shrink-0 w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all duration-200 group-hover:scale-110"
+          aria-label={gettext("close")}
+        >
+          <i class="fas fa-times text-xs text-white/70 group-hover:text-white"></i>
+        </button>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class={[
+        "w-full h-1 rounded-full mt-3 overflow-hidden",
+        @kind == :info && "bg-cyan-500/20",
+        @kind == :error && "bg-rose-500/20",
+        @kind == :warning && "bg-amber-500/20",
+        @kind == :success && "bg-emerald-500/20"
+      ]}>
+        <div class={[
+          "h-full rounded-full progress-bar",
+          @kind == :info && "bg-gradient-to-r from-cyan-400 to-blue-400",
+          @kind == :error && "bg-gradient-to-r from-rose-400 to-pink-400",
+          @kind == :warning && "bg-gradient-to-r from-amber-400 to-orange-400",
+          @kind == :success && "bg-gradient-to-r from-emerald-400 to-green-400"
+        ]} style="width: 0"></div>
+      </div>
     </div>
     """
   end
+
 
   @doc """
   Shows the flash group with standard titles and content.
@@ -498,8 +873,8 @@ defmodule WcsStudioWeb.CoreComponents do
   attr :as, :any, default: nil, doc: "the server side parameter to collect all input under"
 
   attr :rest, :global,
-    include: ~w(autocomplete name rel action enctype method novalidate target multipart),
-    doc: "the arbitrary HTML attributes to apply to the form tag"
+       include: ~w(autocomplete name rel action enctype method novalidate target multipart),
+       doc: "the arbitrary HTML attributes to apply to the form tag"
 
   slot :inner_block, required: true
   slot :actions, doc: "the slot for form actions, such as a submit button"
@@ -507,7 +882,7 @@ defmodule WcsStudioWeb.CoreComponents do
   def simple_form(assigns) do
     ~H"""
     <.form :let={f} for={@for} as={@as} {@rest}>
-      <div class="mt-10 space-y-8 bg-white">
+      <div class="mt-10 space-y-8 ">
         <%= render_slot(@inner_block, f) %>
         <div :for={action <- @actions} class="mt-2 flex items-center justify-between gap-6">
           <%= render_slot(action, f) %>
@@ -579,12 +954,12 @@ defmodule WcsStudioWeb.CoreComponents do
   attr :value, :any
 
   attr :type, :string,
-    default: "text",
-    values: ~w(checkbox color date datetime-local email file month number password
+       default: "text",
+       values: ~w(checkbox color date datetime-local email file month number password
                range search select tel text textarea time url week)
 
   attr :field, Phoenix.HTML.FormField,
-    doc: "a form field struct retrieved from the form, for example: @form[:email]"
+       doc: "a form field struct retrieved from the form, for example: @form[:email]"
 
   attr :errors, :list, default: []
   attr :checked, :boolean, doc: "the checked flag for checkbox inputs"
@@ -593,7 +968,7 @@ defmodule WcsStudioWeb.CoreComponents do
   attr :multiple, :boolean, default: false, doc: "the multiple flag for select inputs"
 
   attr :rest, :global,
-    include: ~w(accept autocomplete capture cols disabled form list max maxlength min minlength
+       include: ~w(accept autocomplete capture cols disabled form list max maxlength min minlength
                 multiple pattern placeholder readonly required rows size step)
 
   slot :inner_block
@@ -615,7 +990,7 @@ defmodule WcsStudioWeb.CoreComponents do
 
     ~H"""
     <div phx-feedback-for={@name}>
-      <label class="flex items-center gap-4 text-sm leading-6 text-zinc-600">
+      <label class="flex items-center gap-3 text-sm leading-6 text-white">
         <input type="hidden" name={@name} value="false" />
         <input
           type="checkbox"
@@ -623,10 +998,16 @@ defmodule WcsStudioWeb.CoreComponents do
           name={@name}
           value="true"
           checked={@checked}
-          class="rounded border-zinc-300 text-zinc-900 focus:ring-0"
+          class={[
+            "rounded border-slate-600 bg-slate-800/50 text-pink-500 focus:ring-2 focus:ring-pink-500 focus:ring-opacity-20 transition-all duration-300",
+            "checked:bg-pink-500 checked:border-pink-500 hover:border-pink-400/50",
+            "w-4 h-4",
+            @errors == [] && "border-slate-600 focus:border-pink-500",
+            @errors != [] && "border-rose-400 focus:border-rose-400 focus:ring-rose-500"
+          ]}
           {@rest}
         />
-        <%= @label %>
+        <span class="text-slate-300 hover:text-white transition-colors duration-200"><%= @label %></span>
       </label>
       <.error :for={msg <- @errors}><%= msg %></.error>
     </div>
@@ -636,18 +1017,24 @@ defmodule WcsStudioWeb.CoreComponents do
   def input(%{type: "select"} = assigns) do
     ~H"""
     <div phx-feedback-for={@name}>
-      <.label for={@id}><%= @label %></.label>
-      <select
-        id={@id}
-        name={@name}
-        class="mt-2 block w-full rounded-md border border-gray-300 bg-white shadow-sm focus:border-zinc-400 focus:ring-0 sm:text-sm"
-        multiple={@multiple}
-        {@rest}
-      >
-        <option :if={@prompt} value=""><%= @prompt %></option>
-        <%= Phoenix.HTML.Form.options_for_select(@options, @value) %>
-      </select>
-      <.error :for={msg <- @errors}><%= msg %></.error>
+    <.label for={@id} class="text-white font-medium mb-2 block"><%= @label %></.label>
+    <select
+    id={@id}
+    name={@name}
+    class={[
+      "block w-full rounded-lg text-white focus:ring-2 focus:ring-opacity-20 sm:text-sm sm:leading-6 transition-all duration-300 backdrop-blur-sm",
+      "phx-no-feedback:border-slate-600/50 phx-no-feedback:focus:border-pink-500/50",
+      "bg-slate-800/50 border border-slate-600/50 px-4 py-3",
+      @errors == [] && "border-slate-600/50 focus:border-pink-500/50 focus:ring-pink-500",
+      @errors != [] && "border-rose-400 focus:border-rose-400 focus:ring-rose-500"
+    ]}
+    multiple={@multiple}
+    {@rest}
+    >
+    <option :if={@prompt} value=""><%= @prompt %></option>
+    <%= Phoenix.HTML.Form.options_for_select(@options, @value) %>
+    </select>
+    <.error :for={msg <- @errors} class="mt-2 text-sm text-rose-400"><%= msg %></.error>
     </div>
     """
   end
@@ -660,10 +1047,11 @@ defmodule WcsStudioWeb.CoreComponents do
         id={@id}
         name={@name}
         class={[
-          "mt-2 block w-full rounded-lg text-zinc-900 focus:ring-0 sm:text-sm sm:leading-6",
-          "min-h-[6rem] phx-no-feedback:border-zinc-300 phx-no-feedback:focus:border-zinc-400",
-          @errors == [] && "border-zinc-300 focus:border-zinc-400",
-          @errors != [] && "border-rose-400 focus:border-rose-400"
+          "block w-full rounded-lg text-white placeholder-slate-400 focus:ring-2 focus:ring-opacity-20 sm:text-sm sm:leading-6 transition-all duration-300 backdrop-blur-sm",
+          "min-h-[6rem] phx-no-feedback:border-slate-600/50 phx-no-feedback:focus:border-pink-500/50",
+          "bg-slate-800/50 border border-slate-600/50",
+          @errors == [] && "border-slate-600/50 focus:border-pink-500/50 focus:ring-pink-500",
+          @errors != [] && "border-rose-400 focus:border-rose-400 focus:ring-rose-500"
         ]}
         {@rest}
       ><%= Phoenix.HTML.Form.normalize_value("textarea", @value) %></textarea>
@@ -683,10 +1071,11 @@ defmodule WcsStudioWeb.CoreComponents do
         id={@id}
         value={Phoenix.HTML.Form.normalize_value(@type, @value)}
         class={[
-          "mt-2 block w-full rounded-lg text-zinc-900 focus:ring-0 sm:text-sm sm:leading-6",
-          "phx-no-feedback:border-zinc-300 phx-no-feedback:focus:border-zinc-400",
-          @errors == [] && "border-zinc-300 focus:border-zinc-400",
-          @errors != [] && "border-rose-400 focus:border-rose-400"
+          "block w-full rounded-lg text-white placeholder-slate-400 focus:ring-2 focus:ring-opacity-20 sm:text-sm sm:leading-6 transition-all duration-300 backdrop-blur-sm",
+          "phx-no-feedback:border-slate-600/50 phx-no-feedback:focus:border-pink-500/50",
+          "bg-slate-800/50 border border-slate-600/50 px-4 py-3",
+          @errors == [] && "border-slate-600/50 focus:border-pink-500/50 focus:ring-pink-500",
+          @errors != [] && "border-rose-400 focus:border-rose-400 focus:ring-rose-500"
         ]}
         {@rest}
       />
@@ -703,7 +1092,7 @@ defmodule WcsStudioWeb.CoreComponents do
 
   def label(assigns) do
     ~H"""
-    <label for={@for} class="block text-sm font-semibold leading-6 text-zinc-800">
+    <label for={@for} class="block text-sm font-semibold leading-6 text-white font-medium mb-2">
       <%= render_slot(@inner_block) %>
     </label>
     """
@@ -736,10 +1125,10 @@ defmodule WcsStudioWeb.CoreComponents do
     ~H"""
     <header class={[@actions != [] && "flex items-center justify-between gap-6", @class]}>
       <div>
-        <h1 class="text-lg font-semibold leading-8 text-zinc-800">
+        <h1 class="text-3xl font-bold text-white mb-4 bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
           <%= render_slot(@inner_block) %>
         </h1>
-        <p :if={@subtitle != []} class="mt-2 text-sm leading-6 text-zinc-600">
+        <p :if={@subtitle != []} class="text-slate-400">
           <%= render_slot(@subtitle) %>
         </p>
       </div>
@@ -764,8 +1153,8 @@ defmodule WcsStudioWeb.CoreComponents do
   attr :row_click, :any, default: nil, doc: "the function for handling phx-click on each row"
 
   attr :row_item, :any,
-    default: &Function.identity/1,
-    doc: "the function for mapping each row before calling the :col and :action slots"
+       default: &Function.identity/1,
+       doc: "the function for mapping each row before calling the :col and :action slots"
 
   slot :col, required: true do
     attr :label, :string
@@ -911,8 +1300,8 @@ defmodule WcsStudioWeb.CoreComponents do
       to: selector,
       transition:
         {"transition-all transform ease-out duration-300",
-         "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95",
-         "opacity-100 translate-y-0 sm:scale-100"}
+        "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95",
+        "opacity-100 translate-y-0 sm:scale-100"}
     )
   end
 
@@ -922,8 +1311,8 @@ defmodule WcsStudioWeb.CoreComponents do
       time: 200,
       transition:
         {"transition-all transform ease-in duration-200",
-         "opacity-100 translate-y-0 sm:scale-100",
-         "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"}
+        "opacity-100 translate-y-0 sm:scale-100",
+        "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"}
     )
   end
 
@@ -931,9 +1320,9 @@ defmodule WcsStudioWeb.CoreComponents do
     js
     |> JS.show(to: "##{id}")
     |> JS.show(
-      to: "##{id}-bg",
-      transition: {"transition-all transform ease-out duration-300", "opacity-0", "opacity-100"}
-    )
+         to: "##{id}-bg",
+         transition: {"transition-all transform ease-out duration-300", "opacity-0", "opacity-100"}
+       )
     |> show("##{id}-container")
     |> JS.add_class("overflow-hidden", to: "body")
     |> JS.focus_first(to: "##{id}-content")
@@ -942,9 +1331,9 @@ defmodule WcsStudioWeb.CoreComponents do
   def hide_modal(js \\ %JS{}, id) do
     js
     |> JS.hide(
-      to: "##{id}-bg",
-      transition: {"transition-all transform ease-in duration-200", "opacity-100", "opacity-0"}
-    )
+         to: "##{id}-bg",
+         transition: {"transition-all transform ease-in duration-200", "opacity-100", "opacity-0"}
+       )
     |> hide("##{id}-container")
     |> JS.hide(to: "##{id}", transition: {"block", "block", "hidden"})
     |> JS.remove_class("overflow-hidden", to: "body")

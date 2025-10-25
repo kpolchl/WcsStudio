@@ -1,98 +1,313 @@
-<div class="min-h-screen bg-gray-50 dark:bg-gray-900">
-
-    <!-- Hero Carousel -->
-    <section class="relative w-full overflow-hidden h-64 sm:h-80 md:h-[60vh] lg:h-[70vh] -mt-16">
-        <div id="carousel" class="flex transition-transform duration-700 ease-in-out">
-            <%= for slide <- @slides do %>
-            <div class="w-full flex-shrink-0 relative">
-                <img src={slide.image_url} alt={slide.title} class="w-full h-full object-cover"/>
-
-                <div class="absolute top-16 left-16 flex flex-col items-start text-left px-6 pt-12">
-                    <h2 class="text-3xl md:text-8xl font-mono font-bold text-white drop-shadow-lg ">
-                        <%= slide.title %>
-                    </h2>
-                    <p class="mt-1 text-sm md:text-lg text-white drop-shadow font-mono">
-                        <%= slide.subtitle %>
-                    </p>
-                </div>
-
+<section class="relative w-full overflow-hidden h-screen">
+    <div id="carousel" class="flex transition-transform duration-700 ease-in-out h-full">
+        <!-- Slide 1 -->
+        <div class="w-full flex-shrink-0 relative h-full">
+            <div class="absolute inset-0 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900"></div>
+            <div class="absolute inset-0 bg-black opacity-40"></div>
+                <div class="absolute inset-0 bg-gradient-to-r from-pink-500/10 to-purple-500/10"></div>
+            <div class="absolute inset-0 flex flex-col justify-center items-start text-left px-8 md:px-16 lg:px-24">
+                <h2 class="text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-6 opacity-0 animate-[slideUp_0.8s_ease-out_0.2s_forwards]">
+                    <%= gettext("Dance") %><span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-400"> <%= gettext("Elevated") %></span>
+                </h2>
+                <p class="text-xl md:text-2xl text-slate-300 mb-8 max-w-2xl opacity-0 animate-[slideUp_0.8s_ease-out_0.4s_forwards]">
+                    <%= gettext("Master the art of movement comprehensive resources") %>
+                </p>
             </div>
-            <% end %>
         </div>
 
-        <!-- Navigation Arrows -->
-        <button id="prev" class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white bg-opacity-70 rounded-full p-3 hover:bg-opacity-100 shadow-lg">
-            <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-            </svg>
-        </button>
-        <button id="next" class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white bg-opacity-70 rounded-full p-3 hover:bg-opacity-100 shadow-lg">
-            <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-            </svg>
-        </button>
-    </section>
+        <!-- Slide 2 -->
+        <div class="w-full flex-shrink-0 relative h-full">
+            <div class="absolute inset-0 bg-gradient-to-br from-purple-900 via-pink-900 to-slate-900"></div>
+            <div class="absolute inset-0 bg-black opacity-30"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-pink-500/10 to-purple-500/10"></div>
+            <div class="absolute inset-0 flex flex-col justify-center items-start text-left px-8 md:px-16 lg:px-24">
+                <h2 class="text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-6 opacity-0 animate-[slideUp_0.8s_ease-out_0.2s_forwards]">
+                     <%= gettext("Perfect Your") %> <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-400"> <%= gettext("Technique") %></span>
+                </h2>
+                <p class="text-xl md:text-2xl text-slate-300 mb-8 max-w-2xl opacity-0 animate-[slideUp_0.8s_ease-out_0.4s_forwards]">
+                     <%= gettext("Step-by-step patterns and some instruction for dancers at admin level") %>
+                </p>
+            </div>
+        </div>
 
-    <!-- Features / Gallery Section -->
-    <section class="py-12 md:py-20 bg-gray-100 dark:bg-gray-800">
-        <div class="mx-auto max-w-screen-4xl px-4 md:px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-            <!-- Example Card -->
-            <a href="/dance_types" class="group relative flex flex-col h-64 rounded-lg shadow-lg overflow-hidden bg-white dark:bg-gray-900 transition transform hover:scale-105">
-                <img src={~p"/images/slide1.jpg"}
-                     alt="VR" class="absolute inset-0 w-full h-full object-cover transition duration-300 group-hover:scale-110"/>
-                <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-50"></div>
-                <span class="relative p-4 text-white font-semibold text-lg md:text-xl">Dance Types</span>
+        <!-- Slide 3 -->
+        <div class="w-full flex-shrink-0 relative h-full">
+            <div class="absolute inset-0 bg-gradient-to-br from-slate-900 via-purple-900 to-pink-900"></div>
+            <div class="absolute inset-0 bg-black opacity-25"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-pink-500/10 to-purple-500/10"></div>
+            <div class="absolute inset-0 flex flex-col justify-center items-start text-left px-8 md:px-16 lg:px-24">
+                <h2 class="text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-6 opacity-0 animate-[slideUp_0.8s_ease-out_0.2s_forwards]">
+                      <%= gettext("Join Our") %><span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-400"> <%= gettext("Community") %></span>
+                </h2>
+                <p class="text-xl md:text-2xl text-slate-300 mb-8 max-w-2xl opacity-0 animate-[slideUp_0.8s_ease-out_0.4s_forwards]">
+                     <%= gettext("Connect with passionate dancers") %>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Arrows -->
+    <button id="prev"
+            class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-slate-800/50 backdrop-blur-sm rounded-xl p-4 hover:bg-slate-700/50 border border-slate-700/50 transition-all duration-300 group z-10">
+        <i class="fas fa-chevron-left text-white text-lg group-hover:scale-110 transition-transform"></i>
+    </button>
+    <button id="next"
+            class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-slate-800/50 backdrop-blur-sm rounded-xl p-4 hover:bg-slate-700/50 border border-slate-700/50 transition-all duration-300 group z-10">
+        <i class="fas fa-chevron-right text-white text-lg group-hover:scale-110 transition-transform"></i>
+    </button>
+
+    <!-- Indicators -->
+    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-3 z-10">
+        <button class="carousel-indicator w-3 h-3 rounded-full bg-white bg-opacity-50 hover:bg-opacity-100 transition-all duration-300"></button>
+        <button class="carousel-indicator w-3 h-3 rounded-full bg-white bg-opacity-50 hover:bg-opacity-100 transition-all duration-300"></button>
+        <button class="carousel-indicator w-3 h-3 rounded-full bg-white bg-opacity-50 hover:bg-opacity-100 transition-all duration-300"></button>
+    </div>
+</section>
+
+<!-- Features / Gallery Section -->
+<section class="py-20 bg-slate-800/30 backdrop-blur-sm">
+    <div class="mx-auto max-w-7xl px-4 md:px-8">
+        <div class="text-center mb-16 opacity-0 animate-[fadeIn_1s_ease-out_0.2s_forwards]">
+            <h2 class="text-4xl md:text-5xl font-bold text-white mb-4 bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
+                 <%= gettext("Some of my resources about dancing") %>
+            </h2>
+            <p class="text-lg md:text-xl text-slate-400 max-w-3xl mx-auto">
+                 <%= gettext("I'm not a pro but I made this page to have one place for dancing content") %>
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Card 1 -->
+            <a href="/dance_types"
+               class="group relative flex flex-col h-80 rounded-2xl overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl">
+                <div class="absolute inset-0 bg-slate-800/50 backdrop-blur-sm border border-slate-700/50"></div>
+                <div class="absolute inset-0 bg-gradient-to-br from-pink-500/10 via-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div class="absolute inset-0">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-pink-500 rounded-full blur-3xl opacity-20"></div>
+                    <div class="absolute bottom-0 left-0 w-32 h-32 bg-purple-500 rounded-full blur-3xl opacity-20"></div>
+                </div>
+                <div class="relative flex-1 flex flex-col justify-end p-6 z-10">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center mb-4 shadow-lg">
+                        <i class="fas fa-music text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2"> <%= gettext("Dance Styles") %></h3>
+                    <p class="text-slate-400 text-sm mb-4"> <%= gettext("View dance types I know") %></p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-pink-400 text-sm font-medium"> <%= gettext("Explore →") %></span>
+                    </div>
+                </div>
             </a>
 
-            <a href="/patterns" class="group relative flex flex-col h-64 rounded-lg shadow-lg overflow-hidden bg-white dark:bg-gray-900 transition transform hover:scale-105">
-                <img src={~p"/images/slide2.jpg"}
-                     alt="Tech" class="absolute inset-0 w-full h-full object-cover transition duration-300 group-hover:scale-110"/>
-                <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-50"></div>
-                <span class="relative p-4 text-white font-semibold text-lg md:text-xl">Dance Patterns</span>
+            <!-- Card 2 -->
+            <a href="/patterns"
+               class="group relative flex flex-col h-80 rounded-2xl overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl">
+                <div class="absolute inset-0 bg-slate-800/50 backdrop-blur-sm border border-slate-700/50"></div>
+                <div class="absolute inset-0 bg-gradient-to-br from-pink-500/10 via-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div class="absolute inset-0">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-pink-500 rounded-full blur-3xl opacity-20"></div>
+                    <div class="absolute bottom-0 left-0 w-32 h-32 bg-purple-500 rounded-full blur-3xl opacity-20"></div>
+                </div>
+                <div class="relative flex-1 flex flex-col justify-end p-6 z-10">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center mb-4 shadow-lg">
+                        <i class="fas fa-shapes text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2"> <%= gettext("Steps") %></h3>
+                    <p class="text-slate-400 text-sm mb-4"> <%= gettext("Explore complex descriptions of sequences") %></p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-pink-400 text-sm font-medium"> <%= gettext("Learn More →") %></span>
+                    </div>
+                </div>
             </a>
 
-            <a href="/blog" class="group relative flex flex-col h-64 rounded-lg shadow-lg overflow-hidden bg-white dark:bg-gray-900 transition transform hover:scale-105">
-                <img src={~p"/images/slide3.jpg"}
-                     alt="Dev" class="absolute inset-0 w-full h-full object-cover transition duration-300 group-hover:scale-110"/>
-                <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-50"></div>
-                <span class="relative p-4 text-white font-semibold text-lg md:text-xl">Blog</span>
+            <!-- Card 3 -->
+            <a href="/lessons"
+               class="group relative flex flex-col h-80 rounded-2xl overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl">
+                <div class="absolute inset-0 bg-slate-800/50 backdrop-blur-sm border border-slate-700/50"></div>
+                <div class="absolute inset-0 bg-gradient-to-br from-pink-500/10 via-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div class="absolute inset-0">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-pink-500 rounded-full blur-3xl opacity-20"></div>
+                    <div class="absolute bottom-0 left-0 w-32 h-32 bg-purple-500 rounded-full blur-3xl opacity-20"></div>
+                </div>
+                <div class="relative flex-1 flex flex-col justify-end p-6 z-10">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center mb-4 shadow-lg">
+                        <i class="fas fa-play-circle text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2"> <%= gettext("Video Lessons") %></h3>
+                    <p class="text-slate-400 text-sm mb-4"> <%= gettext("Available only for admin unless I record my own videos") %></p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-pink-400 text-sm font-medium"> <%= gettext("Watch Now →") %></span>
+                    </div>
+                </div>
             </a>
 
-            <a href="/" class="group relative flex flex-col h-64 rounded-lg shadow-lg overflow-hidden bg-white dark:bg-gray-900 transition transform hover:scale-105">
-                <img src={~p"/images/slide1.jpg"}
-                     alt="Retro" class="absolute inset-0 w-full h-full object-cover transition duration-300 group-hover:scale-110"/>
-                <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-50"></div>
-                <span class="relative p-4 text-white font-semibold text-lg md:text-xl">About</span>
+            <!-- Card 4 -->
+            <a href="/blog"
+               class="group relative flex flex-col h-80 rounded-2xl overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl">
+                <div class="absolute inset-0 bg-slate-800/50 backdrop-blur-sm border border-slate-700/50"></div>
+                <div class="absolute inset-0 bg-gradient-to-br from-pink-500/10 via-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div class="absolute inset-0">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-pink-500 rounded-full blur-3xl opacity-20"></div>
+                    <div class="absolute bottom-0 left-0 w-32 h-32 bg-purple-500 rounded-full blur-3xl opacity-20"></div>
+                </div>
+                <div class="relative flex-1 flex flex-col justify-end p-6 z-10">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center mb-4 shadow-lg">
+                        <i class="fas fa-newspaper text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2"> <%= gettext("Blog & Insights") %></h3>
+                    <p class="text-slate-400 text-sm mb-4"> <%= gettext("Enthusiast insights into dancing techniques") %></p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-pink-400 text-sm font-medium"> <%= gettext("Read More →") %></span>
+                    </div>
+                </div>
             </a>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Call to Action -->
-    <section class="py-12 md:py-20 bg-blue-600 text-white text-center">
-        <h2 class="text-3xl md:text-5xl font-bold mb-4">Join the Future of Tech</h2>
-        <p class="text-lg md:text-2xl mb-6">Stay updated with the latest trends in VR, Dev, and Retro Tech</p>
-        <a href="#" class="bg-white text-blue-600 font-semibold px-8 py-3 rounded-lg hover:bg-gray-200 transition">Get Started</a>
-    </section>
+<!-- Stats Section -->
+<section class="py-20 bg-slate-800/50 backdrop-blur-sm border-y border-slate-700/50">
+    <div class="mx-auto max-w-7xl px-4 md:px-8">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div class="text-center">
+                <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-newspaper text-white text-2xl"></i>
+                </div>
+                <div class="text-3xl md:text-4xl font-bold text-white mb-2">{@posts_number}+</div>
+                <div class="text-lg text-slate-300 font-medium"> <%= gettext("Articles") %></div>
+                <div class="text-sm text-slate-400 mt-2"> <%= gettext("Madman articles about dancing or something") %></div>
+            </div>
+            <div class="text-center">
+                <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-shapes text-white text-2xl"></i>
+                </div>
+                <div class="text-3xl md:text-4xl font-bold text-white mb-2">{@patterns_number}+</div>
+                <div class="text-lg text-slate-300 font-medium"> <%= gettext("Patterns") %></div>
+                <div class="text-sm text-slate-400 mt-2"> <%= gettext("Detailed breakdowns") %></div>
+            </div>
+            <div class="text-center">
+                <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-users text-white text-2xl"></i>
+                </div>
+                <div class="text-3xl md:text-4xl font-bold text-white mb-2">{@users_number}+</div>
+                <div class="text-lg text-slate-300 font-medium"> <%= gettext("Members") %></div>
+                <div class="text-sm text-slate-400 mt-2"> <%= gettext("Sort of community") %></div>
+            </div>
+            <div class="text-center">
+                <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-graduation-cap text-white text-2xl"></i>
+                </div>
+                <div class="text-3xl md:text-4xl font-bold text-white mb-2">{@lessons_number}+</div>
+                <div class="text-lg text-slate-300 font-medium"> <%= gettext("Lessons") %></div>
+                <div class="text-sm text-slate-400 mt-2"> <%= gettext("Not sharable admin only") %></div>
+            </div>
+        </div>
+    </div>
+</section>
 
-</div>
+<!-- Call to Action -->
+<section
+        class="py-20 bg-gradient-to-br from-slate-800/50 to-purple-900/50 backdrop-blur-sm border-t border-slate-700/50">
+    <div class="mx-auto max-w-4xl px-4 md:px-8 text-center">
+        <h2 class="text-4xl md:text-5xl font-bold text-white mb-6 bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
+             <%= gettext("Ready to Track your progress?") %>
+        </h2>
+        <p class="text-xl md:text-2xl mb-8 text-slate-300"> <%= gettext("Join some community mastering their craft through this comprehensive platform") %></p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <.link href={~p"/users/log_in"}>
+                <button class="bg-gradient-to-r from-pink-500 to-purple-500 text-white font-semibold px-8 py-4 rounded-xl hover:shadow-2xl hover:shadow-pink-500/25 transition-all duration-300 hover:-translate-y-1 animate-pulse-glow">
+                     <%= gettext("Start Learning Today") %>
+                </button>
+            </.link>
+            <.link href={~p"/connect"}>
+                <button class="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 text-white font-semibold px-8 py-4 rounded-xl hover:bg-slate-700/50 transition-all duration-300 hover:-translate-y-1">
+                     <%= gettext("Contact Me") %>
+                </button>
+            </.link>
+
+        </div>
+    </div>
+</section>
 
 <script>
     const carousel = document.getElementById("carousel");
     const slides = carousel.children;
+    const indicators = document.querySelectorAll('.carousel-indicator');
     let currentIndex = 0;
+
+    function updateCarousel() {
+        carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+        // Update indicators
+        indicators.forEach((indicator, index) => {
+            if (index === currentIndex) {
+                indicator.classList.remove('bg-opacity-50');
+                indicator.classList.add('bg-opacity-100');
+            } else {
+                indicator.classList.remove('bg-opacity-100');
+                indicator.classList.add('bg-opacity-50');
+            }
+        });
+    }
 
     document.getElementById("next").addEventListener("click", () => {
         currentIndex = (currentIndex + 1) % slides.length;
-        carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
+        updateCarousel();
     });
 
     document.getElementById("prev").addEventListener("click", () => {
         currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-        carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
+        updateCarousel();
     });
 
+    // Add click events to indicators
+    indicators.forEach((indicator, index) => {
+        indicator.addEventListener('click', () => {
+            currentIndex = index;
+            updateCarousel();
+        });
+    });
+
+    // Auto-advance carousel
     setInterval(() => {
         currentIndex = (currentIndex + 1) % slides.length;
-        carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
-    }, 10000);
+        updateCarousel();
+    }, 7000);
+
+    // Initialize
+    updateCarousel();
 </script>
+
+<style>
+    @keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes pulse-glow {
+        0% {
+            box-shadow: 0 0 20px rgba(236, 72, 153, 0.4);
+        }
+        100% {
+            box-shadow: 0 0 30px rgba(168, 85, 247, 0.6);
+        }
+    }
+
+    body {
+        font-family: 'Inter', sans-serif;
+    }
+</style>
