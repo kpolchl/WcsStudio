@@ -3,6 +3,7 @@ defmodule WcsStudioWeb.UserResetPasswordLive do
 
   alias WcsStudio.Accounts
 
+  @impl true
   def render(assigns) do
     ~H"""
     <div class="px-4 py-4">
@@ -42,6 +43,7 @@ defmodule WcsStudioWeb.UserResetPasswordLive do
     """
   end
 
+  @impl true
   def mount(params, _session, socket) do
     socket = assign_user_and_token(socket, params)
 
@@ -57,6 +59,7 @@ defmodule WcsStudioWeb.UserResetPasswordLive do
     {:ok, assign_form(socket, form_source), temporary_assigns: [form: nil]}
   end
 
+  @impl true
   # Do not log in the user after reset password to avoid a
   # leaked token giving the user access to the account.
   def handle_event("reset_password", %{"user" => user_params}, socket) do
@@ -72,6 +75,7 @@ defmodule WcsStudioWeb.UserResetPasswordLive do
     end
   end
 
+  @impl true
   def handle_event("validate", %{"user" => user_params}, socket) do
     changeset = Accounts.change_user_password(socket.assigns.user, user_params)
     {:noreply, assign_form(socket, Map.put(changeset, :action, :validate))}

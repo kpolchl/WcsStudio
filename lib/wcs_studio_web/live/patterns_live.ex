@@ -3,9 +3,9 @@ defmodule WcsStudioWeb.PatternsLive do
   alias WcsStudio.Pattern
   alias WcsStudio.DanceType
   alias WcsStudio.UserPattern
-  alias WcsStudio.GoogleDrive
   alias WcsStudio.VideoProcess
 
+  @impl true
   def mount(_params, _session, socket) do
     first_dance_type = DanceType.get_first()
 
@@ -28,7 +28,8 @@ defmodule WcsStudioWeb.PatternsLive do
                max_file_size: 100_000_000 )}
   end
 
-  def handle_params(params, _uri, socket) do
+  @impl true
+  def handle_params(_params, _uri, socket) do
     status_map = case socket.assigns[:current_user] do
       nil ->
         %{}
@@ -45,16 +46,19 @@ defmodule WcsStudioWeb.PatternsLive do
       |> assign(:expanded_pattern_id, nil)}
   end
 
+  @impl true
   def handle_event("validate", _params, socket) do
     {:noreply, socket}
   end
 
+  @impl true
   def handle_event("toggle_pattern", %{"id" => id}, socket) do
     id = String.to_integer(id)
     new_id = if socket.assigns.expanded_pattern_id == id, do: nil, else: id
     {:noreply, assign(socket, :expanded_pattern_id, new_id)}
   end
 
+  @impl true
   def handle_event("search", %{"query" => query}, socket) do
     socket =
       assign(socket,
@@ -65,6 +69,7 @@ defmodule WcsStudioWeb.PatternsLive do
     {:noreply, socket}
   end
 
+  @impl true
   def handle_event("save", %{"pattern" => pattern_params}, socket) do
     video_url = pattern_params
                 |> Map.get("video_url", "")
@@ -95,6 +100,7 @@ defmodule WcsStudioWeb.PatternsLive do
     end
   end
 
+  @impl true
   def handle_event("update_pattern", %{"pattern" => pattern_params}, socket) do
     case socket.assigns.modal_state do
       {:edit, pattern} ->
@@ -115,7 +121,7 @@ defmodule WcsStudioWeb.PatternsLive do
         }
 
         case Pattern.update(pattern, attrs) do
-          {:ok, updated_pattern} ->
+          {:ok, _updated_pattern} ->
             updated_patterns = Pattern.get_by_dance_type_id(socket.assigns.dance_type_id)
 
             {:noreply,
@@ -132,6 +138,7 @@ defmodule WcsStudioWeb.PatternsLive do
     end
   end
 
+  @impl true
   def handle_event("open_modal", _, socket) do
     {:noreply, assign(socket,
       modal_state: :create,
@@ -139,10 +146,12 @@ defmodule WcsStudioWeb.PatternsLive do
     )}
   end
 
+  @impl true
   def handle_event("close_modal", _, socket) do
     {:noreply, assign(socket, modal_state: nil)}
   end
 
+  @impl true
   def handle_event("open_update_modal", %{"id" => id}, socket) do
     pattern = Enum.find(socket.assigns.patterns, &(&1.id == String.to_integer(id)))
 
@@ -167,14 +176,17 @@ defmodule WcsStudioWeb.PatternsLive do
     end
   end
 
+  @impl true
   def handle_event("toggle_dropdown", _, socket) do
     {:noreply, assign(socket, :dropdown_open, !socket.assigns[:dropdown_open])}
   end
 
+  @impl true
   def handle_event("close_dropdown", _, socket) do
     {:noreply, assign(socket, :dropdown_open, false)}
   end
 
+  @impl true
   def handle_event("choose", %{"dance_type_id" => id}, socket) do
     dance_type_id = String.to_integer(id)
 
@@ -186,6 +198,7 @@ defmodule WcsStudioWeb.PatternsLive do
       |> assign(:dropdown_open, false)}
   end
 
+  @impl true
   def handle_event("update_status", %{"pattern_id" => pattern_id, "user_id" => user_id, "status" => status}, socket) do
     pattern_id_int = String.to_integer(pattern_id)
 
@@ -210,6 +223,7 @@ defmodule WcsStudioWeb.PatternsLive do
       |> put_flash(:info, "Status updated to #{new_status}!")}
   end
 
+  @impl true
   def render(assigns) do
     ~H"""
     <div class="my-8 mx-8">
@@ -366,7 +380,7 @@ defmodule WcsStudioWeb.PatternsLive do
 
       <!-- Patterns Grid -->
       <div class="mt-4 p-4">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 animate-slideUp">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <%= for pattern <- @patterns do %>
             <.pattern
               pattern={pattern}

@@ -362,5 +362,10 @@ defmodule WcsStudio.Accounts do
     |> WcsStudio.Repo.one()
   end
 
+  def update_user_qr_code_url(user, url) do
+    user
+    |> Ecto.Changeset.change(qr_code_url: url)
+    |> WcsStudio.Repo.update()
+  end
 
 end

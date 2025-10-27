@@ -1,6 +1,7 @@
 defmodule WcsStudioWeb.UserLoginLive do
   use WcsStudioWeb, :live_view
 
+  @impl true
   def render(assigns) do
     ~H"""
     <div class="px-4 py-4">
@@ -37,6 +38,7 @@ defmodule WcsStudioWeb.UserLoginLive do
     """
   end
 
+  @impl true
   def mount(_params, _session, socket) do
     email = Phoenix.Flash.get(socket.assigns.flash, :email)
     form = to_form(%{"email" => email}, as: "user")

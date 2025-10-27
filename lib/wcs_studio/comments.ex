@@ -2,7 +2,6 @@ defmodule WcsStudio.Comment do
   @moduledoc false
   use Ecto.Schema
   import Ecto.Changeset
-  import Ecto.Query
 
   schema "comments" do
     field :body, :string
@@ -21,7 +20,7 @@ defmodule WcsStudio.Comment do
     WcsStudio.Repo.delete(comment)
   end
 
-    defp changeset(comment, params \\ %{}) do
+    defp changeset(comment, params) do
       comment
       |> cast(params, [:body, :user_id, :post_id])
       |> validate_required([:body, :user_id, :post_id])

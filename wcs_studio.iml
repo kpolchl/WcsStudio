@@ -106,6 +106,9 @@
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/image" />
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/sweet_xml" />
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/vix" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/image" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/sweet_xml" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/vix" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="phoenix" level="project" />

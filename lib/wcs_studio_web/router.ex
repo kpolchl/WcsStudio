@@ -36,6 +36,7 @@ defmodule WcsStudioWeb.Router do
 #    get "/", PageController, :home
     get "/", HomeController, :index
     get "/locale/:locale", LocaleController, :set_locale
+    get "/uploads/:filename", UploadController, :show
 #    get "/dance_types", DanceTypesController, :index
 #    get "/dance_types/:id", DanceTypesController, :show
   end

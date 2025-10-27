@@ -40,7 +40,7 @@ defmodule WcsStudio.UserPattern do
                 select: count(ul.id)
               ) |> WcsStudio.Repo.one()
 
-    [all_lessons, in_progress, learned]
+    [all_lessons-learned-in_progress, in_progress, learned]
   end
 
   def update_status(user_pattern, pattern_id, user_id, status) do
@@ -55,7 +55,7 @@ defmodule WcsStudio.UserPattern do
     |> WcsStudio.Repo.insert()
   end
 
-  defp changeset(pattern, attrs \\ %{}) do
+  defp changeset(pattern, attrs) do
     pattern
     |> cast(attrs, [:pattern_id, :user_id, :status])
     |> validate_required([:pattern_id, :user_id, :status])

@@ -46,17 +46,29 @@ defmodule WcsStudio.Post do
 
   end
 
-  def update_post(post, new_title, new_subject, new_body, new_tags) do
-    post
-    |> changeset(%{title: new_title, body: new_body})
-    |> WcsStudio.Repo.update()
+  def update_post(id, attrs) do
+    case get_post_by_id(id) do
+      nil -> {:error, :not_found}
+      post ->
+        post
+        |> changeset(attrs)
+        |> WcsStudio.Repo.update()
+    end
   end
+
 
   def add(title, subject, body, tags, user_id) do
     %__MODULE__{}
-    |> changeset(%{title: title, body: body, user_id: user_id})
+    |> changeset(%{
+      title: title,
+      subject: subject,
+      body: body,
+      tags: tags,
+      user_id: user_id
+    })
     |> WcsStudio.Repo.insert()
   end
+
 
   def delete_post(post) do
     WcsStudio.Repo.delete(post)
@@ -80,7 +92,7 @@ defmodule WcsStudio.Post do
   end
 
 
-  defp changeset(post, params \\ %{}) do
+  defp changeset(post, params) do
     post
     |> cast(params , [:title, :subject, :body, :tags, :user_id])
     |> validate_required([:title, :subject, :body, :tags, :user_id])

@@ -5,6 +5,7 @@ defmodule WcsStudioWeb.UserProfile do
   alias WcsStudio.Pattern
   alias WcsStudio.Lesson
 
+  @impl true
   def mount(_params, _session, socket) do
     user_id = socket.assigns.current_user.id
 
@@ -23,10 +24,12 @@ defmodule WcsStudioWeb.UserProfile do
     {:ok, socket}
   end
 
+  @impl true
   def handle_event("open_qr_modal", _, socket) do
     {:noreply, assign(socket, modal_state: :qr_code)}
   end
 
+  @impl true
   def handle_event("close_modal", _, socket) do
     {:noreply, assign(socket, modal_state: nil)}
   end
@@ -51,6 +54,7 @@ defmodule WcsStudioWeb.UserProfile do
   defp status_text("in_progress"), do: gettext("In Progress")
   defp status_text("learned"), do: gettext("Learned")
 
+  @impl true
   def render(assigns) do
     ~H"""
     <div class="px-4 py-4">

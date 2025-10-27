@@ -12,7 +12,7 @@ defmodule WcsStudio.Accounts.User do
     field :confirmed_at, :utc_datetime
     field :role, :string, default: "user"
     field :course_enrolled, :boolean, default: false
-    field :profile_pic_url, :string, default: "temp/user_icon.png"
+    field :profile_pic_url, :string, default: "images/user_icon.png"
     field :qr_code_url, :string, default: "images/default_qr_code.png"
     has_many :post, WcsStudio.Post
     has_many :comment , WcsStudio.Comment
@@ -53,7 +53,7 @@ defmodule WcsStudio.Accounts.User do
   """
   def registration_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:email, :password])
+    |> cast(attrs, [:email, :username, :password])
     |> validate_email(opts)
     |> validate_password(opts)
   end

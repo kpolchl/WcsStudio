@@ -1,8 +1,8 @@
 defmodule WcsStudioWeb.BlogLive do
   use WcsStudioWeb, :live_view
   alias WcsStudio.Post
-  alias WcsStudio.Comment
 
+  @impl true
   def mount(_params, _session, socket) do
     socket = assign(socket,
     posts: Post.get_all(),
@@ -15,11 +15,12 @@ defmodule WcsStudioWeb.BlogLive do
     {:ok, socket}
   end
 
+  @impl true
   def handle_event("save", %{"post" => %{"title" => title, "body" => body, "subject" => subject, "tags" => tags}}, socket) do
     user_id = socket.assigns.current_user.id
 
     case WcsStudio.Post.add(title, subject, body, tags, user_id) do
-      {:ok, post} ->
+      {:ok, _post} ->
         {:noreply,
           socket
           |> put_flash(:info, "Post dodany!")
@@ -30,14 +31,17 @@ defmodule WcsStudioWeb.BlogLive do
     end
   end
 
+  @impl true
   def handle_event("open_modal", _, socket) do
     {:noreply, assign(socket, show_modal: true)}
   end
 
+  @impl true
   def handle_event("close_modal", _, socket) do
     {:noreply, assign(socket, show_modal: false)}
   end
 
+  @impl true
   def render(assigns) do
     ~H"""
 

@@ -1,11 +1,10 @@
 defmodule WcsStudio.Levels do
   use Ecto.Schema
   import Ecto.Changeset
-  import Ecto.Query
 
   schema "levels" do
     field :name, :string
-    has_many :lessons, WcsStudio.Lesson
+    has_many :lessons, WcsStudio.Lesson, foreign_key: :level_id
     timestamps()
   end
 

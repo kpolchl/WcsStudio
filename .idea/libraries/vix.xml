@@ -3,9 +3,15 @@
     <CLASSES>
       <root url="file://$PROJECT_DIR$/_build/dev/lib/vix/ebin" />
       <root url="file://$PROJECT_DIR$/_build/dev/lib/vix/ebin" />
+      <root url="file://$PROJECT_DIR$/_build/dev/lib/vix/ebin" />
+      <root url="file://$PROJECT_DIR$/_build/test/lib/vix/ebin" />
+      <root url="file://$PROJECT_DIR$/_build/dev/lib/vix/ebin" />
+      <root url="file://$PROJECT_DIR$/_build/test/lib/vix/ebin" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
+      <root url="file://$PROJECT_DIR$/deps/vix/lib" />
+      <root url="file://$PROJECT_DIR$/deps/vix/c_src" />
       <root url="file://$PROJECT_DIR$/deps/vix/lib" />
       <root url="file://$PROJECT_DIR$/deps/vix/c_src" />
       <root url="file://$PROJECT_DIR$/deps/vix/lib" />
