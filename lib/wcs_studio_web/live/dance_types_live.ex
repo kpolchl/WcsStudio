@@ -2,6 +2,7 @@ defmodule WcsStudioWeb.DanceTypesLive do
   use WcsStudioWeb, :live_view
   alias WcsStudio.DanceType
 
+  @impl true
   def mount(_params, _session, socket) do
     socket =
       assign(socket,
@@ -11,6 +12,7 @@ defmodule WcsStudioWeb.DanceTypesLive do
     {:ok, socket}
   end
 
+  @impl true
   def handle_event("select_type_type", %{"dance_type_type" => dance_type_type}, socket) do
     {:noreply,
       socket
@@ -21,6 +23,7 @@ defmodule WcsStudioWeb.DanceTypesLive do
   defp get_dance_types_by_type("all"), do: DanceType.get_all()
   defp get_dance_types_by_type(type), do: DanceType.get_by_type(type)
 
+  @impl true
   def render(assigns) do
     ~H"""
     <section class="py-16 px-4">

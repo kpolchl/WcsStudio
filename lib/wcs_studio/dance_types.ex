@@ -17,6 +17,7 @@ defmodule WcsStudio.DanceType do
 
     has_many :patterns, WcsStudio.Pattern
     has_many :lessons, WcsStudio.Lesson
+    timestamps()
   end
 
   def get_all() do
@@ -91,7 +92,7 @@ defmodule WcsStudio.DanceType do
     end
   end
 
-  defp changeset(dance_type, params \\ %{}) do
+  defp changeset(dance_type, params) do
     dance_type
     |> cast(params, [
       :name_en,

@@ -8,6 +8,7 @@ defmodule WcsStudioWeb.UserSettingsLive do
   @webp_quality 85
   @qr_max_dimension 512
 
+  @impl true
   def mount(%{"token" => token}, _session, socket) do
     socket =
       case Accounts.update_user_email(socket.assigns.current_user, token) do
@@ -21,6 +22,7 @@ defmodule WcsStudioWeb.UserSettingsLive do
     {:ok, push_navigate(socket, to: ~p"/users/settings")}
   end
 
+  @impl true
   def mount(_params, _session, socket) do
     user = socket.assigns.current_user
     email_changeset = Accounts.change_user_email(user)
@@ -50,14 +52,17 @@ defmodule WcsStudioWeb.UserSettingsLive do
     {:ok, socket}
   end
 
+  @impl true
   def handle_event("validate_profile_pic", _params, socket) do
     {:noreply, socket}
   end
 
+  @impl true
   def handle_event("validate_qr_code", _params, socket) do
     {:noreply, socket}
   end
 
+  @impl true
   def handle_event("save_profile_pic", _params, socket) do
     user = socket.assigns.current_user
     old_profile_pic_url = user.profile_pic_url
@@ -104,6 +109,7 @@ defmodule WcsStudioWeb.UserSettingsLive do
     end
   end
 
+  @impl true
   def handle_event("save_qr_code", _params, socket) do
     user = socket.assigns.current_user
     old_qr_code_url = user.qr_code_url
@@ -150,16 +156,19 @@ defmodule WcsStudioWeb.UserSettingsLive do
     end
   end
 
+  @impl true
   def handle_event("cancel_upload", %{"ref" => ref, "upload" => upload_type}, socket) do
     upload_atom = String.to_existing_atom(upload_type)
     {:noreply, cancel_upload(socket, upload_atom, ref)}
   end
 
+  @impl true
   def handle_event("cancel_upload", %{"ref" => ref}, socket) do
     # Fallback for old cancel buttons without upload type
     {:noreply, cancel_upload(socket, :profile_pic, ref)}
   end
 
+  @impl true
   def handle_event("validate_email", params, socket) do
     %{"current_password" => password, "user" => user_params} = params
 
@@ -172,6 +181,7 @@ defmodule WcsStudioWeb.UserSettingsLive do
     {:noreply, assign(socket, email_form: email_form, email_form_current_password: password)}
   end
 
+  @impl true
   def handle_event("update_email", params, socket) do
     %{"current_password" => password, "user" => user_params} = params
     user = socket.assigns.current_user
@@ -192,6 +202,7 @@ defmodule WcsStudioWeb.UserSettingsLive do
     end
   end
 
+  @impl true
   def handle_event("validate_password", params, socket) do
     %{"current_password" => password, "user" => user_params} = params
 
@@ -204,6 +215,7 @@ defmodule WcsStudioWeb.UserSettingsLive do
     {:noreply, assign(socket, password_form: password_form, current_password: password)}
   end
 
+  @impl true
   def handle_event("update_password", params, socket) do
     %{"current_password" => password, "user" => user_params} = params
     user = socket.assigns.current_user
@@ -331,6 +343,7 @@ defmodule WcsStudioWeb.UserSettingsLive do
     end
   end
 
+  @impl true
   def render(assigns) do
     ~H"""
     <div class="px-4 py-4">

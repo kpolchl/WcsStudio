@@ -1089,7 +1089,7 @@ defmodule WcsStudioWeb.CoreComponents do
   """
   attr :for, :string, default: nil
   slot :inner_block, required: true
-
+  attr :class, :string, default: nil
   def label(assigns) do
     ~H"""
     <label for={@for} class="block text-sm font-semibold leading-6 text-white font-medium mb-2">

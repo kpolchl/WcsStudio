@@ -1,10 +1,12 @@
 defmodule WcsStudioWeb.ConnectLive do
   use WcsStudioWeb, :live_view
 
+  @impl true
   def mount(_params, _session, socket) do
     {:ok, socket}
   end
 
+  @impl true
   def render(assigns) do
     ~H"""
     <div class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
@@ -168,6 +170,7 @@ defmodule WcsStudioWeb.ConnectLive do
     """
   end
 
+  @impl true
   def handle_event("send_message", %{"name" => name, "email" => email, "message" => message}, socket) do
     # TODO: Implement email sending logic here
     # For now, just show a success message
@@ -176,6 +179,6 @@ defmodule WcsStudioWeb.ConnectLive do
     {:noreply,
       socket
       |> put_flash(:info, "Thanks for reaching out! I'll get back to you soon.")
-      |> push_navigate(to: ~p"/about")}
+      |> push_navigate(to: ~p"/connect")}
   end
 end

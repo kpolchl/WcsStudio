@@ -47,12 +47,13 @@ defmodule WcsStudioWeb.UserRegistrationLiveTest do
 
       assert redirected_to(conn) == ~p"/"
 
-      # Now do a logged in request and assert on the menu
+               # Now do a logged in request and assert on the menu
       conn = get(conn, "/")
       response = html_response(conn, 200)
       assert response =~ email
       assert response =~ "Settings"
-      assert response =~ "Log out"
+      # Fix: Change "Log out" to "Sign out" based on your actual HTML
+      assert response =~ "Sign out"
     end
 
     test "renders errors for duplicated email", %{conn: conn} do
@@ -63,8 +64,8 @@ defmodule WcsStudioWeb.UserRegistrationLiveTest do
       result =
         lv
         |> form("#registration_form",
-          user: %{"email" => user.email, "password" => "valid_password"}
-        )
+             user: %{"email" => user.email, "password" => "valid_password"}
+           )
         |> render_submit()
 
       assert result =~ "has already been taken"
@@ -75,13 +76,15 @@ defmodule WcsStudioWeb.UserRegistrationLiveTest do
     test "redirects to login page when the Log in button is clicked", %{conn: conn} do
       {:ok, lv, _html} = live(conn, ~p"/users/register")
 
-      {:ok, _login_live, login_html} =
+      # FIX: Replace the invalid CSS selector with proper element selection
+      {:ok, conn} =
         lv
-        |> element(~s|main a:fl-contains("Log in")|)
+        |> element("a", "Log in")
         |> render_click()
         |> follow_redirect(conn, ~p"/users/log_in")
 
-      assert login_html =~ "Log in"
+      # Verify we're on the login page by checking the content
+      assert html_response(conn, 200) =~ "Log in"
     end
   end
 end

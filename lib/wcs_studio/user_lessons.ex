@@ -6,8 +6,7 @@ defmodule WcsStudio.UserLesson do
 
   schema "user_lessons" do
     belongs_to :user, WcsStudio.Accounts.User
-    belongs_to :lesson, WcsStudio.Lesson
-    timestamps()
+    belongs_to :lesson, WcsStudio.Lesson, foreign_key: :lesson_id
   end
 
   def get_user_lessons(user_id) do
@@ -46,7 +45,7 @@ defmodule WcsStudio.UserLesson do
     WcsStudio.Repo.delete(user_lesson)
   end
 
-  defp changeset(user_lesson, params \\ %{}) do
+  defp changeset(user_lesson, params) do
     user_lesson
     |> cast(params, [:user_id, :lesson_id])
     |> validate_required([:user_id, :lesson_id])

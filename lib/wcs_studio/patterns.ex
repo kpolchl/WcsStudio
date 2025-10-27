@@ -102,7 +102,7 @@ defmodule WcsStudio.Pattern do
     end
   end
 
-  defp changeset(pattern, attrs \\ %{}) do
+  defp changeset(pattern, attrs) do
     pattern
     |> cast(attrs, [
       :name,

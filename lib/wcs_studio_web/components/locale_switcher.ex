@@ -1,6 +1,5 @@
 defmodule WcsStudioWeb.Components.LocaleSwitcher do
   use Phoenix.Component
-  import WcsStudioWeb.CoreComponents
   use WcsStudioWeb, :verified_routes
   alias Phoenix.LiveView.JS
 
@@ -98,17 +97,6 @@ defmodule WcsStudioWeb.Components.LocaleSwitcher do
       </div>
     </div>
     """
-  end
-
-
-  defp get_flag(locale_code) do
-    locale = Enum.find(locales(), &(&1.code == locale_code))
-    locale && locale.flag || "🌐"
-  end
-
-  defp get_name(locale_code) do
-    locale = Enum.find(locales(), &(&1.code == locale_code))
-    locale && locale.name || locale_code
   end
 
   defp locales do

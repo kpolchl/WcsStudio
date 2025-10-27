@@ -6,8 +6,8 @@ defmodule WcsStudioWeb.LessonsLive do
   alias WcsStudio.DanceType
   alias WcsStudio.Levels
   alias WcsStudio.VideoProcess
-  alias WcsStudio.UserLesson
 
+  @impl true
   def mount(_params, _session, socket) do
     first_lesson = Lesson.get_first()
 
@@ -26,7 +26,8 @@ defmodule WcsStudioWeb.LessonsLive do
     {:ok, socket}
   end
 
-  def handle_params(params, _uri, socket) do
+  @impl true
+  def handle_params(_params, _uri, socket) do
     # Build a map of lesson_id => true for lessons the user attended
     attended_map = case socket.assigns[:current_user] do
       nil ->
@@ -44,10 +45,12 @@ defmodule WcsStudioWeb.LessonsLive do
       |> assign(:expanded_lesson_id, nil)}
   end
 
+  @impl true
   def handle_event("validate", _params, socket) do
     {:noreply, socket}
   end
 
+  @impl true
   def handle_event("save", %{"lesson" => lesson_params}, socket) do
     dance_type_id = socket.assigns.selected_dance_type_id
     level_id = socket.assigns.selected_level_id
@@ -62,7 +65,7 @@ defmodule WcsStudioWeb.LessonsLive do
     date = Map.get(lesson_params, "date")
 
     case WcsStudio.Lesson.add(title, instructor_ids, pattern_ids, level_id, place, lesson_vid_url, date, dance_type_id) do
-      {:ok, lesson} ->
+      {:ok, _lesson} ->
         {:noreply,
           socket
           |> assign(modal_state: nil)
@@ -74,6 +77,7 @@ defmodule WcsStudioWeb.LessonsLive do
     end
   end
 
+  @impl true
   def handle_event("open_modal", _, socket) do
     {:noreply, assign(socket,
       modal_state: :create,
@@ -81,10 +85,12 @@ defmodule WcsStudioWeb.LessonsLive do
     )}
   end
 
+  @impl true
   def handle_event("close_modal", _, socket) do
     {:noreply, assign(socket, modal_state: nil)}
   end
 
+  @impl true
   def handle_event("update_lesson", %{"lesson" => lesson_params}, socket) do
     case socket.assigns.modal_state do
       {:edit, lesson, _instructor_ids, _pattern_ids} ->
@@ -101,7 +107,7 @@ defmodule WcsStudioWeb.LessonsLive do
         date = Map.get(lesson_params, "date")
 
         case Lesson.update(lesson, title, instructor_ids, pattern_ids, level_id, place, lesson_vid_url, date, dance_type_id) do
-          {:ok, updated_lesson} ->
+          {:ok, _updated_lesson} ->
             updated_lessons = Lesson.get_by_dance_type_and_level(dance_type_id, level_id)
 
             {:noreply,
@@ -118,6 +124,7 @@ defmodule WcsStudioWeb.LessonsLive do
     end
   end
 
+  @impl true
   def handle_event("open_update_modal", %{"id" => id}, socket) do
     lesson = Lesson.get_by_id(id)
     instructor_ids = Enum.map(lesson.instructors, & &1.id)
@@ -145,12 +152,14 @@ defmodule WcsStudioWeb.LessonsLive do
     end
   end
 
+  @impl true
   def handle_event("toggle_lesson", %{"id" => id}, socket) do
     id = String.to_integer(id)
     new_id = if socket.assigns.expanded_lesson_id == id, do: nil, else: id
     {:noreply, assign(socket, :expanded_lesson_id, new_id)}
   end
 
+  @impl true
   def handle_event("choose_dance_type", %{"dance_type_id" => dance_type_id}, socket) do
     dance_type_id = String.to_integer(dance_type_id)
     level_id = socket.assigns.selected_level_id
@@ -164,6 +173,7 @@ defmodule WcsStudioWeb.LessonsLive do
     {:noreply, socket}
   end
 
+  @impl true
   def handle_event("choose_level", %{"level_id" => level_id}, socket) do
     level_id = String.to_integer(level_id)
     dance_type_id = socket.assigns.selected_dance_type_id
@@ -176,7 +186,7 @@ defmodule WcsStudioWeb.LessonsLive do
     {:noreply, socket}
   end
 
-  # Updated to toggle attendance based on UserLesson existence
+  @impl true
   def handle_event("toggle_attendance", %{"lesson_id" => lesson_id, "user_id" => user_id}, socket) do
     lesson_id_int = String.to_integer(lesson_id)
     user_id_int = String.to_integer(user_id)
@@ -205,6 +215,7 @@ defmodule WcsStudioWeb.LessonsLive do
       |> put_flash(:info, if(currently_attended, do: "Attendance removed!", else: "Attendance marked!"))}
   end
 
+  @impl true
   def render(assigns) do
     ~H"""
     <div class="my-8 mx-8">

@@ -14,7 +14,7 @@ defmodule WcsStudio.Lesson do
     many_to_many :patterns, WcsStudio.Pattern , join_through: "lesson_patterns", join_keys: [lesson_id: :id ,pattern_id: :id], on_replace: :delete
     has_many :user_lessons, WcsStudio.UserPattern
     belongs_to :dance_type, WcsStudio.DanceType
-    belongs_to :level, WcsStudio.Levels
+    belongs_to :level, WcsStudio.Levels, foreign_key: :level_id
 
     timestamps()
   end
@@ -39,7 +39,7 @@ defmodule WcsStudio.Lesson do
 
   def count_lessons do
     from(ul in WcsStudio.Lesson,select: count())
-      |> WcsStudio.Repo.one()
+    |> WcsStudio.Repo.one()
 
   end
 
@@ -65,7 +65,7 @@ defmodule WcsStudio.Lesson do
     |> WcsStudio.Repo.insert()
   end
 
-  defp changeset(lesson, params \\ %{}) do
+  defp changeset(lesson, params) do
     lesson
     |> cast(params, [:title, :level_id, :place, :lesson_vid_url, :date, :dance_type_id])
     |> validate_required([:title, :level_id, :place, :date, :dance_type_id])
@@ -96,8 +96,5 @@ defmodule WcsStudio.Lesson do
       nil -> {:error, :not_found}
       lesson -> WcsStudio.Repo.delete(lesson)
     end
-  end
-
-  defp validate_instructors() do
   end
 end
