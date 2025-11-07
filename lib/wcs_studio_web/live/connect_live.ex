@@ -25,28 +25,21 @@ defmodule WcsStudioWeb.ConnectLive do
               </div>
               <div>
                 <h1 class="text-4xl md:text-5xl font-bold text-white mb-2">
-                  Hey, I'm <span class="text-transparent bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text">Your Name</span>
+                  Hey, I'm <span class="text-transparent bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text">Karol Półchłopek</span>
                 </h1>
-                <p class="text-xl text-slate-300"><%= gettext("Full Stack Developer & Content Creator") %></p>
+                <p class="text-xl text-slate-300"><%= gettext("Full Stack Developer") %></p>
               </div>
             </div>
 
             <div class="space-y-4 text-slate-300 leading-relaxed text-lg">
               <p>
-                <%= gettext("Full Stack Developer & Content Creator") %>
+                <%= gettext("Full Stack Developer") %>
                 Welcome to my corner of the internet! I'm a passionate developer who loves building 
-                web applications with <span class="text-purple-400 font-semibold">Elixir</span> and 
+                web applications. This one was build with <span class="text-purple-400 font-semibold">Elixir</span> and
                 <span class="text-pink-400 font-semibold">Phoenix LiveView</span>.
               </p>
               <p>
-                When I'm not coding, you'll find me writing technical tutorials, exploring new 
-                technologies, and sharing my journey in software development. I believe in learning 
-                in public and helping others along the way.
-              </p>
-              <p>
-                My expertise includes web development, real-time applications, and creating 
-                intuitive user experiences. I'm always excited to work on projects that make 
-                a difference and solve real problems.
+                When I'm not coding, you'll see me dancing.
               </p>
             </div>
 
@@ -74,8 +67,8 @@ defmodule WcsStudioWeb.ConnectLive do
                   </div>
                   <div>
                     <p class="text-sm text-slate-400">Email</p>
-                    <a href="mailto:your.email@example.com" class="text-white hover:text-purple-400 transition-colors">
-                      your.email@example.com
+                    <a href="mailto:karol.szarooki@gmail.com" class="text-white hover:text-purple-400 transition-colors">
+                      karol.szarooki@gmail.com
                     </a>
                   </div>
                 </div>
@@ -86,20 +79,8 @@ defmodule WcsStudioWeb.ConnectLive do
                   </div>
                   <div>
                     <p class="text-sm text-slate-400">GitHub</p>
-                    <a href="https://github.com/yourusername" target="_blank" class="text-white hover:text-pink-400 transition-colors">
-                      @yourusername
-                    </a>
-                  </div>
-                </div>
-
-                <div class="flex items-center gap-4 text-slate-300">
-                  <div class="w-12 h-12 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
-                    <i class="fab fa-twitter text-xl"></i>
-                  </div>
-                  <div>
-                    <p class="text-sm text-slate-400">Twitter</p>
-                    <a href="https://twitter.com/yourusername" target="_blank" class="text-white hover:text-blue-400 transition-colors">
-                      @yourusername
+                    <a href="https://github.com/kpolchl" target="_blank" class="text-white hover:text-pink-400 transition-colors">
+                      @kpolchl
                     </a>
                   </div>
                 </div>
@@ -110,8 +91,8 @@ defmodule WcsStudioWeb.ConnectLive do
                   </div>
                   <div>
                     <p class="text-sm text-slate-400">LinkedIn</p>
-                    <a href="https://linkedin.com/in/yourusername" target="_blank" class="text-white hover:text-green-400 transition-colors">
-                      /in/yourusername
+                    <a href="https://www.linkedin.com/in/karol-p%C3%B3%C5%82ch%C5%82opek-092803357/" target="_blank" class="text-white hover:text-green-400 transition-colors">
+                      in/karol-półchłopek
                     </a>
                   </div>
                 </div>
@@ -175,7 +156,6 @@ defmodule WcsStudioWeb.ConnectLive do
     # TODO: Implement email sending logic here
     # For now, just show a success message
     IO.inspect({name, email, message}, label: "Contact Form Submission")
-
     {:noreply,
       socket
       |> put_flash(:info, "Thanks for reaching out! I'll get back to you soon.")
