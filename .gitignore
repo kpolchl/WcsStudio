@@ -35,4 +35,9 @@ wcs_studio-*.tar
 npm-debug.log
 /assets/node_modules/
 
+*.sh
+
+/priv/static
+
+.env
 
