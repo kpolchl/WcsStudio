@@ -303,15 +303,6 @@ defmodule WcsStudioWeb.PatternsLive do
                 <div class="absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
                   <i class="fas fa-search text-slate-400 text-sm"></i>
                 </div>
-                <%= if @query && String.length(@query) > 0 do %>
-                  <button
-                    type="button"
-                    phx-click="clear-search"
-                    class="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-300 transition-colors"
-                  >
-                    <i class="fas fa-times text-sm"></i>
-                  </button>
-                <% end %>
               </div>
             </form>
           </div>

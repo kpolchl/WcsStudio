@@ -431,7 +431,7 @@ defmodule WcsStudioWeb.CoreComponents do
 
 
         <!-- Actions -->
-        <div class="flex flax-wrap justify-end gap-4 mt-6">
+        <div class="flex flex-wrap justify-end gap-2 mt-4 pt-4 border-t border-slate-700/50">
           <%= if @current_user do %>
             <% status = @status || "not_started" %>
 
@@ -616,7 +616,7 @@ defmodule WcsStudioWeb.CoreComponents do
         </div>
 
         <!-- Actions -->
-        <div class="flex flex-wrap justify-end gap-4 mt-4 pt-4 border-t border-slate-700/50">
+        <div class="flex flex-wrap justify-end gap-2 mt-4 pt-4 border-t border-slate-700/50">
           <%= if @current_user do%>
               <% attended = @attended || false %>
               <button

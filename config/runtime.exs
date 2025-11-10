@@ -21,6 +21,10 @@ if System.get_env("PHX_SERVER") do
 end
 
 if config_env() == :prod do
+
+  config :wcs_studio, WcsStudio.Mailer,
+         api_key: System.get_env("RESEND_API_KEY")
+
   database_url =
     System.get_env("DATABASE_URL") ||
       raise """
@@ -108,9 +112,6 @@ if config_env() == :prod do
   # Also, you may need to configure the Swoosh API client of your choice if you
   # are not using SMTP. Here is an example of the configuration:
   #
-  config :wcs_studio, WcsStudio.Mailer,
-   adapter: Swoosh.Adapters.Resend,
-   api_key: System.get_env("RESEND_API_KEY")
 
   # For this example you need include a HTTP client required by Swoosh API client.
   # Swoosh supports Hackney and Finch out of the box:
