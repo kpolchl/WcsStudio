@@ -231,5 +231,6 @@
     <orderEntry type="library" name="cowlib" level="project" />
     <orderEntry type="library" name="ranch" level="project" />
     <orderEntry type="library" name="image" level="project" />
+    <orderEntry type="library" name="resend" level="project" />
   </component>
 </module>
