@@ -22,6 +22,9 @@ end
 
 if config_env() == :prod do
 
+  config :resend, Resend.Client,
+         api_key: System.get_env("RESEND_API_KEY")
+
   config :wcs_studio, WcsStudio.Mailer,
      adapter: WcsStudio.SwooshResendAdapter,
      api_key: System.get_env("RESEND_API_KEY")
