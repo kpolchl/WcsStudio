@@ -109,6 +109,15 @@
       <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/image" />
       <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/sweet_xml" />
       <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/vix" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/certifi" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/hackney" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/idna" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/metrics" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/mimerl" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/parse_trans" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/resend" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/ssl_verify_fun" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/unicode_util_compat" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="phoenix" level="project" />

@@ -1,7 +1,13 @@
 <component name="libraryTable">
   <library name="resend" type="mix">
-    <CLASSES />
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/_build/dev/lib/resend/ebin" />
+      <root url="file://$PROJECT_DIR$/_build/dev/lib/resend/ebin" />
+    </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/deps/resend/lib" />
+      <root url="file://$PROJECT_DIR$/deps/resend/lib" />
+    </SOURCES>
   </library>
 </component>

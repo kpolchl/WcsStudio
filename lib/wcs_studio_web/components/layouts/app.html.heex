@@ -20,7 +20,7 @@
                         <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-pink-500 to-purple-500 transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
                     </.link>
                     <%= if @current_user && @current_user.role == "admin" do %>
-                        <.link href={~p"/lessons"} class="relative text-slate-300 hover:text-white px-4 py-2 text-sm font-medium transition-all duration-300 group">
+                        <.link href={~p"/admin/lessons"} class="relative text-slate-300 hover:text-white px-4 py-2 text-sm font-medium transition-all duration-300 group">
                             <%= gettext("Lessons") %>
                             <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-pink-500 to-purple-500 transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
                         </.link>
@@ -166,7 +166,7 @@
                 <%= gettext("Patterns") %>
             </.link>
             <%= if @current_user && @current_user.role == "admin" do %>
-                <.link href={~p"/lessons"} class="text-slate-300 hover:text-white hover:bg-slate-800/50 block px-3 py-3 rounded-lg text-base font-medium transition-all duration-300 border border-transparent hover:border-slate-700">
+                <.link href={~p"/admin/lessons"} class="text-slate-300 hover:text-white hover:bg-slate-800/50 block px-3 py-3 rounded-lg text-base font-medium transition-all duration-300 border border-transparent hover:border-slate-700">
                     <%= gettext("Lessons") %>
                 </.link>
             <% end %>
