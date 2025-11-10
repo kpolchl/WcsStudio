@@ -236,7 +236,7 @@ defmodule WcsStudioWeb.BlogPostLive do
 
           <!-- Article Footer / Tags -->
           <div class="border-t border-slate-700 pt-8 mb-12">
-            <div class="flex items-center gap-3">
+            <div class="flex flex-wrap items-center gap-3">
               <span class="text-slate-400">Tags:</span>
               <%= for tag <- Post.parse_tags(@post.tags) do %>
                 <span class="px-3 py-1 rounded-full text-sm bg-purple-500/20 text-purple-300 border border-purple-500/30">

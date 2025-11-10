@@ -12,7 +12,6 @@ defmodule WcsStudioWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug :fetch_current_user
-#    plug WcsStudioWeb.Plugs.Locale
     plug :set_locale
   end
 
@@ -36,9 +35,7 @@ defmodule WcsStudioWeb.Router do
 #    get "/", PageController, :home
     get "/", HomeController, :index
     get "/locale/:locale", LocaleController, :set_locale
-    get "/uploads/:filename", UploadController, :show
-#    get "/dance_types", DanceTypesController, :index
-#    get "/dance_types/:id", DanceTypesController, :show
+#    get "/uploads/:filename", UploadController, :show
   end
 
   # Other scopes may use custom stacks.

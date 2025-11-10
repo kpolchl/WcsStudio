@@ -12,8 +12,8 @@ defmodule WcsStudio.Accounts.User do
     field :confirmed_at, :utc_datetime
     field :role, :string, default: "user"
     field :course_enrolled, :boolean, default: false
-    field :profile_pic_url, :string, default: "images/user_icon.png"
-    field :qr_code_url, :string, default: "images/default_qr_code.png"
+    field :profile_pic_url, :string, default: "/images/user_icon.png"
+    field :qr_code_url, :string, default: "/images/default_qr_code.png"
     has_many :post, WcsStudio.Post
     has_many :comment , WcsStudio.Comment
     has_many :user_lesson , WcsStudio.UserLesson

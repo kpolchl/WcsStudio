@@ -218,7 +218,7 @@ defmodule WcsStudioWeb.LessonsLive do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="my-8 mx-8">
+    <div class="">
       <!-- Header -->
       <div class="mb-12 text-center">
         <h1 class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent mb-4 py-2">
@@ -267,7 +267,7 @@ defmodule WcsStudioWeb.LessonsLive do
 
       <!-- Add Lesson Button (Admin Only) -->
       <%= if @current_user && @current_user.role == "admin" do %>
-        <div class="max-w-2xl mx-auto my-8">
+        <div class="max-w-2xl mx-8 my-8">
           <button
             phx-click="open_modal"
             class="w-full sm:w-auto bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"

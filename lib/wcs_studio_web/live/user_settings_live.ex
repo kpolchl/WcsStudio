@@ -421,10 +421,11 @@ defmodule WcsStudioWeb.UserSettingsLive do
           <h3 class="text-lg font-semibold mb-4"><%= gettext("Profile Picture") %></h3>
 
           <%= if @current_user.profile_pic_url do %>
+            <p> {@current_user.profile_pic_url} </p>
             <div class="mb-4">
               <img
                 src={@current_user.profile_pic_url}
-                alt={gettext("Current profile picture")}
+                alt=" "
                 class="w-32 h-32 rounded-full object-cover border-2 border-gray-200 shadow-md"
               />
             </div>

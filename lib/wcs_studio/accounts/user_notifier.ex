@@ -8,7 +8,7 @@ defmodule WcsStudio.Accounts.UserNotifier do
     email =
       new()
       |> to(recipient)
-      |> from({"WcsStudio", "contact@example.com"})
+      |> from({"WcsStudio", "noreply@wcsstudio.nextserwewusek.top"})
       |> subject(subject)
       |> text_body(body)
 

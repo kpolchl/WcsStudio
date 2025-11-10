@@ -414,7 +414,6 @@ defmodule WcsStudioWeb.CoreComponents do
                 </div>
                 <h2 class="text-xl font-bold text-white"><%= gettext("Showcase Video") %></h2>
               </div>
-              <div class="bg-slate-800/50 rounded-xl p-4 border border-slate-700/50">
                 <div class="w-full rounded-lg shadow-lg overflow-hidden">
                   <div class="relative" style="padding-bottom: 56.25%; height: 0;">
                     <iframe
@@ -427,13 +426,12 @@ defmodule WcsStudioWeb.CoreComponents do
                     </iframe>
                   </div>
                 </div>
-              </div>
             </div>
           </div>
 
 
         <!-- Actions -->
-        <div class="flex justify-end gap-3 mt-6">
+        <div class="flex flax-wrap justify-end gap-4 mt-6">
           <%= if @current_user do %>
             <% status = @status || "not_started" %>
 
@@ -602,7 +600,6 @@ defmodule WcsStudioWeb.CoreComponents do
               </div>
               <h2 class="text-xl font-bold text-white"><%= gettext("Video Lesson") %></h2>
             </div>
-            <div class="bg-slate-800/50 rounded-xl p-4 border border-slate-700/50">
               <div class="w-full rounded-lg shadow-lg overflow-hidden">
                 <div class="relative" style="padding-bottom: 56.25%; height: 0;">
                   <iframe
@@ -615,12 +612,11 @@ defmodule WcsStudioWeb.CoreComponents do
                   </iframe>
                 </div>
               </div>
-            </div>
           </div>
         </div>
 
         <!-- Actions -->
-        <div class="flex justify-end gap-3 mt-6 pt-6 border-t border-slate-700/50">
+        <div class="flex flex-wrap justify-end gap-4 mt-4 pt-4 border-t border-slate-700/50">
           <%= if @current_user do%>
               <% attended = @attended || false %>
               <button

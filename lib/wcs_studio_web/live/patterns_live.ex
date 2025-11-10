@@ -226,7 +226,7 @@ defmodule WcsStudioWeb.PatternsLive do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="my-8 mx-8">
+    <div class="">
       <!-- Header Section -->
       <div class="mb-12 text-center">
         <h1 class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent mb-4 py-2">
@@ -238,10 +238,10 @@ defmodule WcsStudioWeb.PatternsLive do
       </div>
 
       <!-- Filters Section -->
-      <div class="max-w-2xl mx-auto mb-8">
+      <div class="w-full max-w-2xl mx-auto px-4 mb-8">
         <div class="flex flex-col sm:flex-row gap-3 p-4 bg-slate-800/30 rounded-xl border border-slate-700/50 shadow-lg">
           <!-- Dance Type Selector -->
-          <div class="flex-1 relative z-50 isolation-auto" id="dance-type-selector">
+          <div class="flex-1 relative isolation-auto" id="dance-type-selector">
             <div phx-click-away="close_dropdown" class="relative h-full">
               <button
                 type="button"
@@ -320,7 +320,7 @@ defmodule WcsStudioWeb.PatternsLive do
 
       <!-- Add Pattern Button (Admin Only) -->
       <%= if @current_user && @current_user.role == "admin" do %>
-        <div class="max-w-2xl mx-auto mb-8">
+        <div class="w-full max-w-2xl mx-auto px-4 mb-8">
           <button
             phx-click="open_modal"
             class="w-full sm:w-auto bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"

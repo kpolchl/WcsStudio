@@ -60,7 +60,7 @@ defmodule WcsStudio.MixProject do
       {:bandit, "~> 1.2"},
       {:bcrypt_elixir, "~> 3.0"},
       {:lazy_html, ">= 0.1.8", only: :test},
-      {:image, "~> 0.37"}
+      {:image, "~> 0.37"},
     ]
   end
 
