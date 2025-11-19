@@ -94,7 +94,6 @@ defmodule WcsStudioWeb.BlogPostLive do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       <!-- Back Navigation -->
       <div class="max-w-4xl mx-auto px-4 pt-8">
         <div class="flex justify-between items-center">
@@ -194,9 +193,6 @@ defmodule WcsStudioWeb.BlogPostLive do
           <header class="mb-12">
             <!-- Meta Information -->
             <div class="flex items-center gap-3 mb-6">
-              <span class="px-4 py-1.5 rounded-full text-sm bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium">
-                <%= @post.subject%>
-              </span>
               <span class="text-slate-400">
                 <%= if @post.inserted_at do %>
                   <%= Calendar.strftime(@post.inserted_at, "%B %d, %Y") %>
@@ -204,8 +200,6 @@ defmodule WcsStudioWeb.BlogPostLive do
                   <%= gettext("Unknown date")%>
                 <% end %>
               </span>
-              <span class="text-slate-400">•</span>
-              <span class="text-slate-400"><%= Post.estimate_read_time(@post.body) %></span>
             </div>
 
             <!-- Title -->
@@ -332,7 +326,6 @@ defmodule WcsStudioWeb.BlogPostLive do
           </section>
         <% end %>
       </article>
-    </div>
     """
   end
 

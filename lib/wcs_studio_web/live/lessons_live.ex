@@ -218,16 +218,28 @@ defmodule WcsStudioWeb.LessonsLive do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="">
       <!-- Header -->
-      <div class="mb-12 text-center">
-        <h1 class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent mb-4 py-2">
+      <div class="mb-12 text-center px-4">
+        <h1 class="text-5xl md:text-6xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent mb-6 py-2">
           <%= gettext("Lessons") %>
         </h1>
         <p class="text-xl text-slate-400 max-w-2xl mx-auto">
           <%= gettext("Browse and track your dance lessons by type and level") %>
         </p>
       </div>
+
+      <!-- Add Lesson Button (Admin Only) -->
+      <%= if @current_user && @current_user.role == "admin" do %>
+        <div class="max-w-2xl mx-8 my-8">
+          <button
+            phx-click="open_modal"
+            class="w-full sm:w-auto bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
+          >
+            <i class="fas fa-plus"></i>
+            <span><%= gettext("Add New Lesson") %></span>
+          </button>
+        </div>
+      <% end %>
 
       <!-- Dance Type Filters -->
       <div class="flex flex-wrap justify-center gap-4 mt-8">
@@ -264,19 +276,6 @@ defmodule WcsStudioWeb.LessonsLive do
           </button>
         <% end %>
       </div>
-
-      <!-- Add Lesson Button (Admin Only) -->
-      <%= if @current_user && @current_user.role == "admin" do %>
-        <div class="max-w-2xl mx-8 my-8">
-          <button
-            phx-click="open_modal"
-            class="w-full sm:w-auto bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
-          >
-            <i class="fas fa-plus"></i>
-            <span><%= gettext("Add New Lesson") %></span>
-          </button>
-        </div>
-      <% end %>
 
       <!-- Modals -->
       <%= case @modal_state do %>
@@ -396,7 +395,7 @@ defmodule WcsStudioWeb.LessonsLive do
       <% end %>
 
       <!-- Lessons List -->
-      <div class="mt-4 p-4">
+      <div class="mt-4 lg:p-4">
         <%= for lesson <- @lessons do %>
           <.lesson_box
             lesson={lesson}
@@ -427,7 +426,6 @@ defmodule WcsStudioWeb.LessonsLive do
           <p class="text-slate-500"><%= gettext("Try selecting a different dance type or level") %></p>
         </div>
       <% end %>
-    </div>
     """
   end
 end

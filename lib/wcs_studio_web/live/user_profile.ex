@@ -57,18 +57,14 @@ defmodule WcsStudioWeb.UserProfile do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="px-4 py-4">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 -py-8">
         <!-- Hero Section with Profile -->
         <div class="mb-8">
-          <div class="bg-gradient-to-r from-blue-600/20 via-cyan-600/20 to-purple-600/20 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl relative overflow-hidden">
-            <!-- Decorative elements -->
-            <div class="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl"></div>
-            <div class="absolute bottom-0 left-0 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl"></div>
+          <div class="bg-gradient-to-r from-blue-600/20 via-cyan-600/20 to-purple-600/20 backdrop-blur-xl border border-white/10 rounded-3xl p-2 shadow-2xl relative overflow-hidden">
 
             <div class="relative flex flex-col lg:flex-row items-center lg:items-start gap-8">
               <!-- Profile Image -->
-              <div class="flex-shrink-0">
+              <div class="flex-shrink-0 p-4">
                 <div class="relative group">
                   <div class="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-3xl blur opacity-25 group-hover:opacity-40 transition duration-300"></div>
                   <img
@@ -100,8 +96,8 @@ defmodule WcsStudioWeb.UserProfile do
                 </p>
 
                 <!-- Stats Grid -->
-                <div class="grid grid-cols-3 gap-4 max-w-2xl">
-                  <div class="bg-slate-800/60 backdrop-blur-sm rounded-2xl p-4 border border-white/5 hover:border-blue-500/30 transition-all duration-300">
+                <div class="grid grid-cols-3 gap-2 max-w-2xl">
+                  <div class="bg-slate-800/60 backdrop-blur-sm rounded-2xl p-4 border border-white/5">
                     <div class="flex items-center justify-center mb-2">
                       <div class="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center">
                         <i class="fas fa-graduation-cap text-blue-400"></i>
@@ -282,7 +278,6 @@ defmodule WcsStudioWeb.UserProfile do
           <% end %>
         </div>
       </div>
-    </div>
     """
   end
 end

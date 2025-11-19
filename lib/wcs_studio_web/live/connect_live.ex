@@ -10,19 +10,16 @@ defmodule WcsStudioWeb.ConnectLive do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-      <div class="max-w-5xl mx-auto px-4 py-16">
+      <div class="max-w-5xl mx-auto px-2 ">
         <!-- About Me Section -->
-        <section class="mb-20">
+        <section class="mb-8">
           <div class="bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8 md:p-12">
             <div class="flex flex-col md:flex-row gap-8 items-center mb-8">
               <div class="w-40 h-40 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 p-1 flex-shrink-0">
                 <img
                   src="/images/profile.jpg"
                   alt=" "
-                  class="w-full h-full rounded-2xl object-cover"
-
-                >
+                  class="w-full h-full rounded-2xl object-cover">
               </div>
               <div>
                 <h1 class="text-4xl md:text-5xl font-bold text-white mb-2">
@@ -147,7 +144,6 @@ defmodule WcsStudioWeb.ConnectLive do
           </div>
         </section>
       </div>
-    </div>
     """
   end
 

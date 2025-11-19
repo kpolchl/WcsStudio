@@ -44,11 +44,8 @@ defmodule WcsStudioWeb.BlogLive do
   @impl true
   def render(assigns) do
     ~H"""
-
-
-    <section class="px-4 pb-16 py-4">
       <div class="mb-12 text-center">
-        <h1 class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent mb-4 py-2">
+        <h1 class="text-5xl md:text-6xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent mb-6 py-2">
           <%= gettext("Blog") %>
         </h1>
         <p class="text-xl text-slate-400 max-w-2xl mx-auto">
@@ -56,13 +53,16 @@ defmodule WcsStudioWeb.BlogLive do
         </p>
       </div>
 
+      <!-- Add post Button (Admin Only) -->
       <%= if @current_user && @current_user.role == "admin" do %>
-        <button
-          phx-click="open_modal"
-          class="bg-purple-500 hover:bg-purple-600 text-white px-6 py-3 rounded-full shadow-lg transition-colors"
-        >
-          + New Post
-        </button>
+        <div class="w-full max-w-2xl mx-auto px-4 mb-8">
+          <button
+            phx-click="open_modal"
+            class="w-full sm:w-auto bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2">
+            <i class="fas fa-plus"></i>
+            <span><%= gettext("Add New Pattern") %></span>
+          </button>
+        </div>
       <% end %>
 
       <div class="max-w-4xl mx-auto space-y-6">
@@ -70,7 +70,7 @@ defmodule WcsStudioWeb.BlogLive do
           <.post_highlight post={post} />
         <% end %>
       </div>
-    </section>
+
 
     <%= if @show_modal do %>
       <.modal id="new-post-modal" show={true} on_cancel={JS.push("close_modal")}>

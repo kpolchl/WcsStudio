@@ -19,7 +19,8 @@ defmodule WcsStudioWeb.PatternsLive do
         form: to_form(Ecto.Changeset.change(%WcsStudio.Pattern{})),
         modal_state: nil,
         expanded_pattern_id: nil,
-        dropdown_open: false
+        dropdown_open: false,
+        ghost_text: "Search patterns"
       )
     {:ok, socket
           |> allow_upload(:video,
@@ -60,13 +61,36 @@ defmodule WcsStudioWeb.PatternsLive do
 
   @impl true
   def handle_event("search", %{"query" => query}, socket) do
-    socket =
-      assign(socket,
-        patterns: Pattern.get_by_id_name_or_general_description(socket.assigns.dance_type_id, query),
-        query: query
-      )
+    new_patterns = Pattern.get_by_id_name_or_general_description(
+      socket.assigns.dance_type_id,
+      query
+    )
 
-    {:noreply, socket}
+    ghost_text = calculate_ghost_text(query, new_patterns)
+
+    {:noreply, assign(socket,
+      patterns: new_patterns,
+      query: query,
+      ghost_text: ghost_text
+    )}
+  end
+
+  defp calculate_ghost_text("", _patterns), do: "Search patterns"
+
+  defp calculate_ghost_text(query, patterns) do
+    query_lower = String.downcase(String.trim(query))
+
+    patterns
+    |> Enum.map(& &1.name)
+    |> Enum.filter(&(String.starts_with?(String.downcase(&1), query_lower)))
+    |> Enum.sort_by(&{String.length(&1), &1})
+    |> List.first()
+    |> filter_exact_match(query_lower)
+  end
+
+  defp filter_exact_match(nil, _query), do: ""
+  defp filter_exact_match(suggestion, query) do
+    if String.downcase(suggestion) == query, do: "", else: suggestion
   end
 
   @impl true
@@ -226,16 +250,27 @@ defmodule WcsStudioWeb.PatternsLive do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="">
       <!-- Header Section -->
-      <div class="mb-12 text-center">
-        <h1 class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent mb-4 py-2">
-          <%= gettext("Dance Patterns") %>
+      <div class="mb-12 text-center px-4">
+        <h1 class="text-5xl md:text-6xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent mb-6 py-2">
+          <%= gettext("Steps") %>
         </h1>
         <p class="text-xl text-slate-400 max-w-2xl mx-auto">
-          <%= gettext("Explore our collection of dance patterns with step-by-step instructions, video demonstrations, and detailed breakdowns for leaders and followers.") %>
+          <%= gettext("Explore our collection of dance moves with step-by-step instructions, video demonstrations, and detailed breakdowns for leaders and followers.") %>
         </p>
       </div>
+
+      <!-- Add Pattern Button (Admin Only) -->
+      <%= if @current_user && @current_user.role == "admin" do %>
+        <div class="w-full max-w-2xl mx-auto px-4 mb-8">
+          <button
+            phx-click="open_modal"
+            class="w-full sm:w-auto bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2">
+            <i class="fas fa-plus"></i>
+            <span><%= gettext("Add New Pattern") %></span>
+          </button>
+        </div>
+      <% end %>
 
       <!-- Filters Section -->
       <div class="w-full max-w-2xl mx-auto px-4 mb-8">
@@ -246,10 +281,9 @@ defmodule WcsStudioWeb.PatternsLive do
               <button
                 type="button"
                 phx-click="toggle_dropdown"
-                class="w-full py-3 pl-10 pr-8 text-left bg-slate-700/50 text-slate-200 border border-slate-600/50 rounded-lg hover:border-pink-500/40 focus:outline-none focus:ring-1 focus:ring-pink-500 transition-all duration-200 flex items-center justify-between"
+                class="w-full h-full py-3 pl-4 pr-4 text-left bg-slate-700/50 text-slate-200 border border-slate-600/50 rounded-lg hover:border-pink-500/40 focus:outline-none focus:ring-1 focus:ring-pink-500 transition-all duration-200 flex items-center justify-between"
               >
-                <div class="flex items-center gap-2">
-                  <i class="fas fa-filter text-slate-400 text-sm"></i>
+                <div class="flex items-center ">
                   <span>
                     <%= if @selected_dance_type do %>
                       <%= DanceType.get_name(@selected_dance_type, @locale) %>
@@ -258,7 +292,7 @@ defmodule WcsStudioWeb.PatternsLive do
                     <% end %>
                   </span>
                 </div>
-                <i class="fas fa-chevron-down text-slate-400 text-xs"></i>
+                <i class={["fas fa-chevron-down text-slate-400 text-xs transition-transform duration-300", if(@dropdown_open, do: "rotate-180", else: "group-hover:rotate-180")]}></i>
               </button>
 
               <div
@@ -293,34 +327,37 @@ defmodule WcsStudioWeb.PatternsLive do
           <div class="flex-1 relative">
             <form phx-change="search" class="h-full">
               <div class="relative h-full">
-                <input
+                <div class="pl-1 absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                  <i class="fas fa-search text-slate-400 text-sm"></i>
+                </div>
+                <div class="relative">
+                <!-- Real input -->
+                  <input
                   type="search"
                   name="query"
                   value={@query}
-                  class="w-full h-full py-3 pl-10 pr-8 bg-slate-700/50 text-slate-200 border border-slate-600/50 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-200"
-                  placeholder={gettext("Search patterns...")}
+                  class="relative z-10 w-full h-full
+                         pl-10 pr-8 py-3
+                         bg-slate-700/50 text-slate-200
+                         border border-slate-600/50
+                         rounded-lg
+                         focus:outline-none focus:ring-1 focus:ring-blue-500"
+
                 />
-                <div class="absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                  <i class="fas fa-search text-slate-400 text-sm"></i>
+
+                <!-- Ghost text overlay -->
+                  <%= if @ghost_text != "" && @query != "" do %>
+                    <div class="absolute inset-0 z-0 flex items-center pointer-events-none pl-10 pr-8">
+                      <div class="text-slate-200 opacity-0 select-none"><%= @query %></div>
+                      <div class="text-slate-500/40"><%= String.slice(@ghost_text, String.length(@query), String.length(@ghost_text)) %></div>
+                    </div>
+                  <% end %>
                 </div>
               </div>
             </form>
           </div>
         </div>
       </div>
-
-      <!-- Add Pattern Button (Admin Only) -->
-      <%= if @current_user && @current_user.role == "admin" do %>
-        <div class="w-full max-w-2xl mx-auto px-4 mb-8">
-          <button
-            phx-click="open_modal"
-            class="w-full sm:w-auto bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
-          >
-            <i class="fas fa-plus"></i>
-            <span><%= gettext("Add New Pattern") %></span>
-          </button>
-        </div>
-      <% end %>
 
       <!-- Modals -->
       <%= case @modal_state do %>
@@ -370,8 +407,8 @@ defmodule WcsStudioWeb.PatternsLive do
       <% end %>
 
       <!-- Patterns Grid -->
-      <div class="mt-4 p-4">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div class="mt-4 lg:p-4">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <%= for pattern <- @patterns do %>
             <.pattern
               pattern={pattern}
@@ -403,7 +440,6 @@ defmodule WcsStudioWeb.PatternsLive do
           <p class="text-slate-500"><%= gettext("Try selecting a different filter or adjusting your search") %></p>
         </div>
       <% end %>
-    </div>
     """
   end
 end

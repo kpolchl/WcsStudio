@@ -312,7 +312,7 @@ defmodule WcsStudioWeb.CoreComponents do
   defp status_icon("in_progress"), do: "fa-spinner"
   defp status_icon("learned"), do: "fa-check-circle"
 
-  defp status_text("not_started"), do: gettext("Start")
+  defp status_text("not_started"), do: gettext("Learn")
   defp status_text("in_progress"), do: gettext("In Progress")
   defp status_text("learned"), do: gettext("Learned")
 
@@ -326,22 +326,25 @@ defmodule WcsStudioWeb.CoreComponents do
 
   def pattern(assigns) do
     ~H"""
-    <div id={"-card-#{@pattern.id}"} phx-click="toggle_pattern" phx-value-id={@pattern.id} class="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700/50 shadow-xl transition-all duration-300 cursor-pointer hover:shadow-2xl hover:border-pink-500/30 hover:-translate-y-1">
-      <div class="p-6 flex items-start justify-between">
+    <div id={"-card-#{@pattern.id}"} phx-click="toggle_pattern" phx-value-id={@pattern.id} class="group bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 shadow-xl transition-all duration-300 mb-6 cursor-pointer hover:shadow-2xl hover:border-pink-500/30   hover:-translate-y-1">
+      <div class="p-4 sm:p-6 flex items-start justify-between">
         <div class="flex-1 min-w-0">
-          <div class="flex flex-wrap gap-2 mb-3">
-            <span class="px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-300 border border-purple-500/30">
-                  { WcsStudio.DanceType.get_name(@pattern.dance_type, @locale) }
+          <!-- Dance type badge -->
+          <div class="flex flex-wrap gap-1 sm:gap-2 mb-2 sm:mb-3">
+            <span class="px-2 sm:px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-300 border border-purple-500/30">
+              { WcsStudio.DanceType.get_name(@pattern.dance_type, @locale) }
             </span>
           </div>
+
+          <!-- Title with responsive font size -->
           <h2 class="text-2xl font-bold text-white mb-2 bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
-              {@pattern.name}
+            {@pattern.name}
           </h2>
         </div>
       </div>
 
       <!-- Collapsed body preview -->
-      <div class={if @expanded_pattern_id == @pattern.id, do: "hidden", else: "px-6 pb-4 pt-0"} id={"preview-body-#{@pattern.id}"}>
+      <div class={if @expanded_pattern_id == @pattern.id, do: "hidden", else: "px-4 pb-4 pt-0"} id={"preview-body-#{@pattern.id}"}>
         <p class="text-slate-400 line-clamp-2 text-sm leading-relaxed">
           <%= WcsStudio.Pattern.get_general_description(@pattern, @locale) %>
         </p>
@@ -353,85 +356,73 @@ defmodule WcsStudioWeb.CoreComponents do
       </div>
 
       <!-- Expanded content -->
-      <div id={"expanded-body-#{@pattern.id}"} class={unless @expanded_pattern_id == @pattern.id, do: "hidden", else: "px-6 pb-6 pt-0 border-t border-slate-700/50 mt-4"}>
-
+      <div id={"expanded-body-#{@pattern.id}"} class={unless @expanded_pattern_id == @pattern.id, do: "hidden", else: " px-2 pb-4 pt-0 border-t border-slate-700/50 mt-4"}>
         <!-- Description -->
-        <div class="mb-6 py-4">
-          <div class="p-6 rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg">
+        <div class="mb-4 py-4">
+        <!-- General Description -->
+          <div class="p-4 rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg mb-4">
             <div class="flex items-center mb-4">
               <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center mr-3 shadow-lg">
-                  <i class="fas fa-note-sticky text-xs"></i>
+                <i class="fas fa-note-sticky text-xs"></i>
               </div>
               <h2 class="text-xl font-bold text-white"><%= gettext("General Description") %></h2>
             </div>
-            <div class="flex items-center p-3 rounded-lg bg-slate-600/30 border border-slate-500/30">
             <p class="text-slate-300 text-sm leading-relaxed">
               <%= WcsStudio.Pattern.get_general_description(@pattern, @locale) %>
             </p>
-            </div>
           </div>
-        </div>
-
-        <div class="mb-6">
-          <div class="grid grid-cols-1 gap-6 md:grid-cols-2 mt-6">
-            <div class="p-6 rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg">
+        <!-- Leader & Follower -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+            <!-- Leader -->
+            <div class="p-4 rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg">
               <div class="flex items-center mb-4">
                 <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center mr-3 shadow-lg">
                   <i class="fas fa-chess-king text-white text-sm"></i>
                 </div>
                 <h2 class="text-xl font-bold text-white"><%= gettext("For Leaders") %></h2>
               </div>
-              <div class="flex items-center p-3 rounded-lg bg-slate-600/30 border border-slate-500/30">
               <p class="text-slate-300 text-sm leading-relaxed">
                 <%= WcsStudio.Pattern.get_leader_description(@pattern, @locale) %>
               </p>
-              </div>
-
             </div>
-            <div class="p-6 rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg">
+            <!-- Follower -->
+            <div class="p-4 rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg">
               <div class="flex items-center mb-4">
                 <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center mr-3 shadow-lg">
                   <i class="fas fa-chess-queen text-white text-sm"></i>
                 </div>
                 <h2 class="text-xl font-bold text-white"><%= gettext("For Followers") %></h2>
               </div>
-              <div class="flex items-center p-3 rounded-lg bg-slate-600/30 border border-slate-500/30">
               <p class="text-slate-300 text-sm leading-relaxed">
                 <%= WcsStudio.Pattern.get_follower_description(@pattern, @locale) %>
               </p>
+          </div>
+        </div>
+
+          <!-- Video -->
+          <div class="rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg">
+            <div class="flex items-center mb-4 pt-4 pl-4 pr-4">
+              <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center mr-3 shadow-lg">
+                <i class="fas fa-play text-white text-sm"></i>
+              </div>
+              <h2 class="text-xl font-bold text-white"><%= gettext("Showcase Video") %></h2>
+            </div>
+            <div class="w-full rounded-lg shadow-lg overflow-hidden pl-2 pr-2 pb-2 ">
+              <div class="relative" style="padding-bottom: 56.25%; height: 0;">
+                <iframe
+                  class="absolute top-0 left-0 w-full h-full"
+                  src={@pattern.video_url}
+                  title={gettext("YouTube video player")}
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen>
+                </iframe>
               </div>
             </div>
           </div>
         </div>
-
-
-        <!-- Video -->
-        <div class="mt-6">
-            <div class="p-6 rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg  max-w-2xl mx-auto">
-              <div class="flex items-center mb-4">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center mr-3 shadow-lg">
-                  <i class="fas fa-play text-white text-sm"></i>
-                </div>
-                <h2 class="text-xl font-bold text-white"><%= gettext("Showcase Video") %></h2>
-              </div>
-                <div class="w-full rounded-lg shadow-lg overflow-hidden">
-                  <div class="relative" style="padding-bottom: 56.25%; height: 0;">
-                    <iframe
-                      class="absolute top-0 left-0 w-full h-full"
-                      src={@pattern.video_url}
-                      title={gettext("YouTube video player")}
-                      frameborder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowfullscreen>
-                    </iframe>
-                  </div>
-                </div>
-            </div>
-          </div>
-
-
         <!-- Actions -->
-        <div class="flex flex-wrap justify-end gap-2 mt-4 pt-4 border-t border-slate-700/50">
+        <div class="flex flex-wrap justify-end gap-2  pt-4 border-t border-slate-700/50">
           <%= if @current_user do %>
             <% status = @status || "not_started" %>
 
@@ -494,7 +485,7 @@ defmodule WcsStudioWeb.CoreComponents do
     ~H"""
     <div id={"lesson-card-#{@lesson.id}"}
       phx-click="toggle_lesson" phx-value-id={@lesson.id}
-      class="group bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 shadow-xl transition-all duration-300 mb-6 cursor-pointer hover:shadow-2xl hover:border-pink-500/30 max-w-4xl mx-auto hover:-translate-y-1">
+      class="group bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 shadow-xl transition-all duration-300 mb-6 cursor-pointer hover:shadow-2xl hover:border-pink-500/30 max-w-4xl  hover:-translate-y-1">
 
       <div class="p-6 flex items-start justify-between">
         <div class="flex-1 min-w-0">
@@ -511,7 +502,7 @@ defmodule WcsStudioWeb.CoreComponents do
             <h2 class="text-2xl font-bold text-white mb-3 bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
               {@lesson.title}
             </h2>
-            <div class="flex items-center text-sm text-slate-400 space-x-4">
+            <div class="flex items-center text-sm text-slate-400 gap-4">
               <div class="flex items-center">
                 <i class="fas fa-calendar-day mr-2 text-blue-400"></i>
                 <span>{@lesson.date}</span>
@@ -522,23 +513,16 @@ defmodule WcsStudioWeb.CoreComponents do
               </div>
             </div>
         </div>
-        <div class="flex-shrink-0 transition-transform duration-300 ml-4 group">
-            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+          <div class="flex-shrink-0 transition-transform duration-300 ml-4 group">
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center shadow-lg transition-transform duration-300">
               <i class={["fas fa-chevron-down text-white transition-transform duration-300",if(@expanded_lesson_id == @lesson.id, do: "rotate-180", else: "group-hover:rotate-180")]}></i>
             </div>
         </div>
       </div>
 
       <!-- Collapsed body preview -->
-      <div class={if @expanded_lesson_id == @lesson.id, do: "hidden", else: "px-6 pb-4 pt-0"} id={"preview-body-#{@lesson.id}"}>
+      <div class={if @expanded_lesson_id == @lesson.id, do: "hidden", else: "px-6 pb-4 pt-0 "} id={"preview-body-#{@lesson.id}"}>
         <div class="flex items-center text-sm text-slate-400">
-          <div class="flex -space-x-2 mr-3">
-            <%= for instructor <- @lesson.instructors do %>
-              <div class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 border-2 border-slate-800 flex items-center justify-center text-xs font-bold text-white shadow-lg">
-                <%= String.first(instructor.username) %>
-              </div>
-            <% end %>
-          </div>
           <span>
             <i class="fas fa-users mr-1"></i>
             <%= ngettext("1 instructor", "%{count} instructors", length(@lesson.instructors)) %>
@@ -547,10 +531,10 @@ defmodule WcsStudioWeb.CoreComponents do
       </div>
 
       <!-- Expanded content -->
-      <div class={unless @expanded_lesson_id == @lesson.id, do: "hidden", else: "px-6 pb-6 pt-0 border-t border-slate-700/50 mt-4"} id={"expanded-body-#{@lesson.id}"}>
-        <div class="grid grid-cols-1 gap-6 md:grid-cols-2 mt-6">
+      <div class={unless @expanded_lesson_id == @lesson.id, do: "hidden", else: "px-2 pb-4 pt-0 border-t border-slate-700/50 mt-4"} id={"expanded-body-#{@lesson.id}"}>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4 pt-4">
           <!-- Patterns Box -->
-          <div class="p-6 rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg">
+          <div class="p-4 rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg">
             <div class="flex items-center mb-4">
               <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center mr-3 shadow-lg">
                 <i class="fas fa-shapes text-white text-sm"></i>
@@ -568,7 +552,7 @@ defmodule WcsStudioWeb.CoreComponents do
           </div>
 
           <!-- Instructors Box -->
-          <div class="p-6 rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg ">
+          <div class="p-4 rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg">
             <div class="flex items-center mb-4">
               <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center mr-3 shadow-lg">
                 <i class="fas fa-users text-white text-sm"></i>
@@ -592,28 +576,28 @@ defmodule WcsStudioWeb.CoreComponents do
         </div>
 
         <!-- Video Section -->
-        <div class="mt-6">
-          <div class="p-6 rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg  max-w-2xl mx-auto">
-            <div class="flex items-center mb-4">
-              <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center mr-3 shadow-lg">
-                <i class="fas fa-play text-white text-sm"></i>
-              </div>
-              <h2 class="text-xl font-bold text-white"><%= gettext("Video Lesson") %></h2>
+
+        <div class="rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg">
+          <div class="flex items-center mb-4 pt-4 pl-4 pr-4">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center mr-3 shadow-lg">
+              <i class="fas fa-play text-white text-sm"></i>
             </div>
-              <div class="w-full rounded-lg shadow-lg overflow-hidden">
-                <div class="relative" style="padding-bottom: 56.25%; height: 0;">
-                  <iframe
-                    class="absolute top-0 left-0 w-full h-full"
-                    src={@lesson.lesson_vid_url}
-                    title={gettext("YouTube video player")}
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowfullscreen>
-                  </iframe>
-                </div>
-              </div>
+            <h2 class="text-xl font-bold text-white"><%= gettext("Video Lesson") %></h2>
           </div>
+            <div class="w-full rounded-lg shadow-lg overflow-hidden">
+              <div class="relative" style="padding-bottom: 56.25%; height: 0;">
+                <iframe
+                  class="absolute top-0 left-0 w-full h-full"
+                  src={@lesson.lesson_vid_url}
+                  title={gettext("YouTube video player")}
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen>
+                </iframe>
+              </div>
+            </div>
         </div>
+
 
         <!-- Actions -->
         <div class="flex flex-wrap justify-end gap-2 mt-4 pt-4 border-t border-slate-700/50">
@@ -667,13 +651,10 @@ defmodule WcsStudioWeb.CoreComponents do
     ~H"""
     <.link
     href={"/blog/#{@post.id}"}
-    class="block group bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 shadow-xl transition-all duration-500 hover:shadow-2xl hover:border-pink-500/30 hover:-translate-y-1 overflow-hidden"
+    class="block group bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 shadow-xl transition-all duration-500 hover:shadow-2xl hover:border-pink-500/30  overflow-hidden"
     >
     <div class="p-8">
     <div class="flex items-center gap-2 mb-4">
-      <span class="px-3 py-1 rounded-full text-sm bg-pink-500/20 text-pink-300 border border-pink-500/30">
-        <%= @post.subject %>
-      </span>
       <span class="px-3 py-1 rounded-full text-sm bg-slate-700/50 text-slate-300 border border-slate-600/50 backdrop-blur-sm">
           <%= WcsStudio.Post.estimate_read_time(@post.body) %>
       </span>
@@ -743,7 +724,7 @@ defmodule WcsStudioWeb.CoreComponents do
       phx-click={JS.push("lv:clear-flash", value: %{key: @kind}) |> hide("##{@id}")}
       role="alert"
       class={[
-        "fixed top-4 right-4 z-50 rounded-2xl p-4 backdrop-blur-sm border shadow-2xl max-w-sm transform transition-all duration-300 cursor-pointer group hover:-translate-y-1",
+        "fixed top-16 right-4 z-50 rounded-2xl p-4 backdrop-blur-sm border shadow-2xl max-w-sm transform transition-all duration-300 cursor-pointer group hover:-translate-y-1",
         @kind == :info && "bg-slate-800/80 border-cyan-500/30 text-cyan-300 shadow-cyan-500/10 hover:border-cyan-400/50",
         @kind == :error && "bg-slate-800/80 border-rose-500/30 text-rose-300 shadow-rose-500/10 hover:border-rose-400/50",
         @kind == :warning && "bg-slate-800/80 border-amber-500/30 text-amber-300 shadow-amber-500/10 hover:border-amber-400/50",
