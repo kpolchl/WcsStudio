@@ -70,7 +70,7 @@ defmodule WcsStudioWeb.LessonsLive do
           socket
           |> assign(modal_state: nil)
           |> put_flash(:success, "Lesson created successfully!")
-          |> push_navigate(to: ~p"/lessons")}
+          |> push_navigate(to: ~p"/admin/lessons")}
 
       {:error, changeset} ->
         {:noreply, assign(socket, form: to_form(changeset))}
@@ -145,7 +145,7 @@ defmodule WcsStudioWeb.LessonsLive do
         {:noreply,
           socket
           |> put_flash(:success, "Lesson deleted successfully!")
-          |> push_navigate(to: ~p"/lessons")}
+          |> push_navigate(to: ~p"/admin/lessons")}
 
       {:error, _reason} ->
         {:noreply, put_flash(socket, :error, "Could not delete lesson")}
@@ -277,6 +277,39 @@ defmodule WcsStudioWeb.LessonsLive do
         <% end %>
       </div>
 
+      <!-- Lessons List -->
+       <div class="mt-4 lg:p-4  flex flex-col items-center ">
+        <%= for lesson <- @lessons do %>
+          <.lesson_box
+            lesson={lesson}
+            current_user={@current_user}
+            expanded_lesson_id={@expanded_lesson_id}
+            attended={Map.get(@attended_map, lesson.id, false)}
+            locale={@locale}
+          />
+          <%= if @current_user && @current_user.role == "admin" do %>
+            <.confirm_modal
+              id={"confirm-delete-lesson-#{lesson.id}"}
+              title={gettext("Delete Lesson?")}
+              message={gettext("Are you sure you want to delete '%{title}'? This action cannot be undone and will remove all associated data.", title: lesson.title)}
+              confirm_event="delete_lesson"
+              confirm_value={lesson.id}
+            />
+          <% end %>
+        <% end %>
+      </div>
+
+      <!-- Empty State -->
+      <%= if Enum.empty?(@lessons) do %>
+        <div class="text-center py-16">
+          <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-slate-800/50 flex items-center justify-center">
+            <i class="fas fa-chalkboard-teacher text-3xl text-slate-500"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-slate-400 mb-2"><%= gettext("No lessons found") %></h3>
+          <p class="text-slate-500"><%= gettext("Try selecting a different dance type or level") %></p>
+        </div>
+      <% end %>
+
       <!-- Modals -->
       <%= case @modal_state do %>
         <% :create -> %>
@@ -392,39 +425,6 @@ defmodule WcsStudioWeb.LessonsLive do
           </.form_modal>
 
         <% nil -> %>
-      <% end %>
-
-      <!-- Lessons List -->
-      <div class="mt-4 lg:p-4">
-        <%= for lesson <- @lessons do %>
-          <.lesson_box
-            lesson={lesson}
-            current_user={@current_user}
-            expanded_lesson_id={@expanded_lesson_id}
-            attended={Map.get(@attended_map, lesson.id, false)}
-            locale={@locale}
-          />
-          <%= if @current_user && @current_user.role == "admin" do %>
-            <.confirm_modal
-              id={"confirm-delete-lesson-#{lesson.id}"}
-              title={gettext("Delete Lesson?")}
-              message={gettext("Are you sure you want to delete '%{title}'? This action cannot be undone and will remove all associated data.", title: lesson.title)}
-              confirm_event="delete_lesson"
-              confirm_value={lesson.id}
-            />
-          <% end %>
-        <% end %>
-      </div>
-
-      <!-- Empty State -->
-      <%= if Enum.empty?(@lessons) do %>
-        <div class="text-center py-16">
-          <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-slate-800/50 flex items-center justify-center">
-            <i class="fas fa-chalkboard-teacher text-3xl text-slate-500"></i>
-          </div>
-          <h3 class="text-xl font-semibold text-slate-400 mb-2"><%= gettext("No lessons found") %></h3>
-          <p class="text-slate-500"><%= gettext("Try selecting a different dance type or level") %></p>
-        </div>
       <% end %>
     """
   end

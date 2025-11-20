@@ -485,8 +485,7 @@ defmodule WcsStudioWeb.CoreComponents do
     ~H"""
     <div id={"lesson-card-#{@lesson.id}"}
       phx-click="toggle_lesson" phx-value-id={@lesson.id}
-      class="group bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 shadow-xl transition-all duration-300 mb-6 cursor-pointer hover:shadow-2xl hover:border-pink-500/30 max-w-4xl  hover:-translate-y-1">
-
+      class="group bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 shadow-xl transition-all duration-300 mb-6 cursor-pointer hover:shadow-2xl hover:border-pink-500/30 max-w-4xl md:w-1/2  hover:-translate-y-1">
       <div class="p-6 flex items-start justify-between">
         <div class="flex-1 min-w-0">
             <div class="flex flex-wrap gap-2 mb-3">
@@ -502,12 +501,12 @@ defmodule WcsStudioWeb.CoreComponents do
             <h2 class="text-2xl font-bold text-white mb-3 bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
               {@lesson.title}
             </h2>
-            <div class="flex items-center text-sm text-slate-400 gap-4">
-              <div class="flex items-center">
+            <div class="flex  text-sm text-slate-400 gap-8">
+              <div class="flex items-center whitespace-nowrap">
                 <i class="fas fa-calendar-day mr-2 text-blue-400"></i>
                 <span>{@lesson.date}</span>
               </div>
-              <div class="flex items-center">
+              <div class="flex items-center" >
                 <i class="fas fa-map-marker-alt mr-2 text-red-400"></i>
                 <span>{@lesson.place}</span>
               </div>
