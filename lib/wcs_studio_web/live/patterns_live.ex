@@ -20,7 +20,6 @@ defmodule WcsStudioWeb.PatternsLive do
         modal_state: nil,
         expanded_pattern_id: nil,
         dropdown_open: false,
-        ghost_text: "Search patterns"
       )
     {:ok, socket
           |> allow_upload(:video,
@@ -66,31 +65,10 @@ defmodule WcsStudioWeb.PatternsLive do
       query
     )
 
-    ghost_text = calculate_ghost_text(query, new_patterns)
-
     {:noreply, assign(socket,
       patterns: new_patterns,
       query: query,
-      ghost_text: ghost_text
     )}
-  end
-
-  defp calculate_ghost_text("", _patterns), do: "Search patterns"
-
-  defp calculate_ghost_text(query, patterns) do
-    query_lower = String.downcase(String.trim(query))
-
-    patterns
-    |> Enum.map(& &1.name)
-    |> Enum.filter(&(String.starts_with?(String.downcase(&1), query_lower)))
-    |> Enum.sort_by(&{String.length(&1), &1})
-    |> List.first()
-    |> filter_exact_match(query_lower)
-  end
-
-  defp filter_exact_match(nil, _query), do: ""
-  defp filter_exact_match(suggestion, query) do
-    if String.downcase(suggestion) == query, do: "", else: suggestion
   end
 
   @impl true
@@ -336,22 +314,13 @@ defmodule WcsStudioWeb.PatternsLive do
                   type="search"
                   name="query"
                   value={@query}
+                  placeholder="Type to search"
                   class="relative z-10 w-full h-full
                          pl-10 pr-8 py-3
                          bg-slate-700/50 text-slate-200
                          border border-slate-600/50
                          rounded-lg
-                         focus:outline-none focus:ring-1 focus:ring-blue-500"
-
-                />
-
-                <!-- Ghost text overlay -->
-                  <%= if @ghost_text != "" && @query != "" do %>
-                    <div class="absolute inset-0 z-0 flex items-center pointer-events-none pl-10 pr-8">
-                      <div class="text-slate-200 opacity-0 select-none"><%= @query %></div>
-                      <div class="text-slate-500/40"><%= String.slice(@ghost_text, String.length(@query), String.length(@ghost_text)) %></div>
-                    </div>
-                  <% end %>
+                         focus:outline-none focus:ring-1 focus:ring-blue-500"/>
                 </div>
               </div>
             </form>
@@ -440,6 +409,7 @@ defmodule WcsStudioWeb.PatternsLive do
           <p class="text-slate-500"><%= gettext("Try selecting a different filter or adjusting your search") %></p>
         </div>
       <% end %>
+
     """
   end
 end

@@ -16,7 +16,7 @@
                         <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-pink-500 to-purple-500 transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
                     </.link>
                     <.link href={~p"/patterns"} class="relative text-slate-300 hover:text-white px-4 py-2 text-sm font-medium transition-all duration-300 group">
-                        <%= gettext("Patterns") %>
+                        <%= gettext("Steps") %>
                         <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-pink-500 to-purple-500 transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
                     </.link>
                     <%= if @current_user && @current_user.role == "admin" do %>
@@ -25,6 +25,10 @@
                             <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-pink-500 to-purple-500 transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
                         </.link>
                     <% end %>
+                    <.link href={~p"/practice"} class="relative text-slate-300 hover:text-white px-4 py-2 text-sm font-medium transition-all duration-300 group">
+                        <%= gettext("Practice") %>
+                        <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-pink-500 to-purple-500 transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+                    </.link>
                     <.link href={~p"/blog"} class="relative text-slate-300 hover:text-white px-4 py-2 text-sm font-medium transition-all duration-300 group">
                         <%= gettext("Blog") %>
                         <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-pink-500 to-purple-500 transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
@@ -163,18 +167,21 @@
                 <%= gettext("Dance Types") %>
             </.link>
             <.link href={~p"/patterns"} class="text-slate-300 hover:text-white hover:bg-slate-800/50 block px-3 py-3 rounded-lg text-base font-medium transition-all duration-300 border border-transparent hover:border-slate-700">
-                <%= gettext("Patterns") %>
+                <%= gettext("Steps") %>
             </.link>
             <%= if @current_user && @current_user.role == "admin" do %>
                 <.link href={~p"/admin/lessons"} class="text-slate-300 hover:text-white hover:bg-slate-800/50 block px-3 py-3 rounded-lg text-base font-medium transition-all duration-300 border border-transparent hover:border-slate-700">
                     <%= gettext("Lessons") %>
                 </.link>
             <% end %>
+            <.link href={~p"/practice"} class="text-slate-300 hover:text-white hover:bg-slate-800/50 block px-3 py-3 rounded-lg text-base font-medium transition-all duration-300 border border-transparent hover:border-slate-700">
+                <%= gettext("Practice") %>
+            </.link>
             <.link href={~p"/blog"} class="text-slate-300 hover:text-white hover:bg-slate-800/50 block px-3 py-3 rounded-lg text-base font-medium transition-all duration-300 border border-transparent hover:border-slate-700">
                 <%= gettext("Blog") %>
             </.link>
             <.link href={~p"/connect"} class="text-slate-300 hover:text-white hover:bg-slate-800/50 block px-3 py-3 rounded-lg text-base font-medium transition-all duration-300 border border-transparent hover:border-slate-700">
-                <%= gettext("Connect") %>
+                <%= gettext("About me") %>
             </.link>
             <div class="md:hidden pt-4 border-t border-slate-700/50 mt-4">
                 <.mobile_locale_switcher

@@ -17,12 +17,14 @@ defmodule WcsStudio.Post do
   @doc """
   Returns all posts from the database, preloading associated comments.
   """
-  def get_all() do
-    WcsStudio.Post
+  def get_all do
+    from(p in WcsStudio.Post,
+      order_by: [desc: p.inserted_at],
+      preload: [:comments, :user]
+    )
     |> WcsStudio.Repo.all()
-    |> WcsStudio.Repo.preload(:comments)
-    |> WcsStudio.Repo.preload(:user)
   end
+
 
   def count_posts() do
     from(ul in WcsStudio.Post,select: count())

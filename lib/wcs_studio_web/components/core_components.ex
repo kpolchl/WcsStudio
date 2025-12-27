@@ -400,27 +400,30 @@ defmodule WcsStudioWeb.CoreComponents do
         </div>
 
           <!-- Video -->
-          <div class="rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg">
-            <div class="flex items-center mb-4 pt-4 pl-4 pr-4">
-              <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center mr-3 shadow-lg">
-                <i class="fas fa-play text-white text-sm"></i>
+          <%= if @expanded_pattern_id == @pattern.id do %>
+            <div class="rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg">
+              <div class="flex items-center mb-4 pt-4 pl-4 pr-4">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center mr-3 shadow-lg">
+                  <i class="fas fa-play text-white text-sm"></i>
+                </div>
+                <h2 class="text-xl font-bold text-white"><%= gettext("Showcase Video") %></h2>
               </div>
-              <h2 class="text-xl font-bold text-white"><%= gettext("Showcase Video") %></h2>
-            </div>
-            <div class="w-full rounded-lg shadow-lg overflow-hidden pl-2 pr-2 pb-2 ">
-              <div class="relative" style="padding-bottom: 56.25%; height: 0;">
-                <iframe
-                  class="absolute top-0 left-0 w-full h-full"
-                  src={@pattern.video_url}
-                  title={gettext("YouTube video player")}
-                  frameborder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowfullscreen>
-                </iframe>
+              <div class="w-full rounded-lg shadow-lg overflow-hidden pl-2 pr-2 pb-2 ">
+                <div class="relative" style="padding-bottom: 56.25%; height: 0;">
+                  <iframe
+                    class="absolute top-0 left-0 w-full h-full"
+                    src={@pattern.video_url}
+                    title={gettext("YouTube video player")}
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen>
+                  </iframe>
+                </div>
               </div>
             </div>
-          </div>
+          <% end %>
         </div>
+
         <!-- Actions -->
         <div class="flex flex-wrap justify-end gap-2  pt-4 border-t border-slate-700/50">
           <%= if @current_user do %>
@@ -575,27 +578,28 @@ defmodule WcsStudioWeb.CoreComponents do
         </div>
 
         <!-- Video Section -->
-
-        <div class="rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg">
-          <div class="flex items-center mb-4 pt-4 pl-4 pr-4">
-            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center mr-3 shadow-lg">
-              <i class="fas fa-play text-white text-sm"></i>
-            </div>
-            <h2 class="text-xl font-bold text-white"><%= gettext("Video Lesson") %></h2>
-          </div>
-            <div class="w-full rounded-lg shadow-lg overflow-hidden">
-              <div class="relative" style="padding-bottom: 56.25%; height: 0;">
-                <iframe
-                  class="absolute top-0 left-0 w-full h-full"
-                  src={@lesson.lesson_vid_url}
-                  title={gettext("YouTube video player")}
-                  frameborder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowfullscreen>
-                </iframe>
+        <%= if @expanded_lesson_id == @lesson.id do %>
+          <div class="rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg">
+            <div class="flex items-center mb-4 pt-4 pl-4 pr-4">
+              <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center mr-3 shadow-lg">
+                <i class="fas fa-play text-white text-sm"></i>
               </div>
+              <h2 class="text-xl font-bold text-white"><%= gettext("Video Lesson") %></h2>
             </div>
-        </div>
+              <div class="w-full rounded-lg shadow-lg overflow-hidden">
+                <div class="relative" style="padding-bottom: 56.25%; height: 0;">
+                  <iframe
+                    class="absolute top-0 left-0 w-full h-full"
+                    src={@lesson.lesson_vid_url}
+                    title={gettext("YouTube video player")}
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen>
+                  </iframe>
+                </div>
+              </div>
+          </div>
+        <% end %>
 
 
         <!-- Actions -->

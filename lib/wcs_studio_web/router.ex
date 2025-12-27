@@ -123,6 +123,7 @@ defmodule WcsStudioWeb.Router do
       live "/blog/:id", BlogPostLive, :show
       live "/connect", ConnectLive
       live "/user_profile", UserProfile
+      live "/practice", PracticeLive
       live "/users/confirm/:token", UserConfirmationLive, :edit
       live "/users/confirm", UserConfirmationInstructionsLive, :new
     end
