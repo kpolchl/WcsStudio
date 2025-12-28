@@ -59,7 +59,7 @@ defmodule WcsStudioWeb.PracticeLive do
       |> assign(:patterns, get_patterns_by_filter(selected_filter ,socket))}
   end
 
-  defp get_patterns_by_filter(filter, socket), do: UserPattern.get_user_patterns_by_status(socket.assigns.current_user.id, filter)
+  defp get_patterns_by_filter(filter, socket), do: UserPattern.get_user_patterns_by_status_and_dance_type(socket.assigns.current_user.id, filter, socket.assigns.selected_dance_type.id)
 
   @impl true
   def render(assigns) do

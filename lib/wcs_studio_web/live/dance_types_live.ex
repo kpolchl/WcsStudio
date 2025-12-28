@@ -28,7 +28,7 @@ defmodule WcsStudioWeb.DanceTypesLive do
     ~H"""
 
     <div class="mb-12 text-center px-4">
-      <h1 class="text-5xl md:text-6xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent mb-6 py-2">
+      <h1 class="text-5xl md:text-6xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent mb-6 py-2" style="-webkit-background-clip: text; -webkit-text-fill-color: transparent;">
         <%= gettext("Dance Types")%>
       </h1>
       <p class="text-xl text-slate-400 max-w-2xl mx-auto">
@@ -42,6 +42,7 @@ defmodule WcsStudioWeb.DanceTypesLive do
         <!-- Style Filters -->
         <div class="flex flex-wrap justify-center gap-3 mb-8">
           <button
+            type="button"
             phx-click="select_type_type"
             phx-value-dance_type_type="all"
             class={[
@@ -57,6 +58,7 @@ defmodule WcsStudioWeb.DanceTypesLive do
           </button>
 
           <button
+            type="button"
             phx-click="select_type_type"
             phx-value-dance_type_type="latin"
             class={[
@@ -72,6 +74,7 @@ defmodule WcsStudioWeb.DanceTypesLive do
           </button>
 
           <button
+            type="button"
             phx-click="select_type_type"
             phx-value-dance_type_type="swing"
             class={[
@@ -87,6 +90,7 @@ defmodule WcsStudioWeb.DanceTypesLive do
           </button>
 
           <button
+            type="button"
             phx-click="select_type_type"
             phx-value-dance_type_type="social"
             class={[
@@ -111,38 +115,52 @@ defmodule WcsStudioWeb.DanceTypesLive do
           <%= for dance_type <- @dance_types do %>
             <.link
               navigate={~p"/patterns"}
-              class="dance-card group relative flex flex-col h-80 rounded-2xl overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl"
+              class="group relative flex flex-col h-80 rounded-2xl overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl border border-slate-700/30 hover:border-slate-600/50"
             >
-              <!-- Glass morphism background -->
-              <div class="absolute inset-0 bg-slate-800/50 backdrop-blur-sm border border-slate-700/50"></div>
-
-              <!-- Animated gradient overlay -->
+              <!-- Background -->
+              <div class="absolute inset-0 bg-slate-800/50 backdrop-blur-sm" style="backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);"></div>
               <div class="absolute inset-0 bg-gradient-to-br from-pink-500/10 via-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              <img
-                src={dance_type.pic_url}
-                alt="image not found"
-                class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
-              />
-              <!-- Background effects -->
-              <div class="absolute inset-0">
-                <div class="absolute top-0 right-0 w-32 h-32 bg-pink-500 rounded-full blur-3xl opacity-20"></div>
-                <div class="absolute bottom-0 left-0 w-32 h-32 bg-purple-500 rounded-full blur-3xl opacity-20"></div>
+
+              <!-- Image Section (Top 60%) -->
+              <div class="relative h-3/5 overflow-hidden">
+                <!-- Background Effects -->
+                <div class="absolute top-0 right-0 w-32 h-32 bg-pink-500 rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500"></div>
+                <div class="absolute bottom-0 left-0 w-32 h-32 bg-purple-500 rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500"></div>
+
+                <!-- Gradient Overlay -->
+                <div class="absolute inset-0 bg-gradient-to-b from-slate-900/70 to-transparent z-10"></div>
+
+                <!-- Image -->
+                <img
+                  src={dance_type.pic_url}
+                  alt={"#{DanceType.get_name(dance_type, @locale)} dance style"}
+                  loading="lazy"
+                  class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                />
               </div>
 
-              <!-- Content -->
-              <div class="relative flex-1 flex flex-col justify-end p-6 z-10">
-                <h3 class="text-2xl font-bold text-white mb-2"><%= DanceType.get_name(dance_type , @locale) %></h3>
-                <p class="text-pink-300 text-sm mb-4 flex items-center">
-                  <i class="fas fa-globe-americas mr-2"></i>
-                  <%= DanceType.get_country(dance_type , @locale) %>
-                </p>
+              <!-- Content Section (Bottom 40%) -->
+              <div class="relative flex-1 flex flex-col justify-between p-6 z-10">
+                <div>
+                  <h3 class="text-xl font-bold text-white mb-2 group-hover:text-pink-200 transition-colors duration-300">
+                    <%= DanceType.get_name(dance_type , @locale) %>
+                  </h3>
+                  <p class="text-slate-300 text-sm leading-relaxed line-clamp-2 flex items-center">
+                    <i class="fas fa-globe-americas mr-2 text-pink-400"></i>
+                    <%= DanceType.get_country(dance_type , @locale) %>
+                  </p>
+                </div>
 
-                <div class="flex items-center justify-between">
-                  <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-white backdrop-blur-sm border border-white/20">
+                <!-- CTA -->
+                <div class="flex items-center justify-between pt-3 border-t border-slate-600/50 group-hover:border-slate-500/50 transition-colors duration-300">
+                  <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-white backdrop-blur-sm border border-white/20" style="backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);">
                     <i class="fas fa-tag mr-1"></i>
                     <%= dance_type.type %>
                   </span>
-                  <i class="fas fa-arrow-right text-white transform group-hover:translate-x-2 transition-transform duration-300"></i>
+                  <span class="text-pink-400 text-sm font-medium flex items-center gap-2 group-hover:gap-3 transition-all duration-300">
+                    <%= gettext("Explore") %>
+                    <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-300"></i>
+                  </span>
                 </div>
               </div>
             </.link>
