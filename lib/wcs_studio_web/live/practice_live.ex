@@ -7,9 +7,10 @@ defmodule WcsStudioWeb.PracticeLive do
   @impl true
   def mount(_params, _session, socket) do
     first_dance_type = DanceType.get_first()
+    initial_patterns = Pattern.get_by_dance_type_id(first_dance_type.id)
 
     socket = assign(socket,
-      patterns: Pattern.get_all(),
+      patterns: initial_patterns,
       dance_types: DanceType.get_all(),
       dance_type_id: first_dance_type.id,
       selected_dance_type: DanceType.get_by_id(first_dance_type.id),
@@ -56,17 +57,26 @@ defmodule WcsStudioWeb.PracticeLive do
     {:noreply,
       socket
       |> assign(:selected_filter, selected_filter)
+      |> assign(:patterns, get_patterns_by_filter(selected_filter, socket))}
+  end
+
+  @impl true
+  def handle_event("selected_filter", %{"selected_filter" => selected_filter}, socket) do
+    {:noreply,
+      socket
+      |> assign(:selected_filter, selected_filter)
       |> assign(:patterns, get_patterns_by_filter(selected_filter ,socket))}
   end
 
   defp get_patterns_by_filter(filter, socket), do: UserPattern.get_user_patterns_by_status_and_dance_type(socket.assigns.current_user.id, filter, socket.assigns.selected_dance_type.id)
+
 
   @impl true
   def render(assigns) do
     ~H"""
       <!-- Header Section -->
       <div class="mb-12 text-center px-4">
-        <h1 class="text-5xl md:text-6xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent mb-6 py-2">
+        <h1 class="text-5xl md:text-6xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent mb-6 py-2" style="-webkit-background-clip: text; -webkit-text-fill-color: transparent;">
           <%= gettext("Practice") %>
         </h1>
         <p class="text-xl text-slate-400 max-w-2xl mx-auto">
@@ -81,6 +91,7 @@ defmodule WcsStudioWeb.PracticeLive do
           <!-- Style Filters -->
           <div class="flex flex-wrap justify-center gap-3 mb-8">
             <button
+              type="button"
               phx-click="selected_filter"
               phx-value-selected_filter="all"
               class={[
@@ -95,42 +106,46 @@ defmodule WcsStudioWeb.PracticeLive do
               <i class="fas fa-layer-group mr-2"></i> <%= gettext("All")%>
             </button>
 
-            <button
-              phx-click="selected_filter"
-              phx-value-selected_filter="in_progress"
-              class={[
-                "px-4 py-2 rounded-xl font-medium transition-all duration-300 flex items-center",
-                if @selected_filter == "in_progress" do
-                  "bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-lg shadow-pink-500/25"
-                else
-                  "bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 border border-slate-700/50"
-                end
-              ]}
-            >
-                  <i class="fas fa-spinner mr-2 "></i> <%= gettext("In Progress")%>
-            </button>
+            <%= if @current_user do %>
+              <button
+                type="button"
+                phx-click="selected_filter"
+                phx-value-selected_filter="in_progress"
+                class={[
+                  "px-4 py-2 rounded-xl font-medium transition-all duration-300 flex items-center",
+                  if @selected_filter == "in_progress" do
+                    "bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-lg shadow-pink-500/25"
+                  else
+                    "bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 border border-slate-700/50"
+                  end
+                ]}
+              >
+                    <i class="fas fa-spinner mr-2 "></i> <%= gettext("In Progress")%>
+              </button>
 
-            <button
-              phx-click="selected_filter"
-              phx-value-selected_filter="learned"
-              class={[
-                "px-4 py-2 rounded-xl font-medium transition-all duration-300 flex items-center",
-                if @selected_filter == "learned" do
-                  "bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-lg shadow-pink-500/25"
-                else
-                  "bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 border border-slate-700/50"
-                end
-              ]}
-            >
-              <i class="fas fa-check-circle mr-2"></i> <%= gettext("Learned")%>
-            </button>
+              <button
+                type="button"
+                phx-click="selected_filter"
+                phx-value-selected_filter="learned"
+                class={[
+                  "px-4 py-2 rounded-xl font-medium transition-all duration-300 flex items-center",
+                  if @selected_filter == "learned" do
+                    "bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-lg shadow-pink-500/25"
+                  else
+                    "bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 border border-slate-700/50"
+                  end
+                ]}
+              >
+                <i class="fas fa-check-circle mr-2"></i> <%= gettext("Learned")%>
+              </button>
+            <% end %>
           </div>
         </div>
       </div>
 
       <!-- Dance type dropdown buttons -->
       <div class="w-full max-w-2xl mx-auto px-4 mb-8">
-        <div class="flex flex-col sm:flex-row gap-3 p-4 bg-slate-800/30 rounded-xl border border-slate-700/50 shadow-lg">
+        <div class="flex flex-col sm:flex-row gap-3 p-4 bg-slate-800/30 rounded-xl border border-slate-700/50 shadow-lg" style="backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);">
           <div class="flex-1 relative isolation-auto" id="dance-type-selector">
             <div phx-click-away="close_dropdown" class="relative h-full">
               <button
@@ -147,12 +162,12 @@ defmodule WcsStudioWeb.PracticeLive do
                     <% end %>
                   </span>
                 </div>
-                <i class={["fas fa-chevron-down text-slate-400 text-xs transition-transform duration-300", if(@dropdown_open, do: "rotate-180", else: "group-hover:rotate-180")]}></i>
+                <i class={["fas fa-chevron-down text-slate-400 text-xs transition-transform duration-300", if(@dropdown_open, do: "rotate-180", else: "")]}></i>
               </button>
 
               <div
                 :if={@dropdown_open}
-                class="absolute z-[9999] mt-2 w-full bg-slate-800/90 border border-slate-700/50 rounded-lg shadow-lg overflow-hidden animate-fade-in"
+                class="absolute z-[9999] mt-2 w-full bg-slate-800/90 border border-slate-700/50 rounded-lg shadow-lg overflow-hidden animate-fade-in" style="backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);"
               >
                 <ul class="max-h-56 overflow-y-auto">
                   <%= for dance_type <- @dance_types do %>
@@ -183,8 +198,10 @@ defmodule WcsStudioWeb.PracticeLive do
       <!-- Random practice Button -->
       <div class="w-full max-w-2xl mx-auto px-4 mb-8">
         <button
+          type="button"
           phx-click="random_practice"
-          class="w-full bg-gradient-to-r from-pink-500 to-purple-500 text-white font-semibold py-4 px-6 rounded-lg shadow-lg flex items-center justify-center gap-2">
+          class="w-full bg-gradient-to-r from-pink-500 to-purple-500 text-white font-semibold py-4 px-6 rounded-lg shadow-lg flex items-center justify-center gap-2 hover:shadow-xl hover:scale-[1.02] transition-all duration-300">
+          <i class="fas fa-random"></i>
           <span><%= gettext("Start Practice") %></span>
         </button>
       </div>
@@ -192,37 +209,55 @@ defmodule WcsStudioWeb.PracticeLive do
       <!-- Selected random patterns -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:px-2">
         <%= for random_pattern <- @random_patterns do %>
-          <div class={"group bg-slate-800/60 backdrop-blur-sm border border-white/5 rounded-xl p-5"}>
-            <div class="flex items-start justify-center mb-3">
-              <h2 class="text-3xl font-semibold text-white"><%= random_pattern.name %></h2>
-            </div>
+          <div class="group relative flex flex-col h-auto rounded-2xl overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl border border-slate-700/30 hover:border-slate-600/50">
+            <!-- Background -->
+            <div class="absolute inset-0 bg-slate-800/50 backdrop-blur-sm pointer-events-none" style="backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);"></div>
+            <div class="absolute inset-0 bg-gradient-to-br from-pink-500/10 via-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
 
-            <p class="text-slate-400 text-sm mb-4 line-clamp-2 leading-relaxed">
-              <%= if @locale == "en" do %>
-                <%= random_pattern.general_description_en %>
-              <% else %>
-                <%= random_pattern.general_description_pl %>
-              <% end %>
-            </p>
-
-            <div class="w-full rounded-lg shadow-lg overflow-hidden pl-2 pr-2 pb-2 ">
-              <div class="relative" style="padding-bottom: 56.25%; height: 0;">
-                <iframe
-                  class="absolute top-0 left-0 w-full h-full"
-                  src={random_pattern.video_url}
-                  title={gettext("YouTube video player")}
-                  frameborder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowfullscreen>
-                </iframe>
+            <!-- Video Section -->
+            <div class="relative overflow-hidden z-20">
+              <!-- Video -->
+              <div class="w-full rounded-lg overflow-hidden">
+                <div class="relative" style="padding-bottom: 56.25%; height: 0;">
+                  <iframe
+                    class="absolute top-0 left-0 w-full h-full"
+                    src={random_pattern.video_url}
+                    title={gettext("YouTube video player")}
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen
+                    loading="lazy">
+                  </iframe>
+                </div>
               </div>
             </div>
 
-            <div class="flex items-center justify-between pt-3 border-t border-white/5">
-              <a href={~p"/patterns"} class="text-blue-400 text-xs font-medium flex items-center gap-1">
-                <span><%= gettext("Details")%></span>
-                <i class="fas fa-arrow-right text-[10px]"></i>
-              </a>
+            <!-- Content Section -->
+            <div class="relative flex-1 flex flex-col justify-between p-6 z-10">
+              <!-- Background Effects (moved to content area) -->
+              <div class="absolute top-0 right-0 w-32 h-32 bg-pink-500 rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500 pointer-events-none"></div>
+              <div class="absolute bottom-0 left-0 w-32 h-32 bg-purple-500 rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500 pointer-events-none"></div>
+
+              <div class="relative z-10">
+                <h3 class="text-xl font-bold text-white mb-2 group-hover:text-pink-200 transition-colors duration-300">
+                  <%= random_pattern.name %>
+                </h3>
+                <p class="text-slate-300 text-sm leading-relaxed line-clamp-2 mb-4">
+                  <%= if @locale == "en" do %>
+                    <%= random_pattern.general_description_en %>
+                  <% else %>
+                    <%= random_pattern.general_description_pl %>
+                  <% end %>
+                </p>
+              </div>
+
+              <!-- CTA -->
+              <div class="relative flex items-center justify-end pt-3 border-t border-slate-600/50 group-hover:border-slate-500/50 transition-colors duration-300 z-10">
+                <a href={~p"/patterns"} class="text-pink-400 text-sm font-medium flex items-center gap-2 group-hover:gap-3 transition-all duration-300">
+                  <span><%= gettext("Details")%></span>
+                  <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-300"></i>
+                </a>
+              </div>
             </div>
           </div>
         <% end %>
