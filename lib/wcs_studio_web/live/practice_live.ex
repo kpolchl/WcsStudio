@@ -2,6 +2,7 @@ defmodule WcsStudioWeb.PracticeLive do
   use WcsStudioWeb, :live_view
   alias WcsStudio.Pattern
   alias WcsStudio.DanceType
+  alias WcsStudio.UserPattern
 
   @impl true
   def mount(_params, _session, socket) do
@@ -12,10 +13,9 @@ defmodule WcsStudioWeb.PracticeLive do
       dance_types: DanceType.get_all(),
       dance_type_id: first_dance_type.id,
       selected_dance_type: DanceType.get_by_id(first_dance_type.id),
-      selected_dance_type: DanceType.get_by_id(first_dance_type.id),
       random_patterns: [],
-      show_modal: false,
-      dropdown_open: false
+      dropdown_open: false,
+      selected_filter: "all"
     )
     {:ok, socket}
   end
@@ -52,6 +52,16 @@ defmodule WcsStudioWeb.PracticeLive do
   end
 
   @impl true
+  def handle_event("selected_filter", %{"selected_filter" => selected_filter}, socket) do
+    {:noreply,
+      socket
+      |> assign(:selected_filter, selected_filter)
+      |> assign(:patterns, get_patterns_by_filter(selected_filter ,socket))}
+  end
+
+  defp get_patterns_by_filter(filter, socket), do: UserPattern.get_user_patterns_by_status(socket.assigns.current_user.id, filter)
+
+  @impl true
   def render(assigns) do
     ~H"""
       <!-- Header Section -->
@@ -64,9 +74,63 @@ defmodule WcsStudioWeb.PracticeLive do
         </p>
       </div>
 
+
+      <!-- Filter section -->
+      <div class="px-4 mb-4">
+        <div class="max-w-6xl mx-auto">
+          <!-- Style Filters -->
+          <div class="flex flex-wrap justify-center gap-3 mb-8">
+            <button
+              phx-click="selected_filter"
+              phx-value-selected_filter="all"
+              class={[
+                "px-4 py-2 rounded-xl font-medium transition-all duration-300 flex items-center",
+                if @selected_filter == "all" do
+                  "bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-lg shadow-pink-500/25"
+                else
+                  "bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 border border-slate-700/50"
+                end
+              ]}
+            >
+              <i class="fas fa-layer-group mr-2"></i> <%= gettext("All")%>
+            </button>
+
+            <button
+              phx-click="selected_filter"
+              phx-value-selected_filter="in_progress"
+              class={[
+                "px-4 py-2 rounded-xl font-medium transition-all duration-300 flex items-center",
+                if @selected_filter == "in_progress" do
+                  "bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-lg shadow-pink-500/25"
+                else
+                  "bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 border border-slate-700/50"
+                end
+              ]}
+            >
+                  <i class="fas fa-spinner mr-2 "></i> <%= gettext("In Progress")%>
+            </button>
+
+            <button
+              phx-click="selected_filter"
+              phx-value-selected_filter="learned"
+              class={[
+                "px-4 py-2 rounded-xl font-medium transition-all duration-300 flex items-center",
+                if @selected_filter == "learned" do
+                  "bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-lg shadow-pink-500/25"
+                else
+                  "bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 border border-slate-700/50"
+                end
+              ]}
+            >
+              <i class="fas fa-check-circle mr-2"></i> <%= gettext("Learned")%>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dance type dropdown buttons -->
       <div class="w-full max-w-2xl mx-auto px-4 mb-8">
         <div class="flex flex-col sm:flex-row gap-3 p-4 bg-slate-800/30 rounded-xl border border-slate-700/50 shadow-lg">
-          <!-- Dance Type Selector -->
           <div class="flex-1 relative isolation-auto" id="dance-type-selector">
             <div phx-click-away="close_dropdown" class="relative h-full">
               <button
@@ -125,6 +189,7 @@ defmodule WcsStudioWeb.PracticeLive do
         </button>
       </div>
 
+      <!-- Selected random patterns -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:px-2">
         <%= for random_pattern <- @random_patterns do %>
           <div class={"group bg-slate-800/60 backdrop-blur-sm border border-white/5 rounded-xl p-5"}>

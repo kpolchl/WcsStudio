@@ -461,6 +461,7 @@ defmodule WcsStudioWeb.CoreComponents do
     """
   end
 
+
   @doc """
     renders a lesson block
 

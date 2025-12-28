@@ -18,6 +18,27 @@ defmodule WcsStudio.UserPattern do
     |> WcsStudio.Repo.preload(pattern: [:dance_type])
   end
 
+  def get_user_patterns_by_status(user_id, status) do
+    base_query =
+      from p in WcsStudio.Pattern,
+           left_join: up in WcsStudio.UserPattern,
+           on: up.pattern_id == p.id and up.user_id == ^user_id,
+           preload: [dance_type: []]
+
+    query =
+      case status do
+        "all" ->
+          base_query
+
+        status ->
+          from [p, up] in base_query,
+               where: up.status == ^status
+      end
+
+    WcsStudio.Repo.all(query)
+  end
+
+
   def get_user_pattern(user_id, pattern_id) do
     __MODULE__
     |> where([u], u.user_id == ^user_id and u.pattern_id == ^pattern_id)

@@ -118,7 +118,11 @@ defmodule WcsStudioWeb.DanceTypesLive do
 
               <!-- Animated gradient overlay -->
               <div class="absolute inset-0 bg-gradient-to-br from-pink-500/10 via-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
+              <img
+                src={dance_type.pic_url}
+                alt="image not found"
+                class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+              />
               <!-- Background effects -->
               <div class="absolute inset-0">
                 <div class="absolute top-0 right-0 w-32 h-32 bg-pink-500 rounded-full blur-3xl opacity-20"></div>

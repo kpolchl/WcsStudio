@@ -233,7 +233,7 @@ defmodule WcsStudioWeb.UserProfile do
           <%= if Enum.any?(@user_patterns) do %>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               <%= for user_pattern <- @user_patterns do %>
-                <div class={"group bg-slate-800/60 backdrop-blur-sm border border-white/5 rounded-xl p-5 transition-all duration-300 hover:scale-[1.02] #{border_class(user_pattern.status)}"}>
+                <div class={"group bg-slate-800/60 backdrop-blur-sm border border-white/5 rounded-xl p-5 #{border_class(user_pattern.status)}"}>
                   <div class="flex items-start justify-between mb-3">
                     <h3 class="text-base font-semibold text-white group-hover:text-blue-300 transition-colors"><%= user_pattern.pattern.name %></h3>
                     <span class={"inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-medium border backdrop-blur-sm #{status_bg(user_pattern.status)}"}>

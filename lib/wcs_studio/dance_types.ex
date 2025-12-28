@@ -14,6 +14,7 @@ defmodule WcsStudio.DanceType do
     field :country_pl, :string
     field :tag_pl, :string
     field :type, :string
+    field :pic_url, :string
 
     has_many :patterns, WcsStudio.Pattern
     has_many :lessons, WcsStudio.Lesson
@@ -103,7 +104,8 @@ defmodule WcsStudio.DanceType do
       :country_pl,
       :tag_en,
       :tag_pl,
-      :type
+      :type,
+      :pic_url
     ])
     |> validate_required([:type])
     |> validate_at_least_one_name()
