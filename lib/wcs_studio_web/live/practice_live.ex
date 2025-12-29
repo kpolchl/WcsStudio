@@ -42,7 +42,7 @@ defmodule WcsStudioWeb.PracticeLive do
 
   @impl true
   def handle_event("choose", %{"dance_type_id" => id}, socket) do
-    user_id = socket.assigns.current_user.id
+    user_id = socket.assigns.current_user && socket.assigns.current_user.id
     dance_type_id = String.to_integer(id)
     selected_filter = socket.assigns.selected_filter
 
@@ -56,7 +56,7 @@ defmodule WcsStudioWeb.PracticeLive do
 
   @impl true
   def handle_event("selected_filter", %{"selected_filter" => selected_filter}, socket) do
-    user_id = socket.assigns.current_user.id
+    user_id = socket.assigns.current_user && socket.assigns.current_user.id
     dance_type_id = socket.assigns.dance_type_id
     {:noreply,
       socket
