@@ -21,11 +21,7 @@ defmodule WcsStudioWeb.PatternsLive do
         expanded_pattern_id: nil,
         dropdown_open: false,
       )
-    {:ok, socket
-          |> allow_upload(:video,
-               accept: ~w(.mp4 .mov .avi .webm),
-               max_entries: 1,
-               max_file_size: 100_000_000 )}
+    {:ok, socket}
   end
 
   @impl true

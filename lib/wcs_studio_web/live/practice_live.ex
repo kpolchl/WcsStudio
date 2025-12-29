@@ -42,34 +42,34 @@ defmodule WcsStudioWeb.PracticeLive do
 
   @impl true
   def handle_event("choose", %{"dance_type_id" => id}, socket) do
+    user_id = socket.assigns.current_user.id
     dance_type_id = String.to_integer(id)
+    selected_filter = socket.assigns.selected_filter
 
     {:noreply,
       socket
       |> assign(:dance_type_id, dance_type_id)
       |> assign(:selected_dance_type, DanceType.get_by_id(dance_type_id))
-      |> assign(:patterns, Pattern.get_by_dance_type_id(dance_type_id))
+      |> assign(:patterns, get_patterns_by_filter(user_id, selected_filter, dance_type_id))
       |> assign(:dropdown_open, false)}
   end
 
   @impl true
   def handle_event("selected_filter", %{"selected_filter" => selected_filter}, socket) do
+    user_id = socket.assigns.current_user.id
+    dance_type_id = socket.assigns.dance_type_id
     {:noreply,
       socket
       |> assign(:selected_filter, selected_filter)
-      |> assign(:patterns, get_patterns_by_filter(selected_filter, socket))}
+      |> assign(:patterns, get_patterns_by_filter(user_id, selected_filter, dance_type_id))}
   end
 
-  @impl true
-  def handle_event("selected_filter", %{"selected_filter" => selected_filter}, socket) do
-    {:noreply,
-      socket
-      |> assign(:selected_filter, selected_filter)
-      |> assign(:patterns, get_patterns_by_filter(selected_filter ,socket))}
+  defp get_patterns_by_filter(user_id, filter, dance_type_id) do
+    case user_id do
+      nil -> Pattern.get_by_dance_type_id(dance_type_id)
+      _ -> UserPattern.get_user_patterns_by_status_and_dance_type(user_id, filter, dance_type_id)
+    end
   end
-
-  defp get_patterns_by_filter(filter, socket), do: UserPattern.get_user_patterns_by_status_and_dance_type(socket.assigns.current_user.id, filter, socket.assigns.selected_dance_type.id)
-
 
   @impl true
   def render(assigns) do
@@ -265,12 +265,22 @@ defmodule WcsStudioWeb.PracticeLive do
 
       <!-- Empty State -->
       <%= if Enum.empty?(@random_patterns) do %>
-        <div class="text-center py-16">
-          <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-slate-800/50 flex items-center justify-center">
-            <i class="fas fa-dice text-3xl text-slate-500"></i>
-          </div>
-          <h3 class="text-xl font-semibold text-slate-400 mb-2"><%= gettext("Click Start Practice to draw 4 random steps") %></h3>
-        </div>
+        <%= cond do %>
+          <% @selected_filter != "all" -> %>
+            <div class="text-center py-16">
+              <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-slate-800/50 flex items-center justify-center">
+                <i class="fas fa-dumpster-fire text-3xl text-slate-500"></i>
+              </div>
+              <h3 class="text-xl font-semibold text-slate-400 mb-2"><%= gettext("Gotta practice more to see something here") %></h3>
+            </div>
+          <% true -> %>
+            <div class="text-center py-16">
+              <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-slate-800/50 flex items-center justify-center">
+                <i class="fas fa-dice text-3xl text-slate-500"></i>
+              </div>
+              <h3 class="text-xl font-semibold text-slate-400 mb-2"><%= gettext("Click Start Practice to draw 4 random steps") %></h3>
+            </div>
+        <% end %>
       <% end %>
 
     """
