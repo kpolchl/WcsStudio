@@ -144,9 +144,9 @@ defmodule WcsStudioWeb.PracticeLive do
       </div>
 
       <!-- Dance type dropdown buttons -->
-      <div class="w-full max-w-2xl mx-auto px-4 mb-8">
+      <div class="w-full max-w-2xl mx-auto px-4 mb-8 relative z-50">
         <div class="flex flex-col sm:flex-row gap-3 p-4 bg-slate-800/30 rounded-xl border border-slate-700/50 shadow-lg" style="backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);">
-          <div class="flex-1 relative isolation-auto" id="dance-type-selector">
+          <div class="flex-1 relative" id="dance-type-selector">
             <div phx-click-away="close_dropdown" class="relative h-full">
               <button
                 type="button"
@@ -209,13 +209,13 @@ defmodule WcsStudioWeb.PracticeLive do
       <!-- Selected random patterns -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:px-2">
         <%= for random_pattern <- @random_patterns do %>
-          <div class="group relative flex flex-col h-auto rounded-2xl overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl border border-slate-700/30 hover:border-slate-600/50">
+          <div class="group relative flex flex-col h-auto rounded-2xl overflow-hidden transition-all duration-500  hover:shadow-2xl border border-slate-700/30 hover:border-slate-600/50">
             <!-- Background -->
             <div class="absolute inset-0 bg-slate-800/50 backdrop-blur-sm pointer-events-none" style="backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);"></div>
             <div class="absolute inset-0 bg-gradient-to-br from-pink-500/10 via-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
 
             <!-- Video Section -->
-            <div class="relative overflow-hidden z-20">
+            <div class="relative overflow-hidden">
               <!-- Video -->
               <div class="w-full rounded-lg overflow-hidden">
                 <div class="relative" style="padding-bottom: 56.25%; height: 0;">
