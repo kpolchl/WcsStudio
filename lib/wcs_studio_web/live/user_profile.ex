@@ -242,14 +242,6 @@ defmodule WcsStudioWeb.UserProfile do
                     </span>
                   </div>
 
-                  <p class="text-slate-400 text-sm mb-4 line-clamp-2 leading-relaxed">
-                    <%= if @locale == "en" do %>
-                      <%= user_pattern.pattern.general_description_en %>
-                    <% else %>
-                      <%= user_pattern.pattern.general_description_pl %>
-                    <% end %>
-                  </p>
-
                   <div class="flex items-center justify-between pt-3 border-t border-white/5">
                     <div class={"flex items-center text-xs font-medium #{status_class(user_pattern.status)}"}>
                       <i class={"fas #{status_icon(user_pattern.status)} mr-1.5"}></i>

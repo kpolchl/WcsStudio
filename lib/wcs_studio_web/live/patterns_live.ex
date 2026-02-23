@@ -61,7 +61,7 @@ defmodule WcsStudioWeb.PatternsLive do
   @impl true
   def handle_event("search", %{"query" => query}, socket) do
     new_patterns =
-      Pattern.get_by_id_name_or_class(
+      Pattern.get_by_id_name_or_hands(
         socket.assigns.dance_type_id,
         query
       )
@@ -83,7 +83,7 @@ defmodule WcsStudioWeb.PatternsLive do
     attrs = %{
       dance_type_id: socket.assigns.dance_type_id,
       name: Map.get(pattern_params, "name"),
-      class: Map.get(pattern_params, "class"),
+      hands: Map.get(pattern_params, "hands"),
       count_description: Map.get(pattern_params, "count_description"),
       count_num: Map.get(pattern_params, "count_num"),
       leader_description_en: Map.get(pattern_params, "leader_description_en"),
@@ -118,7 +118,7 @@ defmodule WcsStudioWeb.PatternsLive do
         attrs = %{
           dance_type_id: pattern.dance_type_id,
           name: Map.get(pattern_params, "name"),
-          class: Map.get(pattern_params, "class"),
+          hands: Map.get(pattern_params, "hands"),
           count_description: Map.get(pattern_params, "count_description"),
           count_num: Map.get(pattern_params, "count_num"),
           leader_description_en: Map.get(pattern_params, "leader_description_en"),
@@ -402,7 +402,7 @@ defmodule WcsStudioWeb.PatternsLive do
           on_submit="save"
         >
           <.input type="text" field={@form[:name]} label={gettext("Pattern Name")} />
-          <.input type="text" field={@form[:class]} label={gettext("Class")} />
+          <.input type="text" field={@form[:hands]} label={gettext("Hands")} />
           <.input
             type="textarea"
             field={@form[:count_description]}
@@ -441,10 +441,10 @@ defmodule WcsStudioWeb.PatternsLive do
           on_cancel={JS.push("close_modal")}
           on_submit="update_pattern"
           submit_label={gettext("Update")}
-          submit_class="bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700"
+          submit_hands="bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700"
         >
           <.input type="text" field={@form[:name]} label={gettext("Pattern Name")} />
-          <.input type="text" field={@form[:class]} label={gettext("Class")} />
+          <.input type="text" field={@form[:hands]} label={gettext("Hands")} />
           <.input
             type="textarea"
             field={@form[:count_description]}

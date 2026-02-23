@@ -5,7 +5,7 @@ defmodule WcsStudio.Pattern do
 
   schema "patterns" do
     field :name, :string
-    field :class, :string
+    field :hands, :string
     field :count_description, :string
     field :count_num, :integer
     field :leader_description_en, :string
@@ -43,14 +43,14 @@ defmodule WcsStudio.Pattern do
   end
 
   # Updated to search in both locales
-  def get_by_id_name_or_class(dance_type_id, query_string) do
+  def get_by_id_name_or_hands(dance_type_id, query_string) do
     search_pattern = "%#{query_string}%"
 
     from(p in WcsStudio.Pattern,
       where:
         p.dance_type_id == ^dance_type_id and
           (ilike(p.name, ^search_pattern) or
-             ilike(p.class, ^search_pattern))
+             ilike(p.hands, ^search_pattern))
     )
     |> WcsStudio.Repo.all()
     |> WcsStudio.Repo.preload(:dance_type)
@@ -93,11 +93,38 @@ defmodule WcsStudio.Pattern do
     end
   end
 
+  def get_hands_start(pattern) do
+    case pattern.hands do
+      nil -> ""
+      hands ->
+        hands
+        |> String.split(",")
+        |> List.first()
+        |> String.trim()
+    end
+  end
+
+  def get_hands_end(pattern) do
+    case pattern.hands do
+      nil -> ""
+      hands ->
+        parts = String.split(hands, ",")
+
+        if length(parts) > 1 do
+          parts
+          |> List.last()
+          |> String.trim()
+        else
+          ""
+        end
+    end
+  end
+
   defp changeset(pattern, attrs) do
     pattern
     |> cast(attrs, [
       :name,
-      :class,
+      :hands,
       :count_description,
       :count_num,
       :leader_description_en,

@@ -341,7 +341,8 @@ defmodule WcsStudioWeb.CoreComponents do
       id={"-card-#{@pattern.id}"}
       phx-click="toggle_pattern"
       phx-value-id={@pattern.id}
-      class="group w-full bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 shadow-xl transition-all duration-300 mb-6 cursor-pointer hover:shadow-2xl hover:border-pink-500/30 max-w-4xl md:w-1/2">
+      class="group w-full bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 shadow-xl transition-all duration-300 mb-6 cursor-pointer hover:shadow-2xl hover:border-pink-500/30 max-w-4xl md:w-1/2"
+    >
       <div class="p-6 flex items-start justify-between">
         <div class="flex-1 min-w-0">
           <!-- Dance type badge -->
@@ -351,21 +352,18 @@ defmodule WcsStudioWeb.CoreComponents do
             </span>
           </div>
 
-          <!-- Title with responsive font size -->
+    <!-- Title with responsive font size -->
           <h2 class="text-3xl font-bold text-white mb-2 bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
             {@pattern.name}
           </h2>
         </div>
       </div>
 
-      <!-- Collapsed body preview -->
+    <!-- Collapsed body preview -->
       <div
         class={if @expanded_pattern_id == @pattern.id, do: "hidden", else: "px-4 pb-4 pt-0"}
         id={"preview-body-#{@pattern.id}"}
       >
-        <p class="text-slate-400 line-clamp-2 text-sm leading-relaxed">
-          {@pattern.class}
-        </p>
         <div class="flex items-center mt-3 text-slate-500 text-xs">
           <i class="fas fa-info-circle mr-1"></i>
           <span>{gettext("Click to expand pattern details")}</span>
@@ -384,16 +382,19 @@ defmodule WcsStudioWeb.CoreComponents do
         <!-- Description -->
         <div class="mb-4 py-4">
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
-            <%!-- CLASS --%>
+            <%!-- Hands --%>
             <div class="p-4 rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg">
               <div class="flex items-center mb-4">
                 <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-yellow-500 flex items-center justify-center mr-3 shadow-lg">
-                  <i class="fas fa-book-open text-white text-sm"></i>
+                  <i class="fas fa-hands-helping text-white text-sm"></i>
                 </div>
-                <h2 class="text-2xl font-bold text-white">{gettext("Class")}</h2>
+                <h2 class="text-2xl font-bold text-white">{gettext("Hands")}</h2>
               </div>
               <p class="text-slate-300 text-base leading-relaxed">
-                {@pattern.class}
+                <strong> {gettext("Starting:")} </strong> {WcsStudio.Pattern.get_hands_start(@pattern)}
+              </p>
+              <p class="text-slate-300 text-base leading-relaxed">
+                <strong> {gettext("Ending:")} </strong> {WcsStudio.Pattern.get_hands_end(@pattern)}
               </p>
             </div>
             <%!-- STEPS COUNT --%>
@@ -434,7 +435,7 @@ defmodule WcsStudioWeb.CoreComponents do
             </div>
           </div>
 
-          <!-- Video -->
+    <!-- Video -->
           <%= if @expanded_pattern_id == @pattern.id do %>
             <div class="rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg">
               <div class="flex items-center mb-4 pt-4 pl-4 pr-4">
@@ -532,7 +533,8 @@ defmodule WcsStudioWeb.CoreComponents do
       id={"lesson-card-#{@lesson.id}"}
       phx-click="toggle_lesson"
       phx-value-id={@lesson.id}
-      class="group bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 shadow-xl transition-all duration-300 mb-6 cursor-pointer hover:shadow-2xl hover:border-pink-500/30 max-w-4xl md:w-1/2">
+      class="group bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 shadow-xl transition-all duration-300 mb-6 cursor-pointer hover:shadow-2xl hover:border-pink-500/30 max-w-4xl md:w-1/2"
+    >
       <div class="p-6 flex items-start justify-between">
         <div class="flex-1 min-w-0">
           <div class="flex flex-wrap gap-2 mb-3">
