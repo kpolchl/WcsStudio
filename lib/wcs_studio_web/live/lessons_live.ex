@@ -278,7 +278,7 @@ defmodule WcsStudioWeb.LessonsLive do
       </div>
 
       <!-- Lessons List -->
-       <div class="mt-4 lg:p-4  flex flex-col items-center ">
+      <div class="mt-4 lg:p-4  flex flex-col items-center ">
         <%= for lesson <- @lessons do %>
           <.lesson_box
             lesson={lesson}
