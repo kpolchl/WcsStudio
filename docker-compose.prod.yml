@@ -1,3 +1,4 @@
+# docker-compose.yml (PRODUCTION)
 version: '3.8'
 
 networks:
@@ -10,9 +11,9 @@ services:
     restart: always
     shm_size: 128mb
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_USER: ${POSTGRES_USER:?POSTGRES_USER must be set}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD must be set}
-      POSTGRES_DB: wcs_studio_prod
+      POSTGRES_DB: ${POSTGRES_DB:-wcs_studio_prod}
     volumes:
       - prod_pg_data:/var/lib/postgresql/data
     networks:
@@ -29,14 +30,17 @@ services:
       context: .
       dockerfile: Dockerfile
     restart: always
-    ports:
-      - "4000:4000"
+    # No ports exposed to host — cloudflared talks directly to the container
+    expose:
+      - "4000"
     environment:
-      DATABASE_URL: ecto://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:?POSTGRES_PASSWORD must be set}@db:5432/wcs_studio_prod
+      DATABASE_URL: ecto://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-wcs_studio_prod}
       SECRET_KEY_BASE: ${SECRET_KEY_BASE:?SECRET_KEY_BASE must be set}
       PHX_HOST: wcsstudio.nextserwewusek.top
+      PHX_SERVER: "true"
       RESEND_API_KEY: ${RESEND_API_KEY:?RESEND_API_KEY must be set}
       POOL_SIZE: "10"
+      PORT: "4000"
       UPLOADS_PATH: /app/priv/static/uploads
     volumes:
       - uploads_data:/app/priv/static/uploads
@@ -45,6 +49,18 @@ services:
     depends_on:
       db:
         condition: service_healthy
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    restart: always
+    command: tunnel --no-autoupdate --config /etc/cloudflared/config.yml run
+    volumes:
+      - /home/karolhaf/.cloudflared/ca875f88-28e5-4a70-b8db-e744d6c8552b.json:/etc/cloudflared/tunnel.json:ro
+      - /home/karolhaf/.cloudflared/config-phoenix.yml:/etc/cloudflared/config.yml:ro
+    networks:
+      - app_network
+    depends_on:
+      - phoenix
 
 volumes:
   prod_pg_data:
