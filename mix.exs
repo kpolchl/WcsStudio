@@ -8,8 +8,17 @@ defmodule WcsStudio.MixProject do
       elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
+      deps: deps(),
       aliases: aliases(),
-      deps: deps()
+      releases: [
+        standard: [
+          version: "0.0.1",
+          applications: [
+            wcs_studio: :permanent
+          ],
+          runtime_config_path: "config/runtime.exs"
+        ]
+      ]
     ]
   end
 

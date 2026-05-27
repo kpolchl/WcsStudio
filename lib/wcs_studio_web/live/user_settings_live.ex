@@ -263,7 +263,7 @@ defmodule WcsStudioWeb.UserSettingsLive do
   end
 
   defp convert_to_webp(source_path, entry, type) do
-    uploads_dir = Path.join([:code.priv_dir(:wcs_studio), "static", "uploads"])
+    uploads_dir = System.get_env("UPLOADS_PATH", "priv/static/uploads")
     File.mkdir_p!(uploads_dir)
 
     # Generate unique filename based on type

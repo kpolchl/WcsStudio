@@ -61,10 +61,13 @@ if config_env() == :prod do
 
   config :wcs_studio, :dns_cluster_query, System.get_env("DNS_CLUSTER_QUERY")
 
+  config :wcs_studio, :uploads_path,
+    System.get_env("UPLOADS_PATH") || "priv/static/uploads"
+
   config :wcs_studio, WcsStudioWeb.Endpoint,
     url: [host: host, port: 443, scheme: "https"],
     http: [
-	ip: {127, 0, 0, 1},
+	  ip: {0, 0, 0, 0, 0, 0, 0, 0},
 	port: port
       # Enable IPv6 and bind on all interfaces.
       # Set it to  {0, 0, 0, 0, 0, 0, 0, 1} for local network only access.
@@ -76,7 +79,7 @@ if config_env() == :prod do
     check_origin: [
       "https://#{host}",
       "https://www.#{host}"
-    ] 
+    ]
 
   # ## SSL Support
   #

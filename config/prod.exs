@@ -6,7 +6,9 @@ import Config
 # which you should run after static files are built and
 # before starting your production server.
 config :wcs_studio, WcsStudioWeb.Endpoint,
-  cache_static_manifest: "priv/static/cache_manifest.json"
+  url: [host: "wcsstudio.nextserwewusek.top", port: 443, scheme: "https"],
+  cache_static_manifest: "priv/static/cache_manifest.json",
+  server: true
 
 # Configures Swoosh API Client
 config :swoosh, api_client: Swoosh.ApiClient.Finch, finch_name: WcsStudio.Finch
