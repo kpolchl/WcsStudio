@@ -57,6 +57,7 @@ services:
     volumes:
       - /home/karolhaf/.cloudflared/ca875f88-28e5-4a70-b8db-e744d6c8552b.json:/etc/cloudflared/tunnel.json:ro
       - /home/karolhaf/.cloudflared/config-phoenix.yml:/etc/cloudflared/config.yml:ro
+      - /home/karolhaf/.cloudflared/cert.pem:/etc/cloudflared/cert.pem:ro
     networks:
       - app_network
     depends_on:
