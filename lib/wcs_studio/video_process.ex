@@ -1,5 +1,5 @@
 defmodule WcsStudio.VideoProcess do
-
+  @moduledoc false
   def parse_youtube_url(url) when is_binary(url) do
     cond do
       # Already an embed URL
