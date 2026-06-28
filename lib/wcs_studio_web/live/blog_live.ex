@@ -49,7 +49,7 @@ defmodule WcsStudioWeb.BlogLive do
           <%= gettext("Blog") %>
         </h1>
         <p class="text-xl text-slate-400 max-w-2xl mx-auto">
-          <%= gettext("Read and cry") %>
+          <%= gettext("Read, cry and complain") %>
         </p>
       </div>
 
