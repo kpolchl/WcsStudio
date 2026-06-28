@@ -17,7 +17,7 @@ defmodule WcsStudioWeb.ConnectLive do
             <div class="flex flex-col md:flex-row gap-8 items-center mb-8">
               <div class="w-40 h-40 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 p-1 flex-shrink-0">
                 <img
-                  src="/images/profile.jpg"
+                  src="/images/AuthorPic.jpg"
                   alt=" "
                   class="w-full h-full rounded-2xl object-cover">
               </div>
@@ -131,7 +131,7 @@ defmodule WcsStudioWeb.ConnectLive do
                     ></textarea>
                   </div>
 
-                  <button 
+                  <button
                     type="submit"
                     class="w-full px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium rounded-xl hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300"
                   >
