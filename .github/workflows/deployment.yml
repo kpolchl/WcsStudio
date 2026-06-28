@@ -15,8 +15,6 @@ jobs:
 
       - name: Build and deploy
         run: |
-          cd /wcs_studio
-          git pull
           docker compose -f docker-compose.prod.yml up -d --build 
 
       - name: Cleanup
