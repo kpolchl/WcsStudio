@@ -15,6 +15,7 @@ jobs:
 
       - name: Build and deploy
         run: |
+          docker compose \
           --env-file /home/karolhaf/wcs_studio/.env \
           -f docker-compose.prod.yml up -d --build
 
