@@ -15,7 +15,8 @@ jobs:
 
       - name: Build and deploy
         run: |
-          docker compose -f docker-compose.prod.yml up -d --build 
+          --env-file /home/karolhaf/wcs_studio/.env \
+          -f docker-compose.prod.yml up -d --build
 
       - name: Cleanup
         run: docker image prune -f
