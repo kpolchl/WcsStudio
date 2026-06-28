@@ -16,8 +16,9 @@ jobs:
       - name: Build and deploy
         run: |
           docker compose \
-          --env-file /home/karolhaf/wcs_studio/.env \
-          -f docker-compose.prod.yml up -d --build
+            -p wcs_studio \
+            --env-file /home/karolhaf/wcs_studio/.env \
+            -f docker-compose.prod.yml up -d --build
 
       - name: Cleanup
         run: docker image prune -f
@@ -25,4 +26,4 @@ jobs:
       - name: Verify deployment
         run: |
           sleep 10
-          docker compose ps
+          docker compose -p wcs_studio ps
