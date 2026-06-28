@@ -37,7 +37,5 @@ npm-debug.log
 
 *.sh
 
-/priv/uploads
-
 .env
 
