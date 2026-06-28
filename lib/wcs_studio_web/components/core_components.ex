@@ -312,7 +312,7 @@ defmodule WcsStudioWeb.CoreComponents do
   # Examples
   """
 
-  defp status_class("not_started"),
+defp status_class("not_started"),
     do: "from-gray-400 to-gray-500 hover:from-gray-500 hover:to-gray-600"
 
   defp status_class("in_progress"),
@@ -330,174 +330,252 @@ defmodule WcsStudioWeb.CoreComponents do
   defp status_text("learned"), do: gettext("Learned")
 
   attr :pattern, :map, required: true, doc: "Pattern data"
-  attr :current_user, :map, required: false, doc: "current user data"
-  attr :expanded_pattern_id, :map, required: true, doc: "flag to expand or hide content"
-  attr :status, :map, required: false, doc: "for update status on the bottom"
-  attr :locale, :map, required: false, doc: "for simple translation"
+  attr :current_user, :map, required: false, default: nil, doc: "current user data"
+  attr :expanded_pattern_id, :any, required: true, doc: "id of currently expanded pattern"
+
+  attr :expanded_children_id, :any,
+    required: false,
+    default: nil,
+    doc: "id of pattern with expanded children (manual toggle)"
+
+  attr :expanded_children_ids, :any,
+    required: false,
+    default: nil,
+    doc: "MapSet of pattern ids auto-expanded by search"
+
+  attr :status, :string,
+    required: false,
+    default: nil,
+    doc: "current user status for this pattern"
+
+  attr :status_map, :map,
+    required: false,
+    default: %{},
+    doc: "map of pattern_id => status for children"
+
+  attr :locale, :string, required: false, default: "en", doc: "for simple translation"
+  attr :is_child, :boolean, default: false
 
   def pattern(assigns) do
+    assigns = assign_new(assigns, :children, fn -> Map.get(assigns.pattern, :children, []) end)
+
     ~H"""
-    <div
-      id={"-card-#{@pattern.id}"}
-      phx-click="toggle_pattern"
-      phx-value-id={@pattern.id}
-      class="group w-full bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 shadow-xl transition-all duration-300 mb-6 cursor-pointer hover:shadow-2xl hover:border-pink-500/30 max-w-4xl md:w-1/2"
-    >
-      <div class="p-6 flex items-start justify-between">
-        <div class="flex-1 min-w-0">
-          <!-- Dance type badge -->
-          <div class="flex flex-wrap gap-1 sm:gap-2 mb-2 sm:mb-3">
-            <span class="px-2 sm:px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-300 border border-purple-500/30">
-              {WcsStudio.DanceType.get_name(@pattern.dance_type, @locale)}
+    <div class={[
+      "w-full",
+      if(@is_child, do: "max-w-4xl", else: "max-w-4xl md:w-1/2")
+    ]}>
+      <!-- Main Pattern Card -->
+      <div
+        id={"-card-#{@pattern.id}"}
+        phx-click="toggle_pattern"
+        phx-value-id={@pattern.id}
+        class={[
+          "group w-full backdrop-blur-sm rounded-2xl border shadow-xl transition-all duration-300 mb-2 cursor-pointer hover:shadow-2xl",
+          if(@is_child,
+            do: "bg-purple-950/40 border-purple-700/40 hover:border-purple-400/60",
+            else: "bg-slate-800/50 border-slate-700/50 hover:border-pink-500/30"
+          )
+        ]}
+      >
+        <div class="p-6 flex items-start justify-between">
+          <div class="flex-1 min-w-0">
+            <!-- Dance type badge -->
+            <div class="flex flex-wrap gap-1 sm:gap-2 mb-2 sm:mb-3">
+              <span class="px-2 sm:px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-300 border border-purple-500/30">
+                {WcsStudio.DanceType.get_name(@pattern.dance_type, @locale)}
+              </span>
+              <%= if not @is_child && not Enum.empty?(@children) do %>
+                <span class="px-2 sm:px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-pink-500/20 to-orange-500/20 text-pink-300 border border-pink-500/30">
+                  <i class="fas fa-sitemap mr-1"></i>
+                  {length(@children)} {gettext("variations")}
+                </span>
+              <% end %>
+            </div>
+
+            <!-- Title -->
+            <h2 class="text-3xl font-bold text-white mb-2 bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
+              {@pattern.name}
+            </h2>
+          </div>
+        </div>
+
+        <!-- Collapsed body preview -->
+        <div
+          class={if @expanded_pattern_id == @pattern.id, do: "hidden", else: "px-4 pb-4 pt-0"}
+          id={"preview-body-#{@pattern.id}"}
+        >
+          <div class="flex items-center mt-3 text-slate-500 text-xs">
+            <i class="fas fa-info-circle mr-1"></i>
+            <span>{gettext("Click to expand pattern details")}</span>
+          </div>
+        </div>
+
+        <!-- Expanded content -->
+        <div
+          id={"expanded-body-#{@pattern.id}"}
+          class={
+            unless @expanded_pattern_id == @pattern.id,
+              do: "hidden",
+              else: "px-2 pb-4 pt-0 border-t border-slate-700/50 mt-4"
+          }
+        >
+          <!-- Details grid -->
+          <div class="mb-4 py-4">
+            <div class="gap-4 mb-4">
+              <!-- Details -->
+              <div class="p-4 rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg">
+                <div class="flex items-center mb-4">
+                  <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-yellow-500 flex items-center justify-center mr-3 shadow-lg">
+                    <i class="fas fa-abacus text-white text-sm"></i> <%!-- fuck this bulshit why doesn't work --%>
+                  </div>
+                  <h2 class="text-2xl font-bold text-white">{gettext("Description")}</h2>
+                </div>
+                <p class="text-slate-300 text-base leading-relaxed">
+                  <strong>{gettext("Starting position:")}</strong> {@pattern.starting_hands}
+                </p>
+                <p class="text-slate-300 text-base leading-relaxed">
+                  <strong>{gettext("Ending posion:")}</strong> {@pattern.ending_hands}
+                </p>
+                <p class="text-slate-300 text-base leading-relaxed">
+                  <strong>{gettext("Count:")}</strong> {@pattern.count_num}
+                </p>
+              </div>
+            </div>
+
+            <!-- Video -->
+            <%= if @expanded_pattern_id == @pattern.id do %>
+              <div class="rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg">
+                <div class="flex items-center mb-4 pt-4 pl-4 pr-4">
+                  <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center mr-3 shadow-lg">
+                    <i class="fas fa-play text-white text-sm"></i>
+                  </div>
+                  <h2 class="text-2xl font-bold text-white">{gettext("Showcase Video")}</h2>
+                </div>
+                <div class="w-full rounded-lg shadow-lg overflow-hidden pl-2 pr-2 pb-2">
+                  <div class="relative" style="padding-bottom: 56.25%; height: 0;">
+                    <iframe
+                      class="absolute top-0 left-0 w-full h-full"
+                      src={@pattern.video_url}
+                      title={gettext("YouTube video player")}
+                      frameborder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowfullscreen
+                    >
+                    </iframe>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+
+          <!-- Actions -->
+          <div class="flex flex-wrap justify-end gap-2 pt-4 border-t border-slate-700/50">
+            <%= if @current_user do %>
+              <% status = @status || "not_started" %>
+              <button
+                phx-click="update_status"
+                phx-value-pattern_id={@pattern.id}
+                phx-value-user_id={@current_user.id}
+                phx-value-status={status}
+                class={"bg-gradient-to-r #{status_class(status)} text-white font-medium py-2 px-4 rounded-lg transition-all duration-300 hover:shadow-lg flex items-center"}
+              >
+                <i class={"fas #{status_icon(status)} mr-2"}></i>
+                {status_text(status)}
+              </button>
+            <% end %>
+
+            <%= if @current_user && @current_user.role == "admin" do %>
+              <button
+                phx-click="open_update_modal"
+                phx-value-id={@pattern.id}
+                class="bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 text-white font-medium py-2 px-4 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/25 hover:-translate-y-0.5 flex items-center"
+              >
+                <i class="fas fa-edit mr-2"></i>
+                {gettext("Update")}
+              </button>
+
+              <button
+                phx-click={show_modal("confirm-delete-pattern-#{@pattern.id}")}
+                class="bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white font-medium py-2 px-4 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-red-500/25 hover:-translate-y-0.5 flex items-center"
+              >
+                <i class="fas fa-trash mr-2"></i>
+                {gettext("Delete")}
+              </button>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Variations section (root patterns only) -->
+      <%= if not @is_child && not Enum.empty?(@children) do %>
+        <% children_expanded =
+          @expanded_children_id == @pattern.id or
+            (not is_nil(@expanded_children_ids) and
+               MapSet.member?(@expanded_children_ids, @pattern.id)) %>
+        <div class="mb-6">
+          <!-- Toggle variations button -->
+          <button
+            phx-click="toggle_children"
+            phx-value-id={@pattern.id}
+            class={[
+              "w-full flex items-center justify-between px-4 py-2 rounded-b-xl text-sm font-medium transition-all duration-200 border-x border-b",
+              if(children_expanded,
+                do: "bg-pink-500/10 text-pink-300 border-pink-500/30 hover:bg-pink-500/20",
+                else:
+                  "bg-slate-800/30 text-slate-400 border-slate-700/30 hover:text-pink-300 hover:border-pink-500/30 hover:bg-pink-500/10"
+              )
+            ]}
+          >
+            <span>
+              <i class="fas fa-sitemap mr-2"></i>
+              {length(@children)} {gettext("variations of")} {@pattern.name}
             </span>
-          </div>
+            <i class={[
+              "fas text-xs transition-transform duration-300",
+              if(children_expanded, do: "fa-chevron-up", else: "fa-chevron-down")
+            ]}>
+            </i>
+          </button>
 
-    <!-- Title with responsive font size -->
-          <h2 class="text-3xl font-bold text-white mb-2 bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
-            {@pattern.name}
-          </h2>
-        </div>
-      </div>
-
-    <!-- Collapsed body preview -->
-      <div
-        class={if @expanded_pattern_id == @pattern.id, do: "hidden", else: "px-4 pb-4 pt-0"}
-        id={"preview-body-#{@pattern.id}"}
-      >
-        <div class="flex items-center mt-3 text-slate-500 text-xs">
-          <i class="fas fa-info-circle mr-1"></i>
-          <span>{gettext("Click to expand pattern details")}</span>
-        </div>
-      </div>
-
-    <!-- Expanded content -->
-      <div
-        id={"expanded-body-#{@pattern.id}"}
-        class={
-          unless @expanded_pattern_id == @pattern.id,
-            do: "hidden",
-            else: " px-2 pb-4 pt-0 border-t border-slate-700/50 mt-4"
-        }
-      >
-        <!-- Description -->
-        <div class="mb-4 py-4">
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
-            <%!-- Hands --%>
-            <div class="p-4 rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg">
-              <div class="flex items-center mb-4">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-yellow-500 flex items-center justify-center mr-3 shadow-lg">
-                  <i class="fas fa-hands-helping text-white text-sm"></i>
-                </div>
-                <h2 class="text-2xl font-bold text-white">{gettext("Hands")}</h2>
-              </div>
-              <p class="text-slate-300 text-base leading-relaxed">
-                <strong> {gettext("Starting:")} </strong> {WcsStudio.Pattern.get_hands_start(@pattern)}
-              </p>
-              <p class="text-slate-300 text-base leading-relaxed">
-                <strong> {gettext("Ending:")} </strong> {WcsStudio.Pattern.get_hands_end(@pattern)}
-              </p>
-            </div>
-            <%!-- STEPS COUNT --%>
-            <div class="p-4 rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg">
-              <div class="flex items-center mb-4">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center mr-3 shadow-lg">
-                  <i class="fas fa-shoe-prints text-white text-sm"></i>
-                </div>
-                <h2 class="text-2xl font-bold text-white">{gettext("Count")}</h2>
-              </div>
-              <p class="text-slate-300 text-base leading-relaxed">
-                {@pattern.count_description}
-              </p>
-            </div>
-            <!-- Leader -->
-            <div class="p-4 rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg">
-              <div class="flex items-center mb-4">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center mr-3 shadow-lg">
-                  <i class="fas fa-chess-king text-white text-sm"></i>
-                </div>
-                <h2 class="text-2xl font-bold text-white">{gettext("For Leaders")}</h2>
-              </div>
-              <p class="text-slate-300 text-base leading-relaxed">
-                {WcsStudio.Pattern.get_leader_description(@pattern, @locale)}
-              </p>
-            </div>
-            <!-- Follower -->
-            <div class="p-4 rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg">
-              <div class="flex items-center mb-4">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center mr-3 shadow-lg">
-                  <i class="fas fa-chess-queen text-white text-sm"></i>
-                </div>
-                <h2 class="text-2xl font-bold text-white">{gettext("For Followers")}</h2>
-              </div>
-              <p class="text-slate-300 text-base leading-relaxed">
-                {WcsStudio.Pattern.get_follower_description(@pattern, @locale)}
-              </p>
-            </div>
-          </div>
-
-    <!-- Video -->
-          <%= if @expanded_pattern_id == @pattern.id do %>
-            <div class="rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg">
-              <div class="flex items-center mb-4 pt-4 pl-4 pr-4">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center mr-3 shadow-lg">
-                  <i class="fas fa-play text-white text-sm"></i>
-                </div>
-                <h2 class="text-2xl font-bold text-white">{gettext("Showcase Video")}</h2>
-              </div>
-              <div class="w-full rounded-lg shadow-lg overflow-hidden pl-2 pr-2 pb-2 ">
-                <div class="relative" style="padding-bottom: 56.25%; height: 0;">
-                  <iframe
-                    class="absolute top-0 left-0 w-full h-full"
-                    src={@pattern.video_url}
-                    title={gettext("YouTube video player")}
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowfullscreen
-                  >
-                  </iframe>
-                </div>
-              </div>
+          <!-- Children list -->
+          <%= if children_expanded do %>
+            <div class="ml-4 sm:ml-8 mt-2 flex flex-col gap-0">
+              <%= for child <- @children do %>
+                <.pattern
+                  pattern={child}
+                  is_child={true}
+                  expanded_pattern_id={@expanded_pattern_id}
+                  expanded_children_id={@expanded_children_id}
+                  expanded_children_ids={@expanded_children_ids}
+                  current_user={@current_user}
+                  status={Map.get(@status_map, child.id)}
+                  status_map={@status_map}
+                  locale={@locale}
+                />
+                <%= if @current_user && @current_user.role == "admin" do %>
+                  <.confirm_modal
+                    id={"confirm-delete-pattern-#{child.id}"}
+                    title={gettext("Delete Pattern?")}
+                    message={
+                      gettext(
+                        "Are you sure you want to delete '%{name}'? This action cannot be undone and will remove all associated data.",
+                        name: child.name
+                      )
+                    }
+                    confirm_event="delete_pattern"
+                    confirm_value={child.id}
+                  />
+                <% end %>
+              <% end %>
             </div>
           <% end %>
         </div>
+      <% end %>
 
-    <!-- Actions -->
-        <div class="flex flex-wrap justify-end gap-2  pt-4 border-t border-slate-700/50">
-          <%= if @current_user do %>
-            <% status = @status || "not_started" %>
-
-            <button
-              phx-click="update_status"
-              phx-value-pattern_id={@pattern.id}
-              phx-value-user_id={@current_user.id}
-              phx-value-status={status}
-              class={"bg-gradient-to-r #{status_class(status)} text-white font-medium py-2 px-4 rounded-lg transition-all duration-300 hover:shadow-lg flex items-center"}
-            >
-              <i class={"fas #{status_icon(status)} mr-2"}></i>
-              {status_text(status)}
-            </button>
-          <% end %>
-
-          <%= if @current_user && @current_user.role == "admin" do %>
-            <button
-              phx-click="open_update_modal"
-              phx-value-id={@pattern.id}
-              class="bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 text-white font-medium py-2 px-4 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/25 hover:-translate-y-0.5 flex items-center"
-            >
-              <i class="fas fa-edit mr-2"></i>
-              {gettext("Update")}
-            </button>
-
-            <button
-              phx-click={show_modal("confirm-delete-pattern-#{@pattern.id}")}
-              class="bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white font-medium py-2 px-4 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-red-500/25 hover:-translate-y-0.5 flex items-center"
-            >
-              <i class="fas fa-trash mr-2"></i>
-              {gettext("Delete")}
-            </button>
-          <% end %>
-        </div>
-      </div>
+      <!-- Spacer for patterns without children -->
+      <%= if @is_child || Enum.empty?(@children) do %>
+        <div class="mb-4"></div>
+      <% end %>
     </div>
     """
   end
