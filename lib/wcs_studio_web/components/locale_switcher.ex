@@ -34,8 +34,7 @@ defmodule WcsStudioWeb.Components.LocaleSwitcher do
         class="flex items-center space-x-2 p-2 rounded-lg hover:bg-slate-800/50 transition-all duration-300 border border-transparent hover:border-slate-700/50 text-slate-300 hover:text-white group"
       >
         <span class="text-sm font-medium uppercase">{@current_locale}</span>
-        <i class="fas fa-chevron-down text-xs transition-transform duration-300 group-hover:rotate-180">
-        </i>
+        <i class="fas fa-chevron-down text-xs transition-transform duration-300 group-hover:rotate-180"></i>
       </button>
 
       <div
@@ -63,8 +62,7 @@ defmodule WcsStudioWeb.Components.LocaleSwitcher do
                 <div class="text-xs text-slate-400 uppercase">{locale.code}</div>
               </div>
               <%= if locale.code == @current_locale do %>
-                <i class="fas fa-check ml-2 text-pink-500 group-hover:text-white transition-colors">
-                </i>
+                <i class="fas fa-check ml-2 text-pink-500 group-hover:text-white transition-colors"></i>
               <% end %>
             </.link>
           <% end %>
@@ -102,8 +100,7 @@ defmodule WcsStudioWeb.Components.LocaleSwitcher do
             <span class="text-base mr-2">{locale.flag}</span>
             <span class="font-medium">{locale.name}</span>
             <%= if locale.code == @current_locale do %>
-              <i class="fas fa-check ml-auto text-pink-500 group-hover:text-white transition-colors">
-              </i>
+              <i class="fas fa-check ml-auto text-pink-500 group-hover:text-white transition-colors"></i>
             <% end %>
           </.link>
         <% end %>

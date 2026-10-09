@@ -108,8 +108,8 @@ defmodule WcsStudioWeb.BlogPostLive do
           <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
           <span>{gettext("Back to Blog")}</span>
         </.link>
-        
-    <!-- Admin Actions -->
+
+        <!-- Admin Actions -->
         <%= if @current_user && @current_user.role == "admin" && !@editing_post do %>
           <div class="flex gap-2">
             <button
@@ -205,13 +205,13 @@ defmodule WcsStudioWeb.BlogPostLive do
               <% end %>
             </span>
           </div>
-          
-    <!-- Title -->
+
+          <!-- Title -->
           <h1 class="text-5xl font-bold text-white mb-6 leading-tight">
             {@post.title}
           </h1>
-          
-    <!-- Author Info -->
+
+          <!-- Author Info -->
           <div class="flex items-center gap-4">
             <img
               src={@post.user.profile_pic_url || "/images/default-avatar.png"}
@@ -224,15 +224,15 @@ defmodule WcsStudioWeb.BlogPostLive do
             </div>
           </div>
         </header>
-        
-    <!-- Article Content -->
+
+        <!-- Article Content -->
         <div class="prose prose-invert prose-lg max-w-none mb-16">
           <div class="bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8 text-slate-200 leading-relaxed">
             {format_content(@post.body)}
           </div>
         </div>
-        
-    <!-- Article Footer / Tags -->
+
+        <!-- Article Footer / Tags -->
         <div class="border-t border-slate-700 pt-8 mb-12">
           <div class="flex flex-wrap items-center gap-3">
             <span class="text-slate-400">Tags:</span>
@@ -244,8 +244,8 @@ defmodule WcsStudioWeb.BlogPostLive do
           </div>
         </div>
       <% end %>
-      
-    <!-- Comments Section (Only show when not editing) -->
+
+      <!-- Comments Section (Only show when not editing) -->
       <%= if !@editing_post do %>
         <section class="mt-16">
           <div class="bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8">
@@ -254,8 +254,8 @@ defmodule WcsStudioWeb.BlogPostLive do
               {gettext("Comments")}
               <span class="text-lg font-normal text-slate-400">({length(@post.comments)})</span>
             </h2>
-            
-    <!-- Add Comment Form -->
+
+            <!-- Add Comment Form -->
             <%= if @current_user do %>
               <div class="mb-10">
                 <.simple_form for={%{}} phx-submit="add_comment">
@@ -293,8 +293,8 @@ defmodule WcsStudioWeb.BlogPostLive do
                 </.link>
               </div>
             <% end %>
-            
-    <!-- Comments List -->
+
+            <!-- Comments List -->
             <div class="space-y-6">
               <%= if Enum.empty?(@post.comments) do %>
                 <div class="text-center py-12">

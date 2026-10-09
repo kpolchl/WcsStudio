@@ -84,8 +84,8 @@ defmodule WcsStudioWeb.UserProfile do
                 />
               </div>
             </div>
-            
-    <!-- Profile Info -->
+
+            <!-- Profile Info -->
             <div class="flex-1 text-center lg:text-left">
               <h1 class="text-4xl font-bold text-white mb-2">
                 {@current_user.username}
@@ -106,8 +106,8 @@ defmodule WcsStudioWeb.UserProfile do
               <p class="text-slate-300 text-lg mb-6">
                 {@current_user.email}
               </p>
-              
-    <!-- Stats Grid -->
+
+              <!-- Stats Grid -->
               <div class="grid grid-cols-3 gap-2 max-w-2xl">
                 <div class="bg-slate-800/60 backdrop-blur-sm rounded-2xl p-4 border border-white/5">
                   <div class="flex items-center justify-center mb-2">
@@ -150,8 +150,8 @@ defmodule WcsStudioWeb.UserProfile do
                 </div>
               </div>
             </div>
-            
-    <!-- QR Code Section -->
+
+            <!-- QR Code Section -->
             <div class="flex-shrink-0">
               <div class="text-center">
                 <div
@@ -175,8 +175,8 @@ defmodule WcsStudioWeb.UserProfile do
           </div>
         </div>
       </div>
-      
-    <!-- Modals -->
+
+      <!-- Modals -->
       <%= case @modal_state do %>
         <% :qr_code -> %>
           <.modal id="qr-modal" show={true} on_cancel={JS.push("close_modal")}>
@@ -232,8 +232,8 @@ defmodule WcsStudioWeb.UserProfile do
           </div>
         </div>
       </div>
-      
-    <!-- Patterns Section -->
+
+      <!-- Patterns Section -->
       <div class="bg-slate-800/40 backdrop-blur-xl border border-white/10 rounded-2xl p-8 shadow-xl">
         <div class="flex items-center justify-between mb-8">
           <h2 class="text-2xl font-bold text-white flex items-center gap-3">

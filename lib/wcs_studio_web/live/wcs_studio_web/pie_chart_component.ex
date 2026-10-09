@@ -26,8 +26,7 @@ defmodule WcsStudioWeb.PieChartComponent do
         phx-hook="PieChart"
         data-labels={Enum.join(@labels, ",")}
         data-values={Enum.join(@values, ",")}
-      >
-      </canvas>
+      ></canvas>
     </div>
     """
   end

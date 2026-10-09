@@ -368,8 +368,8 @@ defmodule WcsStudioWeb.LessonsLive do
           on_submit="save"
         >
           <.input type="text" field={@form[:title]} label={gettext("Title")} />
-          
-    <!-- Instructors -->
+
+          <!-- Instructors -->
           <div class="space-y-2">
             <label class="block text-sm font-semibold text-slate-800">{gettext("Instructors")}</label>
             <div class="bg-slate-550 rounded-lg p-4 border border-slate-600 space-y-2 max-h-48 overflow-y-auto">
@@ -387,8 +387,8 @@ defmodule WcsStudioWeb.LessonsLive do
               <% end %>
             </div>
           </div>
-          
-    <!-- Patterns -->
+
+          <!-- Patterns -->
           <div class="space-y-2">
             <label class="block text-sm font-semibold text-slate-800">{gettext("Patterns")}</label>
             <div class="bg-slate-550 rounded-lg p-4 border border-slate-600 space-y-2 max-h-48 overflow-y-auto">
@@ -431,8 +431,8 @@ defmodule WcsStudioWeb.LessonsLive do
           submit_class="bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700"
         >
           <.input type="text" field={@form[:title]} label={gettext("Title")} />
-          
-    <!-- Instructors -->
+
+          <!-- Instructors -->
           <div class="space-y-2">
             <label class="block text-sm font-semibold text-slate-800">{gettext("Instructors")}</label>
             <div class="bg-slate-550 rounded-lg p-4 border border-slate-600 space-y-2 max-h-48 overflow-y-auto">
@@ -450,8 +450,8 @@ defmodule WcsStudioWeb.LessonsLive do
               <% end %>
             </div>
           </div>
-          
-    <!-- Patterns -->
+
+          <!-- Patterns -->
           <div class="space-y-2">
             <label class="block text-sm font-semibold text-slate-800">{gettext("Patterns")}</label>
             <div class="bg-slate-550 rounded-lg p-4 border border-slate-600 space-y-2 max-h-48 overflow-y-auto">

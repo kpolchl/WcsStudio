@@ -87,8 +87,8 @@ defmodule WcsStudioWeb.CoreComponents do
                 </div>
                 {render_slot(@inner_block)}
               </div>
-              
-    <!-- Close Button -->
+
+              <!-- Close Button -->
               <div class="absolute -top-3 -right-3">
                 <button
                   phx-click={JS.exec("data-cancel", to: "##{@id}")}
@@ -141,18 +141,18 @@ defmodule WcsStudioWeb.CoreComponents do
         <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-red-500 to-pink-500 mb-4">
           <i class="fas fa-exclamation-triangle text-white text-2xl"></i>
         </div>
-        
-    <!-- Title -->
+
+        <!-- Title -->
         <h3 class="text-2xl font-bold text-slate-900 mb-3">
           {@title}
         </h3>
-        
-    <!-- Message -->
+
+        <!-- Message -->
         <p class="text-slate-600 mb-8 leading-relaxed">
           {@message}
         </p>
-        
-    <!-- Actions -->
+
+        <!-- Actions -->
         <div class="flex gap-3 justify-center">
           <button
             phx-click={JS.exec("data-cancel", to: "##{@id}")}
@@ -278,15 +278,15 @@ defmodule WcsStudioWeb.CoreComponents do
                   </p>
                 </div>
               </div>
-              
-    <!-- Form Content -->
+
+              <!-- Form Content -->
               <div id={"#{@id}-content"} class="p-6">
                 <.form for={@form} phx-submit={@on_submit} phx-change={@on_change}>
                   <div class="space-y-4">
                     {render_slot(@inner_block)}
                   </div>
-                  
-    <!-- Actions -->
+
+                  <!-- Actions -->
                   <div class="mt-8 flex justify-end gap-3 pt-6 border-t border-slate-700/50">
                     <button
                       type="button"
@@ -396,15 +396,15 @@ defmodule WcsStudioWeb.CoreComponents do
                 </span>
               <% end %>
             </div>
-            
-    <!-- Title -->
+
+            <!-- Title -->
             <h2 class="text-3xl font-bold text-white mb-2 bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
               {@pattern.name}
             </h2>
           </div>
         </div>
-        
-    <!-- Collapsed body preview -->
+
+        <!-- Collapsed body preview -->
         <div
           class={if @expanded_pattern_id == @pattern.id, do: "hidden", else: "px-4 pb-4 pt-0"}
           id={"preview-body-#{@pattern.id}"}
@@ -414,8 +414,8 @@ defmodule WcsStudioWeb.CoreComponents do
             <span>{gettext("Click to expand pattern details")}</span>
           </div>
         </div>
-        
-    <!-- Expanded content -->
+
+        <!-- Expanded content -->
         <div
           id={"expanded-body-#{@pattern.id}"}
           class={
@@ -447,8 +447,8 @@ defmodule WcsStudioWeb.CoreComponents do
                 </p>
               </div>
             </div>
-            
-    <!-- Video -->
+
+            <!-- Video -->
             <%= if @expanded_pattern_id == @pattern.id do %>
               <div class="rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg">
                 <div class="flex items-center mb-4 pt-4 pl-4 pr-4">
@@ -466,15 +466,14 @@ defmodule WcsStudioWeb.CoreComponents do
                       frameborder="0"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                       allowfullscreen
-                    >
-                    </iframe>
+                    ></iframe>
                   </div>
                 </div>
               </div>
             <% end %>
           </div>
-          
-    <!-- Actions -->
+
+          <!-- Actions -->
           <div class="flex flex-wrap justify-end gap-2 pt-4 border-t border-slate-700/50">
             <%= if @current_user do %>
               <% status = @status || "not_started" %>
@@ -511,8 +510,8 @@ defmodule WcsStudioWeb.CoreComponents do
           </div>
         </div>
       </div>
-      
-    <!-- Variations section (root patterns only) -->
+
+      <!-- Variations section (root patterns only) -->
       <%= if not @is_child && not Enum.empty?(@children) do %>
         <% children_expanded =
           @expanded_children_id == @pattern.id or
@@ -539,11 +538,10 @@ defmodule WcsStudioWeb.CoreComponents do
             <i class={[
               "fas text-xs transition-transform duration-300",
               if(children_expanded, do: "fa-chevron-up", else: "fa-chevron-down")
-            ]}>
-            </i>
+            ]}></i>
           </button>
-          
-    <!-- Children list -->
+
+          <!-- Children list -->
           <%= if children_expanded do %>
             <div class="ml-4 sm:ml-8 mt-2 flex flex-col gap-0">
               <%= for child <- @children do %>
@@ -577,8 +575,8 @@ defmodule WcsStudioWeb.CoreComponents do
           <% end %>
         </div>
       <% end %>
-      
-    <!-- Spacer for patterns without children -->
+
+      <!-- Spacer for patterns without children -->
       <%= if @is_child || Enum.empty?(@children) do %>
         <div class="mb-4"></div>
       <% end %>
@@ -643,13 +641,12 @@ defmodule WcsStudioWeb.CoreComponents do
             <i class={[
               "fas fa-chevron-down text-white transition-transform duration-300",
               if(@expanded_lesson_id == @lesson.id, do: "rotate-180", else: "group-hover:rotate-180")
-            ]}>
-            </i>
+            ]}></i>
           </div>
         </div>
       </div>
-      
-    <!-- Collapsed body preview -->
+
+      <!-- Collapsed body preview -->
       <div
         class={if @expanded_lesson_id == @lesson.id, do: "hidden", else: "px-6 pb-4 pt-0 "}
         id={"preview-body-#{@lesson.id}"}
@@ -661,8 +658,8 @@ defmodule WcsStudioWeb.CoreComponents do
           </span>
         </div>
       </div>
-      
-    <!-- Expanded content -->
+
+      <!-- Expanded content -->
       <div
         class={
           unless @expanded_lesson_id == @lesson.id,
@@ -689,8 +686,8 @@ defmodule WcsStudioWeb.CoreComponents do
               <% end %>
             </div>
           </div>
-          
-    <!-- Instructors Box -->
+
+          <!-- Instructors Box -->
           <div class="p-4 rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg">
             <div class="flex items-center mb-4">
               <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center mr-3 shadow-lg">
@@ -715,8 +712,8 @@ defmodule WcsStudioWeb.CoreComponents do
             </div>
           </div>
         </div>
-        
-    <!-- Video Section -->
+
+        <!-- Video Section -->
         <%= if @expanded_lesson_id == @lesson.id do %>
           <div class="rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg">
             <div class="flex items-center mb-4 pt-4 pl-4 pr-4">
@@ -734,14 +731,13 @@ defmodule WcsStudioWeb.CoreComponents do
                   frameborder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowfullscreen
-                >
-                </iframe>
+                ></iframe>
               </div>
             </div>
           </div>
         <% end %>
-        
-    <!-- Actions -->
+
+        <!-- Actions -->
         <div class="flex flex-wrap justify-end gap-2 mt-4 pt-4 border-t border-slate-700/50">
           <%= if @current_user do %>
             <% attended = @attended || false %>
@@ -899,19 +895,18 @@ defmodule WcsStudioWeb.CoreComponents do
             @kind == :error && "fas fa-exclamation-triangle",
             @kind == :warning && "fas fa-exclamation-circle",
             @kind == :success && "fas fa-check-circle"
-          ]}>
-          </i>
+          ]}></i>
         </div>
-        
-    <!-- Content -->
+
+        <!-- Content -->
         <div class="flex-1 min-w-0">
           <p :if={@title} class="font-semibold text-white text-sm leading-6 mb-1">
             {@title}
           </p>
           <p class="text-sm leading-5 opacity-90">{msg}</p>
         </div>
-        
-    <!-- Close Button -->
+
+        <!-- Close Button -->
         <button
           type="button"
           phx-click={JS.push("lv:clear-flash", value: %{key: @kind}) |> hide("##{@id}")}
@@ -921,8 +916,8 @@ defmodule WcsStudioWeb.CoreComponents do
           <i class="fas fa-times text-xs text-white/70 group-hover:text-white"></i>
         </button>
       </div>
-      
-    <!-- Progress Bar -->
+
+      <!-- Progress Bar -->
       <div class={[
         "w-full h-1 rounded-full mt-3 overflow-hidden",
         @kind == :info && "bg-cyan-500/20",

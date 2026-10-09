@@ -392,8 +392,7 @@ defmodule WcsStudioWeb.PatternsLive do
               <i class={[
                 "fas fa-chevron-down text-slate-400 text-xs transition-transform duration-300",
                 if(@dropdown_open, do: "rotate-180", else: "group-hover:rotate-180")
-              ]}>
-              </i>
+              ]}></i>
             </button>
 
             <div
@@ -423,8 +422,8 @@ defmodule WcsStudioWeb.PatternsLive do
             </div>
           </div>
         </div>
-        
-    <!-- Search Input -->
+
+        <!-- Search Input -->
         <div class="flex-1 relative">
           <form phx-change="search" class="h-full">
             <div class="relative h-full">
@@ -524,8 +523,8 @@ defmodule WcsStudioWeb.PatternsLive do
           />
           <.input type="number" field={@form[:count_num]} label={gettext("Count Number")} />
           <.input type="text" field={@form[:video_url]} label={gettext("Video URL (YouTube)")} />
-          
-    <!-- Child pattern selector -->
+
+          <!-- Child pattern selector -->
           <%= if not Enum.empty?(@child_candidates) do %>
             <div class="mt-4">
               <label class="block text-sm font-medium text-slate-300 mb-2">
@@ -586,8 +585,8 @@ defmodule WcsStudioWeb.PatternsLive do
           />
           <.input type="number" field={@form[:count_num]} label={gettext("Count Number")} />
           <.input type="text" field={@form[:video_url]} label={gettext("Video URL (YouTube)")} />
-          
-    <!-- Child pattern selector -->
+
+          <!-- Child pattern selector -->
           <%= if not Enum.empty?(@child_candidates) do %>
             <div class="mt-4">
               <label class="block text-sm font-medium text-slate-300 mb-2">

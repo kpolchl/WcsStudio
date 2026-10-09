@@ -47,8 +47,8 @@ defmodule WcsStudioWeb.ConnectLive do
           </div>
         </div>
       </section>
-      
-    <!-- Contact Section -->
+
+      <!-- Contact Section -->
       <section>
         <div class="bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8 md:p-12">
           <h2 class="text-3xl font-bold text-white mb-6">
@@ -109,8 +109,8 @@ defmodule WcsStudioWeb.ConnectLive do
                 </div>
               </div>
             </div>
-            
-    <!-- Contact Form -->
+
+            <!-- Contact Form -->
             <div>
               <form phx-submit="send_message" class="space-y-4">
                 <div>

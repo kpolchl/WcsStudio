@@ -130,20 +130,20 @@ defmodule WcsStudioWeb.DanceTypesLive do
               </div>
               <div class="absolute inset-0 bg-gradient-to-br from-pink-500/10 via-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
               </div>
-              
-    <!-- Image Section (Top 60%) -->
+
+              <!-- Image Section (Top 60%) -->
               <div class="relative h-3/5 overflow-hidden">
                 <!-- Background Effects -->
                 <div class="absolute top-0 right-0 w-32 h-32 bg-pink-500 rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500">
                 </div>
                 <div class="absolute bottom-0 left-0 w-32 h-32 bg-purple-500 rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500">
                 </div>
-                
-    <!-- Gradient Overlay -->
+
+                <!-- Gradient Overlay -->
                 <div class="absolute inset-0 bg-gradient-to-b from-slate-900/70 to-transparent z-10">
                 </div>
-                
-    <!-- Image -->
+
+                <!-- Image -->
                 <img
                   src={dance_type.pic_url}
                   alt={"#{DanceType.get_name(dance_type, @locale)} dance style"}
@@ -151,8 +151,8 @@ defmodule WcsStudioWeb.DanceTypesLive do
                   class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
                 />
               </div>
-              
-    <!-- Content Section (Bottom 40%) -->
+
+              <!-- Content Section (Bottom 40%) -->
               <div class="relative flex-1 flex flex-col justify-between p-6 z-10">
                 <div>
                   <h3 class="text-xl font-bold text-white mb-2 group-hover:text-pink-200 transition-colors duration-300">
@@ -163,8 +163,8 @@ defmodule WcsStudioWeb.DanceTypesLive do
                     {DanceType.get_country(dance_type, @locale)}
                   </p>
                 </div>
-                
-    <!-- CTA -->
+
+                <!-- CTA -->
                 <div class="flex items-center justify-between pt-3 border-t border-slate-600/50 group-hover:border-slate-500/50 transition-colors duration-300">
                   <span
                     class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-white backdrop-blur-sm border border-white/20"
@@ -175,16 +175,15 @@ defmodule WcsStudioWeb.DanceTypesLive do
                   </span>
                   <span class="text-pink-400 text-sm font-medium flex items-center gap-2 group-hover:gap-3 transition-all duration-300">
                     {gettext("Explore")}
-                    <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-300">
-                    </i>
+                    <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-300"></i>
                   </span>
                 </div>
               </div>
             </.link>
           <% end %>
         </div>
-        
-    <!-- Empty State -->
+
+        <!-- Empty State -->
         <%= if Enum.empty?(@dance_types) do %>
           <div class="text-center py-16">
             <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-slate-800/50 flex items-center justify-center">

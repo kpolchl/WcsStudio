@@ -11,24 +11,22 @@
             WcsStudio
           </.link>
         </div>
-        
-<!-- Desktop Navigation -->
+
+        <!-- Desktop Navigation -->
         <div class="hidden md:ml-10 md:flex md:items-center md:space-x-1">
           <.link
             href={~p"/dance_types"}
             class="relative text-slate-300 hover:text-white px-4 py-2 text-sm font-medium transition-all duration-300 group"
           >
             {gettext("Dance Types")}
-            <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-pink-500 to-purple-500 transition-all duration-300 group-hover:w-full group-hover:left-0">
-            </span>
+            <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-pink-500 to-purple-500 transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
           </.link>
           <.link
             href={~p"/patterns"}
             class="relative text-slate-300 hover:text-white px-4 py-2 text-sm font-medium transition-all duration-300 group"
           >
             {gettext("Steps")}
-            <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-pink-500 to-purple-500 transition-all duration-300 group-hover:w-full group-hover:left-0">
-            </span>
+            <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-pink-500 to-purple-500 transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
           </.link>
           <%= if @current_user && @current_user.role == "admin" do %>
             <.link
@@ -36,8 +34,7 @@
               class="relative text-slate-300 hover:text-white px-4 py-2 text-sm font-medium transition-all duration-300 group"
             >
               {gettext("Lessons")}
-              <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-pink-500 to-purple-500 transition-all duration-300 group-hover:w-full group-hover:left-0">
-              </span>
+              <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-pink-500 to-purple-500 transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
             </.link>
           <% end %>
           <.link
@@ -45,31 +42,27 @@
             class="relative text-slate-300 hover:text-white px-4 py-2 text-sm font-medium transition-all duration-300 group"
           >
             {gettext("Practice")}
-            <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-pink-500 to-purple-500 transition-all duration-300 group-hover:w-full group-hover:left-0">
-            </span>
+            <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-pink-500 to-purple-500 transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
           </.link>
           <.link
             href={~p"/blog"}
             class="relative text-slate-300 hover:text-white px-4 py-2 text-sm font-medium transition-all duration-300 group"
           >
             {gettext("Blog")}
-            <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-pink-500 to-purple-500 transition-all duration-300 group-hover:w-full group-hover:left-0">
-            </span>
+            <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-pink-500 to-purple-500 transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
           </.link>
           <.link
             href={~p"/connect"}
             class="relative text-slate-300 hover:text-white px-4 py-2 text-sm font-medium transition-all duration-300 group"
           >
             {gettext("About me")}
-            <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-pink-500 to-purple-500 transition-all duration-300 group-hover:w-full group-hover:left-0">
-            </span>
+            <span class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-pink-500 to-purple-500 transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
           </.link>
         </div>
       </div>
 
       <div class="flex items-center space-x-4">
-        
-<!-- User menu (desktop) -->
+        <!-- User menu (desktop) -->
         <div class="hidden md:flex items-center space-x-4">
           <.locale_switcher
             current_locale={assigns[:locale] || "pl"}
@@ -107,8 +100,7 @@
                   <div class="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-slate-900">
                   </div>
                 </div>
-                <i class="fas fa-chevron-down text-slate-400 text-xs transition-transform duration-300 group-hover:rotate-180">
-                </i>
+                <i class="fas fa-chevron-down text-slate-400 text-xs transition-transform duration-300 group-hover:rotate-180"></i>
               </button>
 
               <div
@@ -143,39 +135,36 @@
                     </div>
                   </div>
                 </div>
-                
-<!-- Menu Items -->
+
+                <!-- Menu Items -->
                 <div class="py-1">
                   <.link
                     href={~p"/user_profile"}
                     class="flex items-center px-4 py-2.5 text-sm text-slate-300 hover:bg-slate-700/50 hover:text-white transition-colors duration-200 group"
                   >
-                    <i class="fas fa-user-circle w-5 mr-3 text-slate-400 group-hover:text-cyan-400 transition-colors duration-200">
-                    </i>
+                    <i class="fas fa-user-circle w-5 mr-3 text-slate-400 group-hover:text-cyan-400 transition-colors duration-200"></i>
                     {gettext("Your Profile")}
                   </.link>
                   <.link
                     href={~p"/users/settings"}
                     class="flex items-center px-4 py-2.5 text-sm text-slate-300 hover:bg-slate-700/50 hover:text-white transition-colors duration-200 group"
                   >
-                    <i class="fas fa-cog w-5 mr-3 text-slate-400 group-hover:text-blue-400 transition-colors duration-200">
-                    </i>
+                    <i class="fas fa-cog w-5 mr-3 text-slate-400 group-hover:text-blue-400 transition-colors duration-200"></i>
                     {gettext("Account Settings")}
                   </.link>
                 </div>
-                
-<!-- Divider -->
+
+                <!-- Divider -->
                 <div class="border-t border-slate-700/50 my-1"></div>
-                
-<!-- Footer Menu Items -->
+
+                <!-- Footer Menu Items -->
                 <div class="py-1">
                   <.link
                     href={~p"/users/log_out"}
                     method="delete"
                     class="flex items-center px-4 py-2.5 text-sm text-red-400 hover:bg-red-500/10 transition-colors duration-200 group"
                   >
-                    <i class="fas fa-sign-out-alt w-5 mr-3 group-hover:text-red-500 transition-colors duration-200">
-                    </i>
+                    <i class="fas fa-sign-out-alt w-5 mr-3 group-hover:text-red-500 transition-colors duration-200"></i>
                     {gettext("Sign out")}
                   </.link>
                 </div>
@@ -196,8 +185,8 @@
             </.link>
           <% end %>
         </div>
-        
-<!-- Mobile menu button -->
+
+        <!-- Mobile menu button -->
         <div class="md:hidden flex items-center">
           <button
             type="button"
@@ -245,8 +234,8 @@
       </div>
     </div>
   </div>
-  
-<!-- Mobile menu -->
+
+  <!-- Mobile menu -->
   <div
     class="md:hidden hidden backdrop-blur-lg bg-slate-900/95 border-b border-slate-700/50 shadow-xl"
     id="mobile-menu"
@@ -303,8 +292,8 @@
           }
         />
       </div>
-      
-<!-- Mobile User Section -->
+
+      <!-- Mobile User Section -->
       <div class="pt-4 pb-3 border-t border-slate-700 mt-4">
         <%= if @current_user do %>
           <div class="flex items-center px-3 py-2">
