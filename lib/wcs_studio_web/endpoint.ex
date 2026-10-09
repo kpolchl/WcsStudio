@@ -31,6 +31,7 @@ defmodule WcsStudioWeb.Endpoint do
   if code_reloading? do
     socket "/phoenix/live_reload/socket", Phoenix.LiveReloader.Socket,
       websocket: [check_origin: true]
+
     plug Phoenix.LiveReloader
     plug Phoenix.CodeReloader
     plug Phoenix.Ecto.CheckRepoStatus, otp_app: :wcs_studio

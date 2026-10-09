@@ -10,11 +10,13 @@ defmodule WcsStudioWeb.Router do
     plug :fetch_live_flash
     plug :put_root_layout, html: {WcsStudioWeb.Layouts, :root}
     plug :protect_from_forgery
+
     plug :put_secure_browser_headers,
          %{
            "content-security-policy" =>
              "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; img-src 'self' data: https:; font-src 'self' https://cdnjs.cloudflare.com; connect-src 'self' ws: wss:; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'"
          }
+
     plug :fetch_current_user
     plug :set_locale
   end
