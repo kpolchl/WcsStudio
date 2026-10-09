@@ -59,8 +59,6 @@ if config_env() == :prod do
 
   config :wcs_studio, :dns_cluster_query, System.get_env("DNS_CLUSTER_QUERY")
 
-  config :wcs_studio, :uploads_path, System.get_env("UPLOADS_PATH") || "priv/static/uploads"
-
   config :wcs_studio, WcsStudioWeb.Endpoint,
     url: [host: host, port: 443, scheme: "https"],
     http: [
