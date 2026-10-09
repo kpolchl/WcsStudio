@@ -20,7 +20,7 @@ defmodule WcsStudio.Lesson do
       join_keys: [lesson_id: :id, pattern_id: :id],
       on_replace: :delete
 
-    has_many :user_lessons, WcsStudio.UserPattern
+    has_many :user_lessons, WcsStudio.UserLesson, foreign_key: :lesson_id
     belongs_to :dance_type, WcsStudio.DanceType
     belongs_to :level, WcsStudio.Levels, foreign_key: :level_id
 
@@ -32,7 +32,7 @@ defmodule WcsStudio.Lesson do
     |> WcsStudio.Repo.preload([:patterns, :instructors, :dance_type, :level])
   end
 
-  def get_all() do
+  def get_all do
     WcsStudio.Lesson
     |> WcsStudio.Repo.all()
     |> WcsStudio.Repo.preload([:patterns, :instructors, :dance_type, :level])
@@ -97,46 +97,33 @@ defmodule WcsStudio.Lesson do
     |> validate_required([:title, :level_id, :place, :date, :dance_type_id])
   end
 
-  def update(
-        lesson,
-        title,
-        instructor_ids,
-        pattern_ids,
-        level_id,
-        place,
-        lesson_vid_url,
-        date,
-        dance_type_id
-      ) do
-    # Convert string IDs to integers if needed
-    instructor_ids =
-      Enum.map(instructor_ids, fn id ->
-        if is_binary(id), do: String.to_integer(id), else: id
-      end)
-
-    pattern_ids =
-      Enum.map(pattern_ids, fn id ->
-        if is_binary(id), do: String.to_integer(id), else: id
-      end)
+  def update(lesson, attrs) do
+    instructor_ids = normalize_ids(attrs.instructor_ids)
+    pattern_ids = normalize_ids(attrs.pattern_ids)
 
     instructors =
       WcsStudio.Repo.all(from u in WcsStudio.Accounts.User, where: u.id in ^instructor_ids)
 
     patterns = WcsStudio.Repo.all(from p in WcsStudio.Pattern, where: p.id in ^pattern_ids)
 
-    # Use the EXISTING lesson struct, not a new one
     lesson
     |> changeset(%{
-      title: title,
-      level_id: level_id,
-      place: place,
-      lesson_vid_url: lesson_vid_url,
-      date: date,
-      dance_type_id: dance_type_id
+      title: attrs.title,
+      level_id: attrs.level_id,
+      place: attrs.place,
+      lesson_vid_url: attrs.lesson_vid_url,
+      date: attrs.date,
+      dance_type_id: attrs.dance_type_id
     })
     |> put_assoc(:instructors, instructors)
     |> put_assoc(:patterns, patterns)
     |> WcsStudio.Repo.update()
+  end
+
+  defp normalize_ids(ids) do
+    Enum.map(ids, fn id ->
+      if is_binary(id), do: String.to_integer(id), else: id
+    end)
   end
 
   def delete_lesson(id) do

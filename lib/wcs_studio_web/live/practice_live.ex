@@ -1,7 +1,7 @@
 defmodule WcsStudioWeb.PracticeLive do
   use WcsStudioWeb, :live_view
-  alias WcsStudio.Pattern
   alias WcsStudio.DanceType
+  alias WcsStudio.Pattern
   alias WcsStudio.UserPattern
 
   @impl true
@@ -169,8 +169,7 @@ defmodule WcsStudioWeb.PracticeLive do
               <i class={[
                 "fas fa-chevron-down text-slate-400 text-xs transition-transform duration-300",
                 if(@dropdown_open, do: "rotate-180", else: "")
-              ]}>
-              </i>
+              ]}></i>
             </button>
 
             <div
@@ -228,8 +227,8 @@ defmodule WcsStudioWeb.PracticeLive do
           </div>
           <div class="absolute inset-0 bg-gradient-to-br from-pink-500/10 via-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
           </div>
-          
-    <!-- Video Section -->
+
+          <!-- Video Section -->
           <div class="relative overflow-hidden">
             <!-- Video -->
             <div class="w-full rounded-lg overflow-hidden">
@@ -242,13 +241,12 @@ defmodule WcsStudioWeb.PracticeLive do
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowfullscreen
                   loading="lazy"
-                >
-                </iframe>
+                ></iframe>
               </div>
             </div>
           </div>
-          
-    <!-- Content Section -->
+
+          <!-- Content Section -->
           <div class="relative flex-1 flex flex-col justify-between p-6 z-10">
             <!-- Background Effects (moved to content area) -->
             <div class="absolute top-0 right-0 w-32 h-32 bg-pink-500 rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500 pointer-events-none">
@@ -261,16 +259,15 @@ defmodule WcsStudioWeb.PracticeLive do
                 {random_pattern.name}
               </h1>
             </div>
-            
-    <!-- CTA -->
+
+            <!-- CTA -->
             <div class="relative flex items-center justify-end pt-3 border-t border-slate-600/50 group-hover:border-slate-500/50 transition-colors duration-300 z-10">
               <a
                 href={~p"/patterns"}
                 class="text-pink-400 text-sm font-medium flex items-center gap-2 group-hover:gap-3 transition-all duration-300"
               >
                 <span>{gettext("Details")}</span>
-                <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-300">
-                </i>
+                <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-300"></i>
               </a>
             </div>
           </div>

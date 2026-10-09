@@ -1,4 +1,5 @@
 defmodule WcsStudio.Levels do
+  @moduledoc false
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -8,7 +9,7 @@ defmodule WcsStudio.Levels do
     timestamps()
   end
 
-  def get_all() do
+  def get_all do
     WcsStudio.Levels
     |> WcsStudio.Repo.all()
   end

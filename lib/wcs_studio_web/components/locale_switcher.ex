@@ -1,4 +1,5 @@
 defmodule WcsStudioWeb.Components.LocaleSwitcher do
+  @moduledoc false
   use Phoenix.Component
   use WcsStudioWeb, :verified_routes
   alias Phoenix.LiveView.JS
@@ -16,13 +17,23 @@ defmodule WcsStudioWeb.Components.LocaleSwitcher do
     assigns = assign_new(assigns, :current_path, fn -> "/" end)
 
     ~H"""
-    <div class={["relative", @class]} id="locale-switcher-container" phx-click-away={JS.add_class("hidden", to: "#locale-dropdown")}>
+    <div
+      class={["relative", @class]}
+      id="locale-switcher-container"
+      phx-click-away={JS.add_class("hidden", to: "#locale-dropdown")}
+    >
       <button
         type="button"
-        phx-click={JS.toggle(to: "#locale-dropdown", in: {"ease-out duration-100", "opacity-0 scale-95", "opacity-100 scale-100"}, out: {"ease-in duration-75", "opacity-100 scale-100", "opacity-0 scale-95"})}
+        phx-click={
+          JS.toggle(
+            to: "#locale-dropdown",
+            in: {"ease-out duration-100", "opacity-0 scale-95", "opacity-100 scale-100"},
+            out: {"ease-in duration-75", "opacity-100 scale-100", "opacity-0 scale-95"}
+          )
+        }
         class="flex items-center space-x-2 p-2 rounded-lg hover:bg-slate-800/50 transition-all duration-300 border border-transparent hover:border-slate-700/50 text-slate-300 hover:text-white group"
       >
-        <span class="text-sm font-medium uppercase"><%= @current_locale %></span>
+        <span class="text-sm font-medium uppercase">{@current_locale}</span>
         <i class="fas fa-chevron-down text-xs transition-transform duration-300 group-hover:rotate-180"></i>
       </button>
 
@@ -45,10 +56,10 @@ defmodule WcsStudioWeb.Components.LocaleSwitcher do
                 end
               ]}
             >
-              <span class="text-lg mr-3"><%= locale.flag %></span>
+              <span class="text-lg mr-3">{locale.flag}</span>
               <div class="flex-1">
-                <div class="font-medium"><%= locale.name %></div>
-                <div class="text-xs text-slate-400 uppercase"><%= locale.code %></div>
+                <div class="font-medium">{locale.name}</div>
+                <div class="text-xs text-slate-400 uppercase">{locale.code}</div>
               </div>
               <%= if locale.code == @current_locale do %>
                 <i class="fas fa-check ml-2 text-pink-500 group-hover:text-white transition-colors"></i>
@@ -71,8 +82,7 @@ defmodule WcsStudioWeb.Components.LocaleSwitcher do
 
     ~H"""
     <div class={["w-full", @class]}>
-      <div class="text-slate-400 text-xs font-medium px-3 py-2 uppercase tracking-wider">
-      </div>
+      <div class="text-slate-400 text-xs font-medium px-3 py-2 uppercase tracking-wider"></div>
       <div class="grid grid-cols-2 gap-1 px-1">
         <%= for locale <- locales() do %>
           <.link
@@ -87,8 +97,8 @@ defmodule WcsStudioWeb.Components.LocaleSwitcher do
               end
             ]}
           >
-            <span class="text-base mr-2"><%= locale.flag %></span>
-            <span class="font-medium"><%= locale.name %></span>
+            <span class="text-base mr-2">{locale.flag}</span>
+            <span class="font-medium">{locale.name}</span>
             <%= if locale.code == @current_locale do %>
               <i class="fas fa-check ml-auto text-pink-500 group-hover:text-white transition-colors"></i>
             <% end %>

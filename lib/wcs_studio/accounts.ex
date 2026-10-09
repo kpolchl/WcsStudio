@@ -6,7 +6,7 @@ defmodule WcsStudio.Accounts do
   import Ecto.Query, warn: false
   alias WcsStudio.Repo
 
-  alias WcsStudio.Accounts.{User, UserToken, UserNotifier}
+  alias WcsStudio.Accounts.{User, UserNotifier, UserToken}
 
   ## Database getters
 
@@ -357,8 +357,8 @@ defmodule WcsStudio.Accounts do
     |> Repo.update()
   end
 
-  def count_users() do
-    from(ul in WcsStudio.Accounts.User,select: count())
+  def count_users do
+    from(ul in WcsStudio.Accounts.User, select: count())
     |> WcsStudio.Repo.one()
   end
 
@@ -367,5 +367,4 @@ defmodule WcsStudio.Accounts do
     |> Ecto.Changeset.change(qr_code_url: url)
     |> WcsStudio.Repo.update()
   end
-
 end

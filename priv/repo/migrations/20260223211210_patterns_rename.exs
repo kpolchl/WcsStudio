@@ -3,6 +3,5 @@ defmodule WcsStudio.Repo.Migrations.PatternsRename do
 
   def change do
     rename table(:patterns), :class, to: :hands
-
   end
 end

@@ -21,13 +21,11 @@ if System.get_env("PHX_SERVER") do
 end
 
 if config_env() == :prod do
-
-  config :resend, Resend.Client,
-         api_key: System.get_env("RESEND_API_KEY")
+  config :resend, Resend.Client, api_key: System.get_env("RESEND_API_KEY")
 
   config :wcs_studio, WcsStudio.Mailer,
-     adapter: Resend.Swoosh.Adapter,
-     api_key: System.get_env("RESEND_API_KEY")
+    adapter: Resend.Swoosh.Adapter,
+    api_key: System.get_env("RESEND_API_KEY")
 
   database_url =
     System.get_env("DATABASE_URL") ||
@@ -61,14 +59,11 @@ if config_env() == :prod do
 
   config :wcs_studio, :dns_cluster_query, System.get_env("DNS_CLUSTER_QUERY")
 
-  config :wcs_studio, :uploads_path,
-    System.get_env("UPLOADS_PATH") || "priv/static/uploads"
-
   config :wcs_studio, WcsStudioWeb.Endpoint,
     url: [host: host, port: 443, scheme: "https"],
     http: [
-	  ip: {0, 0, 0, 0, 0, 0, 0, 0},
-	port: port
+      ip: {0, 0, 0, 0, 0, 0, 0, 0},
+      port: port
       # Enable IPv6 and bind on all interfaces.
       # Set it to  {0, 0, 0, 0, 0, 0, 0, 1} for local network only access.
       # See the documentation on https://hexdocs.pm/bandit/Bandit.html#t:options/0

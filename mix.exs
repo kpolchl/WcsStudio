@@ -5,7 +5,7 @@ defmodule WcsStudio.MixProject do
     [
       app: :wcs_studio,
       version: "0.1.0",
-      elixir: "~> 1.14",
+      elixir: "~> 1.19.6",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -71,7 +71,9 @@ defmodule WcsStudio.MixProject do
       {:lazy_html, ">= 0.1.8", only: :test},
       {:image, "~> 0.37"},
       {:resend, "~> 0.4.0"},
-      {:credo, "~> 1.7", only: [:dev, :test], runtime: false}
+      {:hackney, "~> 4.0", override: true},
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
+      {:sobelow, "~> 0.14", only: [:dev, :test], runtime: false}
     ]
   end
 

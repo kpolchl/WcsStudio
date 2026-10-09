@@ -1,0 +1,70 @@
+name: CI
+
+on:
+    pull_request:
+        branches: ["master"]
+    push:
+        branches: ["master"]
+    workflow_dispatch:
+
+# Cancel superseded runs on the same branch/PR
+concurrency:
+    group: ci-${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+    contents: read
+
+env:
+    MIX_ENV: test
+    # Keep these in sync with mix.exs / .tool-versions / your Dockerfile
+    ELIXIR_VERSION: "1.19.6"
+    OTP_VERSION: "26.2.5"
+
+jobs:
+    test:
+        name: Build and test
+        runs-on: ubuntu-latest
+        timeout-minutes: 15
+
+        steps:
+            - uses: actions/checkout@v5
+
+            - name: Set up Elixir
+              id: beam
+              uses: erlef/setup-beam@v1
+              with:
+                  elixir-version: ${{ env.ELIXIR_VERSION }}
+                  otp-version: ${{ env.OTP_VERSION }}
+                  version-type: strict
+
+            - name: Restore deps and build cache
+              uses: actions/cache@v4
+              with:
+                  path: |
+                      deps
+                      _build
+                  key: mix-${{ runner.os }}-${{ steps.beam.outputs.otp-version }}-${{ steps.beam.outputs.elixir-version }}-${{ hashFiles('**/mix.lock') }}
+                  restore-keys: |
+                      mix-${{ runner.os }}-${{ steps.beam.outputs.otp-version }}-${{ steps.beam.outputs.elixir-version }}-
+
+            - name: Install dependencies
+              run: mix deps.get
+
+            - name: Check for unused dependencies
+              run: mix deps.unlock --check-unused
+
+            - name: Check formatting
+              run: mix format --check-formatted
+
+            - name: Compile (warnings as errors)
+              run: mix compile #--warnings-as-errors
+
+            - name: Audit for retired packages
+              run: mix hex.audit
+
+            - name: Credo
+              run: mix credo --strict
+
+            - name: Sobelow (security scan)
+              run: mix sobelow --private --exit Low
