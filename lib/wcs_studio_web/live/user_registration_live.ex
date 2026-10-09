@@ -10,13 +10,16 @@ defmodule WcsStudioWeb.UserRegistrationLive do
     <div class="px-4 py-4">
       <div class="mx-auto max-w-sm">
         <.header class="text-center">
-           <%= gettext("Register for an account")%>
+          {gettext("Register for an account")}
           <:subtitle>
-             <%= gettext("Already registered?")%>
-            <.link navigate={~p"/users/log_in"} class="font-semibold text-pink-400 hover:text-pink-300 hover:underline transition-colors duration-300">
-               <%= gettext("Log in")%>
+            {gettext("Already registered?")}
+            <.link
+              navigate={~p"/users/log_in"}
+              class="font-semibold text-pink-400 hover:text-pink-300 hover:underline transition-colors duration-300"
+            >
+              {gettext("Log in")}
             </.link>
-             <%= gettext("to your account now.")%>
+            {gettext("to your account now.")}
           </:subtitle>
         </.header>
 
@@ -30,7 +33,7 @@ defmodule WcsStudioWeb.UserRegistrationLive do
           method="post"
         >
           <.error :if={@check_errors}>
-             <%= gettext("Oops, something went wrong! Please check the errors below.")%>
+            {gettext("Oops, something went wrong! Please check the errors below.")}
           </.error>
 
           <.input field={@form[:email]} type="email" label={gettext("Email")} required />
@@ -38,7 +41,12 @@ defmodule WcsStudioWeb.UserRegistrationLive do
           <.input field={@form[:password]} type="password" label={gettext("Password")} required />
 
           <:actions>
-            <.button phx-disable-with="Creating account..." class="w-full bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-pink-500/25 hover:-translate-y-0.5"> <%= gettext("Create an account") %></.button>
+            <.button
+              phx-disable-with="Creating account..."
+              class="w-full bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-pink-500/25 hover:-translate-y-0.5"
+            >
+              {gettext("Create an account")}
+            </.button>
           </:actions>
         </.simple_form>
       </div>

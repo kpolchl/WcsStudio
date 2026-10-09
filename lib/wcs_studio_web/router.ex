@@ -10,7 +10,11 @@ defmodule WcsStudioWeb.Router do
     plug :fetch_live_flash
     plug :put_root_layout, html: {WcsStudioWeb.Layouts, :root}
     plug :protect_from_forgery
-    plug :put_secure_browser_headers
+    plug :put_secure_browser_headers,
+         %{
+           "content-security-policy" =>
+             "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; img-src 'self' data: https:; font-src 'self' https://cdnjs.cloudflare.com; connect-src 'self' ws: wss:; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'"
+         }
     plug :fetch_current_user
     plug :set_locale
   end
@@ -64,10 +68,10 @@ defmodule WcsStudioWeb.Router do
 
     # FIX: Use ensure_authenticated instead of mount_current_user
     live_session :admin_auth,
-                 on_mount: [
-                   {WcsStudioWeb.UserAuth, :ensure_authenticated},
-                   {WcsStudioWeb.UserAuth, :set_locale}
-                 ] do
+      on_mount: [
+        {WcsStudioWeb.UserAuth, :ensure_authenticated},
+        {WcsStudioWeb.UserAuth, :set_locale}
+      ] do
       live "/dashboard", AdminDashboardLive
       live "/lessons", LessonsLive
     end
@@ -81,10 +85,10 @@ defmodule WcsStudioWeb.Router do
     pipe_through [:browser, :redirect_if_user_is_authenticated]
 
     live_session :redirect_if_user_is_authenticated,
-                 on_mount: [
-                   {WcsStudioWeb.UserAuth, :redirect_if_user_is_authenticated},
-                   {WcsStudioWeb.UserAuth, :set_locale}
-                 ] do
+      on_mount: [
+        {WcsStudioWeb.UserAuth, :redirect_if_user_is_authenticated},
+        {WcsStudioWeb.UserAuth, :set_locale}
+      ] do
       live "/users/register", UserRegistrationLive, :new
       live "/users/log_in", UserLoginLive, :new
       live "/users/reset_password", UserForgotPasswordLive, :new
@@ -98,10 +102,10 @@ defmodule WcsStudioWeb.Router do
     pipe_through [:browser, :require_authenticated_user]
 
     live_session :require_authenticated_user,
-                 on_mount: [
-                   {WcsStudioWeb.UserAuth, :ensure_authenticated},
-                   {WcsStudioWeb.UserAuth, :set_locale}
-                 ] do
+      on_mount: [
+        {WcsStudioWeb.UserAuth, :ensure_authenticated},
+        {WcsStudioWeb.UserAuth, :set_locale}
+      ] do
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
     end
@@ -113,10 +117,10 @@ defmodule WcsStudioWeb.Router do
     delete "/users/log_out", UserSessionController, :delete
 
     live_session :current_user,
-                 on_mount: [
-                   {WcsStudioWeb.UserAuth, :mount_current_user},
-                   {WcsStudioWeb.UserAuth, :set_locale}
-                 ] do
+      on_mount: [
+        {WcsStudioWeb.UserAuth, :mount_current_user},
+        {WcsStudioWeb.UserAuth, :set_locale}
+      ] do
       live "/patterns", PatternsLive
       live "/dance_types", DanceTypesLive
       live "/blog", BlogLive, :index

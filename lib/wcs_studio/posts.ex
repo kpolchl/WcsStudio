@@ -1,8 +1,9 @@
 defmodule WcsStudio.Post do
+  @moduledoc false
   use Ecto.Schema
   import Ecto.Query
   import Ecto.Changeset
-  import WcsStudioWeb.Gettext
+  use Gettext, backend: WcsStudioWeb.Gettext
 
   schema "posts" do
     field :title, :string
@@ -25,7 +26,7 @@ defmodule WcsStudio.Post do
     |> WcsStudio.Repo.all()
   end
 
-  def count_posts() do
+  def count_posts do
     from(ul in WcsStudio.Post, select: count())
     |> WcsStudio.Repo.one()
   end

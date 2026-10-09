@@ -1,7 +1,7 @@
 defmodule WcsStudioWeb.PracticeLive do
   use WcsStudioWeb, :live_view
-  alias WcsStudio.Pattern
   alias WcsStudio.DanceType
+  alias WcsStudio.Pattern
   alias WcsStudio.UserPattern
 
   @impl true

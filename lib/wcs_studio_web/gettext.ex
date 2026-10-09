@@ -20,5 +20,5 @@ defmodule WcsStudioWeb.Gettext do
 
   See the [Gettext Docs](https://hexdocs.pm/gettext) for detailed usage.
   """
-  use Gettext, otp_app: :wcs_studio
+  use Gettext.Backend, otp_app: :wcs_studio
 end

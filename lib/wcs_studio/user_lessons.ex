@@ -23,14 +23,18 @@ defmodule WcsStudio.UserLesson do
   end
 
   def get_chart_data(user_id) do
-    all_lessons = from(ul in WcsStudio.Lesson,
-                    select: count()
-                  ) |> WcsStudio.Repo.one()
+    all_lessons =
+      from(ul in WcsStudio.Lesson,
+        select: count()
+      )
+      |> WcsStudio.Repo.one()
 
-    attended = from(ul in WcsStudio.UserLesson,
-                 where: ul.user_id == ^user_id,
-                 select: count()
-               ) |> WcsStudio.Repo.one()
+    attended =
+      from(ul in WcsStudio.UserLesson,
+        where: ul.user_id == ^user_id,
+        select: count()
+      )
+      |> WcsStudio.Repo.one()
 
     [all_lessons, attended]
   end

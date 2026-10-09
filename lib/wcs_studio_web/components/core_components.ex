@@ -16,8 +16,9 @@ defmodule WcsStudioWeb.CoreComponents do
   """
   use Phoenix.Component
 
+  alias Phoenix.HTML.Form
   alias Phoenix.LiveView.JS
-  import WcsStudioWeb.Gettext
+  use Gettext, backend: WcsStudioWeb.Gettext
 
   @doc """
   Renders a modal.
@@ -40,6 +41,8 @@ defmodule WcsStudioWeb.CoreComponents do
   attr :show, :boolean, default: false
   attr :on_cancel, JS, default: %JS{}
   slot :inner_block, required: true
+  slot :title
+  slot :subtitle
 
   def modal(assigns) do
     ~H"""
@@ -74,9 +77,17 @@ defmodule WcsStudioWeb.CoreComponents do
             >
               <!-- Modal Content -->
               <div class="bg-slate-800/90 backdrop-blur-sm rounded-xl border border-slate-700/50 shadow-2xl p-6">
+                <div :if={@title != [] || @subtitle != []} class="pr-8 mb-4">
+                  <h2 :if={@title != []} id={"#{@id}-title"} class="text-2xl font-bold text-white">
+                    {render_slot(@title)}
+                  </h2>
+                  <p :if={@subtitle != []} id={"#{@id}-description"} class="text-slate-400 text-sm">
+                    {render_slot(@subtitle)}
+                  </p>
+                </div>
                 {render_slot(@inner_block)}
               </div>
-
+              
     <!-- Close Button -->
               <div class="absolute -top-3 -right-3">
                 <button
@@ -130,17 +141,17 @@ defmodule WcsStudioWeb.CoreComponents do
         <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-red-500 to-pink-500 mb-4">
           <i class="fas fa-exclamation-triangle text-white text-2xl"></i>
         </div>
-
+        
     <!-- Title -->
         <h3 class="text-2xl font-bold text-slate-900 mb-3">
           {@title}
         </h3>
-
+        
     <!-- Message -->
         <p class="text-slate-600 mb-8 leading-relaxed">
           {@message}
         </p>
-
+        
     <!-- Actions -->
         <div class="flex gap-3 justify-center">
           <button
@@ -267,14 +278,14 @@ defmodule WcsStudioWeb.CoreComponents do
                   </p>
                 </div>
               </div>
-
+              
     <!-- Form Content -->
               <div id={"#{@id}-content"} class="p-6">
                 <.form for={@form} phx-submit={@on_submit} phx-change={@on_change}>
                   <div class="space-y-4">
                     {render_slot(@inner_block)}
                   </div>
-
+                  
     <!-- Actions -->
                   <div class="mt-8 flex justify-end gap-3 pt-6 border-t border-slate-700/50">
                     <button
@@ -306,13 +317,7 @@ defmodule WcsStudioWeb.CoreComponents do
     """
   end
 
-  @doc """
-  Render pattern block.
-
-  # Examples
-  """
-
-defp status_class("not_started"),
+  defp status_class("not_started"),
     do: "from-gray-400 to-gray-500 hover:from-gray-500 hover:to-gray-600"
 
   defp status_class("in_progress"),
@@ -391,15 +396,15 @@ defp status_class("not_started"),
                 </span>
               <% end %>
             </div>
-
-            <!-- Title -->
+            
+    <!-- Title -->
             <h2 class="text-3xl font-bold text-white mb-2 bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
               {@pattern.name}
             </h2>
           </div>
         </div>
-
-        <!-- Collapsed body preview -->
+        
+    <!-- Collapsed body preview -->
         <div
           class={if @expanded_pattern_id == @pattern.id, do: "hidden", else: "px-4 pb-4 pt-0"}
           id={"preview-body-#{@pattern.id}"}
@@ -409,8 +414,8 @@ defp status_class("not_started"),
             <span>{gettext("Click to expand pattern details")}</span>
           </div>
         </div>
-
-        <!-- Expanded content -->
+        
+    <!-- Expanded content -->
         <div
           id={"expanded-body-#{@pattern.id}"}
           class={
@@ -426,7 +431,8 @@ defp status_class("not_started"),
               <div class="p-4 rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg">
                 <div class="flex items-center mb-4">
                   <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-yellow-500 flex items-center justify-center mr-3 shadow-lg">
-                    <i class="fas fa-abacus text-white text-sm"></i> <%!-- fuck this bulshit why doesn't work --%>
+                    <i class="fas fa-abacus text-white text-sm"></i>
+                    <%!-- fuck this bulshit why doesn't work --%>
                   </div>
                   <h2 class="text-2xl font-bold text-white">{gettext("Description")}</h2>
                 </div>
@@ -441,8 +447,8 @@ defp status_class("not_started"),
                 </p>
               </div>
             </div>
-
-            <!-- Video -->
+            
+    <!-- Video -->
             <%= if @expanded_pattern_id == @pattern.id do %>
               <div class="rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg">
                 <div class="flex items-center mb-4 pt-4 pl-4 pr-4">
@@ -467,8 +473,8 @@ defp status_class("not_started"),
               </div>
             <% end %>
           </div>
-
-          <!-- Actions -->
+          
+    <!-- Actions -->
           <div class="flex flex-wrap justify-end gap-2 pt-4 border-t border-slate-700/50">
             <%= if @current_user do %>
               <% status = @status || "not_started" %>
@@ -505,8 +511,8 @@ defp status_class("not_started"),
           </div>
         </div>
       </div>
-
-      <!-- Variations section (root patterns only) -->
+      
+    <!-- Variations section (root patterns only) -->
       <%= if not @is_child && not Enum.empty?(@children) do %>
         <% children_expanded =
           @expanded_children_id == @pattern.id or
@@ -536,8 +542,8 @@ defp status_class("not_started"),
             ]}>
             </i>
           </button>
-
-          <!-- Children list -->
+          
+    <!-- Children list -->
           <%= if children_expanded do %>
             <div class="ml-4 sm:ml-8 mt-2 flex flex-col gap-0">
               <%= for child <- @children do %>
@@ -571,21 +577,14 @@ defp status_class("not_started"),
           <% end %>
         </div>
       <% end %>
-
-      <!-- Spacer for patterns without children -->
+      
+    <!-- Spacer for patterns without children -->
       <%= if @is_child || Enum.empty?(@children) do %>
         <div class="mb-4"></div>
       <% end %>
     </div>
     """
   end
-
-  @doc """
-    renders a lesson block
-
-  ## Examples
-
-  """
 
   defp attended_class(false),
     do: "from-gray-400 to-gray-500 hover:from-gray-500 hover:to-gray-600"
@@ -649,7 +648,7 @@ defp status_class("not_started"),
           </div>
         </div>
       </div>
-
+      
     <!-- Collapsed body preview -->
       <div
         class={if @expanded_lesson_id == @lesson.id, do: "hidden", else: "px-6 pb-4 pt-0 "}
@@ -662,7 +661,7 @@ defp status_class("not_started"),
           </span>
         </div>
       </div>
-
+      
     <!-- Expanded content -->
       <div
         class={
@@ -690,7 +689,7 @@ defp status_class("not_started"),
               <% end %>
             </div>
           </div>
-
+          
     <!-- Instructors Box -->
           <div class="p-4 rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg">
             <div class="flex items-center mb-4">
@@ -716,7 +715,7 @@ defp status_class("not_started"),
             </div>
           </div>
         </div>
-
+        
     <!-- Video Section -->
         <%= if @expanded_lesson_id == @lesson.id do %>
           <div class="rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg">
@@ -741,7 +740,7 @@ defp status_class("not_started"),
             </div>
           </div>
         <% end %>
-
+        
     <!-- Actions -->
         <div class="flex flex-wrap justify-end gap-2 mt-4 pt-4 border-t border-slate-700/50">
           <%= if @current_user do %>
@@ -903,7 +902,7 @@ defp status_class("not_started"),
           ]}>
           </i>
         </div>
-
+        
     <!-- Content -->
         <div class="flex-1 min-w-0">
           <p :if={@title} class="font-semibold text-white text-sm leading-6 mb-1">
@@ -911,7 +910,7 @@ defp status_class("not_started"),
           </p>
           <p class="text-sm leading-5 opacity-90">{msg}</p>
         </div>
-
+        
     <!-- Close Button -->
         <button
           type="button"
@@ -922,7 +921,7 @@ defp status_class("not_started"),
           <i class="fas fa-times text-xs text-white/70 group-hover:text-white"></i>
         </button>
       </div>
-
+      
     <!-- Progress Bar -->
       <div class={[
         "w-full h-1 rounded-full mt-3 overflow-hidden",
@@ -1118,7 +1117,7 @@ defp status_class("not_started"),
   def input(%{type: "checkbox"} = assigns) do
     assigns =
       assign_new(assigns, :checked, fn ->
-        Phoenix.HTML.Form.normalize_value("checkbox", assigns[:value])
+        Form.normalize_value("checkbox", assigns[:value])
       end)
 
     ~H"""
@@ -1236,10 +1235,16 @@ defp status_class("not_started"),
   Generates a generic error message.
   """
   slot :inner_block, required: true
+  attr :class, :string, default: nil
 
   def error(assigns) do
     ~H"""
-    <p class="mt-3 flex gap-3 text-sm leading-6 text-rose-600 phx-no-feedback:hidden">
+    <p
+      class={[
+        "mt-3 flex gap-3 text-sm leading-6 text-rose-600 phx-no-feedback:hidden",
+        @class
+      ]}
+    >
       <.icon name="hero-exclamation-circle-mini" class="mt-0.5 h-5 w-5 flex-none" />
       {render_slot(@inner_block)}
     </p>

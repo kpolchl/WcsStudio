@@ -43,7 +43,7 @@ defmodule WcsStudioWeb do
         layouts: [html: WcsStudioWeb.Layouts]
 
       import Plug.Conn
-      import WcsStudioWeb.Gettext
+      use Gettext, backend: WcsStudioWeb.Gettext
 
       unquote(verified_routes())
     end
@@ -53,7 +53,6 @@ defmodule WcsStudioWeb do
     quote do
       use Phoenix.LiveView,
         layout: {WcsStudioWeb.Layouts, :app}
-
 
       unquote(html_helpers())
       import WcsStudioWeb.Components.LocaleSwitcher
@@ -88,7 +87,7 @@ defmodule WcsStudioWeb do
       import Phoenix.LiveView.Helpers
       # Core UI components and translation
       import WcsStudioWeb.CoreComponents
-      import WcsStudioWeb.Gettext
+      use Gettext, backend: WcsStudioWeb.Gettext
 
       # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS

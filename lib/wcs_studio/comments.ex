@@ -8,7 +8,7 @@ defmodule WcsStudio.Comment do
     belongs_to :post, WcsStudio.Post
     belongs_to :user, WcsStudio.Accounts.User
     timestamps()
-    end
+  end
 
   def add(body, user_id, post_id) do
     %__MODULE__{}
@@ -20,12 +20,11 @@ defmodule WcsStudio.Comment do
     WcsStudio.Repo.delete(comment)
   end
 
-    defp changeset(comment, params) do
-      comment
-      |> cast(params, [:body, :user_id, :post_id])
-      |> validate_required([:body, :user_id, :post_id])
-      |> foreign_key_constraint(:user_id)
-      |> foreign_key_constraint(:post_id)
-    end
-
+  defp changeset(comment, params) do
+    comment
+    |> cast(params, [:body, :user_id, :post_id])
+    |> validate_required([:body, :user_id, :post_id])
+    |> foreign_key_constraint(:user_id)
+    |> foreign_key_constraint(:post_id)
+  end
 end

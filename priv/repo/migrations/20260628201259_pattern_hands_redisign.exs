@@ -9,11 +9,13 @@ defmodule WcsStudio.Repo.Migrations.PatternHandsRedisign do
     end
 
     create constraint(:patterns, :starting_hands_must_be_valid,
-      check: "starting_hands IN ('left_left', 'left_right', 'right_right', 'right_left', 'both_hands')"
-    )
+             check:
+               "starting_hands IN ('left_left', 'left_right', 'right_right', 'right_left', 'both_hands')"
+           )
 
     create constraint(:patterns, :ending_hands_must_be_valid,
-      check: "ending_hands IN ('left_left', 'left_right', 'right_right', 'right_left', 'both_hands')"
-    )
+             check:
+               "ending_hands IN ('left_left', 'left_right', 'right_right', 'right_left', 'both_hands')"
+           )
   end
 end

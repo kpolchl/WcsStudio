@@ -3,4 +3,3 @@ defmodule WcsStudioWeb.HomeHTML do
 
   embed_templates "home_html/*"
 end
-

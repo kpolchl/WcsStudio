@@ -1,4 +1,5 @@
 defmodule WcsStudioWeb.UserAuth do
+  @moduledoc false
   use WcsStudioWeb, :verified_routes
 
   import Plug.Conn
@@ -76,7 +77,6 @@ defmodule WcsStudioWeb.UserAuth do
   It clears all session data for safety. See renew_session.
   """
   def log_out_user(conn) do
-
     locale = get_session(conn, :locale)
 
     user_token = get_session(conn, :user_token)
@@ -189,9 +189,9 @@ defmodule WcsStudioWeb.UserAuth do
       {:cont, socket}
     else
       {:halt,
-        socket
-        |> Phoenix.LiveView.put_flash(:error, "Unauthorized")
-        |> Phoenix.LiveView.redirect(to: "/")}
+       socket
+       |> Phoenix.LiveView.put_flash(:error, "Unauthorized")
+       |> Phoenix.LiveView.redirect(to: "/")}
     end
   end
 
@@ -200,9 +200,8 @@ defmodule WcsStudioWeb.UserAuth do
     Gettext.put_locale(WcsStudioWeb.Gettext, locale)
 
     {:cont,
-      socket
-      |> Phoenix.Component.assign(:locale, locale)
-    }
+     socket
+     |> Phoenix.Component.assign(:locale, locale)}
   end
 
   defp mount_current_user(socket, session) do
@@ -245,8 +244,8 @@ defmodule WcsStudioWeb.UserAuth do
   end
 
   @doc """
-    mine role verification
-"""
+      mine role verification
+  """
   def require_role(conn, role) do
     user = conn.assigns.current_user
 
@@ -258,7 +257,6 @@ defmodule WcsStudioWeb.UserAuth do
       |> Phoenix.Controller.redirect(to: "/")
       |> halt()
     end
-
   end
 
   defp put_token_in_session(conn, token) do

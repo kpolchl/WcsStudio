@@ -1,4 +1,5 @@
 defmodule WcsStudioWeb.PieChartComponent do
+  @moduledoc false
   use WcsStudioWeb, :live_component
 
   @impl true
@@ -9,11 +10,11 @@ defmodule WcsStudioWeb.PieChartComponent do
   @impl true
   def update(assigns, socket) do
     {:ok,
-      socket
-      |> assign(assigns)
-      |> assign_new(:id, fn -> "pie-chart-#{System.unique_integer([:positive])}" end)
-      |> assign_new(:labels, fn -> [] end)
-      |> assign_new(:values, fn -> [] end)}
+     socket
+     |> assign(assigns)
+     |> assign_new(:id, fn -> "pie-chart-#{System.unique_integer([:positive])}" end)
+     |> assign_new(:labels, fn -> [] end)
+     |> assign_new(:values, fn -> [] end)}
   end
 
   @impl true
@@ -25,9 +26,9 @@ defmodule WcsStudioWeb.PieChartComponent do
         phx-hook="PieChart"
         data-labels={Enum.join(@labels, ",")}
         data-values={Enum.join(@values, ",")}
-      ></canvas>
+      >
+      </canvas>
     </div>
     """
   end
 end
-

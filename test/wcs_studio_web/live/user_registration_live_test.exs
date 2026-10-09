@@ -47,7 +47,7 @@ defmodule WcsStudioWeb.UserRegistrationLiveTest do
 
       assert redirected_to(conn) == ~p"/"
 
-               # Now do a logged in request and assert on the menu
+      # Now do a logged in request and assert on the menu
       conn = get(conn, "/")
       response = html_response(conn, 200)
       assert response =~ email
@@ -64,8 +64,8 @@ defmodule WcsStudioWeb.UserRegistrationLiveTest do
       result =
         lv
         |> form("#registration_form",
-             user: %{"email" => user.email, "password" => "valid_password"}
-           )
+          user: %{"email" => user.email, "password" => "valid_password"}
+        )
         |> render_submit()
 
       assert result =~ "has already been taken"

@@ -1,6 +1,6 @@
 defmodule WcsStudioWeb.PatternsLive do
   use WcsStudioWeb, :live_view
-  alias WcsStudio.{Pattern, DanceType, UserPattern, VideoProcess}
+  alias WcsStudio.{DanceType, Pattern, UserPattern, VideoProcess}
 
   @filter_values ~w(all roots_only)
 
@@ -180,29 +180,31 @@ defmodule WcsStudioWeb.PatternsLive do
   end
 
   def handle_event("update_pattern", %{"pattern" => pattern_params}, socket) do
-    with {:edit, pattern} <- socket.assigns.modal_state do
-      attrs = build_pattern_attrs(pattern_params, pattern.dance_type_id)
+    case socket.assigns.modal_state do
+      {:edit, pattern} ->
+        attrs = build_pattern_attrs(pattern_params, pattern.dance_type_id)
 
-      case Pattern.update(pattern, attrs) do
-        {:ok, updated_pattern} ->
-          update_child_associations(pattern, updated_pattern, socket.assigns.selected_child_ids)
-          updated_patterns = Pattern.get_roots_with_children(socket.assigns.dance_type_id)
+        case Pattern.update(pattern, attrs) do
+          {:ok, updated_pattern} ->
+            update_child_associations(pattern, updated_pattern, socket.assigns.selected_child_ids)
+            updated_patterns = Pattern.get_roots_with_children(socket.assigns.dance_type_id)
 
-          {:noreply,
-           socket
-           |> assign(
-             patterns: updated_patterns,
-             modal_state: nil,
-             child_candidates: [],
-             selected_child_ids: MapSet.new()
-           )
-           |> put_flash(:success, "Pattern updated successfully!")}
+            {:noreply,
+             socket
+             |> assign(
+               patterns: updated_patterns,
+               modal_state: nil,
+               child_candidates: [],
+               selected_child_ids: MapSet.new()
+             )
+             |> put_flash(:success, "Pattern updated successfully!")}
 
-        {:error, changeset} ->
-          {:noreply, assign(socket, form: to_form(changeset))}
-      end
-    else
-      _ -> {:noreply, socket}
+          {:error, changeset} ->
+            {:noreply, assign(socket, form: to_form(changeset))}
+        end
+
+      _ ->
+        {:noreply, socket}
     end
   end
 
@@ -565,7 +567,7 @@ defmodule WcsStudioWeb.PatternsLive do
           on_cancel={JS.push("close_modal")}
           on_submit="update_pattern"
           submit_label={gettext("Update")}
-          submit_hands="bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700"
+          submit_class="bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700"
         >
           <.input type="text" field={@form[:name]} label={gettext("Pattern Name")} />
           <.input

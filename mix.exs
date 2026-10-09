@@ -71,7 +71,8 @@ defmodule WcsStudio.MixProject do
       {:lazy_html, ">= 0.1.8", only: :test},
       {:image, "~> 0.37"},
       {:resend, "~> 0.4.0"},
-      {:credo, "~> 1.7", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
+      {:sobelow, "~> 0.14", only: [:dev, :test], runtime: false}
     ]
   end
 
