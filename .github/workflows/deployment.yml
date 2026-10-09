@@ -18,7 +18,7 @@ jobs:
           docker compose \
             -p wcs_studio \
             --env-file /home/karolhaf/wcs_studio/.env \
-            -f docker-compose.prod.yml up -d --build
+            -f docker-compose.prod.yml up -d
 
       - name: Cleanup
         run: docker image prune -f
