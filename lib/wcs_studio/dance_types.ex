@@ -21,7 +21,7 @@ defmodule WcsStudio.DanceType do
     timestamps()
   end
 
-  def get_all() do
+  def get_all do
     WcsStudio.Repo.all(WcsStudio.DanceType)
   end
 

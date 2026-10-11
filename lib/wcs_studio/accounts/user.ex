@@ -1,4 +1,5 @@
 defmodule WcsStudio.Accounts.User do
+  @moduledoc false
   use Ecto.Schema
   import Ecto.Changeset
   import Ecto.Query
@@ -15,10 +16,10 @@ defmodule WcsStudio.Accounts.User do
     field :profile_pic_url, :string, default: "/images/user_icon.png"
     field :qr_code_url, :string, default: "/images/default_qr_code.png"
     has_many :post, WcsStudio.Post
-    has_many :comment , WcsStudio.Comment
-    has_many :user_lesson , WcsStudio.UserLesson
+    has_many :comment, WcsStudio.Comment
+    has_many :user_lesson, WcsStudio.UserLesson
     many_to_many :lessons, WcsStudio.Lesson, join_through: "lessons_instructors"
-    has_many :user_pattern , WcsStudio.UserPattern
+    has_many :user_pattern, WcsStudio.UserPattern
 
     timestamps(type: :utc_datetime)
   end
@@ -179,6 +180,4 @@ defmodule WcsStudio.Accounts.User do
     user
     |> cast(attrs, [:profile_pic_url])
   end
-
-
 end

@@ -8,31 +8,34 @@ defmodule WcsStudio.VideoProcess do
 
       # Standard watch URL: https://www.youtube.com/watch?v=VIDEO_ID
       String.contains?(url, "youtube.com/watch?v=") ->
-        video_id = url
-                   |> String.split("watch?v=")
-                   |> List.last()
-                   |> String.split("&")
-                   |> List.first()
+        video_id =
+          url
+          |> String.split("watch?v=")
+          |> List.last()
+          |> String.split("&")
+          |> List.first()
 
         "https://www.youtube-nocookie.com/embed/#{video_id}"
 
       # Short URL: https://youtu.be/VIDEO_ID
       String.contains?(url, "youtu.be/") ->
-        video_id = url
-                   |> String.split("youtu.be/")
-                   |> List.last()
-                   |> String.split("?")
-                   |> List.first()
+        video_id =
+          url
+          |> String.split("youtu.be/")
+          |> List.last()
+          |> String.split("?")
+          |> List.first()
 
         "https://www.youtube-nocookie.com/embed/#{video_id}"
 
       # Mobile URL: https://m.youtube.com/watch?v=VIDEO_ID
       String.contains?(url, "m.youtube.com/watch?v=") ->
-        video_id = url
-                   |> String.split("watch?v=")
-                   |> List.last()
-                   |> String.split("&")
-                   |> List.first()
+        video_id =
+          url
+          |> String.split("watch?v=")
+          |> List.last()
+          |> String.split("&")
+          |> List.first()
 
         "https://www.youtube-nocookie.com/embed/#{video_id}"
 
@@ -43,5 +46,4 @@ defmodule WcsStudio.VideoProcess do
   end
 
   def parse_youtube_url(nil), do: ""
-
 end

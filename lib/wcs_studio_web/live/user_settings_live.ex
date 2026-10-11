@@ -2,11 +2,7 @@ defmodule WcsStudioWeb.UserSettingsLive do
   use WcsStudioWeb, :live_view
 
   alias WcsStudio.Accounts
-  import WcsStudioWeb.Gettext
-
-  @max_dimension 1024
-  @webp_quality 85
-  @qr_max_dimension 512
+  use Gettext, backend: WcsStudioWeb.Gettext
 
   @impl true
   def mount(%{"token" => token}, _session, socket) do

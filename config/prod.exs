@@ -7,6 +7,7 @@ import Config
 # before starting your production server.
 config :wcs_studio, WcsStudioWeb.Endpoint,
   url: [host: "wcsstudio.nextserwewusek.top", port: 443, scheme: "https"],
+  force_ssl: [rewrite_on: [:x_forwarded_proto]],
   cache_static_manifest: "priv/static/cache_manifest.json",
   server: true
 

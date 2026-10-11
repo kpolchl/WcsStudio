@@ -8,9 +8,9 @@ defmodule WcsStudio.Repo.Migrations.PatternUpdate do
       add :count_description, :string
       add :count_num, :integer
     end
+
     alter table(:patterns) do
       remove :general_description_pl
     end
-
   end
 end

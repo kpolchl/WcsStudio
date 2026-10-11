@@ -1,4 +1,4 @@
-#defmodule WcsStudioWeb.Plugs.Locale do
+# defmodule WcsStudioWeb.Plugs.Locale do
 #  import Plug.Conn
 #
 #  def init(default), do: default
@@ -29,4 +29,4 @@
 #        nil
 #    end
 #  end
-#end
+# end

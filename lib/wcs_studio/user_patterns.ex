@@ -7,26 +7,26 @@ defmodule WcsStudio.UserPattern do
   schema "user_patterns" do
     field :status, :string
     belongs_to :user, WcsStudio.Accounts.User
-    belongs_to :pattern , WcsStudio.Pattern
+    belongs_to :pattern, WcsStudio.Pattern
     timestamps()
   end
 
   def get_user_patterns(user_id) do
     WcsStudio.UserPattern
     |> where(user_id: ^user_id)
-    |>WcsStudio.Repo.all()
+    |> WcsStudio.Repo.all()
     |> WcsStudio.Repo.preload(pattern: [:dance_type])
   end
 
   def get_user_patterns_by_status_and_dance_type(user_id, status, dance_type_id) do
     base_query =
       from p in WcsStudio.Pattern,
-           left_join: up in WcsStudio.UserPattern,
-           on:
-             up.pattern_id == p.id and
-             up.user_id == ^user_id,
-           where: p.dance_type_id == ^dance_type_id,
-           preload: [dance_type: [], user_patterns: up]
+        left_join: up in WcsStudio.UserPattern,
+        on:
+          up.pattern_id == p.id and
+            up.user_id == ^user_id,
+        where: p.dance_type_id == ^dance_type_id,
+        preload: [dance_type: [], user_patterns: up]
 
     query =
       case status do
@@ -35,13 +35,11 @@ defmodule WcsStudio.UserPattern do
 
         status ->
           from [p, up] in base_query,
-               where: up.status == ^status
+            where: up.status == ^status
       end
 
     WcsStudio.Repo.all(query)
   end
-
-
 
   def get_user_pattern(user_id, pattern_id) do
     __MODULE__
@@ -49,23 +47,28 @@ defmodule WcsStudio.UserPattern do
     |> WcsStudio.Repo.one()
   end
 
-
   def get_chart_data(user_id) do
-    all_lessons = from(ul in WcsStudio.Pattern,
-                    select: count()
-                  ) |> WcsStudio.Repo.one()
+    all_lessons =
+      from(ul in WcsStudio.Pattern,
+        select: count()
+      )
+      |> WcsStudio.Repo.one()
 
-    in_progress = from(ul in WcsStudio.UserPattern,
-                    where: ul.user_id == ^user_id and ul.status == "in_progress",
-                    select: count(ul.id)
-                  ) |> WcsStudio.Repo.one()
+    in_progress =
+      from(ul in WcsStudio.UserPattern,
+        where: ul.user_id == ^user_id and ul.status == "in_progress",
+        select: count(ul.id)
+      )
+      |> WcsStudio.Repo.one()
 
-    learned = from(ul in WcsStudio.UserPattern,
-                where: ul.user_id == ^user_id and ul.status == "learned",
-                select: count(ul.id)
-              ) |> WcsStudio.Repo.one()
+    learned =
+      from(ul in WcsStudio.UserPattern,
+        where: ul.user_id == ^user_id and ul.status == "learned",
+        select: count(ul.id)
+      )
+      |> WcsStudio.Repo.one()
 
-    [all_lessons-learned-in_progress, in_progress, learned]
+    [all_lessons - learned - in_progress, in_progress, learned]
   end
 
   def update_status(user_pattern, pattern_id, user_id, status) do

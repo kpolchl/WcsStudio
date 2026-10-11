@@ -9,8 +9,8 @@ defmodule WcsStudioWeb.UserLoginLiveTest do
       {:ok, _lv, html} = live(conn, ~p"/users/log_in")
 
       assert html =~ "Log in"
-      assert html =~ "Register"
-      assert html =~ "Forgot your password?"
+      assert html =~ "Sign up"
+      assert html =~ "Forgot your password ?"
     end
 
     test "redirects if already logged in", %{conn: conn} do
@@ -63,7 +63,7 @@ defmodule WcsStudioWeb.UserLoginLiveTest do
 
       {:ok, _login_live, login_html} =
         lv
-        |> element(~s|main a:fl-contains("Sign up")|)
+        |> element("main a", "Sign up")
         |> render_click()
         |> follow_redirect(conn, ~p"/users/register")
 
@@ -77,7 +77,7 @@ defmodule WcsStudioWeb.UserLoginLiveTest do
 
       {:ok, conn} =
         lv
-        |> element(~s|main a:fl-contains("Forgot your password?")|)
+        |> element("main a", "Forgot your password")
         |> render_click()
         |> follow_redirect(conn, ~p"/users/reset_password")
 

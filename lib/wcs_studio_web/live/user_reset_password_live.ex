@@ -8,7 +8,7 @@ defmodule WcsStudioWeb.UserResetPasswordLive do
     ~H"""
     <div class="px-4 py-4">
       <div class="mx-auto max-w-sm">
-        <.header class="text-center"><%= gettext("Reset Password")%></.header>
+        <.header class="text-center">{gettext("Reset Password")}</.header>
 
         <.simple_form
           for={@form}
@@ -17,7 +17,7 @@ defmodule WcsStudioWeb.UserResetPasswordLive do
           phx-change="validate"
         >
           <.error :if={@form.errors != []}>
-            <%= gettext("Oops, something went wrong! Please check the errors below.")%>
+            {gettext("Oops, something went wrong! Please check the errors below.")}
           </.error>
 
           <.input field={@form[:password]} type="password" label={gettext("New password")} required />
@@ -28,15 +28,18 @@ defmodule WcsStudioWeb.UserResetPasswordLive do
             required
           />
           <:actions>
-            <.button phx-disable-with={gettext("Resetting...")} class="w-full bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-pink-500/25 hover:-translate-y-0.5">
-              <%= gettext("Reset Password")%>
+            <.button
+              phx-disable-with={gettext("Resetting...")}
+              class="w-full bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-pink-500/25 hover:-translate-y-0.5"
+            >
+              {gettext("Reset Password")}
             </.button>
           </:actions>
         </.simple_form>
 
         <p class="text-center text-sm mt-4">
-          <.link href={~p"/users/register"}><%= gettext("Register")%></.link>
-          | <.link href={~p"/users/log_in"}><%= gettext("Log in")%></.link>
+          <.link href={~p"/users/register"}>{gettext("Register")}</.link>
+          | <.link href={~p"/users/log_in"}>{gettext("Log in")}</.link>
         </p>
       </div>
     </div>
@@ -66,9 +69,9 @@ defmodule WcsStudioWeb.UserResetPasswordLive do
     case Accounts.reset_user_password(socket.assigns.user, user_params) do
       {:ok, _} ->
         {:noreply,
-          socket
-          |> put_flash(:info, gettext("Password reset successfully."))
-          |> redirect(to: ~p"/users/log_in")}
+         socket
+         |> put_flash(:info, gettext("Password reset successfully."))
+         |> redirect(to: ~p"/users/log_in")}
 
       {:error, changeset} ->
         {:noreply, assign_form(socket, Map.put(changeset, :action, :insert))}
