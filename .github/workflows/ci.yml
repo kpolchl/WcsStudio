@@ -58,7 +58,7 @@ jobs:
               run: mix format --check-formatted
 
             - name: Compile (warnings as errors)
-              run: mix compile #--warnings-as-errors
+              run: mix compile --warnings-as-errors
 
             - name: Audit for retired packages
               run: mix hex.audit
