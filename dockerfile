@@ -60,4 +60,4 @@ USER nobody:nobody
 ENV MIX_ENV=prod PORT=4000
 EXPOSE 4000
 
-CMD ["bin/start"]
+CMD ["sh", "-c", "bin/standard eval 'WcsStudio.Release.migrate' && exec bin/standard start"]

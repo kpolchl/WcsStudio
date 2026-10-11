@@ -1,6 +1,5 @@
 name: Build image
 
-# Runs only after the CI workflow succeeded on master (or manually).
 on:
   workflow_run:
     workflows: ["CI"]
