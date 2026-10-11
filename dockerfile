@@ -1,4 +1,4 @@
-FROM elixir:alpine AS build
+FROM elixir:1.19.6-slim AS build
 
 # install build dependencies
 RUN apk add --update git build-base nodejs npm vips-dev
@@ -40,7 +40,7 @@ RUN mix compile
 RUN mix release standard
 
 # prepare release image
-FROM elixir:alpine AS app
+FROM elixir:1.19.6-slim AS app
 # install runtime dependencies
 RUN apk add --update openssl postgresql-client vips libstdc++
 
