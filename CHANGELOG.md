@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.1] - 2026-10-11
+
+## Changed
+- Upgrade `phoenix` from `~> 1.7.12` to `~> 1.8.15`
+- Upgrade `phoenix_live_dashboard` from `~> 0.8.3` to `~> 0.9.1`
+- Upgrade `gettext` from `~> 0.20` to `~> 1.0.2`
+- Upgrade `dns_cluster` from `~> 0.1.1` to `~> 0.3.1`
+- Bump `heroicons` from `v2.1.1` to `v2.2.0`
+- Bump GitHub Actions: `actions/checkout` to `v7`, `actions/cache` to `v6`, `docker/setup-buildx-action` to `v4`, `docker/login-action` to `v4`, `docker/build-push-action` to `v7`
+
 ## [1.1.0] - 2026-10-11
 
 ## Added
