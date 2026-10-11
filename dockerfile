@@ -48,7 +48,6 @@ WORKDIR /app
 
 # Copy files while still as root
 COPY --from=build --chown=nobody:nobody /wcs_studio/_build/prod/rel/standard ./
-COPY bin/start bin/start
 
 # Set permissions (still as root)
 RUN chmod +x bin/start && chown nobody:nobody bin/start
