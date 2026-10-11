@@ -21,9 +21,8 @@ jobs:
   deploy:
     name: Deploy to production
     if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
-    runs-on: self-hosted # your server
+    runs-on: self-hosted
     timeout-minutes: 15
-    environment: production
     permissions:
       contents: read
       packages: read
