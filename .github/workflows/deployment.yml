@@ -1,29 +1,73 @@
 name: Deploy
 
 on:
-  push:
-    branches:
-      - master
+  workflow_run:
+    workflows: ["Build image"]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Existing image tag to deploy (e.g. v1.2.0)"
+        required: true
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+permissions:
+  contents: read
 
 jobs:
   deploy:
+    name: Deploy to production
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
     runs-on: self-hosted
-
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      packages: read
+    env:
+      # For release-triggered builds, head_branch holds the release tag name
+      VERSION: ${{ github.event.workflow_run.head_branch || inputs.version }}
+      ENV_FILE: /home/karolhaf/wcs_studio/.env
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      # Compose file from the exact tagged commit, not the latest master
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || inputs.version }}
 
-      - name: Build and deploy
+      - name: Validate version
         run: |
-          docker compose \
-            -p wcs_studio \
-            --env-file /home/karolhaf/wcs_studio/.env \
-            -f docker-compose.prod.yml up -d
+          case "$VERSION" in
+            v[0-9]*|[0-9]*) echo "Deploying $VERSION" ;;
+            *) echo "Refusing to deploy unexpected version: '$VERSION'"; exit 1 ;;
+          esac
+
+      - name: Log in to GHCR
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ACTOR: ${{ github.actor }}
+        run: echo "$TOKEN" | docker login ghcr.io -u "$ACTOR" --password-stdin
+
+      - name: Set APP_VERSION on the server
+        run: |
+          if grep -q '^APP_VERSION=' "$ENV_FILE"; then
+            sed -i "s|^APP_VERSION=.*|APP_VERSION=$VERSION|" "$ENV_FILE"
+          else
+            echo "APP_VERSION=$VERSION" >> "$ENV_FILE"
+          fi
+
+      - name: Pull and deploy
+        run: |
+          docker compose -p wcs_studio --env-file "$ENV_FILE" -f docker-compose.prod.yml pull
+          docker compose -p wcs_studio --env-file "$ENV_FILE" -f docker-compose.prod.yml up -d --wait --wait-timeout 120
+
+      - name: Show status
+        if: always()
+        run: docker compose -p wcs_studio ps
 
       - name: Cleanup
-        run: docker image prune -f
-
-      - name: Verify deployment
+        if: always()
         run: |
-          sleep 10
-          docker compose -p wcs_studio ps
+          docker image prune -f
+          docker logout ghcr.io

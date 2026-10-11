@@ -1,4 +1,4 @@
-FROM elixir:alpine AS build
+FROM elixir:1.19-otp-26-alpine AS build
 
 # install build dependencies
 RUN apk add --update git build-base nodejs npm vips-dev
@@ -40,7 +40,7 @@ RUN mix compile
 RUN mix release standard
 
 # prepare release image
-FROM elixir:alpine AS app
+FROM elixir:1.19-otp-26-alpine AS app
 # install runtime dependencies
 RUN apk add --update openssl postgresql-client vips libstdc++
 
@@ -48,10 +48,6 @@ WORKDIR /app
 
 # Copy files while still as root
 COPY --from=build --chown=nobody:nobody /wcs_studio/_build/prod/rel/standard ./
-COPY bin/start bin/start
-
-# Set permissions (still as root)
-RUN chmod +x bin/start && chown nobody:nobody bin/start
 
 # Now switch to nobody for runtime security
 RUN chown nobody:nobody /app
@@ -60,4 +56,4 @@ USER nobody:nobody
 ENV MIX_ENV=prod PORT=4000
 EXPOSE 4000
 
-CMD ["bin/start"]
+CMD ["sh", "-c", "bin/standard eval 'WcsStudio.Release.migrate' && exec bin/standard start"]
