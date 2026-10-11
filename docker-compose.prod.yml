@@ -1,5 +1,8 @@
-# docker-compose.yml (PRODUCTION)
-version: '3.8'
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
 
 networks:
   app_network:
@@ -19,18 +22,39 @@ services:
     networks:
       - app_network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB:-wcs_studio_prod}"]
       interval: 5s
       timeout: 5s
       retries: 5
       start_period: 10s
+    logging: *default-logging
+
+  # Daily pg_dump, keeps 7 daily / 4 weekly / 3 monthly.
+  db_backup:
+    image: prodrigestivill/postgres-backup-local:15
+    restart: always
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_DB: ${POSTGRES_DB:-wcs_studio_prod}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      SCHEDULE: "@daily"
+      BACKUP_KEEP_DAYS: "7"
+      BACKUP_KEEP_WEEKS: "4"
+      BACKUP_KEEP_MONTHS: "3"
+    volumes:
+      - /home/karolhaf/wcs_studio/backups:/backups
+    networks:
+      - app_network
+    depends_on:
+      db:
+        condition: service_healthy
+    logging: *default-logging
 
   phoenix:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: ghcr.io/kpolchl/wcsstudio:${APP_VERSION:?APP_VERSION must be set}
     restart: always
-    # No ports exposed to host — cloudflared talks directly to the container
+    # No ports exposed to host: cloudflared talks directly to the container
     expose:
       - "4000"
     environment:
@@ -49,6 +73,15 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    # Needs a /health route returning 200 and wget (or curl) in the image.
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:4000/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    mem_limit: 1g
+    logging: *default-logging
 
   cloudflared:
     image: cloudflare/cloudflared:latest
@@ -57,11 +90,12 @@ services:
     volumes:
       - /home/karolhaf/.cloudflared/ca875f88-28e5-4a70-b8db-e744d6c8552b.json:/etc/cloudflared/tunnel.json:ro
       - /home/karolhaf/.cloudflared/config-phoenix.yml:/etc/cloudflared/config.yml:ro
-      - /home/karolhaf/.cloudflared/cert.pem:/etc/cloudflared/cert.pem:ro
     networks:
       - app_network
     depends_on:
-      - phoenix
+      phoenix:
+        condition: service_healthy
+    logging: *default-logging
 
 volumes:
   prod_pg_data:
