@@ -32,7 +32,7 @@ jobs:
       ENV_FILE: /home/karolhaf/wcs_studio/.env
     steps:
       # Compose file from the exact tagged commit, not the latest master
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
         with:
           ref: ${{ github.event.workflow_run.head_sha || inputs.version }}
 
