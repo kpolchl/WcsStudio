@@ -85,9 +85,6 @@ services:
       - /home/karolhaf/.cloudflared/config-phoenix.yml:/etc/cloudflared/config.yml:ro
     networks:
       - app_network
-    depends_on:
-      phoenix:
-        condition: service_healthy
     logging: *default-logging
 
 volumes:
