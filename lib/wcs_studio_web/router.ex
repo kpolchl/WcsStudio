@@ -1,6 +1,7 @@
 defmodule WcsStudioWeb.Router do
   use WcsStudioWeb, :router
   import Plug.Conn
+  import Phoenix.LiveDashboard.Router
 
   import WcsStudioWeb.UserAuth
 
@@ -51,14 +52,11 @@ defmodule WcsStudioWeb.Router do
   #   pipe_through :api
   # end
 
-  # Enable LiveDashboard and Swoosh mailbox preview in development
+  # Enable Swoosh mailbox preview in development
   if Application.compile_env(:wcs_studio, :dev_routes) do
-    import Phoenix.LiveDashboard.Router
-
     scope "/dev" do
       pipe_through :browser
 
-      live_dashboard "/dashboard", metrics: WcsStudioWeb.Telemetry
       forward "/mailbox", Plug.Swoosh.MailboxPreview
     end
   end
@@ -68,13 +66,21 @@ defmodule WcsStudioWeb.Router do
   scope "/admin", WcsStudioWeb do
     pipe_through [:browser, :admin_auth]
 
+    live_dashboard "/dashboard",
+      metrics: WcsStudioWeb.Telemetry,
+      on_mount: [
+        {WcsStudioWeb.UserAuth, :ensure_authenticated},
+        {WcsStudioWeb.UserAuth, :ensure_admin},
+        {WcsStudioWeb.UserAuth, :set_locale}
+      ]
+
     # FIX: Use ensure_authenticated instead of mount_current_user
     live_session :admin_auth,
       on_mount: [
         {WcsStudioWeb.UserAuth, :ensure_authenticated},
+        {WcsStudioWeb.UserAuth, :ensure_admin},
         {WcsStudioWeb.UserAuth, :set_locale}
       ] do
-      live "/dashboard", AdminDashboardLive
       live "/lessons", LessonsLive
     end
   end

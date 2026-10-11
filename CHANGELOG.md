@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.1.1] - 2026-10-11
 
+## Added
+- `Makefile` to streamline development
+
 ## Changed
 - Upgrade `phoenix` from `~> 1.7.12` to `~> 1.8.15`
 - Upgrade `phoenix_live_dashboard` from `~> 0.8.3` to `~> 0.9.1`
