@@ -1,16 +1,27 @@
 # Changelog
 
-All notable changes to RimTelligence will be documented in this file.
+All notable changes to WcsStudio will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
-## [1.1.1] - 2026-10-11
+## [1.2.0] - 2026-10-11
 
-## Added
+### Added
+- Unit tests for all contexts, schemas, web components, LiveViews, controllers and mailer (351 tests)
+- In-process integration flows: authentication, content, locale (`test/integration`)
+- Fixtures for all contexts
 - `Makefile` to streamline development
+
+### Fixed
+- `DanceType.pic_url` made virtual (no DB column)
+- `confirm_modal`/`form_modal` attrs shadowing `assign_new` defaults
+- `input` `:value` attr default; `user_fixture` supports `:role`
+- Missing form ids (form recovery)
+
+## [1.1.1] - 2026-10-11
 
 ## Changed
 - Upgrade `phoenix` from `~> 1.7.12` to `~> 1.8.15`

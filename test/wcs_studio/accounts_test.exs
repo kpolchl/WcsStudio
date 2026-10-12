@@ -500,6 +500,32 @@ defmodule WcsStudio.AccountsTest do
     end
   end
 
+  describe "count_users/0" do
+    test "counts the users" do
+      assert Accounts.count_users() == 0
+      user_fixture()
+      assert Accounts.count_users() == 1
+    end
+  end
+
+  describe "update_user_profile_pic_url/2" do
+    test "updates the profile picture url" do
+      user = user_fixture()
+
+      assert {:ok, updated} = Accounts.update_user_profile_pic_url(user, "/images/new.png")
+      assert updated.profile_pic_url == "/images/new.png"
+    end
+  end
+
+  describe "update_user_qr_code_url/2" do
+    test "updates the qr code url" do
+      user = user_fixture()
+
+      assert {:ok, updated} = Accounts.update_user_qr_code_url(user, "/images/qr.png")
+      assert updated.qr_code_url == "/images/qr.png"
+    end
+  end
+
   describe "inspect/2 for the User module" do
     test "does not include password" do
       refute inspect(%User{password: "123456"}) =~ "password: \"123456\""

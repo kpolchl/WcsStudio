@@ -74,7 +74,7 @@ defmodule WcsStudio.MixProject do
       {:resend, "~> 0.4.0"},
       {:hackney, "~> 4.0", override: true},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
-      {:sobelow, "~> 0.14", only: [:dev, :test], runtime: false},
+      {:sobelow, "~> 0.15.0", only: [:dev, :test], runtime: false},
       {:json_polyfill, "~> 0.2.3"}
     ]
   end

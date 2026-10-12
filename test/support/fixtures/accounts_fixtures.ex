@@ -15,12 +15,20 @@ defmodule WcsStudio.AccountsFixtures do
   end
 
   def user_fixture(attrs \\ %{}) do
+    {role, attrs} = attrs |> Enum.into(%{}) |> Map.pop(:role, nil)
+
     {:ok, user} =
       attrs
       |> valid_user_attributes()
       |> WcsStudio.Accounts.register_user()
 
-    user
+    if role do
+      user
+      |> Ecto.Changeset.change(role: role)
+      |> WcsStudio.Repo.update!()
+    else
+      user
+    end
   end
 
   def extract_user_token(fun) do
