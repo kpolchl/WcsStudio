@@ -425,7 +425,7 @@ defmodule WcsStudioWeb.PatternsLive do
 
         <!-- Search Input -->
         <div class="flex-1 relative">
-          <form phx-change="search" class="h-full">
+          <form id="patterns-search" phx-change="search" class="h-full">
             <div class="relative h-full">
               <div class="pl-1 absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
                 <i class="fas fa-search text-slate-400 text-sm"></i>

@@ -125,8 +125,8 @@ defmodule WcsStudioWeb.CoreComponents do
   attr :message, :string, required: true
   attr :confirm_event, :string, required: true
   attr :confirm_value, :any, default: nil
-  attr :cancel_text, :string, default: nil
-  attr :confirm_text, :string, default: nil
+  attr :cancel_text, :string
+  attr :confirm_text, :string
 
   def confirm_modal(assigns) do
     assigns =
@@ -216,8 +216,8 @@ defmodule WcsStudioWeb.CoreComponents do
   attr :on_cancel, JS, default: %JS{}
   attr :on_submit, :string, required: true
   attr :on_change, :string, default: "validate"
-  attr :submit_label, :string, default: nil
-  attr :cancel_label, :string, default: nil
+  attr :submit_label, :string
+  attr :cancel_label, :string
   attr :submit_class, :string, default: nil
 
   slot :inner_block, required: true
@@ -281,7 +281,12 @@ defmodule WcsStudioWeb.CoreComponents do
 
               <!-- Form Content -->
               <div id={"#{@id}-content"} class="p-6">
-                <.form for={@form} phx-submit={@on_submit} phx-change={@on_change}>
+                <.form
+                  for={@form}
+                  id={"#{@id}-form"}
+                  phx-submit={@on_submit}
+                  phx-change={@on_change}
+                >
                   <div class="space-y-4">
                     {render_slot(@inner_block)}
                   </div>
@@ -1078,7 +1083,7 @@ defmodule WcsStudioWeb.CoreComponents do
   attr :id, :any, default: nil
   attr :name, :any
   attr :label, :string, default: nil
-  attr :value, :any
+  attr :value, :any, default: nil
 
   attr :type, :string,
     default: "text",
@@ -1105,7 +1110,7 @@ defmodule WcsStudioWeb.CoreComponents do
     |> assign(field: nil, id: assigns.id || field.id)
     |> assign(:errors, Enum.map(field.errors, &translate_error(&1)))
     |> assign_new(:name, fn -> if assigns.multiple, do: field.name <> "[]", else: field.name end)
-    |> assign_new(:value, fn -> field.value end)
+    |> assign(:value, field.value)
     |> input()
   end
 

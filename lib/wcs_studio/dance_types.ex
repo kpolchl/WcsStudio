@@ -14,7 +14,7 @@ defmodule WcsStudio.DanceType do
     field :country_pl, :string
     field :tag_pl, :string
     field :type, :string
-    field :pic_url, :string
+    field :pic_url, :string, virtual: true
 
     has_many :patterns, WcsStudio.Pattern
     has_many :lessons, WcsStudio.Lesson
