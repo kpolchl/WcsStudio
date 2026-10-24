@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.1] - 2026-10-24
+
+### Fixed
+- Hero page carousel now does not owerflow and properly loops 
+- Moved inline `script` to separate java script hook
+
+### Security
+- bumped deps
+
 ## [1.2.0] - 2026-10-11
 
 ### Added

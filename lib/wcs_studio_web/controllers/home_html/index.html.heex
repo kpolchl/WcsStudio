@@ -1,7 +1,11 @@
-<section class="relative w-full overflow-hidden h-screen mt-[-128px] ">
+<section
+  id="hero-carousel"
+  phx-hook="Carousel"
+  class="relative w-full overflow-hidden h-screen mt-[-128px]"
+>
   <div id="carousel" class="flex transition-transform duration-700 ease-in-out h-full">
     <!-- Slide 1 -->
-    <div class="w-full flex-shrink-0 relative h-full">
+    <div class="min-w-full flex-shrink-0 relative h-full">
       <div class="absolute inset-0 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       </div>
       <div class="absolute inset-0 bg-black opacity-40"></div>
@@ -19,7 +23,7 @@
     </div>
 
     <!-- Slide 2 -->
-    <div class="w-full flex-shrink-0 relative h-full">
+    <div class="min-w-full flex-shrink-0 relative h-full">
       <div class="absolute inset-0 bg-gradient-to-br from-purple-900 via-pink-900 to-slate-900">
       </div>
       <div class="absolute inset-0 bg-black opacity-30"></div>
@@ -38,7 +42,7 @@
     </div>
 
     <!-- Slide 3 -->
-    <div class="w-full flex-shrink-0 relative h-full">
+    <div class="min-w-full flex-shrink-0 relative h-full">
       <div class="absolute inset-0 bg-gradient-to-br from-slate-900 via-purple-900 to-pink-900">
       </div>
       <div class="absolute inset-0 bg-black opacity-25"></div>
@@ -72,9 +76,9 @@
 
   <!-- Indicators -->
   <div class="absolute bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-3 z-10">
-    <button class="carousel-indicator w-3 h-3 rounded-full bg-white bg-opacity-50 hover:bg-opacity-100 transition-all duration-300"></button>
-    <button class="carousel-indicator w-3 h-3 rounded-full bg-white bg-opacity-50 hover:bg-opacity-100 transition-all duration-300"></button>
-    <button class="carousel-indicator w-3 h-3 rounded-full bg-white bg-opacity-50 hover:bg-opacity-100 transition-all duration-300"></button>
+    <button class="carousel-indicator w-3 h-3 rounded-full bg-white/50 transition-all duration-300"></button>
+    <button class="carousel-indicator w-3 h-3 rounded-full bg-white/50 transition-all duration-300"></button>
+    <button class="carousel-indicator w-3 h-3 rounded-full bg-white/50 transition-all duration-300"></button>
   </div>
 </section>
 
@@ -373,7 +377,7 @@
   </div>
 </section>
 
-<script>
+<%!-- <script>
   const carousel = document.getElementById("carousel");
   const slides = carousel.children;
   const indicators = document.querySelectorAll('.carousel-indicator');
@@ -420,7 +424,7 @@
 
   // Initialize
   updateCarousel();
-</script>
+</script> --%>
 
 <style>
   @keyframes slideUp {
