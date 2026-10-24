@@ -14,8 +14,16 @@ defmodule WcsStudioWeb.Router do
 
     plug :put_secure_browser_headers,
          %{
+           "referrer-policy" => "strict-origin-when-cross-origin",
            "content-security-policy" =>
-             "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; img-src 'self' data: https:; font-src 'self' https://cdnjs.cloudflare.com; connect-src 'self' ws: wss:; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'"
+             "default-src 'self'; " <>
+               "script-src 'self'; " <>
+               "style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; " <>
+               "img-src 'self' data: https:; " <>
+               "font-src 'self' https://cdnjs.cloudflare.com; " <>
+               "connect-src 'self' ws: wss:; " <>
+               "frame-src https://www.youtube-nocookie.com https://www.youtube.com; " <>
+               "base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'"
          }
 
     plug :fetch_current_user
