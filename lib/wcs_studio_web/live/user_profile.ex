@@ -78,7 +78,7 @@ defmodule WcsStudioWeb.UserProfile do
                 <div class="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-3xl blur opacity-25 group-hover:opacity-40 transition duration-300">
                 </div>
                 <img
-                  src={@current_user.profile_pic_url}
+                  src={avatar_url(@current_user.profile_pic_url)}
                   alt=" "
                   class="relative w-32 h-32 rounded-3xl shadow-2xl object-cover ring-4 ring-white/10"
                 />

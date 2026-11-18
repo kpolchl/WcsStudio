@@ -2,12 +2,19 @@ defmodule WcsStudioWeb.DanceTypesLive do
   use WcsStudioWeb, :live_view
   alias WcsStudio.DanceType
 
+  @default_image "/images/dance-971082_1280.webp"
+  @types ~w(latin swing social standard)
+
   @impl true
   def mount(_params, _session, socket) do
     socket =
       assign(socket,
         dance_types: DanceType.get_all(),
-        selected_dance_type_type: "all"
+        selected_dance_type_type: "all",
+        form: to_form(Ecto.Changeset.change(%DanceType{})),
+        modal_state: nil,
+        default_image: @default_image,
+        types: @types
       )
 
     {:ok, socket}
@@ -20,6 +27,49 @@ defmodule WcsStudioWeb.DanceTypesLive do
      |> assign(:selected_dance_type_type, dance_type_type)
      |> assign(:dance_types, get_dance_types_by_type(dance_type_type))}
   end
+
+  @impl true
+  def handle_event("open_modal", _, socket) do
+    if admin?(socket) do
+      {:noreply,
+       assign(socket,
+         modal_state: :create,
+         form: to_form(Ecto.Changeset.change(%DanceType{}))
+       )}
+    else
+      {:noreply, socket}
+    end
+  end
+
+  def handle_event("close_modal", _, socket) do
+    {:noreply, assign(socket, modal_state: nil)}
+  end
+
+  def handle_event("validate", _params, socket), do: {:noreply, socket}
+
+  def handle_event("save", %{"dance_type" => dance_type_params}, socket) do
+    if admin?(socket) do
+      case DanceType.add(dance_type_params) do
+        {:ok, _dance_type} ->
+          {:noreply,
+           socket
+           |> assign(
+             modal_state: nil,
+             dance_types: DanceType.get_all(),
+             selected_dance_type_type: "all"
+           )
+           |> put_flash(:success, "Dance type created successfully!")}
+
+        {:error, changeset} ->
+          {:noreply, assign(socket, form: to_form(changeset))}
+      end
+    else
+      {:noreply, socket}
+    end
+  end
+
+  defp admin?(%{assigns: %{current_user: %{role: "admin"}}}), do: true
+  defp admin?(_), do: false
 
   defp get_dance_types_by_type("all"), do: DanceType.get_all()
   defp get_dance_types_by_type(type), do: DanceType.get_by_type(type)
@@ -40,6 +90,19 @@ defmodule WcsStudioWeb.DanceTypesLive do
         )}
       </p>
     </div>
+
+    <!-- Add Dance Type Button (Admin Only) -->
+    <%= if @current_user && @current_user.role == "admin" do %>
+      <div class="w-full max-w-2xl mx-auto px-4 mb-8">
+        <button
+          phx-click="open_modal"
+          class="w-full sm:w-auto bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
+        >
+          <i class="fas fa-plus"></i>
+          <span>{gettext("Add New Dance Type")}</span>
+        </button>
+      </div>
+    <% end %>
 
     <!-- Enhanced Filter System -->
     <section class="px-4 mb-16">
@@ -119,7 +182,7 @@ defmodule WcsStudioWeb.DanceTypesLive do
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           <%= for dance_type <- @dance_types do %>
             <.link
-              navigate={~p"/patterns"}
+              navigate={~p"/patterns?dance_type_id=#{dance_type.id}"}
               class="group relative flex flex-col h-80 rounded-2xl overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl border border-slate-700/30 hover:border-slate-600/50"
             >
               <!-- Background -->
@@ -145,7 +208,7 @@ defmodule WcsStudioWeb.DanceTypesLive do
 
                 <!-- Image -->
                 <img
-                  src={dance_type.pic_url}
+                  src={image_url(dance_type.pic_url, @default_image)}
                   alt={"#{DanceType.get_name(dance_type, @locale)} dance style"}
                   loading="lazy"
                   class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
@@ -197,6 +260,51 @@ defmodule WcsStudioWeb.DanceTypesLive do
         <% end %>
       </div>
     </section>
+
+    <!-- Modals -->
+    <%= case @modal_state do %>
+      <% :create -> %>
+        <.form_modal
+          id="new-dance-type-modal"
+          show={true}
+          title={gettext("New Dance Type")}
+          subtitle={gettext("Fill out the form to add a new dance type")}
+          form={@form}
+          on_cancel={JS.push("close_modal")}
+          on_submit="save"
+        >
+          <.input type="text" field={@form[:name_en]} label={gettext("Name (English)")} />
+          <.input type="text" field={@form[:name_pl]} label={gettext("Name (Polish)")} />
+          <.input
+            type="textarea"
+            field={@form[:description_en]}
+            label={gettext("Description (English)")}
+          />
+          <.input
+            type="textarea"
+            field={@form[:description_pl]}
+            label={gettext("Description (Polish)")}
+          />
+          <.input type="text" field={@form[:country_en]} label={gettext("Country (English)")} />
+          <.input type="text" field={@form[:country_pl]} label={gettext("Country (Polish)")} />
+          <.input type="text" field={@form[:tag_en]} label={gettext("Tag (English)")} />
+          <.input type="text" field={@form[:tag_pl]} label={gettext("Tag (Polish)")} />
+          <.input
+            type="select"
+            field={@form[:type]}
+            label={gettext("Type")}
+            prompt={gettext("Select type")}
+            options={@types}
+          />
+          <.input
+            type="text"
+            field={@form[:pic_url]}
+            label={gettext("Image URL")}
+            placeholder="/images/West-coast-swing.webp"
+          />
+        </.form_modal>
+      <% nil -> %>
+    <% end %>
     """
   end
 end

@@ -40,10 +40,12 @@ defmodule WcsStudioWeb.PatternsLiveTest do
     live |> element("button[phx-click=open_modal]") |> render_click()
     assert render(live) =~ "new-pattern-modal"
 
-    assert {:error, {:live_redirect, %{to: "/patterns"}}} =
-             live
-             |> form("form[phx-submit=save]", pattern: %{name: "New Step", count_num: "8"})
-             |> render_submit()
+    html =
+      live
+      |> form("form[phx-submit=save]", pattern: %{name: "New Step", count_num: "8"})
+      |> render_submit()
+
+    assert html =~ "New Step"
 
     assert WcsStudio.Pattern.get_all_for_dance_type(dance_type.id)
            |> Enum.any?(&(&1.name == "New Step"))

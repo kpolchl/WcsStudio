@@ -51,6 +51,20 @@ defmodule WcsStudioWeb.LessonsLiveTest do
     assert WcsStudio.Lesson.get_all() |> Enum.any?(&(&1.title == "Advanced Workshop"))
   end
 
+  test "renders the current user's avatar with a root-relative src", %{conn: conn} do
+    user =
+      user_fixture(role: "admin")
+      |> Ecto.Changeset.change(profile_pic_url: "images/user_icon.png")
+      |> WcsStudio.Repo.update!()
+
+    conn = conn |> log_in_user(user) |> put_session(:locale, "en")
+
+    {:ok, _live, html} = live(conn, ~p"/admin/lessons")
+
+    assert html =~ ~s(src="/images/user_icon.png")
+    refute html =~ ~s(src="images/user_icon.png")
+  end
+
   test "an admin can toggle attendance", %{conn: conn, lesson: lesson} do
     user = user_fixture(role: "admin")
     conn = conn |> log_in_user(user) |> put_session(:locale, "en")

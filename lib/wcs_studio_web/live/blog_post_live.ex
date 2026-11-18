@@ -214,7 +214,7 @@ defmodule WcsStudioWeb.BlogPostLive do
           <!-- Author Info -->
           <div class="flex items-center gap-4">
             <img
-              src={@post.user.profile_pic_url || "/images/default-avatar.png"}
+              src={avatar_url(@post.user.profile_pic_url)}
               class="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 p-0.5"
               alt={@post.user.username}
             />
@@ -308,7 +308,7 @@ defmodule WcsStudioWeb.BlogPostLive do
                   <div class="bg-slate-900/50 border-l-4 border-purple-500 rounded-r-xl p-6 hover:bg-slate-900/70 transition-colors">
                     <div class="flex items-start gap-4">
                       <img
-                        src={comment.user.profile_pic_url || "/images/default-avatar.png"}
+                        src={avatar_url(comment.user.profile_pic_url)}
                         class="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 p-0.5"
                         alt="User avatar"
                       />

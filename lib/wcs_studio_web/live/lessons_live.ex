@@ -14,8 +14,6 @@ defmodule WcsStudioWeb.LessonsLive do
     socket =
       assign(socket,
         dance_types: DanceType.get_all(),
-        selected_dance_type_id: first_lesson.dance_type_id,
-        selected_level_id: first_lesson.level_id,
         lessons:
           Lesson.get_by_dance_type_and_level(first_lesson.dance_type_id, first_lesson.level_id),
         levels: Levels.get_all(),
@@ -30,25 +28,45 @@ defmodule WcsStudioWeb.LessonsLive do
   end
 
   @impl true
-  def handle_params(_params, _uri, socket) do
-    # Build a map of lesson_id => true for lessons the user attended
+  def handle_params(params, _uri, socket) do
+    first_lesson = Lesson.get_first()
+
+    dance_type_id =
+      parse_id(params["dance_type_id"], socket.assigns.dance_types) || first_lesson.dance_type_id
+
+    level_id =
+      parse_id(params["level_id"], socket.assigns.levels) || first_lesson.level_id
+
     attended_map =
       case socket.assigns[:current_user] do
         nil ->
           %{}
 
         current_user ->
-          user_lessons = WcsStudio.UserLesson.get_user_lessons(current_user.id)
-
-          Enum.reduce(user_lessons, %{}, fn user_lesson, acc ->
-            Map.put(acc, user_lesson.lesson_id, true)
-          end)
+          current_user.id
+          |> WcsStudio.UserLesson.get_user_lessons()
+          |> Map.new(fn ul -> {ul.lesson_id, true} end)
       end
 
     {:noreply,
      socket
-     |> assign(:attended_map, attended_map)
-     |> assign(:expanded_lesson_id, nil)}
+     |> assign(
+       selected_dance_type_id: dance_type_id,
+       selected_level_id: level_id,
+       lessons: Lesson.get_by_dance_type_and_level(dance_type_id, level_id),
+       patterns: Pattern.get_by_dance_type_id(dance_type_id),
+       attended_map: attended_map,
+       expanded_lesson_id: nil
+     )}
+  end
+
+  defp parse_id(nil, _items), do: nil
+
+  defp parse_id(value, items) do
+    case Integer.parse(value) do
+      {id, ""} -> if Enum.any?(items, &(&1.id == id)), do: id, else: nil
+      _ -> nil
+    end
   end
 
   @impl true
@@ -190,31 +208,20 @@ defmodule WcsStudioWeb.LessonsLive do
 
   @impl true
   def handle_event("choose_dance_type", %{"dance_type_id" => dance_type_id}, socket) do
-    dance_type_id = String.to_integer(dance_type_id)
-    level_id = socket.assigns.selected_level_id
-
-    socket =
-      assign(socket,
-        lessons: Lesson.get_by_dance_type_and_level(dance_type_id, level_id),
-        selected_dance_type_id: dance_type_id,
-        patterns: Pattern.get_by_dance_type_id(dance_type_id)
-      )
-
-    {:noreply, socket}
+    {:noreply,
+     push_patch(socket,
+       to:
+         ~p"/admin/lessons?#{%{dance_type_id: dance_type_id, level_id: socket.assigns.selected_level_id}}"
+     )}
   end
 
   @impl true
   def handle_event("choose_level", %{"level_id" => level_id}, socket) do
-    level_id = String.to_integer(level_id)
-    dance_type_id = socket.assigns.selected_dance_type_id
-
-    socket =
-      assign(socket,
-        lessons: Lesson.get_by_dance_type_and_level(dance_type_id, level_id),
-        selected_level_id: level_id
-      )
-
-    {:noreply, socket}
+    {:noreply,
+     push_patch(socket,
+       to:
+         ~p"/admin/lessons?#{%{dance_type_id: socket.assigns.selected_dance_type_id, level_id: level_id}}"
+     )}
   end
 
   @impl true
