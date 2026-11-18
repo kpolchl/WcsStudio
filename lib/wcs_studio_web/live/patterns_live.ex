@@ -6,44 +6,55 @@ defmodule WcsStudioWeb.PatternsLive do
 
   @impl true
   def mount(_params, _session, socket) do
-    first_dance_type = DanceType.get_first()
-    patterns = Pattern.get_roots_with_children(first_dance_type.id)
-
-    socket =
-      assign(socket,
-        dance_types: DanceType.get_all(),
-        dance_type_id: first_dance_type.id,
-        selected_dance_type: first_dance_type,
-        patterns: patterns,
-        query: "",
-        form: to_form(Ecto.Changeset.change(%Pattern{})),
-        modal_state: nil,
-        expanded_pattern_id: nil,
-        dropdown_open: false,
-        pattern_filter: :all,
-        expanded_children_id: nil,
-        expanded_children_ids: MapSet.new(),
-        child_candidates: [],
-        selected_child_ids: MapSet.new()
-      )
-
-    {:ok, socket}
+    {:ok,
+     assign(socket,
+       dance_types: DanceType.get_all(),
+       form: to_form(Ecto.Changeset.change(%Pattern{})),
+       modal_state: nil,
+       expanded_pattern_id: nil,
+       dropdown_open: false,
+       expanded_children_id: nil,
+       expanded_children_ids: MapSet.new(),
+       child_candidates: [],
+       selected_child_ids: MapSet.new()
+     )}
   end
 
   @impl true
-  def handle_params(_params, _uri, socket) do
-    status_map =
-      case socket.assigns[:current_user] do
-        nil -> %{}
-        current_user -> build_status_map(current_user.id)
+  def handle_params(params, _uri, socket) do
+    dance_types = socket.assigns.dance_types
+
+    dance_type_id =
+      parse_id(params["dance_type_id"], dance_types) || hd(dance_types).id
+
+    filter = parse_filter(params["filter"])
+    query = params["query"] || ""
+    patterns = load_patterns(dance_type_id, filter, query)
+
+    expanded_children_ids =
+      if query == "" do
+        MapSet.new()
+      else
+        patterns
+        |> Enum.filter(&(not Enum.empty?(Map.get(&1, :children, []))))
+        |> MapSet.new(& &1.id)
       end
 
+    status_map =
+      socket.assigns[:status_map] || load_status_map(socket.assigns[:current_user])
+
     {:noreply,
-     socket
-     |> assign(:status_map, status_map)
-     |> assign(:expanded_pattern_id, nil)
-     |> assign(:expanded_children_id, nil)
-     |> assign(:expanded_children_ids, MapSet.new())}
+     assign(socket,
+       dance_type_id: dance_type_id,
+       selected_dance_type: Enum.find(dance_types, &(&1.id == dance_type_id)),
+       pattern_filter: filter,
+       query: query,
+       patterns: patterns,
+       status_map: status_map,
+       expanded_pattern_id: nil,
+       expanded_children_id: nil,
+       expanded_children_ids: expanded_children_ids
+     )}
   end
 
   # -- Pattern expansion / search ----------------------------------------------
@@ -75,30 +86,9 @@ defmodule WcsStudioWeb.PatternsLive do
   end
 
   def handle_event("search", %{"query" => query}, socket) do
-    patterns =
-      if query == "" do
-        Pattern.get_roots_with_children(socket.assigns.dance_type_id)
-      else
-        Pattern.get_by_id_name_or_hands(socket.assigns.dance_type_id, query)
-      end
-
-    # When searching, auto‑expand all patterns that have children
-    expanded_children_ids =
-      if query == "" do
-        MapSet.new()
-      else
-        patterns
-        |> Enum.filter(&(not Enum.empty?(Map.get(&1, :children, []))))
-        |> MapSet.new(& &1.id)
-      end
-
-    {:noreply,
-     assign(socket,
-       patterns: patterns,
-       query: query,
-       expanded_children_ids: expanded_children_ids,
-       expanded_children_id: nil
-     )}
+    %{dance_type_id: id, pattern_filter: filter} = socket.assigns
+    # replace: true so each keystroke doesn't add a history entry
+    {:noreply, push_patch(socket, to: patterns_path(id, filter, query), replace: true)}
   end
 
   # -- Modal open/close -------------------------------------------------------
@@ -171,8 +161,8 @@ defmodule WcsStudioWeb.PatternsLive do
         {:noreply,
          socket
          |> assign(modal_state: nil, child_candidates: [], selected_child_ids: MapSet.new())
-         |> put_flash(:success, "Pattern created successfully!")
-         |> push_navigate(to: ~p"/patterns")}
+         |> reload_patterns()
+         |> put_flash(:success, "Pattern created successfully!")}
 
       {:error, changeset} ->
         {:noreply, assign(socket, form: to_form(changeset))}
@@ -187,20 +177,12 @@ defmodule WcsStudioWeb.PatternsLive do
         case Pattern.update(pattern, attrs) do
           {:ok, updated_pattern} ->
             update_child_associations(pattern, updated_pattern, socket.assigns.selected_child_ids)
-            updated_patterns = Pattern.get_roots_with_children(socket.assigns.dance_type_id)
 
             {:noreply,
              socket
-             |> assign(
-               patterns: updated_patterns,
-               modal_state: nil,
-               child_candidates: [],
-               selected_child_ids: MapSet.new()
-             )
+             |> assign(modal_state: nil, child_candidates: [], selected_child_ids: MapSet.new())
+             |> reload_patterns()
              |> put_flash(:success, "Pattern updated successfully!")}
-
-          {:error, changeset} ->
-            {:noreply, assign(socket, form: to_form(changeset))}
         end
 
       _ ->
@@ -213,11 +195,8 @@ defmodule WcsStudioWeb.PatternsLive do
       {:ok, _} ->
         {:noreply,
          socket
-         |> put_flash(:success, "Pattern deleted successfully!")
-         |> push_navigate(to: ~p"/patterns")}
-
-      {:error, _} ->
-        {:noreply, put_flash(socket, :error, "Could not delete pattern")}
+         |> reload_patterns()
+         |> put_flash(:success, "Pattern deleted successfully!")}
     end
   end
 
@@ -232,40 +211,18 @@ defmodule WcsStudioWeb.PatternsLive do
   end
 
   def handle_event("choose", %{"dance_type_id" => id}, socket) do
-    dance_type_id = String.to_integer(id)
-    patterns = Pattern.get_roots_with_children(dance_type_id)
-
+    # switching dance type resets filter and query, as before
     {:noreply,
      socket
-     |> assign(
-       dance_type_id: dance_type_id,
-       selected_dance_type: DanceType.get_by_id(dance_type_id),
-       patterns: patterns,
-       pattern_filter: :all,
-       query: "",
-       dropdown_open: false,
-       expanded_children_id: nil,
-       expanded_children_ids: MapSet.new()
-     )}
+     |> assign(dropdown_open: false)
+     |> push_patch(to: patterns_path(String.to_integer(id), :all, ""))}
   end
 
   def handle_event("filter_patterns", %{"filter" => filter}, socket)
       when filter in @filter_values do
-    dance_type_id = socket.assigns.dance_type_id
-
-    patterns =
-      case filter do
-        "all" -> Pattern.get_roots_with_children(dance_type_id)
-        "roots_only" -> Pattern.get_roots_without_children(dance_type_id)
-      end
-
     {:noreply,
-     assign(socket,
-       patterns: patterns,
-       pattern_filter: String.to_existing_atom(filter),
-       expanded_children_id: nil,
-       expanded_children_ids: MapSet.new(),
-       query: ""
+     push_patch(socket,
+       to: patterns_path(socket.assigns.dance_type_id, parse_filter(filter), "")
      )}
   end
 
@@ -273,31 +230,30 @@ defmodule WcsStudioWeb.PatternsLive do
 
   # -- User status updates ----------------------------------------------------
 
-  def handle_event(
-        "update_status",
-        %{"pattern_id" => pattern_id, "user_id" => user_id, "status" => status},
-        socket
-      ) do
-    pattern_id_int = String.to_integer(pattern_id)
+  def handle_event("update_status", %{"pattern_id" => pattern_id, "status" => status}, socket) do
+    case socket.assigns.current_user do
+      nil ->
+        {:noreply, socket}
 
-    new_status =
-      case status do
-        "not_started" -> "in_progress"
-        "in_progress" -> "learned"
-        _ -> "learned"
-      end
+      %{id: user_id} ->
+        pattern_id_int = String.to_integer(pattern_id)
 
-    case UserPattern.get_user_pattern(user_id, pattern_id_int) do
-      nil -> UserPattern.add(pattern_id_int, user_id, new_status)
-      user_pattern -> UserPattern.update_status(user_pattern, pattern_id_int, user_id, new_status)
+        new_status =
+          case status do
+            "not_started" -> "in_progress"
+            _ -> "learned"
+          end
+
+        case UserPattern.get_user_pattern(user_id, pattern_id_int) do
+          nil -> UserPattern.add(pattern_id_int, user_id, new_status)
+          up -> UserPattern.update_status(up, pattern_id_int, user_id, new_status)
+        end
+
+        {:noreply,
+         socket
+         |> assign(:status_map, Map.put(socket.assigns.status_map, pattern_id_int, new_status))
+         |> put_flash(:info, "Status updated to #{new_status}!")}
     end
-
-    updated_status_map = Map.put(socket.assigns.status_map, pattern_id_int, new_status)
-
-    {:noreply,
-     socket
-     |> assign(:status_map, updated_status_map)
-     |> put_flash(:info, "Status updated to #{new_status}!")}
   end
 
   # -- Private helpers --------------------------------------------------------
@@ -339,6 +295,43 @@ defmodule WcsStudioWeb.PatternsLive do
     previous
     |> MapSet.difference(selected_child_ids)
     |> Enum.each(&Pattern.remove_parent/1)
+  end
+
+  defp parse_id(nil, _items), do: nil
+
+  defp parse_id(value, items) do
+    case Integer.parse(value) do
+      {id, ""} -> if Enum.any?(items, &(&1.id == id)), do: id, else: nil
+      _ -> nil
+    end
+  end
+
+  defp parse_filter("roots_only"), do: :roots_only
+  defp parse_filter(_), do: :all
+
+  defp load_patterns(dance_type_id, _filter, query) when query != "",
+    do: Pattern.get_by_id_name_or_hands(dance_type_id, query)
+
+  defp load_patterns(dance_type_id, :roots_only, _query),
+    do: Pattern.get_roots_without_children(dance_type_id)
+
+  defp load_patterns(dance_type_id, :all, _query),
+    do: Pattern.get_roots_with_children(dance_type_id)
+
+  defp load_status_map(nil), do: %{}
+  defp load_status_map(user), do: build_status_map(user.id)
+
+  # Keeps the URL clean: defaults are omitted
+  defp patterns_path(dance_type_id, filter, query) do
+    params = %{dance_type_id: dance_type_id}
+    params = if filter == :all, do: params, else: Map.put(params, :filter, filter)
+    params = if query == "", do: params, else: Map.put(params, :query, query)
+    ~p"/patterns?#{params}"
+  end
+
+  defp reload_patterns(socket) do
+    %{dance_type_id: id, pattern_filter: filter, query: query} = socket.assigns
+    assign(socket, patterns: load_patterns(id, filter, query))
   end
 
   @impl true

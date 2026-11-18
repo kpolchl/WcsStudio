@@ -14,7 +14,7 @@ defmodule WcsStudio.DanceType do
     field :country_pl, :string
     field :tag_pl, :string
     field :type, :string
-    field :pic_url, :string, virtual: true
+    field :pic_url, :string
 
     has_many :patterns, WcsStudio.Pattern
     has_many :lessons, WcsStudio.Lesson
@@ -110,6 +110,27 @@ defmodule WcsStudio.DanceType do
     |> validate_required([:type])
     |> validate_at_least_one_name()
     |> validate_at_least_one_description()
+    |> prepare_changes(&ensure_localized_names/1)
+  end
+
+  # The database requires both name columns, while the form only requires one
+  # language. Mirror the provided name into the blank column so a partial
+  # submission does not fail with a not-null violation.
+  defp ensure_localized_names(changeset) do
+    name_en = get_field(changeset, :name_en)
+    name_pl = get_field(changeset, :name_pl)
+
+    changeset
+    |> put_name_if_blank(:name_en, name_en || name_pl)
+    |> put_name_if_blank(:name_pl, name_pl || name_en)
+  end
+
+  defp put_name_if_blank(changeset, field, value) do
+    if is_nil(get_field(changeset, field)) do
+      put_change(changeset, field, value)
+    else
+      changeset
+    end
   end
 
   # Ensure at least one language has a name

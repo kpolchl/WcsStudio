@@ -24,11 +24,12 @@ defmodule WcsStudio.Integration.ContentFlowTest do
 
     lv |> element("button[phx-click=open_modal]") |> render_click()
 
-    assert {:error, {:live_redirect, %{to: "/patterns"}}} =
-             lv
-             |> form("form[phx-submit=save]", pattern: %{name: "Sugar Push", count_num: "6"})
-             |> render_submit()
+    html =
+      lv
+      |> form("form[phx-submit=save]", pattern: %{name: "Sugar Push", count_num: "6"})
+      |> render_submit()
 
+    assert html =~ "Sugar Push"
     assert [pattern] = WcsStudio.Pattern.get_all_for_dance_type(dance_type.id)
     assert pattern.name == "Sugar Push"
 
