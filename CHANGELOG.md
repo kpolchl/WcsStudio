@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-11-18
+
+### Added
+- Admin-only "Add New Dance Type" form and modal in the dance types catalogue
+- Dance type cards now carry the selected dance type into `/patterns`, so the pattern filter stays in sync with the clicked card
+
+### Changed
+- Improved the looks of the pattern boxes
+
+### Fixed
+- Navbar avatars now render on nested routes such as `/admin/lessons` by normalizing relative URLs to the site root
+- Dance type images now render from persisted `pic_url` values
+
 ## [1.2.2] - 2026-10-25
 
 ### Fixed
