@@ -18,8 +18,8 @@ permissions:
 env:
   MIX_ENV: test
   # Keep these in sync with mix.exs / .tool-versions / your Dockerfile
-  ELIXIR_VERSION: "1.19.6"
-  OTP_VERSION: "26.2.5"
+  ELIXIR_VERSION: "1.20.5-otp-29"
+  OTP_VERSION: "29.1"
 
 jobs:
   test:
