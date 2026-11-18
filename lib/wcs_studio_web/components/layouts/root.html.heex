@@ -7,6 +7,12 @@
     <.live_title suffix="">
       {assigns[:page_title] || "WcsStudio"}
     </.live_title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
     <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
     <link
       rel="stylesheet"
@@ -15,14 +21,6 @@
     <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
     </script>
   </head>
-  <style>
-    body {
-        overscroll-behavior: auto;
-    }
-    html {
-        background: #f0f0f0; /* the color shown in the overscroll area */
-    }
-  </style>
   <body class="bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 min-h-screen font-sans text-slate-200 flex flex-col">
     {@inner_content}
 

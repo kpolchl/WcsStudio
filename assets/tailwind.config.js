@@ -16,6 +16,29 @@ module.exports = {
             colors: {
                 'accent-start': '#ec4899', // pink-500
                 'accent-end': '#a855f7',   // purple-500
+                brand: {
+                    from: '#ec4899', // pink-500 - canonical gradient start
+                    to: '#a855f7',   // purple-500 - canonical gradient end
+                    soft: '#fdf2f8', // pink-50 - subtle brand surface
+                },
+                surface: {
+                    base: '#0f172a',   // slate-900
+                    raised: '#1e293b', // slate-800
+                    muted: '#334155',  // slate-700
+                },
+            },
+            fontFamily: {
+                sans: ['Inter', 'sans-serif'],
+            },
+            borderRadius: {
+                sm: '8px',
+                md: '12px',
+                lg: '16px',
+            },
+            boxShadow: {
+                card: '0 25px 50px -12px rgb(0 0 0 / 0.25)',
+                glow: '0 0 25px -5px rgb(236 72 153 / 0.5)',
+                focus: '0 0 0 3px rgb(236 72 153 / 0.35)',
             },
             keyframes: {
                 slideUp: {
@@ -28,7 +51,7 @@ module.exports = {
                 },
                 'pulse-glow': {
                     '0%': { boxShadow: '0 0 20px rgba(236, 72, 153, 0.4)' },
-                    '100%': { boxShadow: '0 0 30px rgba(192, 38, 211, 0.6)' }
+                    '100%': { boxShadow: '0 0 30px rgba(168, 85, 247, 0.6)' }
                 }
             },
             animation: {

@@ -3,3 +3,45 @@
 @import "tailwindcss/utilities";
 
 /* This file is for your main application CSS */
+
+@layer base {
+  html {
+    background: #f0f0f0; /* the color shown in the overscroll area */
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    overscroll-behavior: auto;
+  }
+}
+
+/* Previously inline in the home page; kept here so arbitrary animate-[...]
+   utilities can reference the keyframes by name. */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pulse-glow {
+  0% {
+    box-shadow: 0 0 20px rgba(236, 72, 153, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 30px rgba(168, 85, 247, 0.6);
+  }
+}
