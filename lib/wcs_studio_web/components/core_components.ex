@@ -145,12 +145,12 @@ defmodule WcsStudioWeb.CoreComponents do
         </div>
 
         <!-- Title -->
-        <h3 class="text-2xl font-bold text-slate-900 mb-3">
+        <h3 class="text-2xl font-bold text-white mb-3">
           {@title}
         </h3>
 
         <!-- Message -->
-        <p class="text-slate-600 mb-8 leading-relaxed">
+        <p class="text-slate-300 mb-8 leading-relaxed">
           {@message}
         </p>
 
