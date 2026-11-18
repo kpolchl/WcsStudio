@@ -78,7 +78,7 @@ defmodule WcsStudioWeb.CoreComponents do
               class="relative hidden transition"
             >
               <!-- Modal Content -->
-              <div class="bg-slate-800/90 backdrop-blur-sm rounded-xl border border-slate-700/50 shadow-2xl p-6">
+              <div class="bg-slate-800/90 backdrop-blur-sm rounded-lg border border-slate-700/50 shadow-card p-6">
                 <div :if={@title != [] || @subtitle != []} class="pr-8 mb-4">
                   <h2 :if={@title != []} id={"#{@id}-title"} class="text-2xl font-bold text-white">
                     {render_slot(@title)}
@@ -258,7 +258,7 @@ defmodule WcsStudioWeb.CoreComponents do
               phx-window-keydown={JS.exec("data-cancel", to: "##{@id}")}
               phx-key="escape"
               phx-click-away={JS.exec("data-cancel", to: "##{@id}")}
-              class="relative hidden rounded-2xl bg-slate-800 border border-slate-700/50 shadow-2xl transition-all transform"
+              class="relative hidden rounded-lg bg-slate-800 border border-slate-700/50 shadow-card transition-all transform"
             >
               <!-- Header -->
               <div class="relative p-6 pb-4 border-b border-slate-700/50">
@@ -307,7 +307,7 @@ defmodule WcsStudioWeb.CoreComponents do
                       class={[
                         "px-5 py-2.5 text-sm font-medium text-white rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl hover:-translate-y-0.5 flex items-center gap-2",
                         @submit_class ||
-                          "bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600"
+                          "bg-gradient-to-r from-brand-from to-brand-to hover:from-pink-600 hover:to-purple-600"
                       ]}
                     >
                       <i class="fas fa-save text-xs"></i>
@@ -1019,33 +1019,226 @@ defmodule WcsStudioWeb.CoreComponents do
   end
 
   @doc """
-  Renders a button.
+  Renders a button with the shared brand variants and sizes.
+
+  Pass `href` to render a link with the same styling (useful for CTAs).
 
   ## Examples
 
       <.button>Send!</.button>
-      <.button phx-click="go" class="ml-2">Send!</.button>
+      <.button variant={:primary} size={:lg}>Get started</.button>
+      <.button href={~p"/users/log_in"} variant={:secondary}>Log in</.button>
   """
   attr :type, :string, default: nil
+  attr :href, :string, default: nil, doc: "renders a link styled as a button when set"
+  attr :variant, :atom, default: :primary, values: [:primary, :secondary, :ghost, :danger]
+  attr :size, :atom, default: :md, values: [:sm, :md, :lg]
   attr :class, :string, default: nil
-  attr :rest, :global, include: ~w(disabled form name value)
+  attr :rest, :global, doc: "the arbitrary HTML attributes to apply to the button"
 
   slot :inner_block, required: true
 
   def button(assigns) do
     ~H"""
-    <button
-      type={@type}
+    <.link :if={@href} href={@href} class={button_classes(assigns)} {@rest}>
+      {render_slot(@inner_block)}
+    </.link>
+    <button :if={!@href} type={@type} class={button_classes(assigns)} {@rest}>
+      {render_slot(@inner_block)}
+    </button>
+    """
+  end
+
+  defp button_classes(%{variant: variant, size: size, class: class}) do
+    [
+      "phx-submit-loading:opacity-75 inline-flex items-center justify-center gap-2 font-semibold rounded-sm transition-all duration-300",
+      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900",
+      button_variant(variant),
+      button_size(size),
+      class
+    ]
+  end
+
+  defp button_variant(:primary),
+    do:
+      "bg-gradient-to-r from-brand-from to-brand-to text-white shadow-lg hover:shadow-glow hover:-translate-y-0.5"
+
+  defp button_variant(:secondary),
+    do:
+      "bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 text-white hover:bg-slate-700/50 hover:border-slate-600/50"
+
+  defp button_variant(:ghost),
+    do: "bg-transparent text-slate-300 hover:bg-slate-800/50 hover:text-white"
+
+  defp button_variant(:danger),
+    do:
+      "bg-gradient-to-r from-red-500 to-pink-600 text-white shadow-lg hover:shadow-red-500/25 hover:-translate-y-0.5"
+
+  defp button_size(:sm), do: "px-4 py-2 text-sm"
+  defp button_size(:md), do: "px-5 py-2.5 text-sm"
+  defp button_size(:lg), do: "px-8 py-4 text-base"
+
+  @doc """
+  Renders a surface card with the shared radius, shadow and hover treatment.
+
+  ## Examples
+
+      <.card padding={:lg} interactive>
+        Card content
+      </.card>
+  """
+  attr :padding, :atom, default: :md, values: [:none, :sm, :md, :lg]
+  attr :interactive, :boolean, default: false
+  attr :class, :string, default: nil
+  attr :rest, :global, doc: "the arbitrary HTML attributes to apply to the card"
+
+  slot :inner_block, required: true
+
+  def card(assigns) do
+    ~H"""
+    <div
       class={[
-        "phx-submit-loading:opacity-75 rounded-lg bg-zinc-900 hover:bg-zinc-700 py-2 px-3",
-        "text-sm font-semibold leading-6 text-white active:text-white/80",
+        "rounded-lg bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 shadow-card transition-all duration-300",
+        card_padding(@padding),
+        @interactive && "hover:-translate-y-1 hover:border-pink-500/40",
         @class
       ]}
       {@rest}
     >
       {render_slot(@inner_block)}
-    </button>
+    </div>
     """
+  end
+
+  defp card_padding(:none), do: nil
+  defp card_padding(:sm), do: "p-4"
+  defp card_padding(:md), do: "p-6"
+  defp card_padding(:lg), do: "p-8"
+
+  @doc """
+  Renders a linked feature card with an image, icon badge and call to action.
+
+  ## Examples
+
+      <.feature_card
+        href={~p"/patterns"}
+        image={~p"/images/boots.webp"}
+        icon="fas fa-shapes"
+        title="Steps"
+        description="Explore complex patterns"
+        cta="Learn more"
+      />
+  """
+  attr :href, :string, required: true
+  attr :image, :string, required: true
+  attr :image_alt, :string, default: ""
+  attr :icon, :string, required: true, doc: "Font Awesome classes, e.g. \"fas fa-music\""
+  attr :title, :string, required: true
+  attr :description, :string, required: true
+  attr :cta, :string, required: true
+  attr :class, :string, default: nil
+
+  def feature_card(assigns) do
+    ~H"""
+    <.link
+      href={@href}
+      class={[
+        "group relative flex flex-col h-80 rounded-lg overflow-hidden border border-slate-700/30 shadow-card transition-all duration-500",
+        "hover:-translate-y-1 hover:border-pink-500/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-400/70",
+        @class
+      ]}
+    >
+      <div class="absolute inset-0 bg-slate-800/50 backdrop-blur-sm"></div>
+      <div class="absolute inset-0 bg-gradient-to-br from-brand-from/10 via-brand-to/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+      </div>
+
+      <div class="relative h-3/5 overflow-hidden">
+        <div class="absolute top-0 right-0 w-32 h-32 bg-pink-500 rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500">
+        </div>
+        <div class="absolute bottom-0 left-0 w-32 h-32 bg-purple-500 rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500">
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-b from-slate-900/70 to-transparent z-10"></div>
+        <img
+          src={@image}
+          alt={@image_alt}
+          class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+        />
+        <div class="absolute top-4 left-4 w-12 h-12 rounded-md bg-gradient-to-br from-brand-from to-brand-to flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300 z-20">
+          <i class={[@icon, "text-white text-lg"]}></i>
+        </div>
+      </div>
+
+      <div class="relative flex-1 flex flex-col justify-between p-6 z-10">
+        <div>
+          <h3 class="text-xl font-bold text-white mb-2 group-hover:text-pink-200 transition-colors duration-300">
+            {@title}
+          </h3>
+          <p class="text-slate-300 text-sm leading-relaxed line-clamp-2">{@description}</p>
+        </div>
+        <div class="flex items-center justify-between pt-3 border-t border-slate-600/50 group-hover:border-slate-500/50 transition-colors duration-300">
+          <span class="text-pink-400 text-sm font-medium flex items-center gap-2 group-hover:gap-3 transition-all duration-300">
+            {@cta}
+            <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-300"></i>
+          </span>
+        </div>
+      </div>
+    </.link>
+    """
+  end
+
+  @doc """
+  Renders a navigation link with the shared hover underline (desktop) or
+  surface treatment (mobile).
+
+  ## Examples
+
+      <.nav_link href={~p"/patterns"}>Steps</.nav_link>
+      <.nav_link href={~p"/blog"} mobile>Blog</.nav_link>
+  """
+  attr :href, :string, required: true
+  attr :mobile, :boolean, default: false
+  attr :active, :boolean, default: false
+  attr :class, :string, default: nil
+  attr :rest, :global, doc: "the arbitrary HTML attributes to apply to the link"
+
+  slot :inner_block, required: true
+
+  def nav_link(assigns) do
+    ~H"""
+    <.link href={@href} class={nav_link_classes(assigns)} {@rest}>
+      {render_slot(@inner_block)}
+      <span
+        :if={!@mobile}
+        class={[
+          "absolute bottom-0 left-1/2 h-0.5 bg-gradient-to-r from-brand-from to-brand-to transition-all duration-300",
+          @active && "w-full left-0",
+          !@active && "w-0 group-hover:w-full group-hover:left-0"
+        ]}
+      ></span>
+    </.link>
+    """
+  end
+
+  defp nav_link_classes(%{mobile: true, active: active, class: class}) do
+    [
+      "block px-3 py-3 rounded-sm text-base font-medium border transition-all duration-300",
+      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-400/70",
+      if(active,
+        do: "bg-brand-from/10 text-pink-300 border-pink-500/30",
+        else:
+          "text-slate-300 hover:text-white hover:bg-slate-800/50 border-transparent hover:border-slate-700"
+      ),
+      class
+    ]
+  end
+
+  defp nav_link_classes(%{mobile: false, active: active, class: class}) do
+    [
+      "relative px-4 py-2 text-sm font-medium transition-all duration-300 group",
+      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-400/70",
+      if(active, do: "text-white", else: "text-slate-300 hover:text-white"),
+      class
+    ]
   end
 
   @doc """
