@@ -13,7 +13,7 @@ defmodule WcsStudioWeb.ConnectLive do
     <div class="max-w-5xl mx-auto px-2 ">
       <!-- About Me Section -->
       <section class="mb-8">
-        <div class="bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8 md:p-12">
+        <.card padding="none" class="p-8 md:p-12 backdrop-blur-sm">
           <div class="flex flex-col md:flex-row gap-8 items-center mb-8">
             <div class="w-40 h-40 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 p-1 flex-shrink-0">
               <img
@@ -45,12 +45,12 @@ defmodule WcsStudioWeb.ConnectLive do
               {gettext("When I'm not coding, you'll see me dancing.")}
             </p>
           </div>
-        </div>
+        </.card>
       </section>
 
       <!-- Contact Section -->
       <section>
-        <div class="bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8 md:p-12">
+        <.card padding="none" class="p-8 md:p-12 backdrop-blur-sm">
           <h2 class="text-3xl font-bold text-white mb-6">
             <i class="fas fa-paper-plane text-purple-400 mr-3"></i>
             {gettext("Get In Touch")}
@@ -152,7 +152,7 @@ defmodule WcsStudioWeb.ConnectLive do
               </form>
             </div>
           </div>
-        </div>
+        </.card>
       </section>
     </div>
     """
@@ -170,7 +170,7 @@ defmodule WcsStudioWeb.ConnectLive do
 
         {:noreply,
          socket
-         |> put_flash(:info, "Thanks for reaching out! I'll get back to you soon.")
+         |> put_flash(:info, gettext("Thanks for reaching out! I'll get back to you soon."))
          |> push_navigate(to: ~p"/connect")}
 
       {:error, reason} ->
@@ -180,7 +180,9 @@ defmodule WcsStudioWeb.ConnectLive do
          socket
          |> put_flash(
            :error,
-           "Sorry, there was an error sending your message. Please email me directly at karol.szarooki@gmail.com"
+           gettext(
+             "Sorry, there was an error sending your message. Please email me directly at karol.szarooki@gmail.com"
+           )
          )
          |> push_navigate(to: ~p"/connect")}
     end

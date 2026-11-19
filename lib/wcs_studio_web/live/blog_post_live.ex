@@ -112,21 +112,17 @@ defmodule WcsStudioWeb.BlogPostLive do
         <!-- Admin Actions -->
         <%= if @current_user && @current_user.role == "admin" && !@editing_post do %>
           <div class="flex gap-2">
-            <button
-              phx-click="edit_post"
-              class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors flex items-center gap-2"
-            >
-              <i class="fas fa-edit"></i>
+            <.btn variant="info" icon="edit" phx-click="edit_post">
               {gettext("Edit Post")}
-            </button>
-            <button
+            </.btn>
+            <.btn
+              variant="danger"
+              icon="trash"
               phx-click="delete_post"
-              class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors flex items-center gap-2"
               onclick="return confirm('Are you sure you want to delete this post?');"
             >
-              <i class="fas fa-trash"></i>
               {gettext("Delete Post")}
-            </button>
+            </.btn>
           </div>
         <% end %>
       </div>
@@ -136,8 +132,8 @@ defmodule WcsStudioWeb.BlogPostLive do
     <article class="max-w-4xl mx-auto px-4 py-12">
       <%= if @editing_post do %>
         <!-- Edit Post Form -->
-        <div class="bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8">
-          <h2 class="text-3xl font-bold text-white mb-6">Edit Post</h2>
+        <.card class="backdrop-blur-sm">
+          <h2 class="text-3xl font-bold text-white mb-6">{gettext("Edit Post")}</h2>
 
           <.form for={@edit_form} phx-submit="update_post">
             <div class="space-y-4">
@@ -179,7 +175,7 @@ defmodule WcsStudioWeb.BlogPostLive do
               </.btn>
             </div>
           </.form>
-        </div>
+        </.card>
       <% else %>
         <!-- Original Post Display -->
           <!-- Article Header -->
@@ -216,9 +212,9 @@ defmodule WcsStudioWeb.BlogPostLive do
 
         <!-- Article Content -->
         <div class="prose prose-invert prose-lg max-w-none mb-16">
-          <div class="bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8 text-slate-200 leading-relaxed">
+          <.card class="text-slate-200 leading-relaxed backdrop-blur-sm">
             {format_content(@post.body)}
-          </div>
+          </.card>
         </div>
 
         <!-- Article Footer / Tags -->
@@ -235,7 +231,7 @@ defmodule WcsStudioWeb.BlogPostLive do
       <!-- Comments Section (Only show when not editing) -->
       <%= if !@editing_post do %>
         <section class="mt-16">
-          <div class="bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8">
+          <.card class="backdrop-blur-sm">
             <h2 class="text-3xl font-bold text-white mb-8 flex items-center gap-3">
               <i class="fas fa-comments text-purple-400"></i>
               {gettext("Comments")}
@@ -308,7 +304,7 @@ defmodule WcsStudioWeb.BlogPostLive do
                 <% end %>
               <% end %>
             </div>
-          </div>
+          </.card>
         </section>
       <% end %>
     </article>

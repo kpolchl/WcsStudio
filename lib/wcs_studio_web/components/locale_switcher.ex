@@ -82,7 +82,6 @@ defmodule WcsStudioWeb.Components.LocaleSwitcher do
 
     ~H"""
     <div class={["w-full", @class]}>
-      <div class="text-slate-400 text-xs font-medium px-3 py-2 uppercase tracking-wider"></div>
       <div class="grid grid-cols-2 gap-1 px-1">
         <%= for locale <- locales() do %>
           <.link
