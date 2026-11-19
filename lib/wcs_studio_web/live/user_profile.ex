@@ -39,22 +39,24 @@ defmodule WcsStudioWeb.UserProfile do
     {:noreply, assign(socket, modal_state: nil)}
   end
 
-  defp status_class("not_started"), do: "text-gray-400"
-  defp status_class("in_progress"), do: "text-blue-400"
-  defp status_class("learned"), do: "text-green-400"
+  defp status_class("not_started"), do: "text-slate-400"
+  defp status_class("in_progress"), do: "text-accent-info"
+  defp status_class("learned"), do: "text-accent-success"
 
   defp border_class("not_started"),
-    do: "hover:border-gray-500/30 hover:shadow-raised hover:shadow-gray-500/10"
+    do: "hover:border-slate-500/30 hover:shadow-raised hover:shadow-slate-500/10"
 
   defp border_class("in_progress"),
-    do: "hover:border-blue-500/30 hover:shadow-raised hover:shadow-blue-500/10"
+    do: "hover:border-accent-info/30 hover:shadow-raised hover:shadow-accent-info/10"
 
   defp border_class("learned"),
-    do: "hover:border-green-500/30 hover:shadow-raised hover:shadow-green-500/10"
+    do: "hover:border-accent-success/30 hover:shadow-raised hover:shadow-accent-success/10"
 
-  defp status_bg("not_started"), do: "bg-gray-500/20 text-gray-300 border-gray-500/30"
-  defp status_bg("in_progress"), do: "bg-blue-500/20 text-blue-300 border-blue-500/30"
-  defp status_bg("learned"), do: "bg-green-500/20 text-green-300 border-green-500/30"
+  defp status_bg("not_started"), do: "bg-slate-500/20 text-slate-300 border-slate-500/30"
+  defp status_bg("in_progress"), do: "bg-accent-info/20 text-accent-info border-accent-info/30"
+
+  defp status_bg("learned"),
+    do: "bg-accent-success/20 text-accent-success border-accent-success/30"
 
   defp status_icon("not_started"), do: "fa-circle"
   defp status_icon("in_progress"), do: "fa-spinner"
@@ -70,12 +72,12 @@ defmodule WcsStudioWeb.UserProfile do
     <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 -py-8">
       <!-- Hero Section with Profile -->
       <div class="mb-8">
-        <div class="bg-gradient-to-r from-blue-600/20 via-cyan-600/20 to-purple-600/20 backdrop-blur-xl border border-white/10 rounded-xl p-2 shadow-card relative overflow-hidden">
+        <div class="bg-gradient-to-r from-accent-info/20 via-accent-info/20 to-accent-info/20 backdrop-blur-xl border border-white/10 rounded-xl p-2 shadow-card relative overflow-hidden">
           <div class="relative flex flex-col lg:flex-row items-center lg:items-start gap-8">
             <!-- Profile Image -->
             <div class="flex-shrink-0 p-4">
               <div class="relative group">
-                <div class="absolute -inset-1 bg-gradient-to-r from-blue-500 to-brand-to rounded-xl blur opacity-25 group-hover:opacity-40 transition duration-300">
+                <div class="absolute -inset-1 bg-gradient-to-r from-accent-info to-brand-to rounded-xl blur opacity-25 group-hover:opacity-40 transition duration-300">
                 </div>
                 <img
                   src={avatar_url(@current_user.profile_pic_url)}
@@ -92,7 +94,7 @@ defmodule WcsStudioWeb.UserProfile do
               </h1>
 
               <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3 mb-4">
-                <span class="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-medium bg-blue-500/20 text-blue-300 border border-blue-500/30 backdrop-blur-sm">
+                <span class="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-medium bg-accent-info/20 text-accent-info border border-accent-info/30 backdrop-blur-sm">
                   <i class="fas fa-seedling text-xs mr-2"></i> {@current_user.role}
                 </span>
                 <span class="text-slate-300 text-sm flex items-center gap-2">
@@ -111,8 +113,8 @@ defmodule WcsStudioWeb.UserProfile do
               <div class="grid grid-cols-3 gap-2 max-w-2xl">
                 <div class="bg-surface-raised/60 backdrop-blur-sm rounded-lg p-4 border border-white/5">
                   <div class="flex items-center justify-center mb-2">
-                    <div class="w-10 h-10 rounded-md bg-blue-500/20 flex items-center justify-center">
-                      <i class="fas fa-graduation-cap text-blue-400"></i>
+                    <div class="w-10 h-10 rounded-md bg-accent-info/20 flex items-center justify-center">
+                      <i class="fas fa-graduation-cap text-accent-info"></i>
                     </div>
                   </div>
                   <p class="text-2xl font-bold text-white mb-1">{Enum.at(@lesson_chart_data, 1)}</p>
@@ -121,10 +123,10 @@ defmodule WcsStudioWeb.UserProfile do
                   </p>
                 </div>
 
-                <div class="bg-surface-raised/60 backdrop-blur-sm rounded-lg p-4 border border-white/5 hover:border-green-500/30 transition-all duration-300">
+                <div class="bg-surface-raised/60 backdrop-blur-sm rounded-lg p-4 border border-white/5 hover:border-accent-success/30 transition-all duration-300">
                   <div class="flex items-center justify-center mb-2">
-                    <div class="w-10 h-10 rounded-md bg-green-500/20 flex items-center justify-center">
-                      <i class="fas fa-check-double text-green-400"></i>
+                    <div class="w-10 h-10 rounded-md bg-accent-success/20 flex items-center justify-center">
+                      <i class="fas fa-check-double text-accent-success"></i>
                     </div>
                   </div>
                   <p class="text-2xl font-bold text-white mb-1">
@@ -135,10 +137,10 @@ defmodule WcsStudioWeb.UserProfile do
                   </p>
                 </div>
 
-                <div class="bg-surface-raised/60 backdrop-blur-sm rounded-lg p-4 border border-white/5 hover:border-purple-500/30 transition-all duration-300">
+                <div class="bg-surface-raised/60 backdrop-blur-sm rounded-lg p-4 border border-white/5 hover:border-accent-info/30 transition-all duration-300">
                   <div class="flex items-center justify-center mb-2">
                     <div class="w-10 h-10 rounded-md bg-brand-to/20 flex items-center justify-center">
-                      <i class="fas fa-clock text-purple-400"></i>
+                      <i class="fas fa-clock text-brand-lightTo"></i>
                     </div>
                   </div>
                   <p class="text-2xl font-bold text-white mb-1">
@@ -166,7 +168,7 @@ defmodule WcsStudioWeb.UserProfile do
                     />
                   </div>
                   <p class="text-slate-300 text-sm font-medium flex items-center justify-center gap-2">
-                    <i class="fas fa-qrcode text-blue-400"></i>
+                    <i class="fas fa-qrcode text-accent-info"></i>
                     {gettext("My QR Code")}
                   </p>
                 </div>
@@ -217,7 +219,7 @@ defmodule WcsStudioWeb.UserProfile do
           <div class="bg-surface-raised/40 backdrop-blur-xl border border-white/10 rounded-lg p-6 shadow-card hover:border-white/20">
             <div class="flex items-center justify-between mb-6">
               <h3 class="text-lg font-semibold text-white flex items-center gap-2">
-                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-accent-info to-accent-info/80 flex items-center justify-center">
                   <i class="fas fa-chart-pie text-sm"></i>
                 </div>
                 <span>{gettext("Lesson Attendance")}</span>
@@ -246,7 +248,7 @@ defmodule WcsStudioWeb.UserProfile do
           <%= if Enum.any?(@user_patterns) do %>
             <a
               href={~p"/patterns"}
-              class="text-sm text-blue-400 hover:text-blue-300 flex items-center gap-2 transition-colors"
+              class="text-sm text-accent-info hover:text-accent-info flex items-center gap-2 transition-colors"
             >
               <span>{gettext("View All")}</span>
               <i class="fas fa-arrow-right text-xs"></i>
@@ -259,7 +261,7 @@ defmodule WcsStudioWeb.UserProfile do
             <%= for user_pattern <- @user_patterns do %>
               <div class={"group bg-surface-raised/60 backdrop-blur-sm border border-white/5 rounded-md p-5 #{border_class(user_pattern.status)}"}>
                 <div class="flex items-start justify-between mb-3">
-                  <h3 class="text-base font-semibold text-white group-hover:text-blue-300 transition-colors">
+                  <h3 class="text-base font-semibold text-white group-hover:text-accent-info transition-colors">
                     {user_pattern.pattern.name}
                   </h3>
                   <span class={"inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-medium border backdrop-blur-sm #{status_bg(user_pattern.status)}"}>
@@ -275,7 +277,7 @@ defmodule WcsStudioWeb.UserProfile do
                   </div>
                   <a
                     href={~p"/patterns"}
-                    class="text-blue-400 hover:text-blue-300 text-xs font-medium flex items-center gap-1 transition-colors"
+                    class="text-accent-info hover:text-accent-info text-xs font-medium flex items-center gap-1 transition-colors"
                   >
                     <span>{gettext("Details")}</span>
                     <i class="fas fa-arrow-right text-[10px]"></i>

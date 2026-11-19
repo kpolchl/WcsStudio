@@ -15,7 +15,7 @@ defmodule WcsStudioWeb.ConnectLive do
       <section class="mb-8">
         <div class="bg-surface-raised/30 backdrop-blur-sm rounded-lg border border-surface-muted/50 p-8 md:p-12">
           <div class="flex flex-col md:flex-row gap-8 items-center mb-8">
-            <div class="w-40 h-40 rounded-lg bg-gradient-to-br from-brand-to to-brand-from p-1 flex-shrink-0">
+            <div class="w-40 h-40 rounded-lg bg-gradient-to-br from-brand-from to-brand-to p-1 flex-shrink-0">
               <img
                 src="/images/AuthorPic.jpg"
                 alt=" "
@@ -25,7 +25,7 @@ defmodule WcsStudioWeb.ConnectLive do
             <div>
               <h1 class="text-4xl md:text-5xl font-bold text-white mb-2">
                 {gettext("Hey, I'm")}
-                <span class="text-transparent bg-gradient-to-r from-brand-lightTo to-brand-lightFrom bg-clip-text">
+                <span class="text-transparent bg-gradient-to-r from-brand-lightFrom to-brand-lightTo bg-clip-text">
                   Karol Półchłopek
                 </span>
               </h1>
@@ -38,8 +38,8 @@ defmodule WcsStudioWeb.ConnectLive do
               {gettext(
                 "Welcome to my corner of the internet! I'm a passionate developer who loves building
                 web applications. This one was build with"
-              )} <span class="text-purple-400 font-semibold">Elixir</span> {gettext("and")}
-              <span class="text-pink-400 font-semibold">Phoenix LiveView</span>.
+              )} <span class="text-brand-lightTo font-semibold">Elixir</span> {gettext("and")}
+              <span class="text-brand-lightFrom font-semibold">Phoenix LiveView</span>.
             </p>
             <p>
               {gettext("When I'm not coding, you'll see me dancing.")}
@@ -52,7 +52,7 @@ defmodule WcsStudioWeb.ConnectLive do
       <section>
         <div class="bg-surface-raised/30 backdrop-blur-sm rounded-lg border border-surface-muted/50 p-8 md:p-12">
           <h2 class="text-3xl font-bold text-white mb-6">
-            <i class="fas fa-paper-plane text-purple-400 mr-3"></i>
+            <i class="fas fa-paper-plane text-brand-lightTo mr-3"></i>
             {gettext("Get In Touch")}
           </h2>
           <p class="text-slate-300 text-lg mb-8">
@@ -63,14 +63,14 @@ defmodule WcsStudioWeb.ConnectLive do
             <!-- Contact Info -->
             <div class="space-y-6">
               <div class="flex items-center gap-4 text-slate-300">
-                <div class="w-12 h-12 rounded-lg bg-brand-to/20 flex items-center justify-center text-purple-400">
+                <div class="w-12 h-12 rounded-lg bg-brand-to/20 flex items-center justify-center text-brand-lightTo">
                   <i class="fas fa-envelope text-xl"></i>
                 </div>
                 <div>
                   <p class="text-sm text-slate-400">Email</p>
                   <a
                     href="mailto:karol.szarooki@gmail.com"
-                    class="text-white hover:text-purple-400 transition-colors"
+                    class="text-white hover:text-brand-lightTo transition-colors"
                   >
                     karol.szarooki@gmail.com
                   </a>
@@ -78,7 +78,7 @@ defmodule WcsStudioWeb.ConnectLive do
               </div>
 
               <div class="flex items-center gap-4 text-slate-300">
-                <div class="w-12 h-12 rounded-lg bg-brand-from/20 flex items-center justify-center text-pink-400">
+                <div class="w-12 h-12 rounded-lg bg-brand-from/20 flex items-center justify-center text-brand-lightFrom">
                   <i class="fab fa-github text-xl"></i>
                 </div>
                 <div>
@@ -86,7 +86,7 @@ defmodule WcsStudioWeb.ConnectLive do
                   <a
                     href="https://github.com/kpolchl"
                     target="_blank"
-                    class="text-white hover:text-pink-400 transition-colors"
+                    class="text-white hover:text-brand-lightFrom transition-colors"
                   >
                     @kpolchl
                   </a>
@@ -94,7 +94,7 @@ defmodule WcsStudioWeb.ConnectLive do
               </div>
 
               <div class="flex items-center gap-4 text-slate-300">
-                <div class="w-12 h-12 rounded-lg bg-green-500/20 flex items-center justify-center text-green-400">
+                <div class="w-12 h-12 rounded-lg bg-accent-success/20 flex items-center justify-center text-accent-success">
                   <i class="fab fa-linkedin text-xl"></i>
                 </div>
                 <div>
@@ -102,7 +102,7 @@ defmodule WcsStudioWeb.ConnectLive do
                   <a
                     href="https://www.linkedin.com/in/karol-p%C3%B3%C5%82ch%C5%82opek-092803357/"
                     target="_blank"
-                    class="text-white hover:text-green-400 transition-colors"
+                    class="text-white hover:text-accent-success transition-colors"
                   >
                     in/karol-półchłopek
                   </a>
@@ -119,7 +119,7 @@ defmodule WcsStudioWeb.ConnectLive do
                     type="text"
                     name="name"
                     required
-                    class="w-full px-4 py-3 bg-surface-base/50 border border-slate-600 rounded-md text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                    class="w-full px-4 py-3 bg-surface-base/50 border border-slate-600 rounded-md text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-to focus:border-transparent transition-all"
                     placeholder={gettext("Your name")}
                   />
                 </div>
@@ -130,7 +130,7 @@ defmodule WcsStudioWeb.ConnectLive do
                     type="email"
                     name="email"
                     required
-                    class="w-full px-4 py-3 bg-surface-base/50 border border-slate-600 rounded-md text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                    class="w-full px-4 py-3 bg-surface-base/50 border border-slate-600 rounded-md text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-to focus:border-transparent transition-all"
                     placeholder={gettext("your@email.com")}
                   />
                 </div>
@@ -141,7 +141,7 @@ defmodule WcsStudioWeb.ConnectLive do
                     name="message"
                     rows="4"
                     required
-                    class="w-full px-4 py-3 bg-surface-base/50 border border-slate-600 rounded-md text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                    class="w-full px-4 py-3 bg-surface-base/50 border border-slate-600 rounded-md text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-to focus:border-transparent transition-all"
                     placeholder={gettext("Tell me about your project...")}
                   ></textarea>
                 </div>

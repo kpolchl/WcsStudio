@@ -366,7 +366,7 @@ defmodule WcsStudioWeb.PatternsLive do
             <button
               type="button"
               phx-click="toggle_dropdown"
-              class="w-full h-full py-3 pl-4 pr-4 text-left bg-surface-muted/50 text-slate-200 border border-slate-600/50 rounded-lg hover:border-pink-500/40 focus:outline-none focus:ring-1 focus:ring-pink-500 transition-all duration-200 flex items-center justify-between"
+              class="w-full h-full py-3 pl-4 pr-4 text-left bg-surface-muted/50 text-slate-200 border border-surface-muted rounded-lg hover:border-brand-from/40 focus:outline-none focus:ring-1 focus:ring-brand-from transition-all duration-200 flex items-center justify-between"
             >
               <div class="flex items-center">
                 <span>
@@ -427,9 +427,9 @@ defmodule WcsStudioWeb.PatternsLive do
                   class="relative z-10 w-full h-full
                          pl-10 pr-8 py-3
                          bg-surface-muted/50 text-slate-200
-                         border border-slate-600/50
+                         border border-surface-muted
                          rounded-lg
-                         focus:outline-none focus:ring-1 focus:ring-blue-500"
+                         focus:outline-none focus:ring-1 focus:ring-accent-info"
                 />
               </div>
             </div>
@@ -524,15 +524,15 @@ defmodule WcsStudioWeb.PatternsLive do
                     class={[
                       "w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-150 border flex items-center justify-between",
                       if(MapSet.member?(@selected_child_ids, candidate.id),
-                        do: "bg-brand-from/20 border-pink-500/50 text-pink-200",
+                        do: "bg-brand-from/20 border-brand-from/50 text-brand-lightFrom",
                         else:
-                          "bg-surface-muted/40 border-slate-600/40 text-slate-300 hover:border-pink-500/30"
+                          "bg-surface-muted/40 border-slate-600/40 text-slate-300 hover:border-brand-from/30"
                       )
                     ]}
                   >
                     <span>{candidate.name}</span>
                     <%= if MapSet.member?(@selected_child_ids, candidate.id) do %>
-                      <i class="fas fa-check text-pink-400 text-xs"></i>
+                      <i class="fas fa-check text-brand-lightFrom text-xs"></i>
                     <% end %>
                   </button>
                 <% end %>
@@ -550,7 +550,7 @@ defmodule WcsStudioWeb.PatternsLive do
           on_cancel={JS.push("close_modal")}
           on_submit="update_pattern"
           submit_label={gettext("Update")}
-          submit_class="bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700"
+          submit_class="bg-gradient-to-r from-accent-info to-accent-info/80 hover:from-accent-info hover:to-accent-info/80"
         >
           <.input type="text" field={@form[:name]} label={gettext("Pattern Name")} />
           <.input
@@ -586,15 +586,15 @@ defmodule WcsStudioWeb.PatternsLive do
                     class={[
                       "w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-150 border flex items-center justify-between",
                       if(MapSet.member?(@selected_child_ids, candidate.id),
-                        do: "bg-brand-from/20 border-pink-500/50 text-pink-200",
+                        do: "bg-brand-from/20 border-brand-from/50 text-brand-lightFrom",
                         else:
-                          "bg-surface-muted/40 border-slate-600/40 text-slate-300 hover:border-pink-500/30"
+                          "bg-surface-muted/40 border-slate-600/40 text-slate-300 hover:border-brand-from/30"
                       )
                     ]}
                   >
                     <span>{candidate.name}</span>
                     <%= if MapSet.member?(@selected_child_ids, candidate.id) do %>
-                      <i class="fas fa-check text-pink-400 text-xs"></i>
+                      <i class="fas fa-check text-brand-lightFrom text-xs"></i>
                     <% end %>
                   </button>
                 <% end %>

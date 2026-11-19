@@ -96,7 +96,7 @@ defmodule WcsStudioWeb.CoreComponents do
                 <button
                   phx-click={JS.exec("data-cancel", to: "##{@id}")}
                   type="button"
-                  class="w-8 h-8 rounded-full bg-surface-muted border border-slate-600/50 flex items-center justify-center text-slate-300 hover:text-white hover:bg-slate-600 transition-all duration-300 hover:shadow-raised focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-400/70"
+                  class="w-8 h-8 rounded-full bg-surface-muted border border-surface-muted flex items-center justify-center text-slate-300 hover:text-white hover:bg-slate-600 transition-all duration-300 hover:shadow-raised focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-lightFrom/70"
                   aria-label={gettext("close")}
                 >
                   <i class="fas fa-times text-sm"></i>
@@ -141,7 +141,7 @@ defmodule WcsStudioWeb.CoreComponents do
     <.modal id={@id}>
       <div class="text-center">
         <!-- Warning Icon -->
-        <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-red-500 to-pink-500 mb-4">
+        <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-accent-danger to-accent-danger/80 mb-4">
           <i class="fas fa-exclamation-triangle text-white text-2xl"></i>
         </div>
 
@@ -206,7 +206,7 @@ defmodule WcsStudioWeb.CoreComponents do
         form={@form}
         on_submit="update"
         submit_label="Update"
-        submit_class="bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700"
+        submit_class="bg-gradient-to-r from-accent-info to-accent-info/80 hover:from-accent-info hover:to-accent-info/80"
       >
         <.input type="text" field={@form[:name]} label="Name" />
       </.form_modal>
@@ -267,7 +267,7 @@ defmodule WcsStudioWeb.CoreComponents do
                 <button
                   phx-click={JS.exec("data-cancel", to: "##{@id}")}
                   type="button"
-                  class="absolute top-4 right-4 w-8 h-8 rounded-lg bg-surface-muted/50 hover:bg-slate-600/50 flex items-center justify-center transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-400/70"
+                  class="absolute top-4 right-4 w-8 h-8 rounded-lg bg-surface-muted/50 hover:bg-surface-muted flex items-center justify-center transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-lightFrom/70"
                   aria-label={gettext("close")}
                 >
                   <i class="fas fa-times text-slate-400 group-hover:text-white text-sm"></i>
@@ -300,7 +300,7 @@ defmodule WcsStudioWeb.CoreComponents do
                     <button
                       type="button"
                       phx-click={JS.exec("data-cancel", to: "##{@id}")}
-                      class="px-5 py-2.5 text-sm font-medium text-slate-300 bg-surface-muted/50 border border-slate-600/50 rounded-lg hover:bg-slate-600/50 hover:text-white transition-all duration-200"
+                      class="px-5 py-2.5 text-sm font-medium text-slate-300 bg-surface-muted/50 border border-surface-muted rounded-lg hover:bg-surface-muted hover:text-white transition-all duration-200"
                     >
                       {@cancel_label}
                     </button>
@@ -327,13 +327,15 @@ defmodule WcsStudioWeb.CoreComponents do
   end
 
   defp status_class("not_started"),
-    do: "from-gray-400 to-gray-500 hover:from-gray-500 hover:to-gray-600"
+    do: "from-slate-500 to-slate-600 hover:from-slate-600 hover:to-slate-700"
 
   defp status_class("in_progress"),
-    do: "from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600"
+    do:
+      "from-accent-warning to-accent-warning/80 hover:from-accent-warning hover:to-accent-warning/80"
 
   defp status_class("learned"),
-    do: "from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700"
+    do:
+      "from-accent-success to-accent-success/80 hover:from-accent-success hover:to-accent-success/80"
 
   defp status_icon("not_started"), do: "fa-spinner"
   defp status_icon("in_progress"), do: "fa-spinner"
@@ -378,9 +380,9 @@ defmodule WcsStudioWeb.CoreComponents do
       <!-- One shared box: parent + toggle + children -->
       <div class={[
         if(@is_child,
-          do: "bg-purple-950/30 border-l-2 border-purple-500/40",
+          do: "bg-surface-muted/20 border-l-2 border-accent-info/40",
           else:
-            "rounded-lg border border-surface-muted/50 bg-surface-raised/50 shadow-card overflow-hidden transition-all duration-300 hover:border-pink-500/30 hover:shadow-card"
+            "rounded-lg border border-surface-muted/50 bg-surface-raised/50 shadow-card overflow-hidden transition-all duration-300 hover:border-brand-from/30 hover:shadow-card"
         )
       ]}>
         <!-- Pattern card (no border/rounding of its own) -->
@@ -390,17 +392,17 @@ defmodule WcsStudioWeb.CoreComponents do
           phx-value-id={@pattern.id}
           class={[
             "group w-full cursor-pointer transition-colors duration-200",
-            if(@is_child, do: "hover:bg-purple-900/20", else: "hover:bg-surface-muted/20")
+            if(@is_child, do: "hover:bg-surface-muted/30", else: "hover:bg-surface-muted/20")
           ]}
         >
           <div class="p-6 flex items-start justify-between">
             <div class="flex-1 min-w-0">
               <div class="flex flex-wrap gap-1 sm:gap-2 mb-2 sm:mb-3">
-                <span class="px-2 sm:px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-brand-to/20 to-brand-from/20 text-purple-300 border border-purple-500/30">
+                <span class="px-2 sm:px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-brand-from/20 to-brand-to/20 text-brand-lightTo border border-accent-info/30">
                   {WcsStudio.DanceType.get_name(@pattern.dance_type, @locale)}
                 </span>
                 <%= if not @is_child && not Enum.empty?(@children) do %>
-                  <span class="px-2 sm:px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-brand-from/20 to-orange-500/20 text-pink-300 border border-pink-500/30">
+                  <span class="px-2 sm:px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-accent-warning/20 to-accent-warning/10 text-accent-warning border border-accent-warning/30">
                     <i class="fas fa-sitemap mr-1"></i>
                     {length(@children)} {gettext("variations")}
                   </span>
@@ -435,9 +437,9 @@ defmodule WcsStudioWeb.CoreComponents do
           >
             <div class="mb-4 py-4">
               <div class="gap-4 mb-4">
-                <div class="p-4 rounded-md bg-surface-muted/30 border border-slate-600/50 shadow-raised">
+                <div class="p-4 rounded-md bg-surface-muted/30 border border-surface-muted shadow-raised">
                   <div class="flex items-center mb-4">
-                    <div class="w-10 h-10 rounded-md bg-gradient-to-br from-amber-500 to-yellow-500 flex items-center justify-center mr-3 shadow-raised">
+                    <div class="w-10 h-10 rounded-md bg-gradient-to-br from-accent-warning to-accent-warning/80 flex items-center justify-center mr-3 shadow-raised">
                       <i class="fas fa-list-ul text-white text-sm"></i>
                     </div>
                     <h2 class="text-2xl font-bold text-white">{gettext("Description")}</h2>
@@ -455,9 +457,9 @@ defmodule WcsStudioWeb.CoreComponents do
               </div>
 
               <%= if @expanded_pattern_id == @pattern.id do %>
-                <div class="rounded-md bg-surface-muted/30 border border-slate-600/50 shadow-raised">
+                <div class="rounded-md bg-surface-muted/30 border border-surface-muted shadow-raised">
                   <div class="flex items-center mb-4 pt-4 pl-4 pr-4">
-                    <div class="w-10 h-10 rounded-md bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center mr-3 shadow-raised">
+                    <div class="w-10 h-10 rounded-md bg-gradient-to-br from-accent-danger to-accent-danger/80 flex items-center justify-center mr-3 shadow-raised">
                       <i class="fas fa-play text-white text-sm"></i>
                     </div>
                     <h2 class="text-2xl font-bold text-white">{gettext("Showcase Video")}</h2>
@@ -530,9 +532,10 @@ defmodule WcsStudioWeb.CoreComponents do
             class={[
               "w-full flex items-center justify-between px-6 py-3 text-sm font-medium transition-colors duration-200 border-t",
               if(children_expanded,
-                do: "bg-brand-from/10 text-pink-300 border-pink-500/30 hover:bg-brand-from/20",
+                do:
+                  "bg-brand-from/10 text-brand-lightFrom border-brand-from/30 hover:bg-brand-from/20",
                 else:
-                  "bg-surface-base/30 text-slate-400 border-surface-muted/50 hover:text-pink-300 hover:bg-brand-from/10"
+                  "bg-surface-base/30 text-slate-400 border-surface-muted/50 hover:text-brand-lightFrom hover:bg-brand-from/10"
               )
             ]}
           >
@@ -547,7 +550,7 @@ defmodule WcsStudioWeb.CoreComponents do
           </button>
 
           <%= if children_expanded do %>
-            <div class="border-t border-surface-muted/50 divide-y divide-purple-700/30">
+            <div class="border-t border-surface-muted/50 divide-y divide-surface-muted/30">
               <%= for child <- @children do %>
                 <.pattern
                   pattern={child}
@@ -588,10 +591,11 @@ defmodule WcsStudioWeb.CoreComponents do
   end
 
   defp attended_class(false),
-    do: "from-gray-400 to-gray-500 hover:from-gray-500 hover:to-gray-600"
+    do: "from-slate-500 to-slate-600 hover:from-slate-600 hover:to-slate-700"
 
   defp attended_class(true),
-    do: "from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700"
+    do:
+      "from-accent-success to-accent-success/80 hover:from-accent-success hover:to-accent-success/80"
 
   defp attended_icon(false), do: "fa-circle"
   defp attended_icon(true), do: "fa-check-circle"
@@ -611,16 +615,16 @@ defmodule WcsStudioWeb.CoreComponents do
       id={"lesson-card-#{@lesson.id}"}
       phx-click="toggle_lesson"
       phx-value-id={@lesson.id}
-      class="group bg-surface-raised/50 backdrop-blur-sm rounded-lg border border-surface-muted/50 shadow-card transition-all duration-300 mb-6 cursor-pointer hover:shadow-card hover:border-pink-500/30 max-w-4xl md:w-1/2"
+      class="group bg-surface-raised/50 backdrop-blur-sm rounded-lg border border-surface-muted/50 shadow-card transition-all duration-300 mb-6 cursor-pointer hover:shadow-card hover:border-brand-from/30 max-w-4xl md:w-1/2"
     >
       <div class="p-6 flex items-start justify-between">
         <div class="flex-1 min-w-0">
           <div class="flex flex-wrap gap-2 mb-3">
-            <span class="px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-brand-to/20 to-brand-from/20 text-purple-300 border border-purple-500/30">
+            <span class="px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-brand-from/20 to-brand-to/20 text-brand-lightTo border border-accent-info/30">
               <i class="fas fa-music mr-1"></i>
               {WcsStudio.DanceType.get_name(@lesson.dance_type, @locale)}
             </span>
-            <span class="px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-green-500/20 to-emerald-500/20 text-green-300 border border-green-500/30">
+            <span class="px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-accent-success/20 to-accent-success/10 text-accent-success border border-accent-success/30">
               <i class="fas fa-chart-line mr-1"></i>
               {@lesson.level.name}
             </span>
@@ -630,17 +634,17 @@ defmodule WcsStudioWeb.CoreComponents do
           </h2>
           <div class="flex  text-sm text-slate-400 gap-8">
             <div class="flex items-center whitespace-nowrap">
-              <i class="fas fa-calendar-day mr-2 text-blue-400"></i>
+              <i class="fas fa-calendar-day mr-2 text-accent-info"></i>
               <span>{@lesson.date}</span>
             </div>
             <div class="flex items-center">
-              <i class="fas fa-map-marker-alt mr-2 text-red-400"></i>
+              <i class="fas fa-map-marker-alt mr-2 text-accent-danger"></i>
               <span>{@lesson.place}</span>
             </div>
           </div>
         </div>
         <div class="flex-shrink-0 transition-transform duration-300 ml-4 group">
-          <div class="w-12 h-12 rounded-md bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center shadow-raised">
+          <div class="w-12 h-12 rounded-md bg-gradient-to-br from-accent-info to-accent-info/80 flex items-center justify-center shadow-raised">
             <i class={[
               "fas fa-chevron-down text-white transition-transform duration-300",
               if(@expanded_lesson_id == @lesson.id, do: "rotate-180", else: "group-hover:rotate-180")
@@ -673,9 +677,9 @@ defmodule WcsStudioWeb.CoreComponents do
       >
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4 pt-4">
           <!-- Patterns Box -->
-          <div class="p-4 rounded-md bg-surface-muted/30 backdrop-blur-sm border border-slate-600/50 shadow-raised">
+          <div class="p-4 rounded-md bg-surface-muted/30 backdrop-blur-sm border border-surface-muted shadow-raised">
             <div class="flex items-center mb-4">
-              <div class="w-10 h-10 rounded-md bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center mr-3 shadow-raised">
+              <div class="w-10 h-10 rounded-md bg-gradient-to-br from-accent-info to-accent-info/80 flex items-center justify-center mr-3 shadow-raised">
                 <i class="fas fa-shapes text-white text-sm"></i>
               </div>
               <h2 class="text-xl font-bold text-white">{gettext("Patterns")}</h2>
@@ -683,7 +687,7 @@ defmodule WcsStudioWeb.CoreComponents do
             <div class="space-y-3">
               <%= for pattern <- @lesson.patterns do %>
                 <div class="bg-slate-600/30 p-3 rounded-lg flex items-center">
-                  <i class="fas fa-circle text-blue-400 text-xs mr-3 animate-pulse"></i>
+                  <i class="fas fa-circle text-accent-info text-xs mr-3 animate-pulse"></i>
                   <span class="font-medium text-slate-200">{pattern.name}</span>
                 </div>
               <% end %>
@@ -691,9 +695,9 @@ defmodule WcsStudioWeb.CoreComponents do
           </div>
 
           <!-- Instructors Box -->
-          <div class="p-4 rounded-md bg-surface-muted/30 backdrop-blur-sm border border-slate-600/50 shadow-raised">
+          <div class="p-4 rounded-md bg-surface-muted/30 backdrop-blur-sm border border-surface-muted shadow-raised">
             <div class="flex items-center mb-4">
-              <div class="w-10 h-10 rounded-md bg-gradient-to-br from-brand-to to-brand-from flex items-center justify-center mr-3 shadow-raised">
+              <div class="w-10 h-10 rounded-md bg-gradient-to-br from-brand-from to-brand-to flex items-center justify-center mr-3 shadow-raised">
                 <i class="fas fa-users text-white text-sm"></i>
               </div>
               <h2 class="text-xl font-bold text-white">{gettext("Instructors")}</h2>
@@ -701,7 +705,7 @@ defmodule WcsStudioWeb.CoreComponents do
             <div class="space-y-4">
               <%= for instructor <- @lesson.instructors do %>
                 <div class="flex items-center p-3 rounded-lg bg-slate-600/30 ">
-                  <div class="w-12 h-12 rounded-md bg-gradient-to-br from-brand-to to-brand-from flex items-center justify-center mr-3 shadow-raised">
+                  <div class="w-12 h-12 rounded-md bg-gradient-to-br from-brand-from to-brand-to flex items-center justify-center mr-3 shadow-raised">
                     <span class="font-bold text-white text-sm">
                       {String.first(instructor.username)}
                     </span>
@@ -718,9 +722,9 @@ defmodule WcsStudioWeb.CoreComponents do
 
         <!-- Video Section -->
         <%= if @expanded_lesson_id == @lesson.id do %>
-          <div class="rounded-md bg-surface-muted/30 backdrop-blur-sm border border-slate-600/50 shadow-raised">
+          <div class="rounded-md bg-surface-muted/30 backdrop-blur-sm border border-surface-muted shadow-raised">
             <div class="flex items-center mb-4 pt-4 pl-4 pr-4">
-              <div class="w-10 h-10 rounded-md bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center mr-3 shadow-raised">
+              <div class="w-10 h-10 rounded-md bg-gradient-to-br from-accent-danger to-accent-danger/80 flex items-center justify-center mr-3 shadow-raised">
                 <i class="fas fa-play text-white text-sm"></i>
               </div>
               <h2 class="text-xl font-bold text-white">{gettext("Video Lesson")}</h2>
@@ -794,11 +798,11 @@ defmodule WcsStudioWeb.CoreComponents do
     ~H"""
     <.link
       href={"/blog/#{@post.id}"}
-      class="block group bg-surface-raised/50 backdrop-blur-sm rounded-lg border border-surface-muted/50 shadow-card transition-all duration-500 hover:shadow-card hover:border-pink-500/30  overflow-hidden"
+      class="block group bg-surface-raised/50 backdrop-blur-sm rounded-lg border border-surface-muted/50 shadow-card transition-all duration-500 hover:shadow-card hover:border-brand-from/30  overflow-hidden"
     >
       <div class="p-8">
         <div class="flex items-center gap-2 mb-4">
-          <span class="px-3 py-1 rounded-full text-sm bg-surface-muted/50 text-slate-300 border border-slate-600/50 backdrop-blur-sm">
+          <span class="px-3 py-1 rounded-full text-sm bg-surface-muted/50 text-slate-300 border border-surface-muted backdrop-blur-sm">
             {WcsStudio.Post.estimate_read_time(@post.body)}
           </span>
         </div>
@@ -815,7 +819,7 @@ defmodule WcsStudioWeb.CoreComponents do
           <div class="flex items-center gap-3">
             <img
               src={avatar_url(@post.user.profile_pic_url)}
-              class="w-10 h-10 rounded-md bg-gradient-to-br from-brand-to to-brand-from p-0.5"
+              class="w-10 h-10 rounded-md bg-gradient-to-br from-brand-from to-brand-to p-0.5"
               alt={@post.user.username}
             />
             <div>
@@ -830,7 +834,7 @@ defmodule WcsStudioWeb.CoreComponents do
             </div>
           </div>
           <div class="flex items-center gap-6 text-slate-400">
-            <div class="flex items-center gap-2 group-hover:text-pink-400 transition-colors">
+            <div class="flex items-center gap-2 group-hover:text-brand-lightFrom transition-colors">
               <i class="fas fa-arrow-right"></i>
               <span>{gettext("Read more")}</span>
             </div>
@@ -873,13 +877,13 @@ defmodule WcsStudioWeb.CoreComponents do
       class={[
         "fixed top-16 right-4 z-50 rounded-lg p-4 backdrop-blur-sm border shadow-card max-w-sm transform transition-all duration-300 cursor-pointer group hover:-translate-y-1",
         @kind == :info &&
-          "bg-surface-raised/80 border-cyan-500/30 text-cyan-300 shadow-cyan-500/10 hover:border-cyan-400/50",
+          "bg-surface-raised/80 border-accent-info/30 text-accent-info shadow-accent-info/10 hover:border-accent-info/50",
         @kind == :error &&
           "bg-surface-raised/80 border-rose-500/30 text-rose-300 shadow-rose-500/10 hover:border-rose-400/50",
         @kind == :warning &&
-          "bg-surface-raised/80 border-amber-500/30 text-amber-300 shadow-amber-500/10 hover:border-amber-400/50",
+          "bg-surface-raised/80 border-accent-warning/30 text-accent-warning shadow-accent-warning/10 hover:border-accent-warning/50",
         @kind == :success &&
-          "bg-surface-raised/80 border-emerald-500/30 text-emerald-300 shadow-emerald-500/10 hover:border-emerald-400/50"
+          "bg-surface-raised/80 border-accent-success/30 text-accent-success shadow-accent-success/10 hover:border-accent-success/50"
       ]}
       phx-mounted={JS.dispatch("flash:mounted", to: "##{@id}")}
       {@rest}
@@ -888,10 +892,10 @@ defmodule WcsStudioWeb.CoreComponents do
         <!-- Icon Container -->
         <div class={[
           "flex-shrink-0 w-10 h-10 rounded-md flex items-center justify-center shadow-raised",
-          @kind == :info && "bg-gradient-to-br from-cyan-500 to-blue-500",
-          @kind == :error && "bg-gradient-to-br from-rose-500 to-pink-500",
-          @kind == :warning && "bg-gradient-to-br from-amber-500 to-orange-500",
-          @kind == :success && "bg-gradient-to-br from-emerald-500 to-green-500"
+          @kind == :info && "bg-gradient-to-br from-accent-info to-accent-info/80",
+          @kind == :error && "bg-gradient-to-br from-accent-danger to-accent-danger/80",
+          @kind == :warning && "bg-gradient-to-br from-accent-warning to-accent-warning/80",
+          @kind == :success && "bg-gradient-to-br from-accent-success to-accent-success/80"
         ]}>
           <i class={[
             "text-white text-sm",
@@ -914,7 +918,7 @@ defmodule WcsStudioWeb.CoreComponents do
         <button
           type="button"
           phx-click={JS.push("lv:clear-flash", value: %{key: @kind}) |> hide("##{@id}")}
-          class="flex-shrink-0 w-8 h-8 rounded-md bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all duration-200 group-hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-400/70"
+          class="flex-shrink-0 w-8 h-8 rounded-md bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all duration-200 group-hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-lightFrom/70"
           aria-label={gettext("close")}
         >
           <i class="fas fa-times text-xs text-white/70 group-hover:text-white"></i>
@@ -924,18 +928,18 @@ defmodule WcsStudioWeb.CoreComponents do
       <!-- Progress Bar -->
       <div class={[
         "w-full h-1 rounded-full mt-3 overflow-hidden",
-        @kind == :info && "bg-cyan-500/20",
+        @kind == :info && "bg-accent-info/20",
         @kind == :error && "bg-rose-500/20",
-        @kind == :warning && "bg-amber-500/20",
-        @kind == :success && "bg-emerald-500/20"
+        @kind == :warning && "bg-accent-warning/20",
+        @kind == :success && "bg-accent-success/20"
       ]}>
         <div
           class={[
             "h-full rounded-full progress-bar",
-            @kind == :info && "bg-gradient-to-r from-cyan-400 to-blue-400",
-            @kind == :error && "bg-gradient-to-r from-rose-400 to-pink-400",
-            @kind == :warning && "bg-gradient-to-r from-amber-400 to-orange-400",
-            @kind == :success && "bg-gradient-to-r from-emerald-400 to-green-400"
+            @kind == :info && "bg-gradient-to-r from-accent-info to-accent-info/80",
+            @kind == :error && "bg-gradient-to-r from-accent-danger to-accent-danger/80",
+            @kind == :warning && "bg-gradient-to-r from-accent-warning to-accent-warning/80",
+            @kind == :success && "bg-gradient-to-r from-accent-success to-accent-success/80"
           ]}
           style="width: 0"
         >
@@ -1062,7 +1066,7 @@ defmodule WcsStudioWeb.CoreComponents do
   defp button_classes(%{variant: variant, size: size, disabled: disabled, class: class}) do
     [
       "phx-submit-loading:opacity-75 inline-flex items-center justify-center gap-2 font-semibold rounded-sm transition-all duration-300",
-      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-base",
+      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-lightFrom/70 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-base",
       button_variant(variant),
       button_size(size),
       disabled && "opacity-50 cursor-not-allowed hover:translate-y-0",
@@ -1076,22 +1080,22 @@ defmodule WcsStudioWeb.CoreComponents do
 
   defp button_variant(:secondary),
     do:
-      "bg-surface-raised/50 backdrop-blur-sm border border-surface-muted/50 text-white hover:bg-surface-muted/50 hover:border-slate-600/50"
+      "bg-surface-raised/50 backdrop-blur-sm border border-surface-muted/50 text-white hover:bg-surface-muted/50 hover:border-surface-muted"
 
   defp button_variant(:ghost),
     do: "bg-transparent text-slate-300 hover:bg-surface-raised/50 hover:text-white"
 
   defp button_variant(:danger),
     do:
-      "bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white shadow-raised hover:shadow-red-500/25 hover:-translate-y-0.5"
+      "bg-gradient-to-r from-accent-danger to-accent-danger/80 hover:from-accent-danger hover:to-accent-danger/80 text-white shadow-raised hover:shadow-accent-danger/25 hover:-translate-y-0.5"
 
   defp button_variant(:info),
     do:
-      "bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 text-white shadow-raised hover:shadow-blue-500/25 hover:-translate-y-0.5"
+      "bg-gradient-to-r from-accent-info to-accent-info/80 hover:from-accent-info hover:to-accent-info/80 text-white shadow-raised hover:shadow-accent-info/25 hover:-translate-y-0.5"
 
   defp button_variant(:success),
     do:
-      "bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white shadow-raised hover:shadow-green-500/50 hover:-translate-y-0.5"
+      "bg-gradient-to-r from-accent-success to-accent-success/80/80 hover:from-accent-success hover:to-accent-success/80 text-white shadow-raised hover:shadow-accent-success/50 hover:-translate-y-0.5"
 
   defp button_size(:sm), do: "px-4 py-2 text-sm"
   defp button_size(:md), do: "px-5 py-2.5 text-sm"
@@ -1119,7 +1123,7 @@ defmodule WcsStudioWeb.CoreComponents do
       class={[
         "rounded-lg bg-surface-raised/50 backdrop-blur-sm border border-surface-muted/50 shadow-card transition-all duration-300",
         card_padding(@padding),
-        @interactive && "hover:-translate-y-1 hover:border-pink-500/40",
+        @interactive && "hover:-translate-y-1 hover:border-brand-from/40",
         @class
       ]}
       {@rest}
@@ -1163,7 +1167,7 @@ defmodule WcsStudioWeb.CoreComponents do
       href={@href}
       class={[
         "group relative flex flex-col min-h-80 rounded-lg overflow-hidden border border-surface-muted/30 shadow-card transition-all duration-500",
-        "hover:-translate-y-1 hover:border-pink-500/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-400/70",
+        "hover:-translate-y-1 hover:border-brand-from/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-lightFrom/70",
         @class
       ]}
     >
@@ -1191,13 +1195,13 @@ defmodule WcsStudioWeb.CoreComponents do
 
       <div class="relative flex-1 flex flex-col justify-between p-6 z-10">
         <div>
-          <h3 class="text-xl font-bold text-white mb-2 group-hover:text-pink-200 transition-colors duration-300">
+          <h3 class="text-xl font-bold text-white mb-2 group-hover:text-brand-lightFrom transition-colors duration-300">
             {@title}
           </h3>
           <p class="text-slate-300 text-sm leading-relaxed line-clamp-2">{@description}</p>
         </div>
-        <div class="flex items-center justify-between pt-3 border-t border-slate-600/50 group-hover:border-slate-500/50 transition-colors duration-300">
-          <span class="text-pink-400 text-sm font-medium flex items-center gap-2 group-hover:gap-3 transition-all duration-300">
+        <div class="flex items-center justify-between pt-3 border-t border-surface-muted group-hover:border-slate-500/50 transition-colors duration-300">
+          <span class="text-brand-lightFrom text-sm font-medium flex items-center gap-2 group-hover:gap-3 transition-all duration-300">
             {@cta}
             <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-300"></i>
           </span>
@@ -1300,9 +1304,9 @@ defmodule WcsStudioWeb.CoreComponents do
   defp nav_link_classes(%{mobile: true, class: class}) do
     [
       "block px-3 py-3 rounded-sm text-base font-medium border transition-all duration-300",
-      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-400/70",
+      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-lightFrom/70",
       "text-slate-300 hover:text-white hover:bg-surface-raised/50 border-transparent hover:border-surface-muted",
-      "aria-[current=page]:bg-brand-from/10 aria-[current=page]:text-pink-300 aria-[current=page]:border-pink-500/30",
+      "aria-[current=page]:bg-brand-from/10 aria-[current=page]:text-brand-lightFrom aria-[current=page]:border-brand-from/30",
       class
     ]
   end
@@ -1310,7 +1314,7 @@ defmodule WcsStudioWeb.CoreComponents do
   defp nav_link_classes(%{mobile: false, class: class}) do
     [
       "relative px-4 py-2 text-sm font-medium transition-all duration-300 group",
-      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-400/70",
+      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-lightFrom/70",
       "text-slate-300 hover:text-white",
       "aria-[current=page]:text-white",
       class
@@ -1394,10 +1398,10 @@ defmodule WcsStudioWeb.CoreComponents do
           value="true"
           checked={@checked}
           class={[
-            "rounded border-slate-600 bg-surface-raised/50 text-pink-500 focus:ring-2 focus:ring-pink-500 focus:ring-opacity-20 transition-all duration-300",
-            "checked:bg-brand-from checked:border-pink-500 hover:border-pink-400/50",
+            "rounded border-slate-600 bg-surface-raised/50 text-brand-from focus:ring-2 focus:ring-brand-from focus:ring-opacity-20 transition-all duration-300",
+            "checked:bg-brand-from checked:border-brand-from hover:border-brand-lightFrom/50",
             "w-4 h-4",
-            @errors == [] && "border-slate-600 focus:border-pink-500",
+            @errors == [] && "border-slate-600 focus:border-brand-from",
             @errors != [] && "border-rose-400 focus:border-rose-400 focus:ring-rose-500"
           ]}
           {@rest}
@@ -1418,9 +1422,9 @@ defmodule WcsStudioWeb.CoreComponents do
         name={@name}
         class={[
           "block w-full rounded-lg text-white focus:ring-2 focus:ring-opacity-20 sm:text-sm sm:leading-6 transition-all duration-300 backdrop-blur-sm",
-          "phx-no-feedback:border-slate-600/50 phx-no-feedback:focus:border-pink-500/50",
-          "bg-surface-raised/50 border border-slate-600/50 px-4 py-3",
-          @errors == [] && "border-slate-600/50 focus:border-pink-500/50 focus:ring-pink-500",
+          "phx-no-feedback:border-surface-muted phx-no-feedback:focus:border-brand-from/50",
+          "bg-surface-raised/50 border border-surface-muted px-4 py-3",
+          @errors == [] && "border-surface-muted focus:border-brand-from/50 focus:ring-brand-from",
           @errors != [] && "border-rose-400 focus:border-rose-400 focus:ring-rose-500"
         ]}
         multiple={@multiple}
@@ -1443,9 +1447,9 @@ defmodule WcsStudioWeb.CoreComponents do
         name={@name}
         class={[
           "block w-full rounded-lg text-white placeholder-slate-400 focus:ring-2 focus:ring-opacity-20 sm:text-sm sm:leading-6 transition-all duration-300 backdrop-blur-sm",
-          "min-h-[6rem] phx-no-feedback:border-slate-600/50 phx-no-feedback:focus:border-pink-500/50",
-          "bg-surface-raised/50 border border-slate-600/50",
-          @errors == [] && "border-slate-600/50 focus:border-pink-500/50 focus:ring-pink-500",
+          "min-h-[6rem] phx-no-feedback:border-surface-muted phx-no-feedback:focus:border-brand-from/50",
+          "bg-surface-raised/50 border border-surface-muted",
+          @errors == [] && "border-surface-muted focus:border-brand-from/50 focus:ring-brand-from",
           @errors != [] && "border-rose-400 focus:border-rose-400 focus:ring-rose-500"
         ]}
         {@rest}
@@ -1467,9 +1471,9 @@ defmodule WcsStudioWeb.CoreComponents do
         value={Phoenix.HTML.Form.normalize_value(@type, @value)}
         class={[
           "block w-full rounded-lg text-white placeholder-slate-400 focus:ring-2 focus:ring-opacity-20 sm:text-sm sm:leading-6 transition-all duration-300 backdrop-blur-sm",
-          "phx-no-feedback:border-slate-600/50 phx-no-feedback:focus:border-pink-500/50",
-          "bg-surface-raised/50 border border-slate-600/50 px-4 py-3",
-          @errors == [] && "border-slate-600/50 focus:border-pink-500/50 focus:ring-pink-500",
+          "phx-no-feedback:border-surface-muted phx-no-feedback:focus:border-brand-from/50",
+          "bg-surface-raised/50 border border-surface-muted px-4 py-3",
+          @errors == [] && "border-surface-muted focus:border-brand-from/50 focus:ring-brand-from",
           @errors != [] && "border-rose-400 focus:border-rose-400 focus:ring-rose-500"
         ]}
         {@rest}

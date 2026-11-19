@@ -287,7 +287,7 @@ defmodule WcsStudioWeb.LessonsLive do
             "px-6 py-2 rounded-lg font-medium transition-all duration-300",
             if(@selected_dance_type_id == dance_type.id,
               do:
-                "bg-gradient-to-r from-brand-from to-brand-to text-white hover:shadow-raised hover:shadow-pink-500/25",
+                "bg-gradient-to-r from-brand-from to-brand-to text-white hover:shadow-raised hover:shadow-brand-from/25",
               else:
                 "bg-surface-raised/50 hover:bg-surface-muted/50 text-slate-300 border border-surface-muted/50"
             )
@@ -308,7 +308,7 @@ defmodule WcsStudioWeb.LessonsLive do
             "px-6 py-2 rounded-lg font-medium transition-all duration-300",
             if(@selected_level_id == level.id,
               do:
-                "bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-raised hover:shadow-blue-500/25",
+                "bg-gradient-to-r from-accent-info to-accent-info/80 text-white hover:shadow-raised hover:shadow-accent-info/25",
               else:
                 "bg-surface-raised/50 hover:bg-surface-muted/50 text-slate-300 border border-surface-muted/50"
             )
@@ -380,7 +380,7 @@ defmodule WcsStudioWeb.LessonsLive do
                     name="lesson[instructor_ids][]"
                     value={instructor.id}
                     checked={instructor.id in (@form[:instructor_ids].value || [])}
-                    class="rounded border-slate-600 bg-surface-raised/50 text-pink-500 focus:ring-2 focus:ring-pink-500 focus:ring-opacity-20 transition-all duration-300"
+                    class="rounded border-slate-600 bg-surface-raised/50 text-brand-from focus:ring-2 focus:ring-brand-from focus:ring-opacity-20 transition-all duration-300"
                   />
                   <span class="text-slate-200">{instructor.username}</span>
                 </label>
@@ -399,7 +399,7 @@ defmodule WcsStudioWeb.LessonsLive do
                     name="lesson[pattern_ids][]"
                     value={pattern.id}
                     checked={pattern.id in (@form[:pattern_ids].value || [])}
-                    class="rounded border-slate-600 bg-surface-raised/50 text-pink-500 focus:ring-2 focus:ring-pink-500 focus:ring-opacity-20 transition-all duration-300"
+                    class="rounded border-slate-600 bg-surface-raised/50 text-brand-from focus:ring-2 focus:ring-brand-from focus:ring-opacity-20 transition-all duration-300"
                   />
                   <span class="text-slate-200">{pattern.name}</span>
                 </label>
@@ -428,7 +428,7 @@ defmodule WcsStudioWeb.LessonsLive do
           on_cancel={JS.push("close_modal")}
           on_submit="update_lesson"
           submit_label={gettext("Update")}
-          submit_class="bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700"
+          submit_class="bg-gradient-to-r from-accent-info to-accent-info/80 hover:from-accent-info hover:to-accent-info/80"
         >
           <.input type="text" field={@form[:title]} label={gettext("Title")} />
 
@@ -443,7 +443,7 @@ defmodule WcsStudioWeb.LessonsLive do
                     name="lesson[instructor_ids][]"
                     value={instructor.id}
                     checked={instructor.id in instructor_ids}
-                    class="rounded border-slate-600 bg-surface-raised/50 text-pink-500 focus:ring-2 focus:ring-pink-500 focus:ring-opacity-20 transition-all duration-300"
+                    class="rounded border-slate-600 bg-surface-raised/50 text-brand-from focus:ring-2 focus:ring-brand-from focus:ring-opacity-20 transition-all duration-300"
                   />
                   <span class="text-slate-200">{instructor.username}</span>
                 </label>
@@ -462,7 +462,7 @@ defmodule WcsStudioWeb.LessonsLive do
                     name="lesson[pattern_ids][]"
                     value={pattern.id}
                     checked={pattern.id in pattern_ids}
-                    class="rounded border-slate-600 bg-surface-raised/50 text-pink-500 focus:ring-2 focus:ring-pink-500 focus:ring-opacity-20 transition-all duration-300"
+                    class="rounded border-slate-600 bg-surface-raised/50 text-brand-from focus:ring-2 focus:ring-brand-from focus:ring-opacity-20 transition-all duration-300"
                   />
                   <span class="text-slate-200">{pattern.name}</span>
                 </label>

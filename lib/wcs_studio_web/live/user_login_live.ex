@@ -12,7 +12,7 @@ defmodule WcsStudioWeb.UserLoginLive do
             {gettext("Don't have an account?")}
             <.link
               navigate={~p"/users/register"}
-              class="font-semibold text-pink-400 hover:text-pink-300 hover:underline transition-colors duration-300"
+              class="font-semibold text-brand-lightFrom hover:text-brand-lightFrom hover:underline transition-colors duration-300"
             >
               {gettext("Sign up")}
             </.link>
@@ -28,7 +28,7 @@ defmodule WcsStudioWeb.UserLoginLive do
             <.input field={@form[:remember_me]} type="checkbox" label={gettext("Keep me logged in")} />
             <.link
               href={~p"/users/reset_password"}
-              class="font-semibold text-pink-400 hover:text-pink-300 hover:underline transition-colors duration-300"
+              class="font-semibold text-brand-lightFrom hover:text-brand-lightFrom hover:underline transition-colors duration-300"
             >
               {gettext("Forgot your password ?")}
             </.link>
@@ -36,7 +36,7 @@ defmodule WcsStudioWeb.UserLoginLive do
           <:actions>
             <.button
               phx-disable-with="Logging in..."
-              class="w-full bg-gradient-to-r from-brand-from to-brand-hoverTo hover:from-brand-hoverFrom hover:to-brand-deepTo text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 hover:shadow-raised hover:shadow-pink-500/25 hover:-translate-y-0.5"
+              class="w-full bg-gradient-to-r from-brand-from to-brand-hoverTo hover:from-brand-hoverFrom hover:to-brand-deepTo text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 hover:shadow-raised hover:shadow-brand-from/25 hover:-translate-y-0.5"
             >
               {gettext("Log in")} <span aria-hidden="true">→</span>
             </.button>

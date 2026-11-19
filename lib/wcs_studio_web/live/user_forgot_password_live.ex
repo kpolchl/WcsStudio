@@ -18,7 +18,7 @@ defmodule WcsStudioWeb.UserForgotPasswordLive do
           <:actions>
             <.button
               phx-disable-with="Sending..."
-              class="w-full bg-gradient-to-r from-brand-from to-brand-hoverTo hover:from-brand-hoverFrom hover:to-brand-deepTo text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 hover:shadow-raised hover:shadow-pink-500/25 hover:-translate-y-0.5"
+              class="w-full bg-gradient-to-r from-brand-from to-brand-hoverTo hover:from-brand-hoverFrom hover:to-brand-deepTo text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 hover:shadow-raised hover:shadow-brand-from/25 hover:-translate-y-0.5"
             >
               Send password reset instructions
             </.button>
@@ -27,14 +27,14 @@ defmodule WcsStudioWeb.UserForgotPasswordLive do
         <p class="text-center text-sm mt-4">
           <.link
             href={~p"/users/register"}
-            class="text-pink-400 hover:text-pink-300 hover:underline transition-colors duration-300 font-medium"
+            class="text-brand-lightFrom hover:text-brand-lightFrom hover:underline transition-colors duration-300 font-medium"
           >
             Register
           </.link>
           |
           <.link
             href={~p"/users/log_in"}
-            class="text-pink-400 hover:text-pink-300 hover:underline transition-colors duration-300 font-medium"
+            class="text-brand-lightFrom hover:text-brand-lightFrom hover:underline transition-colors duration-300 font-medium"
           >
             Log in
           </.link>

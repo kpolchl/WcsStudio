@@ -113,7 +113,7 @@ defmodule WcsStudioWeb.DanceTypesLive do
             class={[
               "px-6 py-3 rounded-md font-medium transition-all duration-300 flex items-center",
               if @selected_dance_type_type == "all" do
-                "bg-gradient-to-r from-brand-from to-brand-to text-white shadow-raised shadow-pink-500/25"
+                "bg-gradient-to-r from-brand-from to-brand-to text-white shadow-raised shadow-brand-from/25"
               else
                 "bg-surface-raised/50 hover:bg-surface-muted/50 text-slate-300 border border-surface-muted/50"
               end
@@ -129,7 +129,7 @@ defmodule WcsStudioWeb.DanceTypesLive do
             class={[
               "px-6 py-3 rounded-md font-medium transition-all duration-300 flex items-center",
               if @selected_dance_type_type == "latin" do
-                "bg-gradient-to-r from-brand-from to-brand-to text-white shadow-raised shadow-pink-500/25"
+                "bg-gradient-to-r from-brand-from to-brand-to text-white shadow-raised shadow-brand-from/25"
               else
                 "bg-surface-raised/50 hover:bg-surface-muted/50 text-slate-300 border border-surface-muted/50"
               end
@@ -145,7 +145,7 @@ defmodule WcsStudioWeb.DanceTypesLive do
             class={[
               "px-6 py-3 rounded-md font-medium transition-all duration-300 flex items-center",
               if @selected_dance_type_type == "swing" do
-                "bg-gradient-to-r from-brand-from to-brand-to text-white shadow-raised shadow-pink-500/25"
+                "bg-gradient-to-r from-brand-from to-brand-to text-white shadow-raised shadow-brand-from/25"
               else
                 "bg-surface-raised/50 hover:bg-surface-muted/50 text-slate-300 border border-surface-muted/50"
               end
@@ -161,7 +161,7 @@ defmodule WcsStudioWeb.DanceTypesLive do
             class={[
               "px-6 py-3 rounded-md font-medium transition-all duration-300 flex items-center",
               if @selected_dance_type_type == "social" do
-                "bg-gradient-to-r from-brand-from to-brand-to text-white shadow-raised shadow-pink-500/25"
+                "bg-gradient-to-r from-brand-from to-brand-to text-white shadow-raised shadow-brand-from/25"
               else
                 "bg-surface-raised/50 hover:bg-surface-muted/50 text-slate-300 border border-surface-muted/50"
               end
@@ -180,7 +180,7 @@ defmodule WcsStudioWeb.DanceTypesLive do
           <%= for dance_type <- @dance_types do %>
             <.link
               navigate={~p"/patterns?dance_type_id=#{dance_type.id}"}
-              class="group relative flex flex-col h-80 rounded-lg overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-card border border-surface-muted/30 hover:border-slate-600/50"
+              class="group relative flex flex-col h-80 rounded-lg overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-card border border-surface-muted/30 hover:border-surface-muted"
             >
               <!-- Background -->
               <div
@@ -215,17 +215,17 @@ defmodule WcsStudioWeb.DanceTypesLive do
               <!-- Content Section (Bottom 40%) -->
               <div class="relative flex-1 flex flex-col justify-between p-6 z-10">
                 <div>
-                  <h3 class="text-xl font-bold text-white mb-2 group-hover:text-pink-200 transition-colors duration-300">
+                  <h3 class="text-xl font-bold text-white mb-2 group-hover:text-brand-lightFrom transition-colors duration-300">
                     {DanceType.get_name(dance_type, @locale)}
                   </h3>
                   <p class="text-slate-300 text-sm leading-relaxed line-clamp-2 flex items-center">
-                    <i class="fas fa-globe-americas mr-2 text-pink-400"></i>
+                    <i class="fas fa-globe-americas mr-2 text-brand-lightFrom"></i>
                     {DanceType.get_country(dance_type, @locale)}
                   </p>
                 </div>
 
                 <!-- CTA -->
-                <div class="flex items-center justify-between pt-3 border-t border-slate-600/50 group-hover:border-slate-500/50 transition-colors duration-300">
+                <div class="flex items-center justify-between pt-3 border-t border-surface-muted group-hover:border-slate-500/50 transition-colors duration-300">
                   <span
                     class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-white backdrop-blur-sm border border-white/20"
                     style="backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);"
@@ -233,7 +233,7 @@ defmodule WcsStudioWeb.DanceTypesLive do
                     <i class="fas fa-tag mr-1"></i>
                     {dance_type.type}
                   </span>
-                  <span class="text-pink-400 text-sm font-medium flex items-center gap-2 group-hover:gap-3 transition-all duration-300">
+                  <span class="text-brand-lightFrom text-sm font-medium flex items-center gap-2 group-hover:gap-3 transition-all duration-300">
                     {gettext("Explore")}
                     <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-300"></i>
                   </span>
