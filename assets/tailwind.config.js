@@ -28,12 +28,36 @@ module.exports = {
                     deepTo: '#7e22ce',    // purple-700 - deepest gradient hover
                 },
                 accent: {
-                    // Rolled back to the original hues (value-only change;
-                    // every template still uses these semantic tokens).
-                    info: '#3b82f6',    // blue-500 - links, info chips
-                    success: '#22c55e', // green-500 - learned / attended
-                    warning: '#facc15', // yellow-400 - in progress
-                    danger: '#ef4444',  // red-500 - delete / error
+                    // Each accent is a two-hue pair again, restored from the
+                    // original gradients: blue→cyan, green→emerald,
+                    // yellow→orange, red→pink. Templates only use these tokens.
+                    info: '#3b82f6',          // blue-500 - gradient start
+                    infoTo: '#06b6d4',        // cyan-500 - gradient end
+                    infoHoverFrom: '#2563eb', // blue-600
+                    infoHoverTo: '#0e7490',   // cyan-700
+                    infoLight: '#22d3ee',     // cyan-400 - progress bar start
+                    infoLightTo: '#60a5fa',   // blue-400 - progress bar end
+
+                    success: '#22c55e',          // green-500
+                    successTo: '#059669',        // emerald-600
+                    successHoverFrom: '#16a34a', // green-600
+                    successHoverTo: '#047857',   // emerald-700
+                    successLight: '#34d399',     // emerald-400
+                    successLightTo: '#4ade80',   // green-400
+
+                    warning: '#facc15',          // yellow-400
+                    warningTo: '#f97316',        // orange-500
+                    warningHoverFrom: '#eab308', // yellow-500
+                    warningHoverTo: '#ea580c',   // orange-600
+                    warningLight: '#fbbf24',     // amber-400
+                    warningLightTo: '#fb923c',   // orange-400
+
+                    danger: '#ef4444',          // red-500
+                    dangerTo: '#ec4899',        // pink-500
+                    dangerHoverFrom: '#dc2626', // red-600
+                    dangerHoverTo: '#be185d',   // pink-700
+                    dangerLight: '#fb7185',     // rose-400
+                    dangerLightTo: '#f472b6',   // pink-400
                 },
                 hero: {
                     'ambient-1': '#4c1d95', // purple-900 - tokenized hero wash

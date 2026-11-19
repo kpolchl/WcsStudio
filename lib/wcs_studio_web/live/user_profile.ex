@@ -72,7 +72,7 @@ defmodule WcsStudioWeb.UserProfile do
     <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 -py-8">
       <!-- Hero Section with Profile -->
       <div class="mb-8">
-        <div class="bg-gradient-to-r from-accent-info/20 via-accent-info/20 to-accent-info/20 backdrop-blur-xl border border-white/10 rounded-xl p-2 shadow-card relative overflow-hidden">
+        <div class="bg-gradient-to-r from-accent-infoHoverFrom/20 via-accent-infoTo/20 to-brand-hoverTo/20 backdrop-blur-xl border border-white/10 rounded-xl p-2 shadow-card relative overflow-hidden">
           <div class="relative flex flex-col lg:flex-row items-center lg:items-start gap-8">
             <!-- Profile Image -->
             <div class="flex-shrink-0 p-4">
@@ -219,7 +219,7 @@ defmodule WcsStudioWeb.UserProfile do
           <div class="bg-surface-raised/40 backdrop-blur-xl border border-white/10 rounded-lg p-6 shadow-card hover:border-white/20">
             <div class="flex items-center justify-between mb-6">
               <h3 class="text-lg font-semibold text-strong flex items-center gap-2">
-                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-accent-info to-accent-info/80 flex items-center justify-center">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-accent-info to-accent-infoTo flex items-center justify-center">
                   <i class="fas fa-chart-pie text-sm"></i>
                 </div>
                 <span>{gettext("Lesson Attendance")}</span>

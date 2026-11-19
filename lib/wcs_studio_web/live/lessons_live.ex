@@ -308,7 +308,7 @@ defmodule WcsStudioWeb.LessonsLive do
             "px-6 py-2 rounded-lg font-medium transition-all duration-300",
             if(@selected_level_id == level.id,
               do:
-                "bg-gradient-to-r from-accent-info to-accent-info/80 text-strong hover:shadow-raised hover:shadow-accent-info/25",
+                "bg-gradient-to-r from-accent-info to-accent-infoTo text-strong hover:shadow-raised hover:shadow-accent-info/25",
               else:
                 "bg-surface-raised/50 hover:bg-surface-muted/50 text-body border border-surface-muted/50"
             )

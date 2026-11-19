@@ -54,21 +54,48 @@ These resolve conflicts between the remediation plan and the state of the codeba
 
 ### Semantic accents (`theme.extend.colors.accent`)
 
+Each accent is a **two-hue pair**. The original gradients were restored after
+the value-only color rollback: blue→cyan, green→emerald, yellow→orange and
+red→pink. Templates never contain raw palette names — every hue lives here.
+
 | Token | Value | Purpose |
 |---|---|---|
-| `accent-info` | `#3b82f6` | links, informational chips (blue-500, restored) |
-| `accent-success` | `#22c55e` | "learned", "attended" (green-500, restored) |
-| `accent-warning` | `#facc15` | "in progress" (yellow-400, restored) |
-| `accent-danger` | `#ef4444` | delete/error (red-500, restored) |
+| `accent-info` | `#3b82f6` | blue-500 — gradient start, links, info chips |
+| `accent-infoTo` | `#06b6d4` | cyan-500 — gradient end |
+| `accent-infoHoverFrom` | `#2563eb` | blue-600 — hover start |
+| `accent-infoHoverTo` | `#0e7490` | cyan-700 — hover end |
+| `accent-infoLight` | `#22d3ee` | cyan-400 — progress bar start |
+| `accent-infoLightTo` | `#60a5fa` | blue-400 — progress bar end |
+| `accent-success` | `#22c55e` | green-500 — gradient start, "learned" |
+| `accent-successTo` | `#059669` | emerald-600 — gradient end |
+| `accent-successHoverFrom` | `#16a34a` | green-600 |
+| `accent-successHoverTo` | `#047857` | emerald-700 |
+| `accent-successLight` | `#34d399` | emerald-400 — progress bar start |
+| `accent-successLightTo` | `#4ade80` | green-400 — progress bar end |
+| `accent-warning` | `#facc15` | yellow-400 — gradient start, "in progress" |
+| `accent-warningTo` | `#f97316` | orange-500 — gradient end |
+| `accent-warningHoverFrom` | `#eab308` | yellow-500 |
+| `accent-warningHoverTo` | `#ea580c` | orange-600 |
+| `accent-warningLight` | `#fbbf24` | amber-400 — progress bar start |
+| `accent-warningLightTo` | `#fb923c` | orange-400 — progress bar end |
+| `accent-danger` | `#ef4444` | red-500 — gradient start, delete/error |
+| `accent-dangerTo` | `#ec4899` | pink-500 — gradient end |
+| `accent-dangerHoverFrom` | `#dc2626` | red-600 |
+| `accent-dangerHoverTo` | `#be185d` | pink-700 |
+| `accent-dangerLight` | `#fb7185` | rose-400 — progress bar start |
+| `accent-dangerLightTo` | `#f472b6` | pink-400 — progress bar end |
 
-The accent values were rolled back to the original hues after Phase 8. This was
-a **value-only** change: templates remain tokenized, so a future palette change
-again only needs the four values above. Some surfaces that originally mixed two
-hues (e.g. blue→cyan gradients) now use a single rolled-back hue because all
-gradients were normalized to `from-X to-X/80` in Phase 1.
+Gradient rules:
 
-Gradients use the form `from-accent-X to-accent-X/80`. Never pair two different
-accent hues in one gradient.
+- Accent gradients pair `from-accent-X` with `to-accent-XTo`; hover states use
+  `hover:from-accent-XHoverFrom hover:to-accent-XHoverTo`; flash progress bars
+  use `from-accent-XLight to-accent-XLightTo`.
+- The single-hue `from-accent-X to-accent-X/80` form from Phase 1 is **retired**.
+  It was only a placeholder for the original two-hue pairs.
+- The brand gradient is unchanged: `from-brand-from to-brand-to`
+  (pink-500 → purple-500), with `brand-hoverFrom` / `brand-hoverTo` on hover.
+- The user-profile ambient wash restores blue→cyan→purple using
+  `from-accent-infoHoverFrom/20 via-accent-infoTo/20 to-brand-hoverTo/20`.
 
 ### Text (`theme.extend.colors` top-level aliases)
 

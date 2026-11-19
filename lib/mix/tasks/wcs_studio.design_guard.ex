@@ -22,7 +22,10 @@ defmodule Mix.Tasks.WcsStudio.DesignGuard do
     {"forbidden radius", ~r/\brounded-(?:none|2xl|3xl)\b/},
     {"off-scale spacing",
      ~r/\b(?:py-2\.5|px-5|py-3\.5|px-3\.5|gap-5|gap-7|mt-1\.5|mb-1\.5|py-1\.5)\b/},
-    {"raw slate text color", ~r/\btext-slate-/}
+    {"raw slate text color", ~r/\btext-slate-/},
+    {"retired single-hue accent gradient",
+     ~r/\bfrom-accent-(info|success|warning|danger) to-accent-\1\/80\b/},
+    {"retired accent /80 stop", ~r/\b(?:hover:)?to-accent-(?:info|success|warning|danger)\/80\b/}
   ]
 
   @impl Mix.Task

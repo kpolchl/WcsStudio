@@ -143,7 +143,7 @@ defmodule WcsStudioWeb.CoreComponents do
       <:subtitle>{@message}</:subtitle>
       <div>
         <!-- Warning Icon -->
-        <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-accent-danger to-accent-danger/80 mb-4">
+        <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-accent-danger to-accent-dangerTo mb-4">
           <i class="fas fa-exclamation-triangle text-strong text-2xl"></i>
         </div>
 
@@ -380,7 +380,7 @@ defmodule WcsStudioWeb.CoreComponents do
           <div class="p-6 flex items-start justify-between">
             <div class="flex-1 min-w-0">
               <div class="flex flex-wrap gap-1 sm:gap-2 mb-2 sm:mb-3">
-                <span class="px-2 sm:px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-brand-from/20 to-brand-to/20 text-brand-lightTo border border-accent-info/30">
+                <span class="px-2 sm:px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-brand-from/20 to-accent-warningTo/20 text-brand-lightTo border border-accent-info/30">
                   {WcsStudio.DanceType.get_name(@pattern.dance_type, @locale)}
                 </span>
                 <%= if not @is_child && not Enum.empty?(@children) do %>
@@ -421,7 +421,7 @@ defmodule WcsStudioWeb.CoreComponents do
               <div class="mb-4">
                 <div class="p-4 rounded-md bg-surface-muted/30 border border-surface-muted shadow-raised">
                   <div class="flex items-center mb-4">
-                    <div class="w-10 h-10 rounded-md bg-gradient-to-br from-accent-warning to-accent-warning/80 flex items-center justify-center mr-3 shadow-raised">
+                    <div class="w-10 h-10 rounded-md bg-gradient-to-br from-accent-warning to-accent-warningTo flex items-center justify-center mr-3 shadow-raised">
                       <i class="fas fa-list-ul text-strong text-sm"></i>
                     </div>
                     <h2 class="text-2xl font-bold text-strong">{gettext("Description")}</h2>
@@ -448,7 +448,7 @@ defmodule WcsStudioWeb.CoreComponents do
               <%= if @expanded_pattern_id == @pattern.id do %>
                 <div class="rounded-md bg-surface-muted/30 border border-surface-muted shadow-raised">
                   <div class="flex items-center mb-4 pt-4 pl-4 pr-4">
-                    <div class="w-10 h-10 rounded-md bg-gradient-to-br from-accent-danger to-accent-danger/80 flex items-center justify-center mr-3 shadow-raised">
+                    <div class="w-10 h-10 rounded-md bg-gradient-to-br from-accent-danger to-accent-dangerTo flex items-center justify-center mr-3 shadow-raised">
                       <i class="fas fa-play text-strong text-sm"></i>
                     </div>
                     <h2 class="text-2xl font-bold text-strong">{gettext("Showcase Video")}</h2>
@@ -610,7 +610,7 @@ defmodule WcsStudioWeb.CoreComponents do
               <i class="fas fa-music mr-1"></i>
               {WcsStudio.DanceType.get_name(@lesson.dance_type, @locale)}
             </span>
-            <span class="px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-accent-success/20 to-accent-success/10 text-accent-success border border-accent-success/30">
+            <span class="px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-accent-success/20 to-accent-successTo/20 text-accent-success border border-accent-success/30">
               <i class="fas fa-chart-line mr-1"></i>
               {@lesson.level.name}
             </span>
@@ -630,7 +630,7 @@ defmodule WcsStudioWeb.CoreComponents do
           </div>
         </div>
         <div class="flex-shrink-0 transition-transform duration-300 ml-4 group">
-          <div class="w-12 h-12 rounded-md bg-gradient-to-br from-accent-info to-accent-info/80 flex items-center justify-center shadow-raised">
+          <div class="w-12 h-12 rounded-md bg-gradient-to-br from-accent-info to-accent-infoTo flex items-center justify-center shadow-raised">
             <i class={[
               "fas fa-chevron-down text-strong transition-transform duration-300",
               if(@expanded_lesson_id == @lesson.id, do: "rotate-180", else: "group-hover:rotate-180")
@@ -665,7 +665,7 @@ defmodule WcsStudioWeb.CoreComponents do
           <!-- Patterns Box -->
           <div class="p-4 rounded-md bg-surface-muted/30 backdrop-blur-sm border border-surface-muted shadow-raised">
             <div class="flex items-center mb-4">
-              <div class="w-10 h-10 rounded-md bg-gradient-to-br from-accent-info to-accent-info/80 flex items-center justify-center mr-3 shadow-raised">
+              <div class="w-10 h-10 rounded-md bg-gradient-to-br from-accent-info to-accent-infoTo flex items-center justify-center mr-3 shadow-raised">
                 <i class="fas fa-shapes text-strong text-sm"></i>
               </div>
               <h2 class="text-xl font-bold text-strong">{gettext("Patterns")}</h2>
@@ -710,7 +710,7 @@ defmodule WcsStudioWeb.CoreComponents do
         <%= if @expanded_lesson_id == @lesson.id do %>
           <div class="rounded-md bg-surface-muted/30 backdrop-blur-sm border border-surface-muted shadow-raised">
             <div class="flex items-center mb-4 pt-4 pl-4 pr-4">
-              <div class="w-10 h-10 rounded-md bg-gradient-to-br from-accent-danger to-accent-danger/80 flex items-center justify-center mr-3 shadow-raised">
+              <div class="w-10 h-10 rounded-md bg-gradient-to-br from-accent-danger to-accent-dangerTo flex items-center justify-center mr-3 shadow-raised">
                 <i class="fas fa-play text-strong text-sm"></i>
               </div>
               <h2 class="text-xl font-bold text-strong">{gettext("Video Lesson")}</h2>
@@ -879,10 +879,10 @@ defmodule WcsStudioWeb.CoreComponents do
         <!-- Icon Container -->
         <div class={[
           "flex-shrink-0 w-10 h-10 rounded-md flex items-center justify-center shadow-raised",
-          @kind == :info && "bg-gradient-to-br from-accent-info to-accent-info/80",
-          @kind == :error && "bg-gradient-to-br from-accent-danger to-accent-danger/80",
-          @kind == :warning && "bg-gradient-to-br from-accent-warning to-accent-warning/80",
-          @kind == :success && "bg-gradient-to-br from-accent-success to-accent-success/80"
+          @kind == :info && "bg-gradient-to-br from-accent-infoTo to-accent-info",
+          @kind == :error && "bg-gradient-to-br from-accent-danger to-accent-dangerTo",
+          @kind == :warning && "bg-gradient-to-br from-accent-warning to-accent-warningTo",
+          @kind == :success && "bg-gradient-to-br from-accent-successTo to-accent-success"
         ]}>
           <i class={[
             "text-strong text-sm",
@@ -923,10 +923,10 @@ defmodule WcsStudioWeb.CoreComponents do
         <div
           class={[
             "h-full rounded-full progress-bar",
-            @kind == :info && "bg-gradient-to-r from-accent-info to-accent-info/80",
-            @kind == :error && "bg-gradient-to-r from-accent-danger to-accent-danger/80",
-            @kind == :warning && "bg-gradient-to-r from-accent-warning to-accent-warning/80",
-            @kind == :success && "bg-gradient-to-r from-accent-success to-accent-success/80"
+            @kind == :info && "bg-gradient-to-r from-accent-infoLight to-accent-infoLightTo",
+            @kind == :error && "bg-gradient-to-r from-accent-dangerLight to-accent-dangerLightTo",
+            @kind == :warning && "bg-gradient-to-r from-accent-warningLight to-accent-warningLightTo",
+            @kind == :success && "bg-gradient-to-r from-accent-successLight to-accent-successLightTo"
           ]}
           style="width: 0"
         >
@@ -1074,19 +1074,19 @@ defmodule WcsStudioWeb.CoreComponents do
 
   defp button_variant(:danger),
     do:
-      "bg-gradient-to-r from-accent-danger to-accent-danger/80 hover:from-accent-danger hover:to-accent-danger/80 text-strong shadow-raised hover:shadow-accent-danger/25 hover:-translate-y-0.5"
+      "bg-gradient-to-r from-accent-danger to-accent-dangerTo hover:from-accent-dangerHoverFrom hover:to-accent-dangerHoverTo text-strong shadow-raised hover:shadow-accent-danger/25 hover:-translate-y-0.5"
 
   defp button_variant(:info),
     do:
-      "bg-gradient-to-r from-accent-info to-accent-info/80 hover:from-accent-info hover:to-accent-info/80 text-strong shadow-raised hover:shadow-accent-info/25 hover:-translate-y-0.5"
+      "bg-gradient-to-r from-accent-info to-accent-infoTo hover:from-accent-infoHoverFrom hover:to-accent-infoHoverTo text-strong shadow-raised hover:shadow-accent-info/25 hover:-translate-y-0.5"
 
   defp button_variant(:warning),
     do:
-      "bg-gradient-to-r from-accent-warning to-accent-warning/80 hover:from-accent-warning hover:to-accent-warning/80 text-strong shadow-raised hover:shadow-accent-warning/25 hover:-translate-y-0.5"
+      "bg-gradient-to-r from-accent-warning to-accent-warningTo hover:from-accent-warningHoverFrom hover:to-accent-warningHoverTo text-strong shadow-raised hover:shadow-accent-warning/25 hover:-translate-y-0.5"
 
   defp button_variant(:success),
     do:
-      "bg-gradient-to-r from-accent-success to-accent-success/80 hover:from-accent-success hover:to-accent-success/80 text-strong shadow-raised hover:shadow-accent-success/50 hover:-translate-y-0.5"
+      "bg-gradient-to-r from-accent-success to-accent-successTo hover:from-accent-successHoverFrom hover:to-accent-successHoverTo text-strong shadow-raised hover:shadow-accent-success/50 hover:-translate-y-0.5"
 
   defp button_size(:sm), do: "px-3 py-2 text-sm"
   defp button_size(:md), do: "px-4 py-2 text-sm"

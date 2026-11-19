@@ -330,7 +330,8 @@ defmodule WcsStudioWeb.CoreComponentsTest do
         """)
 
       assert html =~ "Update"
-      assert html =~ "from-accent-info"
+      assert html =~ "from-accent-info to-accent-infoTo"
+      assert html =~ "hover:from-accent-infoHoverFrom hover:to-accent-infoHoverTo"
     end
   end
 
