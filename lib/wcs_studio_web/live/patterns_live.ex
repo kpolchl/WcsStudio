@@ -366,7 +366,7 @@ defmodule WcsStudioWeb.PatternsLive do
             <button
               type="button"
               phx-click="toggle_dropdown"
-              class="w-full h-full py-3 pl-4 pr-4 text-left bg-surface-muted/50 text-slate-200 border border-surface-muted rounded-lg hover:border-brand-from/40 focus:outline-none focus:ring-1 focus:ring-brand-from transition-all duration-200 flex items-center justify-between"
+              class="w-full h-full py-3 pl-4 pr-4 text-left bg-surface-muted/50 text-body border border-surface-muted rounded-lg hover:border-brand-from/40 focus:outline-none focus:ring-1 focus:ring-brand-from transition-all duration-200 flex items-center justify-between"
             >
               <div class="flex items-center">
                 <span>
@@ -378,7 +378,7 @@ defmodule WcsStudioWeb.PatternsLive do
                 </span>
               </div>
               <i class={[
-                "fas fa-chevron-down text-slate-400 text-xs transition-transform duration-300",
+                "fas fa-chevron-down text-muted text-xs transition-transform duration-300",
                 if(@dropdown_open, do: "rotate-180", else: "group-hover:rotate-180")
               ]}></i>
             </button>
@@ -397,8 +397,8 @@ defmodule WcsStudioWeb.PatternsLive do
                       class={[
                         "w-full text-left px-4 py-2 text-sm transition-all duration-150",
                         if(dance_type.id == @dance_type_id,
-                          do: "bg-brand-hoverFrom/40 text-white",
-                          else: "hover:bg-surface-muted/70 text-slate-200"
+                          do: "bg-brand-hoverFrom/40 text-strong",
+                          else: "hover:bg-surface-muted/70 text-body"
                         )
                       ]}
                     >
@@ -416,7 +416,7 @@ defmodule WcsStudioWeb.PatternsLive do
           <form id="patterns-search" phx-change="search" class="h-full">
             <div class="relative h-full">
               <div class="pl-1 absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                <i class="fas fa-search text-slate-400 text-sm"></i>
+                <i class="fas fa-search text-muted text-sm"></i>
               </div>
               <div class="relative">
                 <input
@@ -426,7 +426,7 @@ defmodule WcsStudioWeb.PatternsLive do
                   placeholder="Type to search"
                   class="relative z-10 w-full h-full
                          pl-10 pr-8 py-3
-                         bg-surface-muted/50 text-slate-200
+                         bg-surface-muted/50 text-body
                          border border-surface-muted
                          rounded-lg
                          focus:outline-none focus:ring-1 focus:ring-accent-info"
@@ -511,7 +511,7 @@ defmodule WcsStudioWeb.PatternsLive do
           <!-- Child pattern selector -->
           <%= if not Enum.empty?(@child_candidates) do %>
             <div class="mt-4">
-              <label class="block text-sm font-medium text-slate-300 mb-2">
+              <label class="block text-sm font-medium text-body mb-2">
                 <i class="fas fa-sitemap mr-1"></i>
                 {gettext("Variations (children)")}
               </label>
@@ -526,7 +526,7 @@ defmodule WcsStudioWeb.PatternsLive do
                       if(MapSet.member?(@selected_child_ids, candidate.id),
                         do: "bg-brand-from/20 border-brand-from/50 text-brand-lightFrom",
                         else:
-                          "bg-surface-muted/40 border-slate-600/40 text-slate-300 hover:border-brand-from/30"
+                          "bg-surface-muted/40 border-slate-600/40 text-body hover:border-brand-from/30"
                       )
                     ]}
                   >
@@ -573,7 +573,7 @@ defmodule WcsStudioWeb.PatternsLive do
           <!-- Child pattern selector -->
           <%= if not Enum.empty?(@child_candidates) do %>
             <div class="mt-4">
-              <label class="block text-sm font-medium text-slate-300 mb-2">
+              <label class="block text-sm font-medium text-body mb-2">
                 <i class="fas fa-sitemap mr-1"></i>
                 {gettext("Variations (children)")}
               </label>
@@ -588,7 +588,7 @@ defmodule WcsStudioWeb.PatternsLive do
                       if(MapSet.member?(@selected_child_ids, candidate.id),
                         do: "bg-brand-from/20 border-brand-from/50 text-brand-lightFrom",
                         else:
-                          "bg-surface-muted/40 border-slate-600/40 text-slate-300 hover:border-brand-from/30"
+                          "bg-surface-muted/40 border-slate-600/40 text-body hover:border-brand-from/30"
                       )
                     ]}
                   >

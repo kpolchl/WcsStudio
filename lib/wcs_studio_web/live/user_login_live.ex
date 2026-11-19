@@ -36,7 +36,7 @@ defmodule WcsStudioWeb.UserLoginLive do
           <:actions>
             <.button
               phx-disable-with="Logging in..."
-              class="w-full bg-gradient-to-r from-brand-from to-brand-hoverTo hover:from-brand-hoverFrom hover:to-brand-deepTo text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 hover:shadow-raised hover:shadow-brand-from/25 hover:-translate-y-0.5"
+              class="w-full bg-gradient-to-r from-brand-from to-brand-hoverTo hover:from-brand-hoverFrom hover:to-brand-deepTo text-strong font-medium py-3 px-6 rounded-lg transition-all duration-300 hover:shadow-raised hover:shadow-brand-from/25 hover:-translate-y-0.5"
             >
               {gettext("Log in")} <span aria-hidden="true">→</span>
             </.button>

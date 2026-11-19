@@ -114,14 +114,14 @@ defmodule WcsStudioWeb.BlogPostLive do
           <div class="flex gap-2">
             <button
               phx-click="edit_post"
-              class="bg-accent-info hover:bg-accent-info text-white px-4 py-2 rounded-lg transition-colors flex items-center gap-2"
+              class="bg-accent-info hover:bg-accent-info text-strong px-4 py-2 rounded-lg transition-colors flex items-center gap-2"
             >
               <i class="fas fa-edit"></i>
               {gettext("Edit Post")}
             </button>
             <button
               phx-click="delete_post"
-              class="bg-accent-danger hover:bg-accent-danger text-white px-4 py-2 rounded-lg transition-colors flex items-center gap-2"
+              class="bg-accent-danger hover:bg-accent-danger text-strong px-4 py-2 rounded-lg transition-colors flex items-center gap-2"
               onclick="return confirm('Are you sure you want to delete this post?');"
             >
               <i class="fas fa-trash"></i>
@@ -137,7 +137,7 @@ defmodule WcsStudioWeb.BlogPostLive do
       <%= if @editing_post do %>
         <!-- Edit Post Form -->
         <div class="bg-surface-raised/30 backdrop-blur-sm rounded-lg border border-surface-muted/50 p-8">
-          <h2 class="text-3xl font-bold text-white mb-6">Edit Post</h2>
+          <h2 class="text-3xl font-bold text-strong mb-6">Edit Post</h2>
 
           <.form for={@edit_form} phx-submit="update_post">
             <div class="space-y-4">
@@ -145,21 +145,21 @@ defmodule WcsStudioWeb.BlogPostLive do
                 type="text"
                 field={@edit_form[:title]}
                 label="Title"
-                class="w-full px-4 py-3 bg-surface-base/50 border border-slate-600 rounded-md text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-to focus:border-transparent"
+                class="w-full px-4 py-3 bg-surface-base/50 border border-slate-600 rounded-md text-strong placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-to focus:border-transparent"
               />
 
               <.input
                 type="text"
                 field={@edit_form[:subject]}
                 label="Subject"
-                class="w-full px-4 py-3 bg-surface-base/50 border border-slate-600 rounded-md text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-to focus:border-transparent"
+                class="w-full px-4 py-3 bg-surface-base/50 border border-slate-600 rounded-md text-strong placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-to focus:border-transparent"
               />
 
               <.input
                 type="textarea"
                 field={@edit_form[:body]}
                 label="Body"
-                class="w-full px-4 py-3 bg-surface-base/50 border border-slate-600 rounded-md text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-to focus:border-transparent"
+                class="w-full px-4 py-3 bg-surface-base/50 border border-slate-600 rounded-md text-strong placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-to focus:border-transparent"
                 rows="10"
               />
 
@@ -167,7 +167,7 @@ defmodule WcsStudioWeb.BlogPostLive do
                 type="text"
                 field={@edit_form[:tags]}
                 label="Tags (format: :tag1:tag2:tag_n:)"
-                class="w-full px-4 py-3 bg-surface-base/50 border border-slate-600 rounded-md text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-to focus:border-transparent"
+                class="w-full px-4 py-3 bg-surface-base/50 border border-slate-600 rounded-md text-strong placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-to focus:border-transparent"
               />
             </div>
 
@@ -180,7 +180,7 @@ defmodule WcsStudioWeb.BlogPostLive do
               <button
                 type="button"
                 phx-click="cancel_edit"
-                class="px-6 py-3 bg-slate-600 hover:bg-surface-muted text-white font-medium rounded-md transition-colors"
+                class="px-6 py-3 bg-slate-600 hover:bg-surface-muted text-strong font-medium rounded-md transition-colors"
               >
                 <i class="fas fa-times mr-2"></i>
                 {gettext("Cancel")}
@@ -194,7 +194,7 @@ defmodule WcsStudioWeb.BlogPostLive do
         <header class="mb-12">
           <!-- Meta Information -->
           <div class="flex items-center gap-3 mb-6">
-            <span class="text-slate-400">
+            <span class="text-muted">
               <%= if @post.inserted_at do %>
                 {Calendar.strftime(@post.inserted_at, "%B %d, %Y")}
               <% else %>
@@ -204,7 +204,7 @@ defmodule WcsStudioWeb.BlogPostLive do
           </div>
 
           <!-- Title -->
-          <h1 class="text-5xl font-bold text-white mb-6 leading-tight">
+          <h1 class="text-5xl font-bold text-strong mb-6 leading-tight">
             {@post.title}
           </h1>
 
@@ -216,15 +216,15 @@ defmodule WcsStudioWeb.BlogPostLive do
               alt={@post.user.username}
             />
             <div>
-              <p class="font-semibold text-white text-lg">{@post.user.username}</p>
-              <p class="text-slate-400">{@post.user.role}</p>
+              <p class="font-semibold text-strong text-lg">{@post.user.username}</p>
+              <p class="text-muted">{@post.user.role}</p>
             </div>
           </div>
         </header>
 
         <!-- Article Content -->
         <div class="prose prose-invert prose-lg max-w-none mb-16">
-          <div class="bg-surface-raised/30 backdrop-blur-sm rounded-lg border border-surface-muted/50 p-8 text-slate-200 leading-relaxed">
+          <div class="bg-surface-raised/30 backdrop-blur-sm rounded-lg border border-surface-muted/50 p-8 text-body leading-relaxed">
             {format_content(@post.body)}
           </div>
         </div>
@@ -232,7 +232,7 @@ defmodule WcsStudioWeb.BlogPostLive do
         <!-- Article Footer / Tags -->
         <div class="border-t border-surface-muted pt-8 mb-12">
           <div class="flex flex-wrap items-center gap-3">
-            <span class="text-slate-400">Tags:</span>
+            <span class="text-muted">Tags:</span>
             <%= for tag <- Post.parse_tags(@post.tags) do %>
               <span class="px-3 py-1 rounded-full text-sm bg-brand-to/20 text-brand-lightTo border border-accent-info/30">
                 {tag}
@@ -246,10 +246,10 @@ defmodule WcsStudioWeb.BlogPostLive do
       <%= if !@editing_post do %>
         <section class="mt-16">
           <div class="bg-surface-raised/30 backdrop-blur-sm rounded-lg border border-surface-muted/50 p-8">
-            <h2 class="text-3xl font-bold text-white mb-8 flex items-center gap-3">
+            <h2 class="text-3xl font-bold text-strong mb-8 flex items-center gap-3">
               <i class="fas fa-comments text-brand-lightTo"></i>
               {gettext("Comments")}
-              <span class="text-lg font-normal text-slate-400">({length(@post.comments)})</span>
+              <span class="text-lg font-normal text-muted">({length(@post.comments)})</span>
             </h2>
 
             <!-- Add Comment Form -->
@@ -257,14 +257,14 @@ defmodule WcsStudioWeb.BlogPostLive do
               <div class="mb-10">
                 <.simple_form for={%{}} phx-submit="add_comment">
                   <div class="mb-4">
-                    <label class="block text-slate-300 font-medium mb-2">
+                    <label class="block text-body font-medium mb-2">
                       {gettext("Add your thoughts")}
                     </label>
                     <textarea
                       name="comment[body]"
                       rows="4"
                       required
-                      class="w-full px-4 py-3 bg-surface-base/50 border border-slate-600 rounded-md text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-to focus:border-transparent transition-all"
+                      class="w-full px-4 py-3 bg-surface-base/50 border border-slate-600 rounded-md text-strong placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-to focus:border-transparent transition-all"
                       placeholder={gettext("Share your thoughts on this article...")}
                     ></textarea>
                   </div>
@@ -278,10 +278,10 @@ defmodule WcsStudioWeb.BlogPostLive do
               </div>
             <% else %>
               <div class="mb-10 p-6 bg-surface-base/50 border border-slate-600 rounded-md text-center">
-                <p class="text-slate-300 mb-3">{gettext("Sign in to leave a comment")}</p>
+                <p class="text-body mb-3">{gettext("Sign in to leave a comment")}</p>
                 <.link
                   navigate={~p"/users/log_in"}
-                  class="inline-block px-6 py-2 bg-brand-to text-white rounded-lg hover:bg-brand-hoverTo transition-colors"
+                  class="inline-block px-6 py-2 bg-brand-to text-strong rounded-lg hover:bg-brand-hoverTo transition-colors"
                 >
                   {gettext("Sign In")}
                 </.link>
@@ -307,8 +307,8 @@ defmodule WcsStudioWeb.BlogPostLive do
                       />
                       <div class="flex-1">
                         <div class="flex items-center gap-3 mb-2">
-                          <span class="font-semibold text-white">{comment.user.username}</span>
-                          <span class="text-sm text-slate-500">
+                          <span class="font-semibold text-strong">{comment.user.username}</span>
+                          <span class="text-sm text-subtle">
                             <%= if comment.inserted_at do %>
                               {Calendar.strftime(comment.inserted_at, "%b %d, %Y at %I:%M %p")}
                             <% else %>
@@ -316,7 +316,7 @@ defmodule WcsStudioWeb.BlogPostLive do
                             <% end %>
                           </span>
                         </div>
-                        <p class="text-slate-300 leading-relaxed">{comment.body}</p>
+                        <p class="text-body leading-relaxed">{comment.body}</p>
                       </div>
                     </div>
                   </div>

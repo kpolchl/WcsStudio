@@ -1047,3 +1047,13 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "read"
 msgstr ""
+
+#: lib/wcs_studio/accounts.ex
+#, elixir-autogen, elixir-format
+msgid "Admin"
+msgstr ""
+
+#: lib/wcs_studio/accounts.ex
+#, elixir-autogen, elixir-format
+msgid "Member"
+msgstr ""

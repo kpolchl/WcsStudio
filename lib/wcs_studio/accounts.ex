@@ -8,6 +8,13 @@ defmodule WcsStudio.Accounts do
 
   alias WcsStudio.Accounts.{User, UserNotifier, UserToken}
 
+  use Gettext, backend: WcsStudioWeb.Gettext
+
+  @doc "Human-readable role label for display in the navigation."
+  def role_label("admin"), do: gettext("Admin")
+  def role_label("user"), do: gettext("Member")
+  def role_label(other), do: other
+
   ## Database getters
 
   @doc """

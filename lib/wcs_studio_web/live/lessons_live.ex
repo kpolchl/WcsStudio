@@ -287,9 +287,9 @@ defmodule WcsStudioWeb.LessonsLive do
             "px-6 py-2 rounded-lg font-medium transition-all duration-300",
             if(@selected_dance_type_id == dance_type.id,
               do:
-                "bg-gradient-to-r from-brand-from to-brand-to text-white hover:shadow-raised hover:shadow-brand-from/25",
+                "bg-gradient-to-r from-brand-from to-brand-to text-strong hover:shadow-raised hover:shadow-brand-from/25",
               else:
-                "bg-surface-raised/50 hover:bg-surface-muted/50 text-slate-300 border border-surface-muted/50"
+                "bg-surface-raised/50 hover:bg-surface-muted/50 text-body border border-surface-muted/50"
             )
           ]}
         >
@@ -308,9 +308,9 @@ defmodule WcsStudioWeb.LessonsLive do
             "px-6 py-2 rounded-lg font-medium transition-all duration-300",
             if(@selected_level_id == level.id,
               do:
-                "bg-gradient-to-r from-accent-info to-accent-info/80 text-white hover:shadow-raised hover:shadow-accent-info/25",
+                "bg-gradient-to-r from-accent-info to-accent-info/80 text-strong hover:shadow-raised hover:shadow-accent-info/25",
               else:
-                "bg-surface-raised/50 hover:bg-surface-muted/50 text-slate-300 border border-surface-muted/50"
+                "bg-surface-raised/50 hover:bg-surface-muted/50 text-body border border-surface-muted/50"
             )
           ]}
         >
@@ -371,7 +371,7 @@ defmodule WcsStudioWeb.LessonsLive do
 
           <!-- Instructors -->
           <div class="space-y-2">
-            <label class="block text-sm font-semibold text-slate-200">{gettext("Instructors")}</label>
+            <label class="block text-sm font-semibold text-body">{gettext("Instructors")}</label>
             <div class="bg-surface-muted/30 rounded-lg p-4 border border-slate-600 space-y-2 max-h-48 overflow-y-auto">
               <%= for instructor <- @instructors do %>
                 <label class="flex items-center gap-3 p-2 hover:bg-surface-muted/50 rounded-lg cursor-pointer transition-colors">
@@ -382,7 +382,7 @@ defmodule WcsStudioWeb.LessonsLive do
                     checked={instructor.id in (@form[:instructor_ids].value || [])}
                     class="rounded border-slate-600 bg-surface-raised/50 text-brand-from focus:ring-2 focus:ring-brand-from focus:ring-opacity-20 transition-all duration-300"
                   />
-                  <span class="text-slate-200">{instructor.username}</span>
+                  <span class="text-body">{instructor.username}</span>
                 </label>
               <% end %>
             </div>
@@ -390,7 +390,7 @@ defmodule WcsStudioWeb.LessonsLive do
 
           <!-- Patterns -->
           <div class="space-y-2">
-            <label class="block text-sm font-semibold text-slate-200">{gettext("Patterns")}</label>
+            <label class="block text-sm font-semibold text-body">{gettext("Patterns")}</label>
             <div class="bg-surface-muted/30 rounded-lg p-4 border border-slate-600 space-y-2 max-h-48 overflow-y-auto">
               <%= for pattern <- @patterns do %>
                 <label class="flex items-center gap-3 p-2 hover:bg-surface-muted/50 rounded-lg cursor-pointer transition-colors">
@@ -401,7 +401,7 @@ defmodule WcsStudioWeb.LessonsLive do
                     checked={pattern.id in (@form[:pattern_ids].value || [])}
                     class="rounded border-slate-600 bg-surface-raised/50 text-brand-from focus:ring-2 focus:ring-brand-from focus:ring-opacity-20 transition-all duration-300"
                   />
-                  <span class="text-slate-200">{pattern.name}</span>
+                  <span class="text-body">{pattern.name}</span>
                 </label>
               <% end %>
             </div>
@@ -434,7 +434,7 @@ defmodule WcsStudioWeb.LessonsLive do
 
           <!-- Instructors -->
           <div class="space-y-2">
-            <label class="block text-sm font-semibold text-slate-200">{gettext("Instructors")}</label>
+            <label class="block text-sm font-semibold text-body">{gettext("Instructors")}</label>
             <div class="bg-surface-muted/30 rounded-lg p-4 border border-slate-600 space-y-2 max-h-48 overflow-y-auto">
               <%= for instructor <- @instructors do %>
                 <label class="flex items-center gap-3 p-2 hover:bg-surface-muted/50 rounded-lg cursor-pointer transition-colors">
@@ -445,7 +445,7 @@ defmodule WcsStudioWeb.LessonsLive do
                     checked={instructor.id in instructor_ids}
                     class="rounded border-slate-600 bg-surface-raised/50 text-brand-from focus:ring-2 focus:ring-brand-from focus:ring-opacity-20 transition-all duration-300"
                   />
-                  <span class="text-slate-200">{instructor.username}</span>
+                  <span class="text-body">{instructor.username}</span>
                 </label>
               <% end %>
             </div>
@@ -453,7 +453,7 @@ defmodule WcsStudioWeb.LessonsLive do
 
           <!-- Patterns -->
           <div class="space-y-2">
-            <label class="block text-sm font-semibold text-slate-200">{gettext("Patterns")}</label>
+            <label class="block text-sm font-semibold text-body">{gettext("Patterns")}</label>
             <div class="bg-surface-muted/30 rounded-lg p-4 border border-slate-600 space-y-2 max-h-48 overflow-y-auto">
               <%= for pattern <- @patterns do %>
                 <label class="flex items-center gap-3 p-2 hover:bg-surface-muted/50 rounded-lg cursor-pointer transition-colors">
@@ -464,7 +464,7 @@ defmodule WcsStudioWeb.LessonsLive do
                     checked={pattern.id in pattern_ids}
                     class="rounded border-slate-600 bg-surface-raised/50 text-brand-from focus:ring-2 focus:ring-brand-from focus:ring-opacity-20 transition-all duration-300"
                   />
-                  <span class="text-slate-200">{pattern.name}</span>
+                  <span class="text-body">{pattern.name}</span>
                 </label>
               <% end %>
             </div>

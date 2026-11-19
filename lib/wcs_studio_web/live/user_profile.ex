@@ -39,7 +39,7 @@ defmodule WcsStudioWeb.UserProfile do
     {:noreply, assign(socket, modal_state: nil)}
   end
 
-  defp status_class("not_started"), do: "text-slate-400"
+  defp status_class("not_started"), do: "text-muted"
   defp status_class("in_progress"), do: "text-accent-info"
   defp status_class("learned"), do: "text-accent-success"
 
@@ -52,7 +52,7 @@ defmodule WcsStudioWeb.UserProfile do
   defp border_class("learned"),
     do: "hover:border-accent-success/30 hover:shadow-raised hover:shadow-accent-success/10"
 
-  defp status_bg("not_started"), do: "bg-slate-500/20 text-slate-300 border-slate-500/30"
+  defp status_bg("not_started"), do: "bg-slate-500/20 text-body border-slate-500/30"
   defp status_bg("in_progress"), do: "bg-accent-info/20 text-accent-info border-accent-info/30"
 
   defp status_bg("learned"),
@@ -89,7 +89,7 @@ defmodule WcsStudioWeb.UserProfile do
 
             <!-- Profile Info -->
             <div class="flex-1 text-center lg:text-left">
-              <h1 class="text-4xl font-bold text-white mb-2">
+              <h1 class="text-4xl font-bold text-strong mb-2">
                 {@current_user.username}
               </h1>
 
@@ -97,7 +97,7 @@ defmodule WcsStudioWeb.UserProfile do
                 <span class="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-medium bg-accent-info/20 text-accent-info border border-accent-info/30 backdrop-blur-sm">
                   <i class="fas fa-seedling text-xs mr-2"></i> {@current_user.role}
                 </span>
-                <span class="text-slate-300 text-sm flex items-center gap-2">
+                <span class="text-body text-sm flex items-center gap-2">
                   <i class="fas fa-calendar"></i>
                   <span>
                     {gettext("Joined")} {Calendar.strftime(@current_user.inserted_at, "%B %Y")}
@@ -105,7 +105,7 @@ defmodule WcsStudioWeb.UserProfile do
                 </span>
               </div>
 
-              <p class="text-slate-300 text-lg mb-6">
+              <p class="text-body text-lg mb-6">
                 {@current_user.email}
               </p>
 
@@ -117,8 +117,8 @@ defmodule WcsStudioWeb.UserProfile do
                       <i class="fas fa-graduation-cap text-accent-info"></i>
                     </div>
                   </div>
-                  <p class="text-2xl font-bold text-white mb-1">{Enum.at(@lesson_chart_data, 1)}</p>
-                  <p class="text-xs text-slate-400 uppercase tracking-wide">
+                  <p class="text-2xl font-bold text-strong mb-1">{Enum.at(@lesson_chart_data, 1)}</p>
+                  <p class="text-xs text-muted uppercase tracking-wide">
                     {gettext("Attended Lessons")}
                   </p>
                 </div>
@@ -129,10 +129,10 @@ defmodule WcsStudioWeb.UserProfile do
                       <i class="fas fa-check-double text-accent-success"></i>
                     </div>
                   </div>
-                  <p class="text-2xl font-bold text-white mb-1">
+                  <p class="text-2xl font-bold text-strong mb-1">
                     {Enum.at(@user_pattern_chart_data, 2)}
                   </p>
-                  <p class="text-xs text-slate-400 uppercase tracking-wide">
+                  <p class="text-xs text-muted uppercase tracking-wide">
                     {gettext("Patterns Mastered")}
                   </p>
                 </div>
@@ -143,10 +143,10 @@ defmodule WcsStudioWeb.UserProfile do
                       <i class="fas fa-clock text-brand-lightTo"></i>
                     </div>
                   </div>
-                  <p class="text-2xl font-bold text-white mb-1">
+                  <p class="text-2xl font-bold text-strong mb-1">
                     {Float.round(Enum.at(@lesson_chart_data, 1) * 1.166666667, 1)}h
                   </p>
-                  <p class="text-xs text-slate-400 uppercase tracking-wide">
+                  <p class="text-xs text-muted uppercase tracking-wide">
                     {gettext("Practice Time")}
                   </p>
                 </div>
@@ -167,7 +167,7 @@ defmodule WcsStudioWeb.UserProfile do
                       class="w-32 h-32 mx-auto rounded-lg"
                     />
                   </div>
-                  <p class="text-slate-300 text-sm font-medium flex items-center justify-center gap-2">
+                  <p class="text-body text-sm font-medium flex items-center justify-center gap-2">
                     <i class="fas fa-qrcode text-accent-info"></i>
                     {gettext("My QR Code")}
                   </p>
@@ -190,7 +190,7 @@ defmodule WcsStudioWeb.UserProfile do
                   class="w-64 h-64 mx-auto"
                 />
               </div>
-              <p class="text-slate-300 mt-4">{gettext("Scan to connect with other dancers")}</p>
+              <p class="text-body mt-4">{gettext("Scan to connect with other dancers")}</p>
             </div>
           </.modal>
         <% nil -> %>
@@ -201,7 +201,7 @@ defmodule WcsStudioWeb.UserProfile do
         <div class="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
           <div class="bg-surface-raised/40 backdrop-blur-xl border border-white/10 rounded-lg p-6 shadow-card hover:border-white/20 transition-all duration-300">
             <div class="flex items-center justify-between mb-6">
-              <h3 class="text-lg font-semibold text-white flex items-center gap-2">
+              <h3 class="text-lg font-semibold text-strong flex items-center gap-2">
                 <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-from to-brand-to flex items-center justify-center">
                   <i class="fas fa-shapes text-sm"></i>
                 </div>
@@ -218,7 +218,7 @@ defmodule WcsStudioWeb.UserProfile do
 
           <div class="bg-surface-raised/40 backdrop-blur-xl border border-white/10 rounded-lg p-6 shadow-card hover:border-white/20">
             <div class="flex items-center justify-between mb-6">
-              <h3 class="text-lg font-semibold text-white flex items-center gap-2">
+              <h3 class="text-lg font-semibold text-strong flex items-center gap-2">
                 <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-accent-info to-accent-info/80 flex items-center justify-center">
                   <i class="fas fa-chart-pie text-sm"></i>
                 </div>
@@ -238,7 +238,7 @@ defmodule WcsStudioWeb.UserProfile do
       <!-- Patterns Section -->
       <div class="bg-surface-raised/40 backdrop-blur-xl border border-white/10 rounded-lg p-8 shadow-card">
         <div class="flex items-center justify-between mb-8">
-          <h2 class="text-2xl font-bold text-white flex items-center gap-3">
+          <h2 class="text-2xl font-bold text-strong flex items-center gap-3">
             <div class="w-10 h-10 rounded-md bg-gradient-to-br from-brand-from to-brand-to flex items-center justify-center">
               <i class="fas fa-shapes"></i>
             </div>
@@ -261,7 +261,7 @@ defmodule WcsStudioWeb.UserProfile do
             <%= for user_pattern <- @user_patterns do %>
               <div class={"group bg-surface-raised/60 backdrop-blur-sm border border-white/5 rounded-md p-5 #{border_class(user_pattern.status)}"}>
                 <div class="flex items-start justify-between mb-3">
-                  <h3 class="text-base font-semibold text-white group-hover:text-accent-info transition-colors">
+                  <h3 class="text-base font-semibold text-strong group-hover:text-accent-info transition-colors">
                     {user_pattern.pattern.name}
                   </h3>
                   <span class={"inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-medium border backdrop-blur-sm #{status_bg(user_pattern.status)}"}>

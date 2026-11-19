@@ -93,9 +93,9 @@ defmodule WcsStudioWeb.PracticeLive do
             class={[
               "px-4 py-2 rounded-md font-medium transition-all duration-300 flex items-center",
               if @selected_filter == "all" do
-                "bg-gradient-to-r from-brand-from to-brand-to text-white shadow-raised shadow-brand-from/25"
+                "bg-gradient-to-r from-brand-from to-brand-to text-strong shadow-raised shadow-brand-from/25"
               else
-                "bg-surface-raised/50 hover:bg-surface-muted/50 text-slate-300 border border-surface-muted/50"
+                "bg-surface-raised/50 hover:bg-surface-muted/50 text-body border border-surface-muted/50"
               end
             ]}
           >
@@ -110,9 +110,9 @@ defmodule WcsStudioWeb.PracticeLive do
               class={[
                 "px-4 py-2 rounded-md font-medium transition-all duration-300 flex items-center",
                 if @selected_filter == "in_progress" do
-                  "bg-gradient-to-r from-brand-from to-brand-to text-white shadow-raised shadow-brand-from/25"
+                  "bg-gradient-to-r from-brand-from to-brand-to text-strong shadow-raised shadow-brand-from/25"
                 else
-                  "bg-surface-raised/50 hover:bg-surface-muted/50 text-slate-300 border border-surface-muted/50"
+                  "bg-surface-raised/50 hover:bg-surface-muted/50 text-body border border-surface-muted/50"
                 end
               ]}
             >
@@ -126,9 +126,9 @@ defmodule WcsStudioWeb.PracticeLive do
               class={[
                 "px-4 py-2 rounded-md font-medium transition-all duration-300 flex items-center",
                 if @selected_filter == "learned" do
-                  "bg-gradient-to-r from-brand-from to-brand-to text-white shadow-raised shadow-brand-from/25"
+                  "bg-gradient-to-r from-brand-from to-brand-to text-strong shadow-raised shadow-brand-from/25"
                 else
-                  "bg-surface-raised/50 hover:bg-surface-muted/50 text-slate-300 border border-surface-muted/50"
+                  "bg-surface-raised/50 hover:bg-surface-muted/50 text-body border border-surface-muted/50"
                 end
               ]}
             >
@@ -150,7 +150,7 @@ defmodule WcsStudioWeb.PracticeLive do
             <button
               type="button"
               phx-click="toggle_dropdown"
-              class="w-full h-full py-3 pl-4 pr-4 text-left bg-surface-muted/50 text-slate-200 border border-surface-muted rounded-lg hover:border-brand-from/40 focus:outline-none focus:ring-1 focus:ring-brand-from transition-all duration-200 flex items-center justify-between"
+              class="w-full h-full py-3 pl-4 pr-4 text-left bg-surface-muted/50 text-body border border-surface-muted rounded-lg hover:border-brand-from/40 focus:outline-none focus:ring-1 focus:ring-brand-from transition-all duration-200 flex items-center justify-between"
             >
               <div class="flex items-center ">
                 <span>
@@ -162,7 +162,7 @@ defmodule WcsStudioWeb.PracticeLive do
                 </span>
               </div>
               <i class={[
-                "fas fa-chevron-down text-slate-400 text-xs transition-transform duration-300",
+                "fas fa-chevron-down text-muted text-xs transition-transform duration-300",
                 if(@dropdown_open, do: "rotate-180", else: "")
               ]}></i>
             </button>
@@ -182,8 +182,8 @@ defmodule WcsStudioWeb.PracticeLive do
                       class={[
                         "w-full text-left px-4 py-2 text-sm transition-all duration-150",
                         if(dance_type.id == @dance_type_id,
-                          do: "bg-brand-hoverFrom/40 text-white",
-                          else: "hover:bg-surface-muted/70 text-slate-200"
+                          do: "bg-brand-hoverFrom/40 text-strong",
+                          else: "hover:bg-surface-muted/70 text-body"
                         )
                       ]}
                     >
@@ -246,7 +246,7 @@ defmodule WcsStudioWeb.PracticeLive do
             </div>
 
             <div class="relative z-10">
-              <h1 class="text-3xl font-bold text-white mb-2 group-hover:text-brand-lightFrom transition-colors duration-300">
+              <h1 class="text-3xl font-bold text-strong mb-2 group-hover:text-brand-lightFrom transition-colors duration-300">
                 {random_pattern.name}
               </h1>
             </div>
