@@ -127,7 +127,7 @@ defmodule WcsStudioWeb.PracticeLive do
     </div>
 
     <!-- Dance type dropdown buttons -->
-    <div class="w-full max-w-2xl mx-auto px-4 mb-8 relative z-50">
+    <div class="w-full max-w-2xl mx-auto px-4 mb-8 relative z-30">
       <div
         class="flex flex-col sm:flex-row gap-3 p-4 bg-slate-800/30 rounded-xl border border-slate-700/50 shadow-lg"
         style="backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);"

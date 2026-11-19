@@ -8,3 +8,56 @@ body {
   overscroll-behavior: auto;
 }
 
+/* lato-regular - latin_latin-ext */
+@font-face {
+  font-display: swap;
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/fonts/lato-v25-latin_latin-ext-regular.woff2') format('woff2');
+}
+
+/* lato-700 - latin_latin-ext */
+@font-face {
+  font-display: swap;
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 700;
+  src: url('/fonts/lato-v25-latin_latin-ext-700.woff2') format('woff2');
+}
+
+/* lato-900 - latin_latin-ext */
+@font-face {
+  font-display: swap;
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 900;
+  src: url('/fonts/lato-v25-latin_latin-ext-900.woff2') format('woff2');
+}
+
+/* josefin-sans-regular - latin_latin-ext */
+@font-face {
+  font-display: swap;
+  font-family: 'Josefin Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/fonts/josefin-sans-v34-latin-regular.woff2') format('woff2');
+}
+
+/* josefin-sans-600 - latin_latin-ext */
+@font-face {
+  font-display: swap;
+  font-family: 'Josefin Sans';
+  font-style: normal;
+  font-weight: 600;
+  src: url('/fonts/josefin-sans-v34-latin-600.woff2') format('woff2');
+}
+
+/* josefin-sans-700 - latin_latin-ext */
+@font-face {
+  font-display: swap;
+  font-family: 'Josefin Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: url('/fonts/josefin-sans-v34-latin-700.woff2') format('woff2');
+}

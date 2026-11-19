@@ -11,4 +11,19 @@ defmodule WcsStudioWeb.Layouts do
   use WcsStudioWeb, :html
   import WcsStudioWeb.Components.LocaleSwitcher
   embed_templates "layouts/*"
+
+  @doc """
+  Opens/closes the mobile menu in one JS command chain.
+
+  Uses `toggle_class("hidden")` everywhere (never `JS.toggle`, which sets an inline
+  `display` that class-based hiding cannot undo) and locks body scroll while open so
+  the page underneath no longer scrolls.
+  """
+  def toggle_mobile_menu do
+    JS.toggle_class("hidden", to: "#mobile-menu")
+    |> JS.toggle_class("hidden", to: "#mobile-menu-backdrop")
+    |> JS.toggle_class("hidden", to: "#menu-icon-open")
+    |> JS.toggle_class("hidden", to: "#menu-icon-close")
+    |> JS.toggle_class("overflow-hidden", to: "body")
+  end
 end

@@ -74,7 +74,7 @@
             <div
               class="relative"
               id="user-menu-container"
-              phx-click-away={JS.add_class("hidden", to: "#user-menu")}
+              phx-click-away={JS.hide(to: "#user-menu")}
             >
               <button
                 type="button"
@@ -185,18 +185,14 @@
         <div class="md:hidden flex items-center">
           <button
             type="button"
-            phx-click={
-              JS.toggle(to: "#mobile-menu")
-              |> JS.toggle(to: "#menu-icon-open")
-              |> JS.toggle(to: "#menu-icon-close")
-            }
+            phx-click={toggle_mobile_menu()}
             class="inline-flex items-center justify-center p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white transition-colors duration-300"
             aria-controls="mobile-menu"
+            aria-label={gettext("Toggle main menu")}
           >
-            <span class="sr-only">Open main menu</span>
             <svg
               id="menu-icon-open"
-              class="block h-6 w-6"
+              class="h-6 w-6"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -230,15 +226,19 @@
     </div>
   </div>
 
-  <!-- Mobile menu -->
+  <!-- Mobile menu backdrop: tap outside the menu to close, and swallow touch scroll -->
   <div
-    class="md:hidden hidden backdrop-blur-lg bg-slate-900/95 border-b border-slate-700/50 shadow-xl"
+    id="mobile-menu-backdrop"
+    class="hidden md:hidden fixed inset-x-0 top-16 bottom-0 bg-black/50 touch-none overscroll-contain"
+    phx-click={toggle_mobile_menu()}
+    aria-hidden="true"
+  >
+  </div>
+
+  <!-- Mobile menu: capped to the visible viewport and scrolls on its own -->
+  <div
+    class="hidden md:hidden relative max-h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain backdrop-blur-lg bg-slate-900/95 border-b border-slate-700/50 shadow-xl"
     id="mobile-menu"
-    phx-click-away={
-      JS.add_class("hidden", to: "#mobile-menu")
-      |> JS.add_class("hidden", to: "#menu-icon-close")
-      |> JS.remove_class("hidden", to: "#menu-icon-open")
-    }
   >
     <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
       <.link
