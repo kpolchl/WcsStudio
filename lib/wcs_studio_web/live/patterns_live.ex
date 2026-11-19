@@ -559,7 +559,7 @@ defmodule WcsStudioWeb.PatternsLive do
           on_cancel={JS.push("close_modal")}
           on_submit="update_pattern"
           submit_label={gettext("Update")}
-          submit_class="bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700"
+          submit_variant="info"
         >
           <.input type="text" field={@form[:name]} label={gettext("Pattern Name")} />
           <.input

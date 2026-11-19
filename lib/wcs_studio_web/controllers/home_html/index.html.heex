@@ -363,16 +363,12 @@
       {gettext("Join some community mastering their craft through this comprehensive platform")}
     </p>
     <div class="flex flex-col sm:flex-row gap-4 justify-center">
-      <.link href={~p"/users/log_in"}>
-        <button class="bg-gradient-to-r from-pink-500 to-purple-500 text-white font-semibold px-8 py-4 rounded-xl hover:shadow-2xl hover:shadow-pink-500/25 transition-all duration-300 hover:-translate-y-1 animate-pulse-glow">
-          {gettext("Start Learning Today")}
-        </button>
-      </.link>
-      <.link href={~p"/connect"}>
-        <button class="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 text-white font-semibold px-8 py-4 rounded-xl hover:bg-slate-700/50 transition-all duration-300 hover:-translate-y-1">
-          {gettext("Contact Me")}
-        </button>
-      </.link>
+      <.btn href={~p"/users/log_in"} size="lg">
+        {gettext("Start Learning Today")}
+      </.btn>
+      <.btn href={~p"/connect"} variant="ghost" size="lg">
+        {gettext("Contact Me")}
+      </.btn>
     </div>
   </div>
 </section>
@@ -444,15 +440,6 @@
       }
       to {
           opacity: 1;
-      }
-  }
-
-  @keyframes pulse-glow {
-      0% {
-          box-shadow: 0 0 20px rgba(236, 72, 153, 0.4);
-      }
-      100% {
-          box-shadow: 0 0 30px rgba(168, 85, 247, 0.6);
       }
   }
 

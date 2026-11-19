@@ -293,13 +293,9 @@ defmodule WcsStudioWeb.UserProfile do
             <p class="text-slate-500 mb-8 max-w-md mx-auto">
               {gettext("Start your dance journey by exploring and tracking patterns")}
             </p>
-            <a
-              href={~p"/patterns"}
-              class="inline-flex items-center gap-2 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
-            >
-              <i class="fas fa-plus"></i>
-              <span>{gettext("Browse Patterns")}</span>
-            </a>
+            <.btn href={~p"/patterns"} icon="plus">
+              {gettext("Browse Patterns")}
+            </.btn>
           </div>
         <% end %>
       </div>

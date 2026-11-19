@@ -172,22 +172,11 @@ defmodule WcsStudioWeb.BlogPostLive do
             </div>
 
             <div class="flex gap-3 mt-6">
-              <button
-                type="submit"
-                class="px-6 py-3 bg-gradient-to-r from-green-500 to-blue-500 text-white font-medium rounded-xl hover:shadow-lg hover:shadow-green-500/50 transition-all duration-300"
-              >
-                <i class="fas fa-save mr-2"></i>
-                {gettext("Update Post")}
-              </button>
+              <.btn type="submit" icon="save">{gettext("Update Post")}</.btn>
 
-              <button
-                type="button"
-                phx-click="cancel_edit"
-                class="px-6 py-3 bg-slate-600 hover:bg-slate-700 text-white font-medium rounded-xl transition-colors"
-              >
-                <i class="fas fa-times mr-2"></i>
+              <.btn variant="ghost" icon="times" phx-click="cancel_edit">
                 {gettext("Cancel")}
-              </button>
+              </.btn>
             </div>
           </.form>
         </div>
@@ -272,25 +261,16 @@ defmodule WcsStudioWeb.BlogPostLive do
                     ></textarea>
                   </div>
                   <:actions>
-                    <button
-                      type="submit"
-                      class="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium rounded-xl hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300"
-                    >
-                      <i class="fas fa-paper-plane mr-2"></i>
-                      {gettext("Post Comment")}
-                    </button>
+                    <.btn type="submit" icon="paper-plane">{gettext("Post Comment")}</.btn>
                   </:actions>
                 </.simple_form>
               </div>
             <% else %>
               <div class="mb-10 p-6 bg-slate-900/50 border border-slate-600 rounded-xl text-center">
                 <p class="text-slate-300 mb-3">{gettext("Sign in to leave a comment")}</p>
-                <.link
-                  navigate={~p"/users/log_in"}
-                  class="inline-block px-6 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors"
-                >
+                <.btn navigate={~p"/users/log_in"} variant="primary">
                   {gettext("Sign In")}
-                </.link>
+                </.btn>
               </div>
             <% end %>
 

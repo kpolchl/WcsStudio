@@ -23,6 +23,229 @@ defmodule WcsStudioWeb.CoreComponents do
   @default_avatar_url "/images/user_icon.png"
 
   @doc """
+  Renders a baseline action button, or a link styled as one when `href` is given.
+
+  See `docs/design-system.md` for the token mapping behind each variant.
+  """
+  attr :variant, :string,
+    default: "primary",
+    values: ~w(primary info danger success warn ghost)
+
+  attr :size, :string, default: "md", values: ~w(sm md lg)
+  attr :icon, :string, default: nil
+  attr :class, :string, default: nil
+  attr :rest, :global, include: ~w(href method navigate patch disabled type)
+
+  slot :inner_block, required: true
+
+  def btn(assigns) do
+    variant_classes = %{
+      "primary" =>
+        "bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white shadow-pink-500/25",
+      "info" =>
+        "bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 text-white shadow-blue-500/25",
+      "danger" =>
+        "bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white shadow-red-500/25",
+      "success" =>
+        "bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white shadow-green-500/25",
+      "warn" =>
+        "bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-white shadow-yellow-500/25",
+      "ghost" =>
+        "bg-slate-700/50 border border-slate-600/50 text-slate-300 hover:bg-slate-600/50 hover:text-white"
+    }
+
+    size_classes = %{
+      "sm" => "py-2 px-3 text-sm",
+      "md" => "py-2 px-4",
+      "lg" => "py-3 px-6"
+    }
+
+    rest = assigns[:rest] || %{}
+    href = Map.get(rest, :href) || Map.get(rest, "href")
+    method = Map.get(rest, :method) || Map.get(rest, "method")
+    navigate = Map.get(rest, :navigate) || Map.get(rest, "navigate")
+    patch = Map.get(rest, :patch) || Map.get(rest, "patch")
+    disabled = Map.get(rest, :disabled) || Map.get(rest, "disabled")
+    type = Map.get(rest, :type) || Map.get(rest, "type") || "button"
+
+    classes = [
+      "inline-flex items-center justify-center font-medium rounded-lg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg",
+      variant_classes[assigns.variant],
+      size_classes[assigns.size],
+      assigns.class
+    ]
+
+    assigns =
+      assigns
+      |> assign(:href, href)
+      |> assign(:method, method)
+      |> assign(:navigate, navigate)
+      |> assign(:patch, patch)
+      |> assign(:disabled, disabled)
+      |> assign(:type, type)
+      |> assign(
+        :rest,
+        Map.drop(rest, [
+          :href,
+          :method,
+          :navigate,
+          :patch,
+          :disabled,
+          :type,
+          "href",
+          "method",
+          "navigate",
+          "patch",
+          "disabled",
+          "type"
+        ])
+      )
+      |> assign(:classes, classes)
+
+    ~H"""
+    <%= if @href || @navigate || @patch do %>
+      <.link
+        href={@href}
+        navigate={@navigate}
+        patch={@patch}
+        method={@method}
+        class={@classes}
+        {@rest}
+      >
+        <i :if={@icon} class={"fas fa-#{@icon} mr-2"} aria-hidden="true"></i>
+        {render_slot(@inner_block)}
+      </.link>
+    <% else %>
+      <button type={@type} disabled={@disabled} class={@classes} {@rest}>
+        <i :if={@icon} class={"fas fa-#{@icon} mr-2"} aria-hidden="true"></i>
+        {render_slot(@inner_block)}
+      </button>
+    <% end %>
+    """
+  end
+
+  @doc """
+  Renders the baseline card shell.
+
+  See `docs/design-system.md` for the token mapping behind each padding option.
+  """
+  attr :padding, :string, default: "md", values: ~w(sm md lg none)
+  attr :hover, :boolean, default: false
+  attr :class, :string, default: nil
+  attr :rest, :global
+
+  slot :inner_block, required: true
+
+  def card(assigns) do
+    padding_classes = %{"sm" => "p-4", "md" => "p-6", "lg" => "p-8", "none" => ""}
+
+    classes = [
+      "rounded-2xl border border-slate-700/50 bg-slate-800/50 shadow-xl overflow-hidden",
+      padding_classes[assigns.padding],
+      if(assigns.hover,
+        do:
+          "transition-all duration-300 hover:border-pink-500/30 hover:shadow-lg hover:shadow-pink-500/25 hover:-translate-y-0.5",
+        else: ""
+      ),
+      assigns.class
+    ]
+
+    assigns = assign(assigns, :classes, classes)
+
+    ~H"""
+    <div class={@classes} {@rest}>
+      {render_slot(@inner_block)}
+    </div>
+    """
+  end
+
+  @doc """
+  Renders a baseline badge / pill.
+
+  See `docs/design-system.md` for the token mapping behind each variant.
+  """
+  attr :variant, :string,
+    default: "primary",
+    values: ~w(primary variation success danger muted)
+
+  attr :icon, :string, default: nil
+  attr :class, :string, default: nil
+  attr :rest, :global
+
+  slot :inner_block, required: true
+
+  def badge(assigns) do
+    variant_classes = %{
+      "primary" =>
+        "bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-300 border border-purple-500/30",
+      "variation" =>
+        "bg-gradient-to-r from-pink-500/20 to-orange-500/20 text-pink-300 border border-pink-500/30",
+      "success" =>
+        "bg-gradient-to-r from-green-500/20 to-emerald-500/20 text-green-300 border border-green-500/30",
+      "danger" =>
+        "bg-gradient-to-r from-red-500/20 to-pink-500/20 text-red-300 border border-red-500/30",
+      "muted" => "bg-slate-700/50 text-slate-300 border border-slate-600/50"
+    }
+
+    classes = [
+      "inline-flex items-center px-2 sm:px-3 py-1 rounded-full text-xs font-medium",
+      variant_classes[assigns.variant],
+      assigns.class
+    ]
+
+    assigns = assign(assigns, :classes, classes)
+
+    ~H"""
+    <span class={@classes} {@rest}>
+      <i :if={@icon} class={"fas fa-#{@icon} mr-1"} aria-hidden="true"></i>
+      {render_slot(@inner_block)}
+    </span>
+    """
+  end
+
+  @doc """
+  Renders a baseline icon container.
+
+  See `docs/design-system.md` for the token mapping behind each gradient/size.
+  """
+  attr :gradient, :string, default: "primary", values: ~w(primary info warn danger success)
+  attr :size, :string, default: "md", values: ~w(sm md lg)
+  attr :icon, :string, required: true
+  attr :class, :string, default: nil
+  attr :rest, :global
+
+  def icon_badge(assigns) do
+    gradient_classes = %{
+      "primary" => "bg-gradient-to-br from-pink-500 to-purple-500",
+      "info" => "bg-gradient-to-br from-amber-500 to-yellow-500",
+      "warn" => "bg-gradient-to-br from-yellow-400 to-yellow-500",
+      "danger" => "bg-gradient-to-br from-red-500 to-orange-500",
+      "success" => "bg-gradient-to-br from-green-500 to-emerald-600"
+    }
+
+    size_classes = %{
+      "sm" => "w-8 h-8 rounded-lg",
+      "md" => "w-10 h-10 rounded-xl",
+      "lg" => "w-12 h-12 rounded-xl"
+    }
+
+    classes = [
+      "flex items-center justify-center shadow-lg text-white",
+      gradient_classes[assigns.gradient],
+      size_classes[assigns.size],
+      assigns.class
+    ]
+
+    assigns = assign(assigns, :classes, classes)
+
+    ~H"""
+    <div class={@classes} {@rest}>
+      <i class={"fas fa-#{@icon}"} aria-hidden="true"></i>
+    </div>
+    """
+  end
+
+  @doc """
   Renders a modal.
 
   ## Examples
@@ -145,34 +368,29 @@ defmodule WcsStudioWeb.CoreComponents do
         </div>
 
         <!-- Title -->
-        <h3 class="text-2xl font-bold text-slate-900 mb-3">
+        <h3 class="text-2xl font-bold text-white mb-3">
           {@title}
         </h3>
 
         <!-- Message -->
-        <p class="text-slate-600 mb-8 leading-relaxed">
+        <p class="text-slate-300 mb-8 leading-relaxed">
           {@message}
         </p>
 
         <!-- Actions -->
         <div class="flex gap-3 justify-center">
-          <button
-            phx-click={JS.exec("data-cancel", to: "##{@id}")}
-            type="button"
-            class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium py-2.5 px-6 rounded-lg transition-all duration-200"
-          >
+          <.btn variant="ghost" phx-click={JS.exec("data-cancel", to: "##{@id}")}>
             {@cancel_text}
-          </button>
+          </.btn>
 
-          <button
+          <.btn
+            variant="danger"
+            icon="trash"
             phx-click={@confirm_event}
             phx-value-id={@confirm_value}
-            type="button"
-            class="bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white font-medium py-2.5 px-6 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-red-500/25"
           >
-            <i class="fas fa-trash mr-2"></i>
             {@confirm_text}
-          </button>
+          </.btn>
         </div>
       </div>
     </.modal>
@@ -205,7 +423,7 @@ defmodule WcsStudioWeb.CoreComponents do
         form={@form}
         on_submit="update"
         submit_label="Update"
-        submit_class="bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700"
+        submit_variant="info"
       >
         <.input type="text" field={@form[:name]} label="Name" />
       </.form_modal>
@@ -221,6 +439,10 @@ defmodule WcsStudioWeb.CoreComponents do
   attr :submit_label, :string
   attr :cancel_label, :string
   attr :submit_class, :string, default: nil
+
+  attr :submit_variant, :string,
+    default: "primary",
+    values: ~w(primary info danger success warn ghost)
 
   slot :inner_block, required: true
 
@@ -295,24 +517,12 @@ defmodule WcsStudioWeb.CoreComponents do
 
                   <!-- Actions -->
                   <div class="mt-8 flex justify-end gap-3 pt-6 border-t border-slate-700/50">
-                    <button
-                      type="button"
-                      phx-click={JS.exec("data-cancel", to: "##{@id}")}
-                      class="px-5 py-2.5 text-sm font-medium text-slate-300 bg-slate-700/50 border border-slate-600/50 rounded-lg hover:bg-slate-600/50 hover:text-white transition-all duration-200"
-                    >
+                    <.btn variant="ghost" phx-click={JS.exec("data-cancel", to: "##{@id}")}>
                       {@cancel_label}
-                    </button>
-                    <button
-                      type="submit"
-                      class={[
-                        "px-5 py-2.5 text-sm font-medium text-white rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl hover:-translate-y-0.5 flex items-center gap-2",
-                        @submit_class ||
-                          "bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600"
-                      ]}
-                    >
-                      <i class="fas fa-save text-xs"></i>
+                    </.btn>
+                    <.btn type="submit" variant={@submit_variant} icon="save" class={@submit_class}>
                       {@submit_label}
-                    </button>
+                    </.btn>
                   </div>
                 </.form>
               </div>
@@ -583,14 +793,8 @@ defmodule WcsStudioWeb.CoreComponents do
     """
   end
 
-  defp attended_class(false),
-    do: "from-gray-400 to-gray-500 hover:from-gray-500 hover:to-gray-600"
-
-  defp attended_class(true),
-    do: "from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700"
-
-  defp attended_icon(false), do: "fa-circle"
-  defp attended_icon(true), do: "fa-check-circle"
+  defp attended_icon(false), do: "circle"
+  defp attended_icon(true), do: "check-circle"
 
   defp attended_text(false), do: gettext("Not Attended")
   defp attended_text(true), do: gettext("Attended")
@@ -740,35 +944,35 @@ defmodule WcsStudioWeb.CoreComponents do
         <div class="flex flex-wrap justify-end gap-2 mt-4 pt-4 border-t border-slate-700/50">
           <%= if @current_user do %>
             <% attended = @attended || false %>
-            <button
+            <.btn
+              variant={if attended, do: "success", else: "ghost"}
+              icon={attended_icon(attended)}
               phx-click="toggle_attendance"
               phx-value-lesson_id={@lesson.id}
               phx-value-user_id={@current_user.id}
               phx-value-attended={attended}
-              class={"bg-gradient-to-r #{attended_class(attended)} text-white font-medium py-2 px-4 rounded-lg transition-all duration-300 hover:shadow-lg flex items-center"}
             >
-              <i class={"fas #{attended_icon(attended)} mr-2"}></i>
               {attended_text(attended)}
-            </button>
+            </.btn>
           <% end %>
 
           <%= if @current_user && @current_user.role == "admin" do %>
-            <button
+            <.btn
+              variant="info"
+              icon="edit"
               phx-click="open_update_modal"
               phx-value-id={@lesson.id}
-              class="bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 text-white font-medium py-3 px-6 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/25 hover:-translate-y-0.5 flex items-center"
             >
-              <i class="fas fa-edit mr-2"></i>
               {gettext("Update Lesson")}
-            </button>
+            </.btn>
 
-            <button
+            <.btn
+              variant="danger"
+              icon="trash"
               phx-click={show_modal("confirm-delete-lesson-#{@lesson.id}")}
-              class="bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white font-medium py-2 px-4 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-red-500/25 hover:-translate-y-0.5 flex items-center"
             >
-              <i class="fas fa-trash mr-2"></i>
               {gettext("Delete")}
-            </button>
+            </.btn>
           <% end %>
         </div>
       </div>

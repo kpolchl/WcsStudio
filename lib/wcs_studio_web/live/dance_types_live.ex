@@ -94,13 +94,9 @@ defmodule WcsStudioWeb.DanceTypesLive do
     <!-- Add Dance Type Button (Admin Only) -->
     <%= if @current_user && @current_user.role == "admin" do %>
       <div class="w-full max-w-2xl mx-auto px-4 mb-8">
-        <button
-          phx-click="open_modal"
-          class="w-full sm:w-auto bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
-        >
-          <i class="fas fa-plus"></i>
-          <span>{gettext("Add New Dance Type")}</span>
-        </button>
+        <.btn icon="plus" phx-click="open_modal" class="w-full sm:w-auto">
+          {gettext("Add New Dance Type")}
+        </.btn>
       </div>
     <% end %>
 
@@ -109,69 +105,49 @@ defmodule WcsStudioWeb.DanceTypesLive do
       <div class="max-w-6xl mx-auto">
         <!-- Style Filters -->
         <div class="flex flex-wrap justify-center gap-3 mb-8">
-          <button
-            type="button"
+          <.btn
+            variant={if @selected_dance_type_type == "all", do: "primary", else: "ghost"}
+            size="lg"
+            class="rounded-xl"
+            icon="layer-group"
             phx-click="select_type_type"
             phx-value-dance_type_type="all"
-            class={[
-              "px-6 py-3 rounded-xl font-medium transition-all duration-300 flex items-center",
-              if @selected_dance_type_type == "all" do
-                "bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-lg shadow-pink-500/25"
-              else
-                "bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 border border-slate-700/50"
-              end
-            ]}
           >
-            <i class="fas fa-layer-group mr-2"></i> {gettext("All Styles")}
-          </button>
+            {gettext("All Styles")}
+          </.btn>
 
-          <button
-            type="button"
+          <.btn
+            variant={if @selected_dance_type_type == "latin", do: "primary", else: "ghost"}
+            size="lg"
+            class="rounded-xl"
+            icon="fire"
             phx-click="select_type_type"
             phx-value-dance_type_type="latin"
-            class={[
-              "px-6 py-3 rounded-xl font-medium transition-all duration-300 flex items-center",
-              if @selected_dance_type_type == "latin" do
-                "bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-lg shadow-pink-500/25"
-              else
-                "bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 border border-slate-700/50"
-              end
-            ]}
           >
-            <i class="fas fa-fire mr-2 "></i> {gettext("Latin")}
-          </button>
+            {gettext("Latin")}
+          </.btn>
 
-          <button
-            type="button"
+          <.btn
+            variant={if @selected_dance_type_type == "swing", do: "primary", else: "ghost"}
+            size="lg"
+            class="rounded-xl"
+            icon="sync-alt"
             phx-click="select_type_type"
             phx-value-dance_type_type="swing"
-            class={[
-              "px-6 py-3 rounded-xl font-medium transition-all duration-300 flex items-center",
-              if @selected_dance_type_type == "swing" do
-                "bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-lg shadow-pink-500/25"
-              else
-                "bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 border border-slate-700/50"
-              end
-            ]}
           >
-            <i class="fas fa-sync-alt mr-2"></i> {gettext("Swing")}
-          </button>
+            {gettext("Swing")}
+          </.btn>
 
-          <button
-            type="button"
+          <.btn
+            variant={if @selected_dance_type_type == "social", do: "primary", else: "ghost"}
+            size="lg"
+            class="rounded-xl"
+            icon="users"
             phx-click="select_type_type"
             phx-value-dance_type_type="social"
-            class={[
-              "px-6 py-3 rounded-xl font-medium transition-all duration-300 flex items-center",
-              if @selected_dance_type_type == "social" do
-                "bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-lg shadow-pink-500/25"
-              else
-                "bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 border border-slate-700/50"
-              end
-            ]}
           >
-            <i class="fas fa-users mr-2"></i> {gettext("Social")}
-          </button>
+            {gettext("Social")}
+          </.btn>
         </div>
       </div>
     </section>
