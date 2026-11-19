@@ -56,10 +56,16 @@ These resolve conflicts between the remediation plan and the state of the codeba
 
 | Token | Value | Purpose |
 |---|---|---|
-| `accent-info` | `#a78bfa` | links, informational chips, blue→cyan replacements |
-| `accent-success` | `#10b981` | "learned", "attended", positive states |
-| `accent-warning` | `#fbbf24` | "in progress", amber/yellow replacements |
-| `accent-danger` | `#f43f5e` | delete/error; rose shares the brand's pink hue |
+| `accent-info` | `#3b82f6` | links, informational chips (blue-500, restored) |
+| `accent-success` | `#22c55e` | "learned", "attended" (green-500, restored) |
+| `accent-warning` | `#facc15` | "in progress" (yellow-400, restored) |
+| `accent-danger` | `#ef4444` | delete/error (red-500, restored) |
+
+The accent values were rolled back to the original hues after Phase 8. This was
+a **value-only** change: templates remain tokenized, so a future palette change
+again only needs the four values above. Some surfaces that originally mixed two
+hues (e.g. blue→cyan gradients) now use a single rolled-back hue because all
+gradients were normalized to `from-X to-X/80` in Phase 1.
 
 Gradients use the form `from-accent-X to-accent-X/80`. Never pair two different
 accent hues in one gradient.

@@ -28,10 +28,12 @@ module.exports = {
                     deepTo: '#7e22ce',    // purple-700 - deepest gradient hover
                 },
                 accent: {
-                    info: '#a78bfa',    // lighter purple - links, info chips
-                    success: '#10b981', // learned / attended
-                    warning: '#fbbf24', // in progress
-                    danger: '#f43f5e',  // rose - shares the brand's pink hue
+                    // Rolled back to the original hues (value-only change;
+                    // every template still uses these semantic tokens).
+                    info: '#3b82f6',    // blue-500 - links, info chips
+                    success: '#22c55e', // green-500 - learned / attended
+                    warning: '#facc15', // yellow-400 - in progress
+                    danger: '#ef4444',  // red-500 - delete / error
                 },
                 hero: {
                     'ambient-1': '#4c1d95', // purple-900 - tokenized hero wash
