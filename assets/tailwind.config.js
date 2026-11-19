@@ -12,6 +12,12 @@ module.exports = {
     theme: {
         extend: {
             colors: {
+                // Text aliases — see DESIGN.md 0.1
+                strong: '#ffffff',
+                body: '#cbd5e1',   // slate-300
+                muted: '#94a3b8',  // slate-400
+                subtle: '#64748b', // slate-500
+
                 brand: {
                     from: '#ec4899',     // pink-500 - canonical gradient start
                     to: '#a855f7',       // purple-500 - canonical gradient end
@@ -21,11 +27,25 @@ module.exports = {
                     hoverTo: '#9333ea',   // purple-600 - gradient hover end
                     deepTo: '#7e22ce',    // purple-700 - deepest gradient hover
                 },
+                accent: {
+                    info: '#a78bfa',    // lighter purple - links, info chips
+                    success: '#10b981', // learned / attended
+                    warning: '#fbbf24', // in progress
+                    danger: '#f43f5e',  // rose - shares the brand's pink hue
+                },
+                hero: {
+                    'ambient-1': '#4c1d95', // purple-900 - tokenized hero wash
+                    'ambient-2': '#831843', // pink-900 - tokenized hero wash
+                },
                 surface: {
                     base: '#0f172a',   // slate-900
                     raised: '#1e293b', // slate-800
                     muted: '#334155',  // slate-700
                 },
+            },
+            borderColor: {
+                subtle: '#334155', // slate-700
+                strong: '#475569', // slate-600
             },
             fontFamily: {
                 sans: ['Inter', 'sans-serif'],
@@ -38,6 +58,8 @@ module.exports = {
                 'heading-sm': ['1.25rem', { lineHeight: '1.3' }],
                 body: ['1rem', { lineHeight: '1.6' }],
                 caption: ['0.875rem', { lineHeight: '1.5' }],
+                button: ['0.875rem', { lineHeight: '1.25rem' }],
+                pill: ['0.75rem', { lineHeight: '1rem' }],
             },
             spacing: {
                 section: '5rem',
