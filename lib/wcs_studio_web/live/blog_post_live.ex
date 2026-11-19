@@ -226,9 +226,7 @@ defmodule WcsStudioWeb.BlogPostLive do
           <div class="flex flex-wrap items-center gap-3">
             <span class="text-slate-400">Tags:</span>
             <%= for tag <- Post.parse_tags(@post.tags) do %>
-              <span class="px-3 py-1 rounded-full text-sm bg-purple-500/20 text-purple-300 border border-purple-500/30">
-                {tag}
-              </span>
+              <.badge class="text-sm">{tag}</.badge>
             <% end %>
           </div>
         </div>

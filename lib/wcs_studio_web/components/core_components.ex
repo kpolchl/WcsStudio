@@ -604,14 +604,11 @@ defmodule WcsStudioWeb.CoreComponents do
           <div class="p-6 flex items-start justify-between">
             <div class="flex-1 min-w-0">
               <div class="flex flex-wrap gap-1 sm:gap-2 mb-2 sm:mb-3">
-                <span class="px-2 sm:px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-300 border border-purple-500/30">
-                  {WcsStudio.DanceType.get_name(@pattern.dance_type, @locale)}
-                </span>
+                <.badge>{WcsStudio.DanceType.get_name(@pattern.dance_type, @locale)}</.badge>
                 <%= if not @is_child && not Enum.empty?(@children) do %>
-                  <span class="px-2 sm:px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-pink-500/20 to-orange-500/20 text-pink-300 border border-pink-500/30">
-                    <i class="fas fa-sitemap mr-1"></i>
+                  <.badge variant="variation" icon="sitemap">
                     {length(@children)} {gettext("variations")}
-                  </span>
+                  </.badge>
                 <% end %>
               </div>
 
@@ -645,9 +642,7 @@ defmodule WcsStudioWeb.CoreComponents do
               <div class="gap-4 mb-4">
                 <div class="p-4 rounded-xl bg-slate-700/30 border border-slate-600/50 shadow-lg">
                   <div class="flex items-center mb-4">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-yellow-500 flex items-center justify-center mr-3 shadow-lg">
-                      <i class="fas fa-list-ul text-white text-sm"></i>
-                    </div>
+                    <.icon_badge gradient="info" icon="list-ul" class="mr-3" />
                     <h2 class="text-2xl font-bold text-white">{gettext("Description")}</h2>
                   </div>
                   <p class="text-slate-300 text-base leading-relaxed">
@@ -665,9 +660,7 @@ defmodule WcsStudioWeb.CoreComponents do
               <%= if @expanded_pattern_id == @pattern.id do %>
                 <div class="rounded-xl bg-slate-700/30 border border-slate-600/50 shadow-lg">
                   <div class="flex items-center mb-4 pt-4 pl-4 pr-4">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center mr-3 shadow-lg">
-                      <i class="fas fa-play text-white text-sm"></i>
-                    </div>
+                    <.icon_badge gradient="danger" icon="play" class="mr-3" />
                     <h2 class="text-2xl font-bold text-white">{gettext("Showcase Video")}</h2>
                   </div>
                   <div class="w-full rounded-lg shadow-lg overflow-hidden pl-2 pr-2 pb-2">
@@ -816,14 +809,12 @@ defmodule WcsStudioWeb.CoreComponents do
       <div class="p-6 flex items-start justify-between">
         <div class="flex-1 min-w-0">
           <div class="flex flex-wrap gap-2 mb-3">
-            <span class="px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-300 border border-purple-500/30">
-              <i class="fas fa-music mr-1"></i>
+            <.badge icon="music">
               {WcsStudio.DanceType.get_name(@lesson.dance_type, @locale)}
-            </span>
-            <span class="px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-green-500/20 to-emerald-500/20 text-green-300 border border-green-500/30">
-              <i class="fas fa-chart-line mr-1"></i>
+            </.badge>
+            <.badge variant="success" icon="chart-line">
               {@lesson.level.name}
-            </span>
+            </.badge>
           </div>
           <h2 class="text-2xl font-bold text-white mb-3 bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
             {@lesson.title}
@@ -875,9 +866,7 @@ defmodule WcsStudioWeb.CoreComponents do
           <!-- Patterns Box -->
           <div class="p-4 rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg">
             <div class="flex items-center mb-4">
-              <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center mr-3 shadow-lg">
-                <i class="fas fa-shapes text-white text-sm"></i>
-              </div>
+              <.icon_badge icon="shapes" class="mr-3" />
               <h2 class="text-xl font-bold text-white">{gettext("Patterns")}</h2>
             </div>
             <div class="space-y-3">
@@ -893,9 +882,7 @@ defmodule WcsStudioWeb.CoreComponents do
           <!-- Instructors Box -->
           <div class="p-4 rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg">
             <div class="flex items-center mb-4">
-              <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center mr-3 shadow-lg">
-                <i class="fas fa-users text-white text-sm"></i>
-              </div>
+              <.icon_badge icon="users" class="mr-3" />
               <h2 class="text-xl font-bold text-white">{gettext("Instructors")}</h2>
             </div>
             <div class="space-y-4">
@@ -920,9 +907,7 @@ defmodule WcsStudioWeb.CoreComponents do
         <%= if @expanded_lesson_id == @lesson.id do %>
           <div class="rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg">
             <div class="flex items-center mb-4 pt-4 pl-4 pr-4">
-              <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center mr-3 shadow-lg">
-                <i class="fas fa-play text-white text-sm"></i>
-              </div>
+              <.icon_badge gradient="danger" icon="play" class="mr-3" />
               <h2 class="text-xl font-bold text-white">{gettext("Video Lesson")}</h2>
             </div>
             <div class="w-full rounded-lg shadow-lg overflow-hidden">

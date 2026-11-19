@@ -39,7 +39,7 @@ defmodule WcsStudioWeb.UserProfile do
     {:noreply, assign(socket, modal_state: nil)}
   end
 
-  defp status_class("not_started"), do: "text-gray-400"
+  defp status_class("not_started"), do: "text-slate-400"
   defp status_class("in_progress"), do: "text-blue-400"
   defp status_class("learned"), do: "text-green-400"
 
@@ -52,13 +52,13 @@ defmodule WcsStudioWeb.UserProfile do
   defp border_class("learned"),
     do: "hover:border-green-500/30 hover:shadow-lg hover:shadow-green-500/10"
 
-  defp status_bg("not_started"), do: "bg-gray-500/20 text-gray-300 border-gray-500/30"
-  defp status_bg("in_progress"), do: "bg-blue-500/20 text-blue-300 border-blue-500/30"
-  defp status_bg("learned"), do: "bg-green-500/20 text-green-300 border-green-500/30"
+  defp status_badge_variant("not_started"), do: "muted"
+  defp status_badge_variant("in_progress"), do: "primary"
+  defp status_badge_variant("learned"), do: "success"
 
-  defp status_icon("not_started"), do: "fa-circle"
-  defp status_icon("in_progress"), do: "fa-spinner"
-  defp status_icon("learned"), do: "fa-check-circle"
+  defp status_icon("not_started"), do: "circle"
+  defp status_icon("in_progress"), do: "spinner"
+  defp status_icon("learned"), do: "check-circle"
 
   defp status_text("not_started"), do: gettext("Not Started")
   defp status_text("in_progress"), do: gettext("In Progress")
@@ -92,9 +92,7 @@ defmodule WcsStudioWeb.UserProfile do
               </h1>
 
               <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3 mb-4">
-                <span class="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-medium bg-blue-500/20 text-blue-300 border border-blue-500/30 backdrop-blur-sm">
-                  <i class="fas fa-seedling text-xs mr-2"></i> {@current_user.role}
-                </span>
+                <.badge icon="seedling" class="text-sm">{@current_user.role}</.badge>
                 <span class="text-slate-300 text-sm flex items-center gap-2">
                   <i class="fas fa-calendar"></i>
                   <span>
@@ -200,9 +198,7 @@ defmodule WcsStudioWeb.UserProfile do
           <div class="bg-slate-800/40 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-xl hover:border-white/20 transition-all duration-300">
             <div class="flex items-center justify-between mb-6">
               <h3 class="text-lg font-semibold text-white flex items-center gap-2">
-                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center">
-                  <i class="fas fa-shapes text-sm"></i>
-                </div>
+                <.icon_badge icon="shapes" size="sm" />
                 <span>{gettext("Pattern Progress")}</span>
               </h3>
             </div>
@@ -217,9 +213,7 @@ defmodule WcsStudioWeb.UserProfile do
           <div class="bg-slate-800/40 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-xl hover:border-white/20">
             <div class="flex items-center justify-between mb-6">
               <h3 class="text-lg font-semibold text-white flex items-center gap-2">
-                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
-                  <i class="fas fa-chart-pie text-sm"></i>
-                </div>
+                <.icon_badge icon="chart-pie" size="sm" gradient="info" />
                 <span>{gettext("Lesson Attendance")}</span>
               </h3>
             </div>
@@ -237,9 +231,7 @@ defmodule WcsStudioWeb.UserProfile do
       <div class="bg-slate-800/40 backdrop-blur-xl border border-white/10 rounded-2xl p-8 shadow-xl">
         <div class="flex items-center justify-between mb-8">
           <h2 class="text-2xl font-bold text-white flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center">
-              <i class="fas fa-shapes"></i>
-            </div>
+            <.icon_badge icon="shapes" />
             <span>{gettext("My Patterns")}</span>
           </h2>
 
@@ -262,10 +254,12 @@ defmodule WcsStudioWeb.UserProfile do
                   <h3 class="text-base font-semibold text-white group-hover:text-blue-300 transition-colors">
                     {user_pattern.pattern.name}
                   </h3>
-                  <span class={"inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-medium border backdrop-blur-sm #{status_bg(user_pattern.status)}"}>
-                    <i class={"fas #{status_icon(user_pattern.status)} mr-1.5 text-xs"}></i>
+                  <.badge
+                    variant={status_badge_variant(user_pattern.status)}
+                    icon={status_icon(user_pattern.status)}
+                  >
                     {status_text(user_pattern.status)}
-                  </span>
+                  </.badge>
                 </div>
 
                 <div class="flex items-center justify-between pt-3 border-t border-white/5">
