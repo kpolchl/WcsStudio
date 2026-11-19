@@ -81,7 +81,7 @@ defmodule WcsStudioWeb.BlogLive do
           <.input type="text" field={@form[:subject]} label="Subject" />
           <.input type="textarea" field={@form[:body]} label="Body" />
           <.input type="text" field={@form[:tags]} label="Tags format(:tag1:tag2:tag_n:)" />
-          <button class="btn">{gettext("Save")}</button>
+          <.button type="submit">{gettext("Save")}</.button>
         </.form>
       </.modal>
     <% end %>

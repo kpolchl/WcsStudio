@@ -157,13 +157,13 @@ defmodule WcsStudioWeb.CoreComponents do
 
         <!-- Actions -->
         <div class="flex gap-3 justify-center">
-          <button
+          <.button
             phx-click={JS.exec("data-cancel", to: "##{@id}")}
             type="button"
-            class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium py-2.5 px-6 rounded-lg transition-all duration-200"
+            variant={:secondary}
           >
             {@cancel_text}
-          </button>
+          </.button>
 
           <.button
             phx-click={@confirm_event}
@@ -206,7 +206,7 @@ defmodule WcsStudioWeb.CoreComponents do
         form={@form}
         on_submit="update"
         submit_label="Update"
-        submit_class="bg-gradient-to-r from-accent-info to-accent-info/80 hover:from-accent-info hover:to-accent-info/80"
+        submit_variant={:info}
       >
         <.input type="text" field={@form[:name]} label="Name" />
       </.form_modal>
@@ -221,7 +221,10 @@ defmodule WcsStudioWeb.CoreComponents do
   attr :on_change, :string, default: "validate"
   attr :submit_label, :string
   attr :cancel_label, :string
-  attr :submit_class, :string, default: nil
+
+  attr :submit_variant, :atom,
+    default: :primary,
+    values: [:primary, :secondary, :ghost, :danger, :warning, :info, :success]
 
   slot :inner_block, required: true
 
@@ -297,24 +300,17 @@ defmodule WcsStudioWeb.CoreComponents do
 
                   <!-- Actions -->
                   <div class="mt-8 flex justify-end gap-3 pt-6 border-t border-surface-muted/50">
-                    <button
+                    <.button
                       type="button"
+                      variant={:secondary}
                       phx-click={JS.exec("data-cancel", to: "##{@id}")}
-                      class="px-5 py-2.5 text-sm font-medium text-slate-300 bg-surface-muted/50 border border-surface-muted rounded-lg hover:bg-surface-muted hover:text-white transition-all duration-200"
                     >
                       {@cancel_label}
-                    </button>
-                    <button
-                      type="submit"
-                      class={[
-                        "px-5 py-2.5 text-sm font-medium text-white rounded-lg transition-all duration-200 shadow-raised hover:shadow-card hover:-translate-y-0.5 flex items-center gap-2",
-                        @submit_class ||
-                          "bg-gradient-to-r from-brand-from to-brand-to hover:from-brand-hoverFrom hover:to-brand-hoverTo"
-                      ]}
-                    >
-                      <i class="fas fa-save text-xs"></i>
+                    </.button>
+                    <.button type="submit" variant={@submit_variant}>
+                      <i class="fas fa-save"></i>
                       {@submit_label}
-                    </button>
+                    </.button>
                   </div>
                 </.form>
               </div>
@@ -326,16 +322,10 @@ defmodule WcsStudioWeb.CoreComponents do
     """
   end
 
-  defp status_class("not_started"),
-    do: "from-slate-500 to-slate-600 hover:from-slate-600 hover:to-slate-700"
-
-  defp status_class("in_progress"),
-    do:
-      "from-accent-warning to-accent-warning/80 hover:from-accent-warning hover:to-accent-warning/80"
-
-  defp status_class("learned"),
-    do:
-      "from-accent-success to-accent-success/80 hover:from-accent-success hover:to-accent-success/80"
+  defp status_variant("not_started"), do: :secondary
+  defp status_variant("in_progress"), do: :warning
+  defp status_variant("learned"), do: :success
+  defp status_variant(_), do: :secondary
 
   defp status_icon("not_started"), do: "fa-spinner"
   defp status_icon("in_progress"), do: "fa-spinner"
@@ -484,15 +474,16 @@ defmodule WcsStudioWeb.CoreComponents do
             <div class="flex flex-wrap justify-end gap-2 pt-4 border-t border-surface-muted/50">
               <%= if @current_user do %>
                 <% status = @status || "not_started" %>
-                <button
+                <.button
                   phx-click="update_status"
                   phx-value-pattern_id={@pattern.id}
                   phx-value-status={status}
-                  class={"bg-gradient-to-r #{status_class(status)} text-white font-medium py-2 px-4 rounded-lg transition-all duration-300 hover:shadow-raised flex items-center"}
+                  variant={status_variant(status)}
+                  size={:sm}
                 >
-                  <i class={"fas #{status_icon(status)} mr-2"}></i>
+                  <i class={"fas #{status_icon(status)}"}></i>
                   {status_text(status)}
-                </button>
+                </.button>
               <% end %>
 
               <%= if @current_user && @current_user.role == "admin" do %>
@@ -590,12 +581,8 @@ defmodule WcsStudioWeb.CoreComponents do
     """
   end
 
-  defp attended_class(false),
-    do: "from-slate-500 to-slate-600 hover:from-slate-600 hover:to-slate-700"
-
-  defp attended_class(true),
-    do:
-      "from-accent-success to-accent-success/80 hover:from-accent-success hover:to-accent-success/80"
+  defp attended_variant(false), do: :secondary
+  defp attended_variant(true), do: :success
 
   defp attended_icon(false), do: "fa-circle"
   defp attended_icon(true), do: "fa-check-circle"
@@ -748,16 +735,17 @@ defmodule WcsStudioWeb.CoreComponents do
         <div class="flex flex-wrap justify-end gap-2 mt-4 pt-4 border-t border-surface-muted/50">
           <%= if @current_user do %>
             <% attended = @attended || false %>
-            <button
+            <.button
               phx-click="toggle_attendance"
               phx-value-lesson_id={@lesson.id}
               phx-value-user_id={@current_user.id}
               phx-value-attended={attended}
-              class={"bg-gradient-to-r #{attended_class(attended)} text-white font-medium py-2 px-4 rounded-lg transition-all duration-300 hover:shadow-raised flex items-center"}
+              variant={attended_variant(attended)}
+              size={:sm}
             >
-              <i class={"fas #{attended_icon(attended)} mr-2"}></i>
+              <i class={"fas #{attended_icon(attended)}"}></i>
               {attended_text(attended)}
-            </button>
+            </.button>
           <% end %>
 
           <%= if @current_user && @current_user.role == "admin" do %>
@@ -1043,7 +1031,7 @@ defmodule WcsStudioWeb.CoreComponents do
 
   attr :variant, :atom,
     default: :primary,
-    values: [:primary, :secondary, :ghost, :danger, :info, :success]
+    values: [:primary, :secondary, :ghost, :danger, :warning, :info, :success]
 
   attr :size, :atom, default: :md, values: [:sm, :md, :lg]
   attr :disabled, :boolean, default: false
@@ -1080,7 +1068,7 @@ defmodule WcsStudioWeb.CoreComponents do
 
   defp button_variant(:secondary),
     do:
-      "bg-surface-raised/50 backdrop-blur-sm border border-surface-muted/50 text-white hover:bg-surface-muted/50 hover:border-surface-muted"
+      "bg-surface-muted/50 backdrop-blur-sm border border-surface-muted text-white hover:bg-surface-muted hover:border-strong"
 
   defp button_variant(:ghost),
     do: "bg-transparent text-slate-300 hover:bg-surface-raised/50 hover:text-white"
@@ -1093,13 +1081,17 @@ defmodule WcsStudioWeb.CoreComponents do
     do:
       "bg-gradient-to-r from-accent-info to-accent-info/80 hover:from-accent-info hover:to-accent-info/80 text-white shadow-raised hover:shadow-accent-info/25 hover:-translate-y-0.5"
 
+  defp button_variant(:warning),
+    do:
+      "bg-gradient-to-r from-accent-warning to-accent-warning/80 hover:from-accent-warning hover:to-accent-warning/80 text-white shadow-raised hover:shadow-accent-warning/25 hover:-translate-y-0.5"
+
   defp button_variant(:success),
     do:
-      "bg-gradient-to-r from-accent-success to-accent-success/80/80 hover:from-accent-success hover:to-accent-success/80 text-white shadow-raised hover:shadow-accent-success/50 hover:-translate-y-0.5"
+      "bg-gradient-to-r from-accent-success to-accent-success/80 hover:from-accent-success hover:to-accent-success/80 text-white shadow-raised hover:shadow-accent-success/50 hover:-translate-y-0.5"
 
-  defp button_size(:sm), do: "px-4 py-2 text-sm"
-  defp button_size(:md), do: "px-5 py-2.5 text-sm"
-  defp button_size(:lg), do: "px-8 py-4 text-base"
+  defp button_size(:sm), do: "px-3 py-2 text-sm"
+  defp button_size(:md), do: "px-4 py-2 text-sm"
+  defp button_size(:lg), do: "px-6 py-3 text-base"
 
   @doc """
   Renders a surface card with the shared radius, shadow and hover treatment.

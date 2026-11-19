@@ -428,7 +428,7 @@ defmodule WcsStudioWeb.LessonsLive do
           on_cancel={JS.push("close_modal")}
           on_submit="update_lesson"
           submit_label={gettext("Update")}
-          submit_class="bg-gradient-to-r from-accent-info to-accent-info/80 hover:from-accent-info hover:to-accent-info/80"
+          submit_variant={:info}
         >
           <.input type="text" field={@form[:title]} label={gettext("Title")} />
 

@@ -312,7 +312,7 @@ defmodule WcsStudioWeb.CoreComponentsTest do
       assert html =~ ~s(id="fm-content")
     end
 
-    test "accepts a custom submit label and class" do
+    test "accepts a custom submit label and variant" do
       assigns = %{form: to_form(%{}, as: :thing)}
 
       html =
@@ -323,14 +323,14 @@ defmodule WcsStudioWeb.CoreComponentsTest do
           form={@form}
           on_submit="update"
           submit_label="Update"
-          submit_class="custom-class"
+          submit_variant={:info}
         >
           body
         </C.form_modal>
         """)
 
       assert html =~ "Update"
-      assert html =~ "custom-class"
+      assert html =~ "from-accent-info"
     end
   end
 
