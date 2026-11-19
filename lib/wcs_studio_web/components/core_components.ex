@@ -12,7 +12,7 @@ defmodule WcsStudioWeb.CoreComponents do
   See the [Tailwind CSS documentation](https://tailwindcss.com) to learn
   how to customize them or feel free to swap in another framework altogether.
 
-  Icons are provided by [Font Awesome](https://fontawesome.com). See `icon/1` for usage.
+  Icons are provided by [heroicons](https://heroicons.com). See `icon/1` for usage.
   """
   use Phoenix.Component
 
@@ -50,7 +50,6 @@ defmodule WcsStudioWeb.CoreComponents do
     ~H"""
     <div
       id={@id}
-      phx-hook="ModalFocus"
       phx-mounted={@show && show_modal(@id)}
       phx-remove={hide_modal(@id)}
       data-cancel={JS.exec(@on_cancel, "phx-remove")}
@@ -58,7 +57,7 @@ defmodule WcsStudioWeb.CoreComponents do
     >
       <div
         id={"#{@id}-bg"}
-        class="bg-surface-base/80 backdrop-blur-sm fixed inset-0 transition-opacity"
+        class="bg-slate-900/80 backdrop-blur-sm fixed inset-0 transition-opacity"
         aria-hidden="true"
       />
       <div
@@ -79,28 +78,28 @@ defmodule WcsStudioWeb.CoreComponents do
               class="relative hidden transition"
             >
               <!-- Modal Content -->
-              <div class="bg-surface-raised rounded-lg border border-surface-muted/50 shadow-card p-6">
-                <button
-                  phx-click={JS.exec("data-cancel", to: "##{@id}")}
-                  type="button"
-                  class="absolute top-4 right-4 w-8 h-8 rounded-md bg-surface-muted/50 hover:bg-surface-muted flex items-center justify-center transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-lightFrom/70"
-                  aria-label={gettext("close")}
-                >
-                  <i class="fas fa-times text-muted group-hover:text-strong text-sm"></i>
-                </button>
-                <div :if={@title != [] || @subtitle != []} class="pr-12 mb-4">
-                  <h2
-                    :if={@title != []}
-                    id={"#{@id}-title"}
-                    class="text-heading font-bold text-strong"
-                  >
+              <div class="bg-slate-800/90 backdrop-blur-sm rounded-xl border border-slate-700/50 shadow-2xl p-6">
+                <div :if={@title != [] || @subtitle != []} class="pr-8 mb-4">
+                  <h2 :if={@title != []} id={"#{@id}-title"} class="text-2xl font-bold text-white">
                     {render_slot(@title)}
                   </h2>
-                  <p :if={@subtitle != []} id={"#{@id}-description"} class="text-caption text-muted">
+                  <p :if={@subtitle != []} id={"#{@id}-description"} class="text-slate-400 text-sm">
                     {render_slot(@subtitle)}
                   </p>
                 </div>
                 {render_slot(@inner_block)}
+              </div>
+
+              <!-- Close Button -->
+              <div class="absolute -top-3 -right-3">
+                <button
+                  phx-click={JS.exec("data-cancel", to: "##{@id}")}
+                  type="button"
+                  class="w-8 h-8 rounded-full bg-slate-700 border border-slate-600/50 flex items-center justify-center text-slate-300 hover:text-white hover:bg-slate-600 transition-all duration-300 hover:shadow-lg"
+                  aria-label={gettext("close")}
+                >
+                  <i class="fas fa-times text-sm"></i>
+                </button>
               </div>
             </.focus_wrap>
           </div>
@@ -139,33 +138,41 @@ defmodule WcsStudioWeb.CoreComponents do
 
     ~H"""
     <.modal id={@id}>
-      <:title>{@title}</:title>
-      <:subtitle>{@message}</:subtitle>
-      <div>
+      <div class="text-center">
         <!-- Warning Icon -->
-        <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-accent-danger to-accent-dangerTo mb-4">
-          <i class="fas fa-exclamation-triangle text-strong text-2xl"></i>
+        <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-red-500 to-pink-500 mb-4">
+          <i class="fas fa-exclamation-triangle text-white text-2xl"></i>
         </div>
 
+        <!-- Title -->
+        <h3 class="text-2xl font-bold text-slate-900 mb-3">
+          {@title}
+        </h3>
+
+        <!-- Message -->
+        <p class="text-slate-600 mb-8 leading-relaxed">
+          {@message}
+        </p>
+
         <!-- Actions -->
-        <div class="flex justify-end gap-3 pt-2">
-          <.button
+        <div class="flex gap-3 justify-center">
+          <button
             phx-click={JS.exec("data-cancel", to: "##{@id}")}
             type="button"
-            variant={:secondary}
+            class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium py-2.5 px-6 rounded-lg transition-all duration-200"
           >
             {@cancel_text}
-          </.button>
+          </button>
 
-          <.button
+          <button
             phx-click={@confirm_event}
             phx-value-id={@confirm_value}
             type="button"
-            variant={:danger}
+            class="bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white font-medium py-2.5 px-6 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-red-500/25"
           >
-            <i class="fas fa-trash"></i>
+            <i class="fas fa-trash mr-2"></i>
             {@confirm_text}
-          </.button>
+          </button>
         </div>
       </div>
     </.modal>
@@ -198,7 +205,7 @@ defmodule WcsStudioWeb.CoreComponents do
         form={@form}
         on_submit="update"
         submit_label="Update"
-        submit_variant={:info}
+        submit_class="bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700"
       >
         <.input type="text" field={@form[:name]} label="Name" />
       </.form_modal>
@@ -213,10 +220,7 @@ defmodule WcsStudioWeb.CoreComponents do
   attr :on_change, :string, default: "validate"
   attr :submit_label, :string
   attr :cancel_label, :string
-
-  attr :submit_variant, :atom,
-    default: :primary,
-    values: [:primary, :secondary, :ghost, :danger, :warning, :info, :success]
+  attr :submit_class, :string, default: nil
 
   slot :inner_block, required: true
 
@@ -229,7 +233,6 @@ defmodule WcsStudioWeb.CoreComponents do
     ~H"""
     <div
       id={@id}
-      phx-hook="ModalFocus"
       phx-mounted={@show && show_modal(@id)}
       phx-remove={hide_modal(@id)}
       data-cancel={JS.exec(@on_cancel, "phx-remove")}
@@ -237,7 +240,7 @@ defmodule WcsStudioWeb.CoreComponents do
     >
       <div
         id={"#{@id}-bg"}
-        class="bg-surface-base/80 backdrop-blur-sm fixed inset-0 transition-opacity"
+        class="bg-slate-900/80 backdrop-blur-sm fixed inset-0 transition-opacity"
         aria-hidden="true"
       />
       <div
@@ -255,56 +258,63 @@ defmodule WcsStudioWeb.CoreComponents do
               phx-window-keydown={JS.exec("data-cancel", to: "##{@id}")}
               phx-key="escape"
               phx-click-away={JS.exec("data-cancel", to: "##{@id}")}
-              class="relative hidden transition"
+              class="relative hidden rounded-2xl bg-slate-800 border border-slate-700/50 shadow-2xl transition-all transform"
             >
               <!-- Header -->
-              <div class="bg-surface-raised rounded-lg border border-surface-muted/50 shadow-card p-6">
+              <div class="relative p-6 pb-4 border-b border-slate-700/50">
                 <button
                   phx-click={JS.exec("data-cancel", to: "##{@id}")}
                   type="button"
-                  class="absolute top-4 right-4 w-8 h-8 rounded-md bg-surface-muted/50 hover:bg-surface-muted flex items-center justify-center transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-lightFrom/70"
+                  class="absolute top-4 right-4 w-8 h-8 rounded-lg bg-slate-700/50 hover:bg-slate-600/50 flex items-center justify-center transition-all duration-200 group"
                   aria-label={gettext("close")}
                 >
-                  <i class="fas fa-times text-muted group-hover:text-strong text-sm"></i>
+                  <i class="fas fa-times text-slate-400 group-hover:text-white text-sm"></i>
                 </button>
 
-                <div class="pr-12 mb-4">
-                  <h2 id={"#{@id}-title"} class="text-heading font-bold text-strong">
+                <div class="pr-8">
+                  <h2 id={"#{@id}-title"} class="text-2xl font-bold text-white mb-1">
                     {@title}
                   </h2>
-                  <p :if={@subtitle} id={"#{@id}-description"} class="text-caption text-muted">
+                  <p :if={@subtitle} id={"#{@id}-description"} class="text-slate-400 text-sm">
                     {@subtitle}
                   </p>
                 </div>
+              </div>
 
-                <!-- Form Content -->
-                <div id={"#{@id}-content"}>
-                  <.form
-                    for={@form}
-                    id={"#{@id}-form"}
-                    phx-submit={@on_submit}
-                    phx-change={@on_change}
-                  >
-                    <div class="space-y-4">
-                      {render_slot(@inner_block)}
-                    </div>
+              <!-- Form Content -->
+              <div id={"#{@id}-content"} class="p-6">
+                <.form
+                  for={@form}
+                  id={"#{@id}-form"}
+                  phx-submit={@on_submit}
+                  phx-change={@on_change}
+                >
+                  <div class="space-y-4">
+                    {render_slot(@inner_block)}
+                  </div>
 
-                    <!-- Actions -->
-                    <div class="mt-6 flex justify-end gap-3 pt-6 border-t border-surface-muted/50">
-                      <.button
-                        type="button"
-                        variant={:secondary}
-                        phx-click={JS.exec("data-cancel", to: "##{@id}")}
-                      >
-                        {@cancel_label}
-                      </.button>
-                      <.button type="submit" variant={@submit_variant}>
-                        <i class="fas fa-save"></i>
-                        {@submit_label}
-                      </.button>
-                    </div>
-                  </.form>
-                </div>
+                  <!-- Actions -->
+                  <div class="mt-8 flex justify-end gap-3 pt-6 border-t border-slate-700/50">
+                    <button
+                      type="button"
+                      phx-click={JS.exec("data-cancel", to: "##{@id}")}
+                      class="px-5 py-2.5 text-sm font-medium text-slate-300 bg-slate-700/50 border border-slate-600/50 rounded-lg hover:bg-slate-600/50 hover:text-white transition-all duration-200"
+                    >
+                      {@cancel_label}
+                    </button>
+                    <button
+                      type="submit"
+                      class={[
+                        "px-5 py-2.5 text-sm font-medium text-white rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl hover:-translate-y-0.5 flex items-center gap-2",
+                        @submit_class ||
+                          "bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600"
+                      ]}
+                    >
+                      <i class="fas fa-save text-xs"></i>
+                      {@submit_label}
+                    </button>
+                  </div>
+                </.form>
               </div>
             </.focus_wrap>
           </div>
@@ -314,10 +324,14 @@ defmodule WcsStudioWeb.CoreComponents do
     """
   end
 
-  defp status_variant("not_started"), do: :secondary
-  defp status_variant("in_progress"), do: :warning
-  defp status_variant("learned"), do: :success
-  defp status_variant(_), do: :secondary
+  defp status_class("not_started"),
+    do: "from-gray-400 to-gray-500 hover:from-gray-500 hover:to-gray-600"
+
+  defp status_class("in_progress"),
+    do: "from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600"
+
+  defp status_class("learned"),
+    do: "from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700"
 
   defp status_icon("not_started"), do: "fa-spinner"
   defp status_icon("in_progress"), do: "fa-spinner"
@@ -362,9 +376,9 @@ defmodule WcsStudioWeb.CoreComponents do
       <!-- One shared box: parent + toggle + children -->
       <div class={[
         if(@is_child,
-          do: "bg-surface-muted/20 border-l-2 border-accent-info/40",
+          do: "bg-purple-950/30 border-l-2 border-purple-500/40",
           else:
-            "rounded-lg border border-surface-muted/50 bg-surface-raised/50 shadow-card overflow-hidden transition-all duration-300 hover:border-brand-from/30 hover:shadow-lift"
+            "rounded-2xl border border-slate-700/50 bg-slate-800/50 shadow-xl overflow-hidden transition-all duration-300 hover:border-pink-500/30 hover:shadow-2xl"
         )
       ]}>
         <!-- Pattern card (no border/rounding of its own) -->
@@ -374,24 +388,24 @@ defmodule WcsStudioWeb.CoreComponents do
           phx-value-id={@pattern.id}
           class={[
             "group w-full cursor-pointer transition-colors duration-200",
-            if(@is_child, do: "hover:bg-surface-muted/30", else: "hover:bg-surface-muted/20")
+            if(@is_child, do: "hover:bg-purple-900/20", else: "hover:bg-slate-700/20")
           ]}
         >
           <div class="p-6 flex items-start justify-between">
             <div class="flex-1 min-w-0">
               <div class="flex flex-wrap gap-1 sm:gap-2 mb-2 sm:mb-3">
-                <span class="px-2 sm:px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-brand-from/20 to-accent-warningTo/20 text-brand-lightTo border border-accent-info/30">
+                <span class="px-2 sm:px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-300 border border-purple-500/30">
                   {WcsStudio.DanceType.get_name(@pattern.dance_type, @locale)}
                 </span>
                 <%= if not @is_child && not Enum.empty?(@children) do %>
-                  <span class="px-2 sm:px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-brand-from/20 to-accent-warningTo/20 text-brand-soft border border-brand-from/30">
+                  <span class="px-2 sm:px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-pink-500/20 to-orange-500/20 text-pink-300 border border-pink-500/30">
                     <i class="fas fa-sitemap mr-1"></i>
                     {length(@children)} {gettext("variations")}
                   </span>
                 <% end %>
               </div>
 
-              <h2 class="text-3xl font-bold text-strong mb-2 bg-gradient-to-r from-strong to-body bg-clip-text text-transparent">
+              <h2 class="text-3xl font-bold text-white mb-2 bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
                 {@pattern.name}
               </h2>
             </div>
@@ -402,7 +416,7 @@ defmodule WcsStudioWeb.CoreComponents do
             class={if @expanded_pattern_id == @pattern.id, do: "hidden", else: "px-6 pb-4 pt-0"}
             id={"preview-body-#{@pattern.id}"}
           >
-            <div class="flex items-center text-subtle text-xs">
+            <div class="flex items-center text-slate-500 text-xs">
               <i class="fas fa-info-circle mr-1"></i>
               <span>{gettext("Click to expand pattern details")}</span>
             </div>
@@ -414,46 +428,39 @@ defmodule WcsStudioWeb.CoreComponents do
             class={
               unless @expanded_pattern_id == @pattern.id,
                 do: "hidden",
-                else: "px-4 pb-4 pt-0 border-t border-surface-muted/50"
+                else: "px-4 pb-4 pt-0 border-t border-slate-700/50"
             }
           >
-            <div class="py-4">
-              <div class="mb-4">
-                <div class="p-4 rounded-md bg-surface-muted/30 border border-surface-muted shadow-panel">
+            <div class="mb-4 py-4">
+              <div class="gap-4 mb-4">
+                <div class="p-4 rounded-xl bg-slate-700/30 border border-slate-600/50 shadow-lg">
                   <div class="flex items-center mb-4">
-                    <div class="w-10 h-10 rounded-md bg-gradient-to-br from-accent-amber to-accent-warningHoverFrom flex items-center justify-center mr-3 shadow-panel">
-                      <i class="fas fa-list-ul text-strong text-sm"></i>
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-yellow-500 flex items-center justify-center mr-3 shadow-lg">
+                      <i class="fas fa-list-ul text-white text-sm"></i>
                     </div>
-                    <h2 class="text-2xl font-bold text-strong">{gettext("Description")}</h2>
+                    <h2 class="text-2xl font-bold text-white">{gettext("Description")}</h2>
                   </div>
-                  <div class="flex items-baseline gap-2 text-body">
-                    <span class="text-caption text-muted">{gettext("Starting position:")}</span>
-                    <span class="font-medium text-strong">
-                      {WcsStudio.Pattern.hands_label(@pattern.starting_hands)}
-                    </span>
-                  </div>
-                  <div class="flex items-baseline gap-2 text-body">
-                    <span class="text-caption text-muted">{gettext("Ending position:")}</span>
-                    <span class="font-medium text-strong">
-                      {WcsStudio.Pattern.hands_label(@pattern.ending_hands)}
-                    </span>
-                  </div>
-                  <div class="flex items-baseline gap-2 text-body">
-                    <span class="text-caption text-muted">{gettext("Count:")}</span>
-                    <span class="font-medium text-strong">{@pattern.count_num}</span>
-                  </div>
+                  <p class="text-slate-300 text-base leading-relaxed">
+                    <strong>{gettext("Starting position:")}</strong> {@pattern.starting_hands}
+                  </p>
+                  <p class="text-slate-300 text-base leading-relaxed">
+                    <strong>{gettext("Ending position:")}</strong> {@pattern.ending_hands}
+                  </p>
+                  <p class="text-slate-300 text-base leading-relaxed">
+                    <strong>{gettext("Count:")}</strong> {@pattern.count_num}
+                  </p>
                 </div>
               </div>
 
               <%= if @expanded_pattern_id == @pattern.id do %>
-                <div class="rounded-md bg-surface-muted/30 border border-surface-muted shadow-panel">
+                <div class="rounded-xl bg-slate-700/30 border border-slate-600/50 shadow-lg">
                   <div class="flex items-center mb-4 pt-4 pl-4 pr-4">
-                    <div class="w-10 h-10 rounded-md bg-gradient-to-br from-accent-danger to-accent-warningTo flex items-center justify-center mr-3 shadow-panel">
-                      <i class="fas fa-play text-strong text-sm"></i>
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center mr-3 shadow-lg">
+                      <i class="fas fa-play text-white text-sm"></i>
                     </div>
-                    <h2 class="text-2xl font-bold text-strong">{gettext("Showcase Video")}</h2>
+                    <h2 class="text-2xl font-bold text-white">{gettext("Showcase Video")}</h2>
                   </div>
-                  <div class="w-full rounded-md shadow-panel overflow-hidden pl-2 pr-2 pb-2">
+                  <div class="w-full rounded-lg shadow-lg overflow-hidden pl-2 pr-2 pb-2">
                     <div class="relative" style="padding-bottom: 56.25%; height: 0;">
                       <iframe
                         class="absolute top-0 left-0 w-full h-full"
@@ -470,40 +477,37 @@ defmodule WcsStudioWeb.CoreComponents do
             </div>
 
             <!-- Actions -->
-            <div class="flex flex-wrap justify-end gap-2 pt-4 border-t border-surface-muted/50">
+            <div class="flex flex-wrap justify-end gap-2 pt-4 border-t border-slate-700/50">
               <%= if @current_user do %>
                 <% status = @status || "not_started" %>
-                <.button
+                <button
                   phx-click="update_status"
                   phx-value-pattern_id={@pattern.id}
                   phx-value-status={status}
-                  variant={status_variant(status)}
-                  size={:sm}
+                  class={"bg-gradient-to-r #{status_class(status)} text-white font-medium py-2 px-4 rounded-lg transition-all duration-300 hover:shadow-lg flex items-center"}
                 >
-                  <i class={"fas #{status_icon(status)}"}></i>
+                  <i class={"fas #{status_icon(status)} mr-2"}></i>
                   {status_text(status)}
-                </.button>
+                </button>
               <% end %>
 
               <%= if @current_user && @current_user.role == "admin" do %>
-                <.button
+                <button
                   phx-click="open_update_modal"
                   phx-value-id={@pattern.id}
-                  variant={:info}
-                  size={:sm}
+                  class="bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 text-white font-medium py-2 px-4 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/25 hover:-translate-y-0.5 flex items-center"
                 >
-                  <i class="fas fa-edit"></i>
+                  <i class="fas fa-edit mr-2"></i>
                   {gettext("Update")}
-                </.button>
+                </button>
 
-                <.button
+                <button
                   phx-click={show_modal("confirm-delete-pattern-#{@pattern.id}")}
-                  variant={:danger}
-                  size={:sm}
+                  class="bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white font-medium py-2 px-4 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-red-500/25 hover:-translate-y-0.5 flex items-center"
                 >
-                  <i class="fas fa-trash"></i>
+                  <i class="fas fa-trash mr-2"></i>
                   {gettext("Delete")}
-                </.button>
+                </button>
               <% end %>
             </div>
           </div>
@@ -522,9 +526,9 @@ defmodule WcsStudioWeb.CoreComponents do
             class={[
               "w-full flex items-center justify-between px-6 py-3 text-sm font-medium transition-colors duration-200 border-t",
               if(children_expanded,
-                do: "bg-brand-from/10 text-brand-soft border-brand-from/30 hover:bg-brand-from/20",
+                do: "bg-pink-500/10 text-pink-300 border-pink-500/30 hover:bg-pink-500/20",
                 else:
-                  "bg-surface-base/30 text-muted border-surface-muted/50 hover:text-brand-soft hover:bg-brand-from/10"
+                  "bg-slate-900/30 text-slate-400 border-slate-700/50 hover:text-pink-300 hover:bg-pink-500/10"
               )
             ]}
           >
@@ -539,7 +543,7 @@ defmodule WcsStudioWeb.CoreComponents do
           </button>
 
           <%= if children_expanded do %>
-            <div class="rounded-b-lg overflow-hidden border-t border-surface-muted/50 divide-y divide-surface-muted/30">
+            <div class="border-t border-slate-700/50 divide-y divide-purple-700/30">
               <%= for child <- @children do %>
                 <.pattern
                   pattern={child}
@@ -579,8 +583,11 @@ defmodule WcsStudioWeb.CoreComponents do
     """
   end
 
-  defp attended_variant(false), do: :secondary
-  defp attended_variant(true), do: :success
+  defp attended_class(false),
+    do: "from-gray-400 to-gray-500 hover:from-gray-500 hover:to-gray-600"
+
+  defp attended_class(true),
+    do: "from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700"
 
   defp attended_icon(false), do: "fa-circle"
   defp attended_icon(true), do: "fa-check-circle"
@@ -600,38 +607,38 @@ defmodule WcsStudioWeb.CoreComponents do
       id={"lesson-card-#{@lesson.id}"}
       phx-click="toggle_lesson"
       phx-value-id={@lesson.id}
-      class="group bg-surface-raised/50 backdrop-blur-sm rounded-lg border border-surface-muted/50 shadow-card transition-all duration-300 mb-6 cursor-pointer hover:shadow-lift hover:border-brand-from/30 max-w-4xl md:w-1/2"
+      class="group bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 shadow-xl transition-all duration-300 mb-6 cursor-pointer hover:shadow-2xl hover:border-pink-500/30 max-w-4xl md:w-1/2"
     >
       <div class="p-6 flex items-start justify-between">
         <div class="flex-1 min-w-0">
           <div class="flex flex-wrap gap-2 mb-3">
-            <span class="px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-brand-from/20 to-brand-to/20 text-brand-lightTo border border-accent-info/30">
+            <span class="px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-300 border border-purple-500/30">
               <i class="fas fa-music mr-1"></i>
               {WcsStudio.DanceType.get_name(@lesson.dance_type, @locale)}
             </span>
-            <span class="px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-accent-success/20 to-accent-successTo/20 text-accent-success border border-accent-success/30">
+            <span class="px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-green-500/20 to-emerald-500/20 text-green-300 border border-green-500/30">
               <i class="fas fa-chart-line mr-1"></i>
               {@lesson.level.name}
             </span>
           </div>
-          <h2 class="text-2xl font-bold text-strong mb-3 bg-gradient-to-r from-strong to-body bg-clip-text text-transparent">
+          <h2 class="text-2xl font-bold text-white mb-3 bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
             {@lesson.title}
           </h2>
-          <div class="flex  text-sm text-muted gap-8">
+          <div class="flex  text-sm text-slate-400 gap-8">
             <div class="flex items-center whitespace-nowrap">
-              <i class="fas fa-calendar-day mr-2 text-accent-info"></i>
+              <i class="fas fa-calendar-day mr-2 text-blue-400"></i>
               <span>{@lesson.date}</span>
             </div>
             <div class="flex items-center">
-              <i class="fas fa-map-marker-alt mr-2 text-accent-danger"></i>
+              <i class="fas fa-map-marker-alt mr-2 text-red-400"></i>
               <span>{@lesson.place}</span>
             </div>
           </div>
         </div>
         <div class="flex-shrink-0 transition-transform duration-300 ml-4 group">
-          <div class="w-12 h-12 rounded-md bg-gradient-to-br from-accent-info to-accent-infoTo flex items-center justify-center shadow-panel">
+          <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center shadow-lg">
             <i class={[
-              "fas fa-chevron-down text-strong transition-transform duration-300",
+              "fas fa-chevron-down text-white transition-transform duration-300",
               if(@expanded_lesson_id == @lesson.id, do: "rotate-180", else: "group-hover:rotate-180")
             ]}></i>
           </div>
@@ -643,7 +650,7 @@ defmodule WcsStudioWeb.CoreComponents do
         class={if @expanded_lesson_id == @lesson.id, do: "hidden", else: "px-6 pb-4 pt-0 "}
         id={"preview-body-#{@lesson.id}"}
       >
-        <div class="flex items-center text-sm text-muted">
+        <div class="flex items-center text-sm text-slate-400">
           <span>
             <i class="fas fa-users mr-1"></i>
             {ngettext("1 instructor", "%{count} instructors", length(@lesson.instructors))}
@@ -656,48 +663,48 @@ defmodule WcsStudioWeb.CoreComponents do
         class={
           unless @expanded_lesson_id == @lesson.id,
             do: "hidden",
-            else: "px-2 pb-4 pt-0 border-t border-surface-muted/50 mt-4"
+            else: "px-2 pb-4 pt-0 border-t border-slate-700/50 mt-4"
         }
         id={"expanded-body-#{@lesson.id}"}
       >
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4 pt-4">
           <!-- Patterns Box -->
-          <div class="p-4 rounded-md bg-surface-muted/30 backdrop-blur-sm border border-surface-muted shadow-panel">
+          <div class="p-4 rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg">
             <div class="flex items-center mb-4">
-              <div class="w-10 h-10 rounded-md bg-gradient-to-br from-accent-info to-accent-infoTo flex items-center justify-center mr-3 shadow-panel">
-                <i class="fas fa-shapes text-strong text-sm"></i>
+              <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center mr-3 shadow-lg">
+                <i class="fas fa-shapes text-white text-sm"></i>
               </div>
-              <h2 class="text-xl font-bold text-strong">{gettext("Patterns")}</h2>
+              <h2 class="text-xl font-bold text-white">{gettext("Patterns")}</h2>
             </div>
             <div class="space-y-3">
               <%= for pattern <- @lesson.patterns do %>
-                <div class="bg-surface-muted/40 p-3 rounded-lg flex items-center">
-                  <i class="fas fa-circle text-accent-info text-xs mr-3 animate-pulse"></i>
-                  <span class="font-medium text-body">{pattern.name}</span>
+                <div class="bg-slate-600/30 p-3 rounded-lg flex items-center">
+                  <i class="fas fa-circle text-blue-400 text-xs mr-3 animate-pulse"></i>
+                  <span class="font-medium text-slate-200">{pattern.name}</span>
                 </div>
               <% end %>
             </div>
           </div>
 
           <!-- Instructors Box -->
-          <div class="p-4 rounded-md bg-surface-muted/30 backdrop-blur-sm border border-surface-muted shadow-panel">
+          <div class="p-4 rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg">
             <div class="flex items-center mb-4">
-              <div class="w-10 h-10 rounded-md bg-gradient-to-br from-brand-from to-brand-to flex items-center justify-center mr-3 shadow-panel">
-                <i class="fas fa-users text-strong text-sm"></i>
+              <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center mr-3 shadow-lg">
+                <i class="fas fa-users text-white text-sm"></i>
               </div>
-              <h2 class="text-xl font-bold text-strong">{gettext("Instructors")}</h2>
+              <h2 class="text-xl font-bold text-white">{gettext("Instructors")}</h2>
             </div>
             <div class="space-y-4">
               <%= for instructor <- @lesson.instructors do %>
-                <div class="flex items-center p-3 rounded-lg bg-surface-muted/40 ">
-                  <div class="w-12 h-12 rounded-md bg-gradient-to-br from-brand-from to-brand-to flex items-center justify-center mr-3 shadow-panel">
-                    <span class="font-bold text-strong text-sm">
+                <div class="flex items-center p-3 rounded-lg bg-slate-600/30 ">
+                  <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center mr-3 shadow-lg">
+                    <span class="font-bold text-white text-sm">
                       {String.first(instructor.username)}
                     </span>
                   </div>
                   <div>
-                    <h3 class="font-semibold text-strong">{instructor.username}</h3>
-                    <p class="text-sm text-muted">{gettext("Dance Instructor")}</p>
+                    <h3 class="font-semibold text-white">{instructor.username}</h3>
+                    <p class="text-sm text-slate-400">{gettext("Dance Instructor")}</p>
                   </div>
                 </div>
               <% end %>
@@ -707,14 +714,14 @@ defmodule WcsStudioWeb.CoreComponents do
 
         <!-- Video Section -->
         <%= if @expanded_lesson_id == @lesson.id do %>
-          <div class="rounded-md bg-surface-muted/30 backdrop-blur-sm border border-surface-muted shadow-panel">
+          <div class="rounded-xl bg-slate-700/30 backdrop-blur-sm border border-slate-600/50 shadow-lg">
             <div class="flex items-center mb-4 pt-4 pl-4 pr-4">
-              <div class="w-10 h-10 rounded-md bg-gradient-to-br from-accent-danger to-accent-dangerTo flex items-center justify-center mr-3 shadow-panel">
-                <i class="fas fa-play text-strong text-sm"></i>
+              <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center mr-3 shadow-lg">
+                <i class="fas fa-play text-white text-sm"></i>
               </div>
-              <h2 class="text-xl font-bold text-strong">{gettext("Video Lesson")}</h2>
+              <h2 class="text-xl font-bold text-white">{gettext("Video Lesson")}</h2>
             </div>
-            <div class="w-full rounded-md shadow-panel overflow-hidden">
+            <div class="w-full rounded-lg shadow-lg overflow-hidden">
               <div class="relative" style="padding-bottom: 56.25%; height: 0;">
                 <iframe
                   class="absolute top-0 left-0 w-full h-full"
@@ -730,40 +737,38 @@ defmodule WcsStudioWeb.CoreComponents do
         <% end %>
 
         <!-- Actions -->
-        <div class="flex flex-wrap justify-end gap-2 mt-4 pt-4 border-t border-surface-muted/50">
+        <div class="flex flex-wrap justify-end gap-2 mt-4 pt-4 border-t border-slate-700/50">
           <%= if @current_user do %>
             <% attended = @attended || false %>
-            <.button
+            <button
               phx-click="toggle_attendance"
               phx-value-lesson_id={@lesson.id}
               phx-value-user_id={@current_user.id}
               phx-value-attended={attended}
-              variant={attended_variant(attended)}
-              size={:sm}
+              class={"bg-gradient-to-r #{attended_class(attended)} text-white font-medium py-2 px-4 rounded-lg transition-all duration-300 hover:shadow-lg flex items-center"}
             >
-              <i class={"fas #{attended_icon(attended)}"}></i>
+              <i class={"fas #{attended_icon(attended)} mr-2"}></i>
               {attended_text(attended)}
-            </.button>
+            </button>
           <% end %>
 
           <%= if @current_user && @current_user.role == "admin" do %>
-            <.button
+            <button
               phx-click="open_update_modal"
               phx-value-id={@lesson.id}
-              variant={:info}
+              class="bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 text-white font-medium py-3 px-6 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/25 hover:-translate-y-0.5 flex items-center"
             >
-              <i class="fas fa-edit"></i>
+              <i class="fas fa-edit mr-2"></i>
               {gettext("Update Lesson")}
-            </.button>
+            </button>
 
-            <.button
+            <button
               phx-click={show_modal("confirm-delete-lesson-#{@lesson.id}")}
-              variant={:danger}
-              size={:sm}
+              class="bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white font-medium py-2 px-4 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-red-500/25 hover:-translate-y-0.5 flex items-center"
             >
-              <i class="fas fa-trash"></i>
+              <i class="fas fa-trash mr-2"></i>
               {gettext("Delete")}
-            </.button>
+            </button>
           <% end %>
         </div>
       </div>
@@ -784,20 +789,20 @@ defmodule WcsStudioWeb.CoreComponents do
     ~H"""
     <.link
       href={"/blog/#{@post.id}"}
-      class="block group bg-surface-raised/50 backdrop-blur-sm rounded-lg border border-surface-muted/50 shadow-card transition-all duration-500 hover:shadow-lift hover:border-brand-from/30  overflow-hidden"
+      class="block group bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 shadow-xl transition-all duration-500 hover:shadow-2xl hover:border-pink-500/30  overflow-hidden"
     >
       <div class="p-8">
         <div class="flex items-center gap-2 mb-4">
-          <span class="px-3 py-1 rounded-full text-sm bg-surface-muted/50 text-body border border-surface-muted backdrop-blur-sm">
+          <span class="px-3 py-1 rounded-full text-sm bg-slate-700/50 text-slate-300 border border-slate-600/50 backdrop-blur-sm">
             {WcsStudio.Post.estimate_read_time(@post.body)}
           </span>
         </div>
 
-        <h2 class="text-2xl font-bold text-strong mb-4 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-brand-from group-hover:to-brand-to group-hover:bg-clip-text transition-all duration-300">
+        <h2 class="text-2xl font-bold text-white mb-4 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-pink-500 group-hover:to-purple-500 group-hover:bg-clip-text transition-all duration-300">
           {@post.title}
         </h2>
 
-        <p class="text-body leading-relaxed mb-6 line-clamp-3">
+        <p class="text-slate-300 leading-relaxed mb-6 line-clamp-3">
           {@post.body}
         </p>
 
@@ -805,12 +810,12 @@ defmodule WcsStudioWeb.CoreComponents do
           <div class="flex items-center gap-3">
             <img
               src={avatar_url(@post.user.profile_pic_url)}
-              class="w-10 h-10 rounded-md bg-gradient-to-br from-brand-from to-brand-to p-0.5"
+              class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 p-0.5"
               alt={@post.user.username}
             />
             <div>
-              <p class="font-medium text-strong">{@post.user.username}</p>
-              <p class="text-sm text-muted">
+              <p class="font-medium text-white">{@post.user.username}</p>
+              <p class="text-sm text-slate-400">
                 <%= if @post.inserted_at do %>
                   {Calendar.strftime(@post.inserted_at, "%b %d, %Y")}
                 <% else %>
@@ -819,8 +824,8 @@ defmodule WcsStudioWeb.CoreComponents do
               </p>
             </div>
           </div>
-          <div class="flex items-center gap-6 text-muted">
-            <div class="flex items-center gap-2 group-hover:text-brand-lightFrom transition-colors">
+          <div class="flex items-center gap-6 text-slate-400">
+            <div class="flex items-center gap-2 group-hover:text-pink-400 transition-colors">
               <i class="fas fa-arrow-right"></i>
               <span>{gettext("Read more")}</span>
             </div>
@@ -861,15 +866,15 @@ defmodule WcsStudioWeb.CoreComponents do
       phx-click={JS.push("lv:clear-flash", value: %{key: @kind}) |> hide("##{@id}")}
       role="alert"
       class={[
-        "fixed top-16 right-4 z-50 rounded-lg p-4 backdrop-blur-sm border shadow-card max-w-sm transform transition-all duration-300 cursor-pointer group hover:-translate-y-1 hover:shadow-lift",
+        "fixed top-16 right-4 z-50 rounded-2xl p-4 backdrop-blur-sm border shadow-2xl max-w-sm transform transition-all duration-300 cursor-pointer group hover:-translate-y-1",
         @kind == :info &&
-          "bg-surface-raised/80 border-accent-info/30 text-accent-info shadow-accent-info/10 hover:border-accent-info/50",
+          "bg-slate-800/80 border-cyan-500/30 text-cyan-300 shadow-cyan-500/10 hover:border-cyan-400/50",
         @kind == :error &&
-          "bg-surface-raised/80 border-accent-danger/30 text-accent-danger shadow-accent-danger/10 hover:border-accent-danger/50",
+          "bg-slate-800/80 border-rose-500/30 text-rose-300 shadow-rose-500/10 hover:border-rose-400/50",
         @kind == :warning &&
-          "bg-surface-raised/80 border-accent-warning/30 text-accent-warning shadow-accent-warning/10 hover:border-accent-warning/50",
+          "bg-slate-800/80 border-amber-500/30 text-amber-300 shadow-amber-500/10 hover:border-amber-400/50",
         @kind == :success &&
-          "bg-surface-raised/80 border-accent-success/30 text-accent-success shadow-accent-success/10 hover:border-accent-success/50"
+          "bg-slate-800/80 border-emerald-500/30 text-emerald-300 shadow-emerald-500/10 hover:border-emerald-400/50"
       ]}
       phx-mounted={JS.dispatch("flash:mounted", to: "##{@id}")}
       {@rest}
@@ -877,14 +882,14 @@ defmodule WcsStudioWeb.CoreComponents do
       <div class="flex items-start gap-3">
         <!-- Icon Container -->
         <div class={[
-          "flex-shrink-0 w-10 h-10 rounded-md flex items-center justify-center shadow-panel",
-          @kind == :info && "bg-gradient-to-br from-accent-infoTo to-accent-info",
-          @kind == :error && "bg-gradient-to-br from-accent-danger to-accent-dangerTo",
-          @kind == :warning && "bg-gradient-to-br from-accent-warning to-accent-warningTo",
-          @kind == :success && "bg-gradient-to-br from-accent-successTo to-accent-success"
+          "flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center shadow-lg",
+          @kind == :info && "bg-gradient-to-br from-cyan-500 to-blue-500",
+          @kind == :error && "bg-gradient-to-br from-rose-500 to-pink-500",
+          @kind == :warning && "bg-gradient-to-br from-amber-500 to-orange-500",
+          @kind == :success && "bg-gradient-to-br from-emerald-500 to-green-500"
         ]}>
           <i class={[
-            "text-strong text-sm",
+            "text-white text-sm",
             @kind == :info && "fas fa-info-circle",
             @kind == :error && "fas fa-exclamation-triangle",
             @kind == :warning && "fas fa-exclamation-circle",
@@ -894,7 +899,7 @@ defmodule WcsStudioWeb.CoreComponents do
 
         <!-- Content -->
         <div class="flex-1 min-w-0">
-          <p :if={@title} class="font-semibold text-strong text-sm leading-6 mb-1">
+          <p :if={@title} class="font-semibold text-white text-sm leading-6 mb-1">
             {@title}
           </p>
           <p class="text-sm leading-5 opacity-90">{msg}</p>
@@ -904,28 +909,28 @@ defmodule WcsStudioWeb.CoreComponents do
         <button
           type="button"
           phx-click={JS.push("lv:clear-flash", value: %{key: @kind}) |> hide("##{@id}")}
-          class="flex-shrink-0 w-8 h-8 rounded-md bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all duration-200 group-hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-lightFrom/70"
+          class="flex-shrink-0 w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all duration-200 group-hover:scale-110"
           aria-label={gettext("close")}
         >
-          <i class="fas fa-times text-xs text-strong/70 group-hover:text-strong"></i>
+          <i class="fas fa-times text-xs text-white/70 group-hover:text-white"></i>
         </button>
       </div>
 
       <!-- Progress Bar -->
       <div class={[
         "w-full h-1 rounded-full mt-3 overflow-hidden",
-        @kind == :info && "bg-accent-info/20",
-        @kind == :error && "bg-accent-danger/20",
-        @kind == :warning && "bg-accent-warning/20",
-        @kind == :success && "bg-accent-success/20"
+        @kind == :info && "bg-cyan-500/20",
+        @kind == :error && "bg-rose-500/20",
+        @kind == :warning && "bg-amber-500/20",
+        @kind == :success && "bg-emerald-500/20"
       ]}>
         <div
           class={[
             "h-full rounded-full progress-bar",
-            @kind == :info && "bg-gradient-to-r from-accent-infoLight to-accent-infoLightTo",
-            @kind == :error && "bg-gradient-to-r from-accent-dangerLight to-accent-dangerLightTo",
-            @kind == :warning && "bg-gradient-to-r from-accent-warningLight to-accent-warningLightTo",
-            @kind == :success && "bg-gradient-to-r from-accent-successLight to-accent-successLightTo"
+            @kind == :info && "bg-gradient-to-r from-cyan-400 to-blue-400",
+            @kind == :error && "bg-gradient-to-r from-rose-400 to-pink-400",
+            @kind == :warning && "bg-gradient-to-r from-amber-400 to-orange-400",
+            @kind == :success && "bg-gradient-to-r from-emerald-400 to-green-400"
           ]}
           style="width: 0"
         >
@@ -959,7 +964,7 @@ defmodule WcsStudioWeb.CoreComponents do
         hidden
       >
         {gettext("Attempting to reconnect")}
-        <.icon name="fa-spinner" class="ml-1 fa-spin text-xs" />
+        <.icon name="hero-arrow-path" class="ml-1 h-3 w-3 animate-spin" />
       </.flash>
 
       <.flash
@@ -971,7 +976,7 @@ defmodule WcsStudioWeb.CoreComponents do
         hidden
       >
         {gettext("Hang in there while we get back on track")}
-        <.icon name="fa-spinner" class="ml-1 fa-spin text-xs" />
+        <.icon name="hero-arrow-path" class="ml-1 h-3 w-3 animate-spin" />
       </.flash>
     </div>
     """
@@ -1014,301 +1019,33 @@ defmodule WcsStudioWeb.CoreComponents do
   end
 
   @doc """
-  Renders a button with the shared brand variants and sizes.
-
-  Pass `href` to render a link with the same styling (useful for CTAs).
+  Renders a button.
 
   ## Examples
 
       <.button>Send!</.button>
-      <.button variant={:primary} size={:lg}>Get started</.button>
-      <.button href={~p"/users/log_in"} variant={:secondary}>Log in</.button>
+      <.button phx-click="go" class="ml-2">Send!</.button>
   """
   attr :type, :string, default: nil
-  attr :href, :string, default: nil, doc: "renders a link styled as a button when set"
-
-  attr :variant, :atom,
-    default: :primary,
-    values: [:primary, :secondary, :ghost, :danger, :warning, :info, :success]
-
-  attr :size, :atom, default: :md, values: [:sm, :md, :lg]
-  attr :disabled, :boolean, default: false
   attr :class, :string, default: nil
-  attr :rest, :global, doc: "the arbitrary HTML attributes to apply to the button"
+  attr :rest, :global, include: ~w(disabled form name value)
 
   slot :inner_block, required: true
 
   def button(assigns) do
     ~H"""
-    <.link :if={@href} href={@href} class={button_classes(assigns)} {@rest}>
-      {render_slot(@inner_block)}
-    </.link>
-    <button :if={!@href} type={@type} disabled={@disabled} class={button_classes(assigns)} {@rest}>
+    <button
+      type={@type}
+      class={[
+        "phx-submit-loading:opacity-75 rounded-lg bg-zinc-900 hover:bg-zinc-700 py-2 px-3",
+        "text-sm font-semibold leading-6 text-white active:text-white/80",
+        @class
+      ]}
+      {@rest}
+    >
       {render_slot(@inner_block)}
     </button>
     """
-  end
-
-  defp button_classes(%{variant: variant, size: size, disabled: disabled, class: class}) do
-    [
-      "phx-submit-loading:opacity-75 inline-flex items-center justify-center gap-2 font-semibold rounded-sm transition-all duration-300",
-      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-lightFrom/70 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-base",
-      button_variant(variant),
-      button_size(size),
-      disabled && "opacity-50 cursor-not-allowed hover:translate-y-0",
-      class
-    ]
-  end
-
-  defp button_variant(:primary),
-    do:
-      "bg-gradient-to-r from-brand-from to-brand-to text-strong shadow-raised hover:shadow-glow hover:-translate-y-0.5"
-
-  defp button_variant(:secondary),
-    do:
-      "bg-surface-muted/50 backdrop-blur-sm border border-surface-muted text-strong hover:bg-surface-muted hover:border-strong"
-
-  defp button_variant(:ghost),
-    do: "bg-transparent text-body hover:bg-surface-raised/50 hover:text-strong"
-
-  defp button_variant(:danger),
-    do:
-      "bg-gradient-to-r from-accent-danger to-accent-dangerTo hover:from-accent-dangerHoverFrom hover:to-accent-dangerHoverTo text-strong shadow-raised hover:shadow-accent-danger/25 hover:-translate-y-0.5"
-
-  defp button_variant(:info),
-    do:
-      "bg-gradient-to-r from-accent-info to-accent-infoTo hover:from-accent-infoHoverFrom hover:to-accent-infoHoverTo text-strong shadow-raised hover:shadow-accent-info/25 hover:-translate-y-0.5"
-
-  defp button_variant(:warning),
-    do:
-      "bg-gradient-to-r from-accent-warning to-accent-warningTo hover:from-accent-warningHoverFrom hover:to-accent-warningHoverTo text-strong shadow-raised hover:shadow-accent-warning/25 hover:-translate-y-0.5"
-
-  defp button_variant(:success),
-    do:
-      "bg-gradient-to-r from-accent-success to-accent-successTo hover:from-accent-successHoverFrom hover:to-accent-successHoverTo text-strong shadow-raised hover:shadow-accent-success/50 hover:-translate-y-0.5"
-
-  defp button_size(:sm), do: "px-3 py-2 text-sm"
-  defp button_size(:md), do: "px-4 py-2 text-sm"
-  defp button_size(:lg), do: "px-6 py-3 text-base"
-
-  @doc """
-  Renders a surface card with the shared radius, shadow and hover treatment.
-
-  ## Examples
-
-      <.card padding={:lg} interactive>
-        Card content
-      </.card>
-  """
-  attr :padding, :atom, default: :md, values: [:none, :sm, :md, :lg]
-  attr :interactive, :boolean, default: false
-  attr :class, :string, default: nil
-  attr :rest, :global, doc: "the arbitrary HTML attributes to apply to the card"
-
-  slot :inner_block, required: true
-
-  def card(assigns) do
-    ~H"""
-    <div
-      class={[
-        "rounded-lg bg-surface-raised/50 backdrop-blur-sm border border-surface-muted/50 shadow-card transition-all duration-300",
-        card_padding(@padding),
-        @interactive && "hover:-translate-y-1 hover:border-brand-from/40 hover:shadow-lift",
-        @class
-      ]}
-      {@rest}
-    >
-      {render_slot(@inner_block)}
-    </div>
-    """
-  end
-
-  defp card_padding(:none), do: nil
-  defp card_padding(:sm), do: "p-4"
-  defp card_padding(:md), do: "p-6"
-  defp card_padding(:lg), do: "p-8"
-
-  @doc """
-  Renders a linked feature card with an image, icon badge and call to action.
-
-  ## Examples
-
-      <.feature_card
-        href={~p"/patterns"}
-        image={~p"/images/boots.webp"}
-        icon="fas fa-shapes"
-        title="Steps"
-        description="Explore complex patterns"
-        cta="Learn more"
-      />
-  """
-  attr :href, :string, required: true
-  attr :image, :string, required: true
-  attr :image_alt, :string, default: ""
-  attr :icon, :string, required: true, doc: "Font Awesome classes, e.g. \"fas fa-music\""
-  attr :title, :string, required: true
-  attr :description, :string, required: true
-  attr :cta, :string, required: true
-  attr :class, :string, default: nil
-
-  def feature_card(assigns) do
-    ~H"""
-    <.link
-      href={@href}
-      class={[
-        "group relative flex flex-col min-h-80 rounded-lg overflow-hidden border border-surface-muted/30 shadow-card transition-all duration-500",
-        "hover:-translate-y-1 hover:border-brand-from/40 hover:shadow-lift focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-lightFrom/70",
-        @class
-      ]}
-    >
-      <div class="absolute inset-0 bg-surface-raised/50 backdrop-blur-sm"></div>
-      <div class="absolute inset-0 bg-gradient-to-br from-brand-from/10 via-brand-to/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-      </div>
-
-      <div class="relative aspect-video max-h-64 w-full shrink-0 overflow-hidden">
-        <div class="absolute top-0 right-0 w-32 h-32 bg-brand-from rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500">
-        </div>
-        <div class="absolute bottom-0 left-0 w-32 h-32 bg-brand-to rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500">
-        </div>
-        <div class="absolute inset-0 bg-gradient-to-b from-surface-base/70 to-transparent z-10"></div>
-        <img
-          src={@image}
-          alt={@image_alt}
-          loading="lazy"
-          decoding="async"
-          class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
-        />
-        <div class="absolute top-4 left-4 w-12 h-12 rounded-md bg-gradient-to-br from-brand-from to-brand-to flex items-center justify-center shadow-panel group-hover:scale-110 transition-transform duration-300 z-20">
-          <i class={[@icon, "text-strong text-lg"]}></i>
-        </div>
-      </div>
-
-      <div class="relative flex-1 flex flex-col justify-between p-6 z-10">
-        <div>
-          <h3 class="text-xl font-bold text-strong mb-2 group-hover:text-brand-lightFrom transition-colors duration-300">
-            {@title}
-          </h3>
-          <p class="text-body text-sm leading-relaxed line-clamp-2">{@description}</p>
-        </div>
-        <div class="flex items-center justify-between pt-3 border-t border-surface-muted group-hover:border-strong/50 transition-colors duration-300">
-          <span class="text-brand-lightFrom text-sm font-medium flex items-center gap-2 group-hover:gap-3 transition-all duration-300">
-            {@cta}
-            <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-300"></i>
-          </span>
-        </div>
-      </div>
-    </.link>
-    """
-  end
-
-  @doc """
-  Renders an empty state with a themed icon badge, title and optional description.
-  """
-  attr :icon, :string, required: true, doc: "Font Awesome classes, e.g. \"fas fa-music\""
-  attr :title, :string, required: true
-  attr :description, :string, default: nil
-  attr :compact, :boolean, default: false
-  attr :class, :string, default: nil
-
-  slot :actions
-
-  def empty_state(assigns) do
-    ~H"""
-    <div class={["text-center py-section-sm", @class]}>
-      <div class={[
-        "mx-auto mb-4 rounded-full bg-surface-raised/50 flex items-center justify-center",
-        @compact && "w-16 h-16",
-        !@compact && "w-24 h-24"
-      ]}>
-        <i class={[@icon, @compact && "text-2xl", !@compact && "text-3xl", "text-muted"]}></i>
-      </div>
-      <h3 class="text-heading-sm font-semibold text-body mb-2">{@title}</h3>
-      <p :if={@description} class="text-subtle">{@description}</p>
-      <div :if={@actions != []} class="mt-6 flex justify-center">
-        {render_slot(@actions)}
-      </div>
-    </div>
-    """
-  end
-
-  @doc """
-  Renders animated placeholder bars for content that is still loading.
-  """
-  attr :lines, :integer, default: 3
-  attr :class, :string, default: nil
-
-  def skeleton(assigns) do
-    ~H"""
-    <div class={["animate-pulse space-y-3", @class]} aria-hidden="true">
-      <%= for index <- 1..@lines do %>
-        <div class={[
-          "h-4 rounded-sm bg-surface-muted/60",
-          rem(index, 3) == 0 && "w-2/3",
-          rem(index, 3) != 0 && "w-full"
-        ]}>
-        </div>
-      <% end %>
-    </div>
-    """
-  end
-
-  @doc """
-  Renders a navigation link with the shared hover underline (desktop) or
-  surface treatment (mobile).
-
-  ## Examples
-
-      <.nav_link href={~p"/patterns"}>Steps</.nav_link>
-      <.nav_link href={~p"/blog"} mobile>Blog</.nav_link>
-  """
-  attr :href, :string, required: true
-  attr :mobile, :boolean, default: false
-  attr :active, :boolean, default: false
-  attr :class, :string, default: nil
-  attr :rest, :global, doc: "the arbitrary HTML attributes to apply to the link"
-
-  slot :inner_block, required: true
-
-  def nav_link(assigns) do
-    ~H"""
-    <.link
-      href={@href}
-      class={nav_link_classes(assigns)}
-      data-nav-path={@href}
-      aria-current={@active && "page"}
-      {@rest}
-    >
-      {render_slot(@inner_block)}
-      <span
-        :if={!@mobile}
-        class={[
-          "absolute bottom-0 left-1/2 h-0.5 bg-gradient-to-r from-brand-from to-brand-to transition-all duration-300",
-          "w-0 group-hover:w-full group-hover:left-0",
-          "aria-[current=page]:w-full aria-[current=page]:left-0"
-        ]}
-      ></span>
-    </.link>
-    """
-  end
-
-  defp nav_link_classes(%{mobile: true, class: class}) do
-    [
-      "block px-3 py-3 rounded-sm text-base font-medium border transition-all duration-300",
-      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-lightFrom/70",
-      "text-body hover:text-strong hover:bg-surface-raised/50 border-transparent hover:border-surface-muted",
-      "aria-[current=page]:bg-brand-from/10 aria-[current=page]:text-brand-lightFrom aria-[current=page]:border-brand-from/30",
-      class
-    ]
-  end
-
-  defp nav_link_classes(%{mobile: false, class: class}) do
-    [
-      "relative px-4 py-2 text-sm font-medium transition-all duration-300 group",
-      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-lightFrom/70",
-      "text-body hover:text-strong",
-      "aria-[current=page]:text-strong",
-      class
-    ]
   end
 
   @doc """
@@ -1379,7 +1116,7 @@ defmodule WcsStudioWeb.CoreComponents do
 
     ~H"""
     <div phx-feedback-for={@name}>
-      <label class="flex items-center gap-3 text-sm leading-6 text-strong">
+      <label class="flex items-center gap-3 text-sm leading-6 text-white">
         <input type="hidden" name={@name} value="false" />
         <input
           type="checkbox"
@@ -1388,15 +1125,15 @@ defmodule WcsStudioWeb.CoreComponents do
           value="true"
           checked={@checked}
           class={[
-            "rounded border-strong bg-surface-raised/50 text-brand-from focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-lightFrom/70 transition-all duration-300",
-            "checked:bg-brand-from checked:border-brand-from hover:border-brand-lightFrom/50",
+            "rounded border-slate-600 bg-slate-800/50 text-pink-500 focus:ring-2 focus:ring-pink-500 focus:ring-opacity-20 transition-all duration-300",
+            "checked:bg-pink-500 checked:border-pink-500 hover:border-pink-400/50",
             "w-4 h-4",
-            @errors == [] && "border-strong focus:border-brand-from",
-            @errors != [] && "border-accent-danger focus:border-accent-danger"
+            @errors == [] && "border-slate-600 focus:border-pink-500",
+            @errors != [] && "border-rose-400 focus:border-rose-400 focus:ring-rose-500"
           ]}
           {@rest}
         />
-        <span class="text-body hover:text-strong transition-colors duration-200">{@label}</span>
+        <span class="text-slate-300 hover:text-white transition-colors duration-200">{@label}</span>
       </label>
       <.error :for={msg <- @errors}>{msg}</.error>
     </div>
@@ -1406,16 +1143,16 @@ defmodule WcsStudioWeb.CoreComponents do
   def input(%{type: "select"} = assigns) do
     ~H"""
     <div phx-feedback-for={@name}>
-      <.label for={@id} class="text-strong font-medium mb-2 block">{@label}</.label>
+      <.label for={@id} class="text-white font-medium mb-2 block">{@label}</.label>
       <select
         id={@id}
         name={@name}
         class={[
-          "block w-full rounded-lg text-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-lightFrom/70 sm:text-sm sm:leading-6 transition-all duration-300 backdrop-blur-sm",
-          "phx-no-feedback:border-surface-muted phx-no-feedback:focus:border-brand-from/50",
-          "bg-surface-raised/50 border border-surface-muted px-4 py-3",
-          @errors == [] && "border-surface-muted focus:border-brand-from/50",
-          @errors != [] && "border-accent-danger focus:border-accent-danger"
+          "block w-full rounded-lg text-white focus:ring-2 focus:ring-opacity-20 sm:text-sm sm:leading-6 transition-all duration-300 backdrop-blur-sm",
+          "phx-no-feedback:border-slate-600/50 phx-no-feedback:focus:border-pink-500/50",
+          "bg-slate-800/50 border border-slate-600/50 px-4 py-3",
+          @errors == [] && "border-slate-600/50 focus:border-pink-500/50 focus:ring-pink-500",
+          @errors != [] && "border-rose-400 focus:border-rose-400 focus:ring-rose-500"
         ]}
         multiple={@multiple}
         {@rest}
@@ -1423,7 +1160,7 @@ defmodule WcsStudioWeb.CoreComponents do
         <option :if={@prompt} value="">{@prompt}</option>
         {Phoenix.HTML.Form.options_for_select(@options, @value)}
       </select>
-      <.error :for={msg <- @errors} class="mt-2 text-sm text-accent-danger">{msg}</.error>
+      <.error :for={msg <- @errors} class="mt-2 text-sm text-rose-400">{msg}</.error>
     </div>
     """
   end
@@ -1436,11 +1173,11 @@ defmodule WcsStudioWeb.CoreComponents do
         id={@id}
         name={@name}
         class={[
-          "block w-full rounded-lg text-strong placeholder:text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-lightFrom/70 sm:text-sm sm:leading-6 transition-all duration-300 backdrop-blur-sm",
-          "min-h-[6rem] phx-no-feedback:border-surface-muted phx-no-feedback:focus:border-brand-from/50",
-          "bg-surface-raised/50 border border-surface-muted",
-          @errors == [] && "border-surface-muted focus:border-brand-from/50",
-          @errors != [] && "border-accent-danger focus:border-accent-danger"
+          "block w-full rounded-lg text-white placeholder-slate-400 focus:ring-2 focus:ring-opacity-20 sm:text-sm sm:leading-6 transition-all duration-300 backdrop-blur-sm",
+          "min-h-[6rem] phx-no-feedback:border-slate-600/50 phx-no-feedback:focus:border-pink-500/50",
+          "bg-slate-800/50 border border-slate-600/50",
+          @errors == [] && "border-slate-600/50 focus:border-pink-500/50 focus:ring-pink-500",
+          @errors != [] && "border-rose-400 focus:border-rose-400 focus:ring-rose-500"
         ]}
         {@rest}
       ><%= Phoenix.HTML.Form.normalize_value("textarea", @value) %></textarea>
@@ -1460,11 +1197,11 @@ defmodule WcsStudioWeb.CoreComponents do
         id={@id}
         value={Phoenix.HTML.Form.normalize_value(@type, @value)}
         class={[
-          "block w-full rounded-lg text-strong placeholder:text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-lightFrom/70 sm:text-sm sm:leading-6 transition-all duration-300 backdrop-blur-sm",
-          "phx-no-feedback:border-surface-muted phx-no-feedback:focus:border-brand-from/50",
-          "bg-surface-raised/50 border border-surface-muted px-4 py-3",
-          @errors == [] && "border-surface-muted focus:border-brand-from/50",
-          @errors != [] && "border-accent-danger focus:border-accent-danger"
+          "block w-full rounded-lg text-white placeholder-slate-400 focus:ring-2 focus:ring-opacity-20 sm:text-sm sm:leading-6 transition-all duration-300 backdrop-blur-sm",
+          "phx-no-feedback:border-slate-600/50 phx-no-feedback:focus:border-pink-500/50",
+          "bg-slate-800/50 border border-slate-600/50 px-4 py-3",
+          @errors == [] && "border-slate-600/50 focus:border-pink-500/50 focus:ring-pink-500",
+          @errors != [] && "border-rose-400 focus:border-rose-400 focus:ring-rose-500"
         ]}
         {@rest}
       />
@@ -1482,7 +1219,7 @@ defmodule WcsStudioWeb.CoreComponents do
 
   def label(assigns) do
     ~H"""
-    <label for={@for} class="block text-sm font-semibold leading-6 text-strong font-medium mb-2">
+    <label for={@for} class="block text-sm font-semibold leading-6 text-white font-medium mb-2">
       {render_slot(@inner_block)}
     </label>
     """
@@ -1497,25 +1234,19 @@ defmodule WcsStudioWeb.CoreComponents do
   def error(assigns) do
     ~H"""
     <p class={[
-      "mt-3 flex gap-3 text-sm leading-6 text-accent-danger phx-no-feedback:hidden",
+      "mt-3 flex gap-3 text-sm leading-6 text-rose-600 phx-no-feedback:hidden",
       @class
     ]}>
-      <.icon name="fa-circle-exclamation" class="mt-1 text-lg flex-none" />
+      <.icon name="hero-exclamation-circle-mini" class="mt-0.5 h-5 w-5 flex-none" />
       {render_slot(@inner_block)}
     </p>
     """
   end
 
   @doc """
-  Renders a page header with a title, optional subtitle and actions.
-
-  Use `size={:lg}` with `gradient` and `centered` for the full-width page headers.
+  Renders a header with title.
   """
   attr :class, :string, default: nil
-  attr :size, :atom, default: :md, values: [:md, :lg]
-  attr :gradient, :boolean, default: false
-  attr :centered, :boolean, default: false
-  attr :rest, :global, doc: "additional attributes for the title element"
 
   slot :inner_block, required: true
   slot :subtitle
@@ -1523,28 +1254,12 @@ defmodule WcsStudioWeb.CoreComponents do
 
   def header(assigns) do
     ~H"""
-    <header class={[
-      @actions != [] && "flex items-center justify-between gap-6",
-      @centered && "text-center mb-12 px-4",
-      @class
-    ]}>
-      <div class={[@centered && "mx-auto"]}>
-        <h1
-          class={[
-            "font-bold bg-clip-text text-transparent",
-            header_title_size(@size),
-            header_title_gradient(@gradient),
-            @size == :lg && "mb-6 py-2",
-            @size != :lg && "mb-4"
-          ]}
-          {@rest}
-        >
+    <header class={[@actions != [] && "flex items-center justify-between gap-6", @class]}>
+      <div>
+        <h1 class="text-3xl font-bold text-white mb-4 bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
           {render_slot(@inner_block)}
         </h1>
-        <p
-          :if={@subtitle != []}
-          class={["text-muted", @size == :lg && "text-lead max-w-2xl mx-auto"]}
-        >
+        <p :if={@subtitle != []} class="text-slate-400">
           {render_slot(@subtitle)}
         </p>
       </div>
@@ -1552,12 +1267,6 @@ defmodule WcsStudioWeb.CoreComponents do
     </header>
     """
   end
-
-  defp header_title_size(:lg), do: "text-display-sm md:text-display"
-  defp header_title_size(:md), do: "text-heading"
-
-  defp header_title_gradient(true), do: "bg-gradient-to-r from-brand-from to-brand-to"
-  defp header_title_gradient(false), do: "bg-gradient-to-r from-strong to-body"
 
   @doc ~S"""
   Renders a table with generic styling.
@@ -1593,7 +1302,7 @@ defmodule WcsStudioWeb.CoreComponents do
     ~H"""
     <div class="overflow-y-auto px-4 sm:overflow-visible sm:px-0">
       <table class="w-[40rem] mt-11 sm:w-full">
-        <thead class="text-sm text-left leading-6 text-subtle">
+        <thead class="text-sm text-left leading-6 text-zinc-500">
           <tr>
             <th :for={col <- @col} class="p-0 pb-4 pr-6 font-normal">{col[:label]}</th>
             <th :if={@action != []} class="relative p-0 pb-4">
@@ -1604,31 +1313,27 @@ defmodule WcsStudioWeb.CoreComponents do
         <tbody
           id={@id}
           phx-update={match?(%Phoenix.LiveView.LiveStream{}, @rows) && "stream"}
-          class="relative divide-y divide-surface-muted/50 border-t border-surface-muted/50 text-sm leading-6 text-body"
+          class="relative divide-y divide-zinc-100 border-t border-zinc-200 text-sm leading-6 text-zinc-700"
         >
-          <tr
-            :for={row <- @rows}
-            id={@row_id && @row_id.(row)}
-            class="group hover:bg-surface-muted/50"
-          >
+          <tr :for={row <- @rows} id={@row_id && @row_id.(row)} class="group hover:bg-zinc-50">
             <td
               :for={{col, i} <- Enum.with_index(@col)}
               phx-click={@row_click && @row_click.(row)}
               class={["relative p-0", @row_click && "hover:cursor-pointer"]}
             >
               <div class="block py-4 pr-6">
-                <span class="absolute -inset-y-px right-0 -left-4 group-hover:bg-surface-muted/50 sm:rounded-l-xl" />
-                <span class={["relative", i == 0 && "font-semibold text-strong"]}>
+                <span class="absolute -inset-y-px right-0 -left-4 group-hover:bg-zinc-50 sm:rounded-l-xl" />
+                <span class={["relative", i == 0 && "font-semibold text-zinc-900"]}>
                   {render_slot(col, @row_item.(row))}
                 </span>
               </div>
             </td>
             <td :if={@action != []} class="relative w-14 p-0">
               <div class="relative whitespace-nowrap py-4 text-right text-sm font-medium">
-                <span class="absolute -inset-y-px -right-4 left-0 group-hover:bg-surface-muted/50 sm:rounded-r-xl" />
+                <span class="absolute -inset-y-px -right-4 left-0 group-hover:bg-zinc-50 sm:rounded-r-xl" />
                 <span
                   :for={action <- @action}
-                  class="relative ml-4 font-semibold leading-6 text-strong hover:text-body"
+                  class="relative ml-4 font-semibold leading-6 text-zinc-900 hover:text-zinc-700"
                 >
                   {render_slot(action, @row_item.(row))}
                 </span>
@@ -1658,10 +1363,10 @@ defmodule WcsStudioWeb.CoreComponents do
   def list(assigns) do
     ~H"""
     <div class="mt-14">
-      <dl class="-my-4 divide-y divide-surface-muted/50">
+      <dl class="-my-4 divide-y divide-zinc-100">
         <div :for={item <- @item} class="flex gap-4 py-4 text-sm leading-6 sm:gap-8">
-          <dt class="w-1/4 flex-none text-subtle">{item.title}</dt>
-          <dd class="text-body">{render_slot(item)}</dd>
+          <dt class="w-1/4 flex-none text-zinc-500">{item.title}</dt>
+          <dd class="text-zinc-700">{render_slot(item)}</dd>
         </div>
       </dl>
     </div>
@@ -1683,9 +1388,9 @@ defmodule WcsStudioWeb.CoreComponents do
     <div class="mt-16">
       <.link
         navigate={@navigate}
-        class="text-sm font-semibold leading-6 text-strong hover:text-body"
+        class="text-sm font-semibold leading-6 text-zinc-900 hover:text-zinc-700"
       >
-        <.icon name="fa-arrow-left" class="text-xs" />
+        <.icon name="hero-arrow-left-solid" class="h-3 w-3" />
         {render_slot(@inner_block)}
       </.link>
     </div>
@@ -1693,22 +1398,29 @@ defmodule WcsStudioWeb.CoreComponents do
   end
 
   @doc """
-  Renders a [Font Awesome](https://fontawesome.com) icon using the solid style.
+  Renders a [Heroicon](https://heroicons.com).
 
-  Pass the icon class name (without the `fas` prefix) in `name`, and use
-  Tailwind text-size/color utilities or Font Awesome modifiers in `class`.
+  Heroicons come in three styles – outline, solid, and mini.
+  By default, the outline style is used, but solid and mini may
+  be applied by using the `-solid` and `-mini` suffix.
+
+  You can customize the size and colors of the icons by setting
+  width, height, and background color classes.
+
+  Icons are extracted from the `deps/heroicons` directory and bundled within
+  your compiled app.css by the plugin in your `assets/tailwind.config.js`.
 
   ## Examples
 
-      <.icon name="fa-xmark" />
-      <.icon name="fa-spinner" class="fa-spin ml-1 text-xs" />
+      <.icon name="hero-x-mark-solid" />
+      <.icon name="hero-arrow-path" class="ml-1 w-3 h-3 animate-spin" />
   """
   attr :name, :string, required: true
   attr :class, :string, default: nil
 
-  def icon(assigns) do
+  def icon(%{name: "hero-" <> _} = assigns) do
     ~H"""
-    <i class={["fas", @name, @class]}></i>
+    <span class={[@name, @class]} />
     """
   end
 
@@ -1756,6 +1468,7 @@ defmodule WcsStudioWeb.CoreComponents do
     |> hide("##{id}-container")
     |> JS.hide(to: "##{id}", transition: {"block", "block", "hidden"})
     |> JS.remove_class("overflow-hidden", to: "body")
+    |> JS.pop_focus()
   end
 
   @doc """

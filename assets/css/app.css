@@ -3,32 +3,3 @@
 @import "tailwindcss/utilities";
 
 /* This file is for your main application CSS */
-
-@layer base {
-  html {
-    background: #140f2e; /* overscroll area matches surface-base */
-  }
-
-  body {
-    font-family: 'Inter', sans-serif;
-    overscroll-behavior: auto;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-
-  /* Animated-in content starts at opacity-0; make it visible without the animation. */
-  [class*="animate-[slideUp"],
-  [class*="animate-[fadeIn"] {
-    opacity: 1 !important;
-    transform: none !important;
-  }
-}

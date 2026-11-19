@@ -77,27 +77,30 @@ defmodule WcsStudioWeb.DanceTypesLive do
   @impl true
   def render(assigns) do
     ~H"""
-    <.header
-      size={:lg}
-      gradient
-      centered
-      style="-webkit-text-fill-color: transparent;"
-    >
-      {gettext("Dance Types")}
-      <:subtitle>
+    <div class="mb-12 text-center px-4">
+      <h1
+        class="text-5xl md:text-6xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent mb-6 py-2"
+        style="-webkit-background-clip: text; -webkit-text-fill-color: transparent;"
+      >
+        {gettext("Dance Types")}
+      </h1>
+      <p class="text-xl text-slate-400 max-w-2xl mx-auto">
         {gettext(
           "Browse through variable dance styles, from around the world that admin is learning or already knows."
         )}
-      </:subtitle>
-    </.header>
+      </p>
+    </div>
 
     <!-- Add Dance Type Button (Admin Only) -->
     <%= if @current_user && @current_user.role == "admin" do %>
       <div class="w-full max-w-2xl mx-auto px-4 mb-8">
-        <.button phx-click="open_modal" class="w-full sm:w-auto">
+        <button
+          phx-click="open_modal"
+          class="w-full sm:w-auto bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
+        >
           <i class="fas fa-plus"></i>
           <span>{gettext("Add New Dance Type")}</span>
-        </.button>
+        </button>
       </div>
     <% end %>
 
@@ -111,11 +114,11 @@ defmodule WcsStudioWeb.DanceTypesLive do
             phx-click="select_type_type"
             phx-value-dance_type_type="all"
             class={[
-              "px-6 py-3 rounded-md font-medium transition-all duration-300 flex items-center",
+              "px-6 py-3 rounded-xl font-medium transition-all duration-300 flex items-center",
               if @selected_dance_type_type == "all" do
-                "bg-gradient-to-r from-brand-from to-brand-to text-strong shadow-raised shadow-brand-from/25"
+                "bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-lg shadow-pink-500/25"
               else
-                "bg-surface-raised/50 hover:bg-surface-muted/50 text-body border border-surface-muted/50"
+                "bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 border border-slate-700/50"
               end
             ]}
           >
@@ -127,11 +130,11 @@ defmodule WcsStudioWeb.DanceTypesLive do
             phx-click="select_type_type"
             phx-value-dance_type_type="latin"
             class={[
-              "px-6 py-3 rounded-md font-medium transition-all duration-300 flex items-center",
+              "px-6 py-3 rounded-xl font-medium transition-all duration-300 flex items-center",
               if @selected_dance_type_type == "latin" do
-                "bg-gradient-to-r from-brand-from to-brand-to text-strong shadow-raised shadow-brand-from/25"
+                "bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-lg shadow-pink-500/25"
               else
-                "bg-surface-raised/50 hover:bg-surface-muted/50 text-body border border-surface-muted/50"
+                "bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 border border-slate-700/50"
               end
             ]}
           >
@@ -143,11 +146,11 @@ defmodule WcsStudioWeb.DanceTypesLive do
             phx-click="select_type_type"
             phx-value-dance_type_type="swing"
             class={[
-              "px-6 py-3 rounded-md font-medium transition-all duration-300 flex items-center",
+              "px-6 py-3 rounded-xl font-medium transition-all duration-300 flex items-center",
               if @selected_dance_type_type == "swing" do
-                "bg-gradient-to-r from-brand-from to-brand-to text-strong shadow-raised shadow-brand-from/25"
+                "bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-lg shadow-pink-500/25"
               else
-                "bg-surface-raised/50 hover:bg-surface-muted/50 text-body border border-surface-muted/50"
+                "bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 border border-slate-700/50"
               end
             ]}
           >
@@ -159,11 +162,11 @@ defmodule WcsStudioWeb.DanceTypesLive do
             phx-click="select_type_type"
             phx-value-dance_type_type="social"
             class={[
-              "px-6 py-3 rounded-md font-medium transition-all duration-300 flex items-center",
+              "px-6 py-3 rounded-xl font-medium transition-all duration-300 flex items-center",
               if @selected_dance_type_type == "social" do
-                "bg-gradient-to-r from-brand-from to-brand-to text-strong shadow-raised shadow-brand-from/25"
+                "bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-lg shadow-pink-500/25"
               else
-                "bg-surface-raised/50 hover:bg-surface-muted/50 text-body border border-surface-muted/50"
+                "bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 border border-slate-700/50"
               end
             ]}
           >
@@ -180,27 +183,27 @@ defmodule WcsStudioWeb.DanceTypesLive do
           <%= for dance_type <- @dance_types do %>
             <.link
               navigate={~p"/patterns?dance_type_id=#{dance_type.id}"}
-              class="group relative flex flex-col h-80 rounded-lg overflow-hidden shadow-card transition-all duration-500 hover:-translate-y-2 hover:shadow-lift border border-surface-muted/30 hover:border-surface-muted"
+              class="group relative flex flex-col h-80 rounded-2xl overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl border border-slate-700/30 hover:border-slate-600/50"
             >
               <!-- Background -->
               <div
-                class="absolute inset-0 bg-surface-raised/50 backdrop-blur-sm"
+                class="absolute inset-0 bg-slate-800/50 backdrop-blur-sm"
                 style="backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);"
               >
               </div>
-              <div class="absolute inset-0 bg-gradient-to-br from-brand-from/10 via-brand-to/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+              <div class="absolute inset-0 bg-gradient-to-br from-pink-500/10 via-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
               </div>
 
               <!-- Image Section (Top 60%) -->
               <div class="relative h-3/5 overflow-hidden">
                 <!-- Background Effects -->
-                <div class="absolute top-0 right-0 w-32 h-32 bg-brand-from rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-pink-500 rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500">
                 </div>
-                <div class="absolute bottom-0 left-0 w-32 h-32 bg-brand-to rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500">
+                <div class="absolute bottom-0 left-0 w-32 h-32 bg-purple-500 rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500">
                 </div>
 
                 <!-- Gradient Overlay -->
-                <div class="absolute inset-0 bg-gradient-to-b from-surface-base/70 to-transparent z-10">
+                <div class="absolute inset-0 bg-gradient-to-b from-slate-900/70 to-transparent z-10">
                 </div>
 
                 <!-- Image -->
@@ -215,25 +218,25 @@ defmodule WcsStudioWeb.DanceTypesLive do
               <!-- Content Section (Bottom 40%) -->
               <div class="relative flex-1 flex flex-col justify-between p-6 z-10">
                 <div>
-                  <h3 class="text-xl font-bold text-strong mb-2 group-hover:text-brand-lightFrom transition-colors duration-300">
+                  <h3 class="text-xl font-bold text-white mb-2 group-hover:text-pink-200 transition-colors duration-300">
                     {DanceType.get_name(dance_type, @locale)}
                   </h3>
-                  <p class="text-body text-sm leading-relaxed line-clamp-2 flex items-center">
-                    <i class="fas fa-globe-americas mr-2 text-brand-lightFrom"></i>
+                  <p class="text-slate-300 text-sm leading-relaxed line-clamp-2 flex items-center">
+                    <i class="fas fa-globe-americas mr-2 text-pink-400"></i>
                     {DanceType.get_country(dance_type, @locale)}
                   </p>
                 </div>
 
                 <!-- CTA -->
-                <div class="flex items-center justify-between pt-3 border-t border-surface-muted group-hover:border-strong/50 transition-colors duration-300">
+                <div class="flex items-center justify-between pt-3 border-t border-slate-600/50 group-hover:border-slate-500/50 transition-colors duration-300">
                   <span
-                    class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-strong backdrop-blur-sm border border-white/20"
+                    class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-white backdrop-blur-sm border border-white/20"
                     style="backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);"
                   >
                     <i class="fas fa-tag mr-1"></i>
                     {dance_type.type}
                   </span>
-                  <span class="text-brand-lightFrom text-sm font-medium flex items-center gap-2 group-hover:gap-3 transition-all duration-300">
+                  <span class="text-pink-400 text-sm font-medium flex items-center gap-2 group-hover:gap-3 transition-all duration-300">
                     {gettext("Explore")}
                     <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-300"></i>
                   </span>
@@ -245,11 +248,15 @@ defmodule WcsStudioWeb.DanceTypesLive do
 
         <!-- Empty State -->
         <%= if Enum.empty?(@dance_types) do %>
-          <.empty_state
-            icon="fas fa-music"
-            title={gettext("No dance types found ")}
-            description={gettext("Try selecting a different filter")}
-          />
+          <div class="text-center py-16">
+            <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-slate-800/50 flex items-center justify-center">
+              <i class="fas fa-music text-3xl text-slate-500"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-slate-400 mb-2">
+              {gettext("No dance types found ")}
+            </h3>
+            <p class="text-slate-500">{gettext("Try selecting a different filter")}</p>
+          </div>
         <% end %>
       </div>
     </section>

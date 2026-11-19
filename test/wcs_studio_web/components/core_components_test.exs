@@ -45,7 +45,7 @@ defmodule WcsStudioWeb.CoreComponentsTest do
         """)
 
       assert html =~ "is invalid"
-      assert html =~ "text-accent-danger"
+      assert html =~ "text-rose-600"
     end
   end
 
@@ -73,7 +73,7 @@ defmodule WcsStudioWeb.CoreComponentsTest do
         """)
 
       assert html =~ "is invalid"
-      assert html =~ "border-accent-danger"
+      assert html =~ "border-rose-400"
     end
 
     test "renders a plain input without a field" do
@@ -151,20 +151,6 @@ defmodule WcsStudioWeb.CoreComponentsTest do
       assert html =~ "Title"
       assert html =~ "Subtitle"
       assert html =~ "Action"
-    end
-  end
-
-  describe "card/1" do
-    test "interactive cards use the master shadow baseline" do
-      assigns = %{}
-
-      html =
-        rendered_to_string(~H"""
-        <C.card interactive>Card content</C.card>
-        """)
-
-      assert html =~ "shadow-card"
-      assert html =~ "hover:shadow-lift"
     end
   end
 
@@ -326,7 +312,7 @@ defmodule WcsStudioWeb.CoreComponentsTest do
       assert html =~ ~s(id="fm-content")
     end
 
-    test "accepts a custom submit label and variant" do
+    test "accepts a custom submit label and class" do
       assigns = %{form: to_form(%{}, as: :thing)}
 
       html =
@@ -337,15 +323,14 @@ defmodule WcsStudioWeb.CoreComponentsTest do
           form={@form}
           on_submit="update"
           submit_label="Update"
-          submit_variant={:info}
+          submit_class="custom-class"
         >
           body
         </C.form_modal>
         """)
 
       assert html =~ "Update"
-      assert html =~ "from-accent-info to-accent-infoTo"
-      assert html =~ "hover:from-accent-infoHoverFrom hover:to-accent-infoHoverTo"
+      assert html =~ "custom-class"
     end
   end
 
@@ -403,16 +388,16 @@ defmodule WcsStudioWeb.CoreComponentsTest do
   end
 
   describe "icon/1" do
-    test "renders a Font Awesome icon" do
+    test "renders a heroicon span" do
       assigns = %{}
 
       html =
         rendered_to_string(~H"""
-        <C.icon name="fa-spinner" class="fa-spin h-4 w-4" />
+        <C.icon name="hero-arrow-path" class="h-4 w-4" />
         """)
 
-      assert html =~ "fas fa-spinner"
-      assert html =~ "fa-spin h-4 w-4"
+      assert html =~ "hero-arrow-path"
+      assert html =~ "h-4 w-4"
     end
   end
 
@@ -460,11 +445,6 @@ defmodule WcsStudioWeb.CoreComponentsTest do
       assert html =~ "Delete"
       assert html =~ "Learned"
       assert html =~ "https://www.youtube.com/embed/abc"
-
-      assert html =~
-               "bg-surface-raised/50 shadow-card overflow-hidden transition-all duration-300 hover:border-brand-from/30 hover:shadow-lift"
-
-      assert html =~ "bg-surface-muted/30 border border-surface-muted shadow-panel"
     end
 
     test "renders collapsed preview without a user", %{pattern: pattern} do
@@ -504,7 +484,7 @@ defmodule WcsStudioWeb.CoreComponentsTest do
       assigns = %{
         pattern: Map.put(pattern, :children, [child]),
         current_user: nil,
-        expanded_pattern_id: pattern.id,
+        expanded_pattern_id: nil,
         expanded_children_id: nil,
         expanded_children_ids: MapSet.new([1]),
         locale: "en"
@@ -524,9 +504,6 @@ defmodule WcsStudioWeb.CoreComponentsTest do
 
       assert html =~ "Whip Variation"
       assert html =~ "variations"
-      assert html =~ "from-brand-from/20 to-accent-warningTo/20 text-brand-soft"
-      assert html =~ "from-accent-amber to-accent-warningHoverFrom"
-      assert html =~ "from-accent-danger to-accent-warningTo"
     end
   end
 

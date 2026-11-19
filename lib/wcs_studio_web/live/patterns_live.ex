@@ -338,35 +338,40 @@ defmodule WcsStudioWeb.PatternsLive do
   def render(assigns) do
     ~H"""
     <!-- Header Section -->
-    <.header size={:lg} gradient centered>
-      {gettext("Steps")}
-      <:subtitle>
+    <div class="mb-12 text-center px-4">
+      <h1 class="text-5xl md:text-6xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent mb-6 py-2">
+        {gettext("Steps")}
+      </h1>
+      <p class="text-xl text-slate-400 max-w-2xl mx-auto">
         {gettext(
           "Explore our collection of dance moves with step-by-step instructions, video demonstrations, and detailed breakdowns for leaders and followers."
         )}
-      </:subtitle>
-    </.header>
+      </p>
+    </div>
 
     <!-- Add Pattern Button (Admin Only) -->
     <%= if @current_user && @current_user.role == "admin" do %>
       <div class="w-full max-w-2xl mx-auto px-4 mb-8">
-        <.button phx-click="open_modal" class="w-full sm:w-auto">
+        <button
+          phx-click="open_modal"
+          class="w-full sm:w-auto bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
+        >
           <i class="fas fa-plus"></i>
           <span>{gettext("Add New Pattern")}</span>
-        </.button>
+        </button>
       </div>
     <% end %>
 
     <!-- Filters Section -->
     <div class="w-full max-w-2xl mx-auto px-4 mb-8">
-      <div class="flex flex-col sm:flex-row gap-3 p-4 bg-surface-raised/30 rounded-md border border-surface-muted/50 shadow-panel">
+      <div class="flex flex-col sm:flex-row gap-3 p-4 bg-slate-800/30 rounded-xl border border-slate-700/50 shadow-lg">
         <!-- Dance Type Selector -->
         <div class="flex-1 relative isolation-auto" id="dance-type-selector">
           <div phx-click-away="close_dropdown" class="relative h-full">
             <button
               type="button"
               phx-click="toggle_dropdown"
-              class="w-full h-full py-3 pl-4 pr-4 text-left bg-surface-muted/50 text-body border border-surface-muted rounded-lg hover:border-brand-from/40 focus:outline-none focus:ring-1 focus:ring-brand-from transition-all duration-200 flex items-center justify-between"
+              class="w-full h-full py-3 pl-4 pr-4 text-left bg-slate-700/50 text-slate-200 border border-slate-600/50 rounded-lg hover:border-pink-500/40 focus:outline-none focus:ring-1 focus:ring-pink-500 transition-all duration-200 flex items-center justify-between"
             >
               <div class="flex items-center">
                 <span>
@@ -378,14 +383,14 @@ defmodule WcsStudioWeb.PatternsLive do
                 </span>
               </div>
               <i class={[
-                "fas fa-chevron-down text-muted text-xs transition-transform duration-300",
+                "fas fa-chevron-down text-slate-400 text-xs transition-transform duration-300",
                 if(@dropdown_open, do: "rotate-180", else: "group-hover:rotate-180")
               ]}></i>
             </button>
 
             <div
               :if={@dropdown_open}
-              class="absolute z-[9999] mt-2 w-full bg-surface-raised/90 border border-surface-muted/50 rounded-lg shadow-card overflow-hidden animate-fade-in"
+              class="absolute z-[9999] mt-2 w-full bg-slate-800/90 border border-slate-700/50 rounded-lg shadow-lg overflow-hidden animate-fade-in"
             >
               <ul class="max-h-56 overflow-y-auto">
                 <%= for dance_type <- @dance_types do %>
@@ -397,8 +402,8 @@ defmodule WcsStudioWeb.PatternsLive do
                       class={[
                         "w-full text-left px-4 py-2 text-sm transition-all duration-150",
                         if(dance_type.id == @dance_type_id,
-                          do: "bg-brand-hoverFrom/40 text-strong",
-                          else: "hover:bg-surface-muted/70 text-body"
+                          do: "bg-pink-600/40 text-white",
+                          else: "hover:bg-slate-700/70 text-slate-200"
                         )
                       ]}
                     >
@@ -416,7 +421,7 @@ defmodule WcsStudioWeb.PatternsLive do
           <form id="patterns-search" phx-change="search" class="h-full">
             <div class="relative h-full">
               <div class="pl-1 absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                <i class="fas fa-search text-muted text-sm"></i>
+                <i class="fas fa-search text-slate-400 text-sm"></i>
               </div>
               <div class="relative">
                 <input
@@ -426,10 +431,10 @@ defmodule WcsStudioWeb.PatternsLive do
                   placeholder="Type to search"
                   class="relative z-10 w-full h-full
                          pl-10 pr-8 py-3
-                         bg-surface-muted/50 text-body
-                         border border-surface-muted
+                         bg-slate-700/50 text-slate-200
+                         border border-slate-600/50
                          rounded-lg
-                         focus:outline-none focus:ring-1 focus:ring-accent-info"
+                         focus:outline-none focus:ring-1 focus:ring-blue-500"
                 />
               </div>
             </div>
@@ -471,11 +476,15 @@ defmodule WcsStudioWeb.PatternsLive do
 
     <!-- Empty State -->
     <%= if Enum.empty?(@patterns) do %>
-      <.empty_state
-        icon="fas fa-music"
-        title={gettext("No patterns found")}
-        description={gettext("Try selecting a different filter or adjusting your search")}
-      />
+      <div class="text-center py-16">
+        <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-slate-800/50 flex items-center justify-center">
+          <i class="fas fa-music text-3xl text-slate-500"></i>
+        </div>
+        <h3 class="text-xl font-semibold text-slate-400 mb-2">{gettext("No patterns found")}</h3>
+        <p class="text-slate-500">
+          {gettext("Try selecting a different filter or adjusting your search")}
+        </p>
+      </div>
     <% end %>
 
     <!-- Modals -->
@@ -511,7 +520,7 @@ defmodule WcsStudioWeb.PatternsLive do
           <!-- Child pattern selector -->
           <%= if not Enum.empty?(@child_candidates) do %>
             <div class="mt-4">
-              <label class="block text-sm font-medium text-body mb-2">
+              <label class="block text-sm font-medium text-slate-300 mb-2">
                 <i class="fas fa-sitemap mr-1"></i>
                 {gettext("Variations (children)")}
               </label>
@@ -524,15 +533,15 @@ defmodule WcsStudioWeb.PatternsLive do
                     class={[
                       "w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-150 border flex items-center justify-between",
                       if(MapSet.member?(@selected_child_ids, candidate.id),
-                        do: "bg-brand-from/20 border-brand-from/50 text-brand-lightFrom",
+                        do: "bg-pink-500/20 border-pink-500/50 text-pink-200",
                         else:
-                          "bg-surface-muted/40 border-strong/40 text-body hover:border-brand-from/30"
+                          "bg-slate-700/40 border-slate-600/40 text-slate-300 hover:border-pink-500/30"
                       )
                     ]}
                   >
                     <span>{candidate.name}</span>
                     <%= if MapSet.member?(@selected_child_ids, candidate.id) do %>
-                      <i class="fas fa-check text-brand-lightFrom text-xs"></i>
+                      <i class="fas fa-check text-pink-400 text-xs"></i>
                     <% end %>
                   </button>
                 <% end %>
@@ -550,7 +559,7 @@ defmodule WcsStudioWeb.PatternsLive do
           on_cancel={JS.push("close_modal")}
           on_submit="update_pattern"
           submit_label={gettext("Update")}
-          submit_variant={:info}
+          submit_class="bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700"
         >
           <.input type="text" field={@form[:name]} label={gettext("Pattern Name")} />
           <.input
@@ -573,7 +582,7 @@ defmodule WcsStudioWeb.PatternsLive do
           <!-- Child pattern selector -->
           <%= if not Enum.empty?(@child_candidates) do %>
             <div class="mt-4">
-              <label class="block text-sm font-medium text-body mb-2">
+              <label class="block text-sm font-medium text-slate-300 mb-2">
                 <i class="fas fa-sitemap mr-1"></i>
                 {gettext("Variations (children)")}
               </label>
@@ -586,15 +595,15 @@ defmodule WcsStudioWeb.PatternsLive do
                     class={[
                       "w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-150 border flex items-center justify-between",
                       if(MapSet.member?(@selected_child_ids, candidate.id),
-                        do: "bg-brand-from/20 border-brand-from/50 text-brand-lightFrom",
+                        do: "bg-pink-500/20 border-pink-500/50 text-pink-200",
                         else:
-                          "bg-surface-muted/40 border-strong/40 text-body hover:border-brand-from/30"
+                          "bg-slate-700/40 border-slate-600/40 text-slate-300 hover:border-pink-500/30"
                       )
                     ]}
                   >
                     <span>{candidate.name}</span>
                     <%= if MapSet.member?(@selected_child_ids, candidate.id) do %>
-                      <i class="fas fa-check text-brand-lightFrom text-xs"></i>
+                      <i class="fas fa-check text-pink-400 text-xs"></i>
                     <% end %>
                   </button>
                 <% end %>
