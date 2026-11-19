@@ -21,6 +21,52 @@ defmodule WcsStudioWeb.CoreComponentsTest do
     end
   end
 
+  describe "btn/1" do
+    test "renders a button with baseline padding by default" do
+      assigns = %{}
+
+      html =
+        rendered_to_string(~H"""
+        <C.btn type="submit">Save</C.btn>
+        """)
+
+      assert html =~ ~s(type="submit")
+      assert html =~ "py-2 px-4"
+      refute html =~ "animate-pulse-glow"
+    end
+
+    test "renders a link when href is given" do
+      assigns = %{}
+
+      html =
+        rendered_to_string(~H"""
+        <C.btn href="/posts">Posts</C.btn>
+        """)
+
+      assert html =~ ~s(<a href="/posts")
+      assert html =~ "Posts"
+    end
+
+    test "adds the pulsing glow only to the large primary CTA" do
+      assigns = %{}
+
+      large =
+        rendered_to_string(~H"""
+        <C.btn size="lg">Join</C.btn>
+        """)
+
+      assert large =~ "py-3 px-6"
+      assert large =~ "animate-pulse-glow"
+
+      medium =
+        rendered_to_string(~H"""
+        <C.btn variant="info">Info</C.btn>
+        """)
+
+      refute medium =~ "animate-pulse-glow"
+    end
+  end
+
   describe "label/1" do
     test "renders a label bound to a field" do
       assigns = %{}
@@ -407,8 +453,8 @@ defmodule WcsStudioWeb.CoreComponentsTest do
         id: 1,
         name: "Whip",
         dance_type: %{name_en: "West Coast Swing", name_pl: "WCS PL"},
-        starting_hands: "left_left",
-        ending_hands: "right_right",
+        starting_hands: :left_left,
+        ending_hands: :right_right,
         count_num: 6,
         video_url: "https://www.youtube.com/embed/abc",
         children: []
@@ -439,8 +485,10 @@ defmodule WcsStudioWeb.CoreComponentsTest do
 
       assert html =~ "West Coast Swing"
       assert html =~ "Whip"
-      assert html =~ "left_left"
-      assert html =~ "right_right"
+      assert html =~ "Left / Left"
+      assert html =~ "Right / Right"
+      refute html =~ "left_left"
+      refute html =~ "right_right"
       assert html =~ "Update"
       assert html =~ "Delete"
       assert html =~ "Learned"
@@ -474,8 +522,8 @@ defmodule WcsStudioWeb.CoreComponentsTest do
         id: 2,
         name: "Whip Variation",
         dance_type: pattern.dance_type,
-        starting_hands: "left_left",
-        ending_hands: "right_right",
+        starting_hands: :left_left,
+        ending_hands: :right_right,
         count_num: 6,
         video_url: nil,
         children: []

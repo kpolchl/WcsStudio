@@ -41,12 +41,9 @@ defmodule WcsStudioWeb.UserRegistrationLive do
           <.input field={@form[:password]} type="password" label={gettext("Password")} required />
 
           <:actions>
-            <.button
-              phx-disable-with="Creating account..."
-              class="w-full bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-pink-500/25 hover:-translate-y-0.5"
-            >
+            <.btn type="submit" phx-disable-with="Creating account..." class="w-full">
               {gettext("Create an account")}
-            </.button>
+            </.btn>
           </:actions>
         </.simple_form>
       </div>

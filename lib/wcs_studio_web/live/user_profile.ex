@@ -39,7 +39,7 @@ defmodule WcsStudioWeb.UserProfile do
     {:noreply, assign(socket, modal_state: nil)}
   end
 
-  defp status_class("not_started"), do: "text-gray-400"
+  defp status_class("not_started"), do: "text-slate-400"
   defp status_class("in_progress"), do: "text-blue-400"
   defp status_class("learned"), do: "text-green-400"
 
@@ -52,13 +52,13 @@ defmodule WcsStudioWeb.UserProfile do
   defp border_class("learned"),
     do: "hover:border-green-500/30 hover:shadow-lg hover:shadow-green-500/10"
 
-  defp status_bg("not_started"), do: "bg-gray-500/20 text-gray-300 border-gray-500/30"
-  defp status_bg("in_progress"), do: "bg-blue-500/20 text-blue-300 border-blue-500/30"
-  defp status_bg("learned"), do: "bg-green-500/20 text-green-300 border-green-500/30"
+  defp status_badge_variant("not_started"), do: "muted"
+  defp status_badge_variant("in_progress"), do: "primary"
+  defp status_badge_variant("learned"), do: "success"
 
-  defp status_icon("not_started"), do: "fa-circle"
-  defp status_icon("in_progress"), do: "fa-spinner"
-  defp status_icon("learned"), do: "fa-check-circle"
+  defp status_icon("not_started"), do: "circle"
+  defp status_icon("in_progress"), do: "spinner"
+  defp status_icon("learned"), do: "check-circle"
 
   defp status_text("not_started"), do: gettext("Not Started")
   defp status_text("in_progress"), do: gettext("In Progress")
@@ -67,7 +67,7 @@ defmodule WcsStudioWeb.UserProfile do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 -py-8">
+    <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
       <!-- Hero Section with Profile -->
       <div class="mb-8">
         <div class="bg-gradient-to-r from-blue-600/20 via-cyan-600/20 to-purple-600/20 backdrop-blur-xl border border-white/10 rounded-3xl p-2 shadow-2xl relative overflow-hidden">
@@ -92,9 +92,7 @@ defmodule WcsStudioWeb.UserProfile do
               </h1>
 
               <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3 mb-4">
-                <span class="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-medium bg-blue-500/20 text-blue-300 border border-blue-500/30 backdrop-blur-sm">
-                  <i class="fas fa-seedling text-xs mr-2"></i> {@current_user.role}
-                </span>
+                <.badge icon="seedling" class="text-sm">{@current_user.role}</.badge>
                 <span class="text-slate-300 text-sm flex items-center gap-2">
                   <i class="fas fa-calendar"></i>
                   <span>
@@ -109,7 +107,7 @@ defmodule WcsStudioWeb.UserProfile do
 
               <!-- Stats Grid -->
               <div class="grid grid-cols-3 gap-2 max-w-2xl">
-                <div class="bg-slate-800/60 backdrop-blur-sm rounded-2xl p-4 border border-white/5">
+                <.card padding="sm" class="backdrop-blur-sm">
                   <div class="flex items-center justify-center mb-2">
                     <div class="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center">
                       <i class="fas fa-graduation-cap text-blue-400"></i>
@@ -119,9 +117,9 @@ defmodule WcsStudioWeb.UserProfile do
                   <p class="text-xs text-slate-400 uppercase tracking-wide">
                     {gettext("Attended Lessons")}
                   </p>
-                </div>
+                </.card>
 
-                <div class="bg-slate-800/60 backdrop-blur-sm rounded-2xl p-4 border border-white/5 hover:border-green-500/30 transition-all duration-300">
+                <.card padding="sm" class="backdrop-blur-sm hover:border-green-500/30">
                   <div class="flex items-center justify-center mb-2">
                     <div class="w-10 h-10 rounded-xl bg-green-500/20 flex items-center justify-center">
                       <i class="fas fa-check-double text-green-400"></i>
@@ -133,9 +131,9 @@ defmodule WcsStudioWeb.UserProfile do
                   <p class="text-xs text-slate-400 uppercase tracking-wide">
                     {gettext("Patterns Mastered")}
                   </p>
-                </div>
+                </.card>
 
-                <div class="bg-slate-800/60 backdrop-blur-sm rounded-2xl p-4 border border-white/5 hover:border-purple-500/30 transition-all duration-300">
+                <.card padding="sm" class="backdrop-blur-sm hover:border-purple-500/30">
                   <div class="flex items-center justify-center mb-2">
                     <div class="w-10 h-10 rounded-xl bg-purple-500/20 flex items-center justify-center">
                       <i class="fas fa-clock text-purple-400"></i>
@@ -147,7 +145,7 @@ defmodule WcsStudioWeb.UserProfile do
                   <p class="text-xs text-slate-400 uppercase tracking-wide">
                     {gettext("Practice Time")}
                   </p>
-                </div>
+                </.card>
               </div>
             </div>
 
@@ -197,12 +195,10 @@ defmodule WcsStudioWeb.UserProfile do
 
       <div class="gap-6 mb-8">
         <div class="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="bg-slate-800/40 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-xl hover:border-white/20 transition-all duration-300">
+          <.card class="backdrop-blur-xl hover:border-pink-500/30">
             <div class="flex items-center justify-between mb-6">
               <h3 class="text-lg font-semibold text-white flex items-center gap-2">
-                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center">
-                  <i class="fas fa-shapes text-sm"></i>
-                </div>
+                <.icon_badge icon="shapes" size="sm" />
                 <span>{gettext("Pattern Progress")}</span>
               </h3>
             </div>
@@ -212,14 +208,12 @@ defmodule WcsStudioWeb.UserProfile do
               labels={@user_pattern_labels}
               values={@user_pattern_chart_data}
             />
-          </div>
+          </.card>
 
-          <div class="bg-slate-800/40 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-xl hover:border-white/20">
+          <.card class="backdrop-blur-xl hover:border-pink-500/30">
             <div class="flex items-center justify-between mb-6">
               <h3 class="text-lg font-semibold text-white flex items-center gap-2">
-                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
-                  <i class="fas fa-chart-pie text-sm"></i>
-                </div>
+                <.icon_badge icon="chart-pie" size="sm" gradient="info" />
                 <span>{gettext("Lesson Attendance")}</span>
               </h3>
             </div>
@@ -229,17 +223,15 @@ defmodule WcsStudioWeb.UserProfile do
               labels={@lesson_chart_labels}
               values={@lesson_chart_data}
             />
-          </div>
+          </.card>
         </div>
       </div>
 
       <!-- Patterns Section -->
-      <div class="bg-slate-800/40 backdrop-blur-xl border border-white/10 rounded-2xl p-8 shadow-xl">
+      <.card padding="lg" class="backdrop-blur-xl">
         <div class="flex items-center justify-between mb-8">
           <h2 class="text-2xl font-bold text-white flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center">
-              <i class="fas fa-shapes"></i>
-            </div>
+            <.icon_badge icon="shapes" />
             <span>{gettext("My Patterns")}</span>
           </h2>
 
@@ -257,15 +249,20 @@ defmodule WcsStudioWeb.UserProfile do
         <%= if Enum.any?(@user_patterns) do %>
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <%= for user_pattern <- @user_patterns do %>
-              <div class={"group bg-slate-800/60 backdrop-blur-sm border border-white/5 rounded-xl p-5 #{border_class(user_pattern.status)}"}>
+              <.card
+                padding="none"
+                class={"group p-5 backdrop-blur-sm #{border_class(user_pattern.status)}"}
+              >
                 <div class="flex items-start justify-between mb-3">
                   <h3 class="text-base font-semibold text-white group-hover:text-blue-300 transition-colors">
                     {user_pattern.pattern.name}
                   </h3>
-                  <span class={"inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-medium border backdrop-blur-sm #{status_bg(user_pattern.status)}"}>
-                    <i class={"fas #{status_icon(user_pattern.status)} mr-1.5 text-xs"}></i>
+                  <.badge
+                    variant={status_badge_variant(user_pattern.status)}
+                    icon={status_icon(user_pattern.status)}
+                  >
                     {status_text(user_pattern.status)}
-                  </span>
+                  </.badge>
                 </div>
 
                 <div class="flex items-center justify-between pt-3 border-t border-white/5">
@@ -281,28 +278,24 @@ defmodule WcsStudioWeb.UserProfile do
                     <i class="fas fa-arrow-right text-[10px]"></i>
                   </a>
                 </div>
-              </div>
+              </.card>
             <% end %>
           </div>
         <% else %>
           <div class="text-center py-20">
-            <div class="w-24 h-24 mx-auto mb-6 rounded-3xl bg-slate-800/50 flex items-center justify-center">
-              <i class="fas fa-shapes text-4xl text-slate-600"></i>
+            <div class="w-24 h-24 mx-auto mb-6 rounded-full bg-slate-800/50 flex items-center justify-center">
+              <i class="fas fa-shapes text-3xl text-slate-500"></i>
             </div>
             <h3 class="text-xl font-semibold text-slate-300 mb-2">{gettext("No patterns yet")}</h3>
             <p class="text-slate-500 mb-8 max-w-md mx-auto">
               {gettext("Start your dance journey by exploring and tracking patterns")}
             </p>
-            <a
-              href={~p"/patterns"}
-              class="inline-flex items-center gap-2 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
-            >
-              <i class="fas fa-plus"></i>
-              <span>{gettext("Browse Patterns")}</span>
-            </a>
+            <.btn href={~p"/patterns"} icon="plus">
+              {gettext("Browse Patterns")}
+            </.btn>
           </div>
         <% end %>
-      </div>
+      </.card>
     </div>
     """
   end

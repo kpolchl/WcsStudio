@@ -1,0 +1,17 @@
+<div class="flex-1 flex items-center justify-center p-4">
+  <.card class="w-full max-w-lg text-center">
+    <.icon_badge
+      gradient="danger"
+      icon="triangle-exclamation"
+      size="lg"
+      class="mx-auto mb-6 text-2xl"
+    />
+    <h1 class="font-display uppercase font-bold text-3xl text-white mb-4 bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
+      {gettext("Something went wrong")}
+    </h1>
+    <p class="text-base text-slate-300 leading-relaxed mb-8">
+      {gettext("An unexpected error occurred. Please try again later.")}
+    </p>
+    <.btn href={~p"/"}>{gettext("Back home")}</.btn>
+  </.card>
+</div>

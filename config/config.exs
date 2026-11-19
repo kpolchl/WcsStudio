@@ -21,7 +21,7 @@ config :wcs_studio, WcsStudioWeb.Endpoint,
   adapter: Bandit.PhoenixAdapter,
   render_errors: [
     formats: [html: WcsStudioWeb.ErrorHTML, json: WcsStudioWeb.ErrorJSON],
-    layout: false
+    layout: {WcsStudioWeb.Layouts, :root}
   ],
   pubsub_server: WcsStudio.PubSub,
   live_view: [signing_salt: "JIGNnzwX"]

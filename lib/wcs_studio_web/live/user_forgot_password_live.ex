@@ -16,12 +16,9 @@ defmodule WcsStudioWeb.UserForgotPasswordLive do
         <.simple_form for={@form} id="reset_password_form" phx-submit="send_email">
           <.input field={@form[:email]} type="email" placeholder="Email" required />
           <:actions>
-            <.button
-              phx-disable-with="Sending..."
-              class="w-full bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-pink-500/25 hover:-translate-y-0.5"
-            >
+            <.btn type="submit" phx-disable-with="Sending..." class="w-full">
               Send password reset instructions
-            </.button>
+            </.btn>
           </:actions>
         </.simple_form>
         <p class="text-center text-sm mt-4">

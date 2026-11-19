@@ -112,21 +112,17 @@ defmodule WcsStudioWeb.BlogPostLive do
         <!-- Admin Actions -->
         <%= if @current_user && @current_user.role == "admin" && !@editing_post do %>
           <div class="flex gap-2">
-            <button
-              phx-click="edit_post"
-              class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors flex items-center gap-2"
-            >
-              <i class="fas fa-edit"></i>
+            <.btn variant="info" icon="edit" phx-click="edit_post">
               {gettext("Edit Post")}
-            </button>
-            <button
+            </.btn>
+            <.btn
+              variant="danger"
+              icon="trash"
               phx-click="delete_post"
-              class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors flex items-center gap-2"
               onclick="return confirm('Are you sure you want to delete this post?');"
             >
-              <i class="fas fa-trash"></i>
               {gettext("Delete Post")}
-            </button>
+            </.btn>
           </div>
         <% end %>
       </div>
@@ -136,8 +132,8 @@ defmodule WcsStudioWeb.BlogPostLive do
     <article class="max-w-4xl mx-auto px-4 py-12">
       <%= if @editing_post do %>
         <!-- Edit Post Form -->
-        <div class="bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8">
-          <h2 class="text-3xl font-bold text-white mb-6">Edit Post</h2>
+        <.card class="backdrop-blur-sm">
+          <h2 class="text-3xl font-bold text-white mb-6">{gettext("Edit Post")}</h2>
 
           <.form for={@edit_form} phx-submit="update_post">
             <div class="space-y-4">
@@ -172,25 +168,14 @@ defmodule WcsStudioWeb.BlogPostLive do
             </div>
 
             <div class="flex gap-3 mt-6">
-              <button
-                type="submit"
-                class="px-6 py-3 bg-gradient-to-r from-green-500 to-blue-500 text-white font-medium rounded-xl hover:shadow-lg hover:shadow-green-500/50 transition-all duration-300"
-              >
-                <i class="fas fa-save mr-2"></i>
-                {gettext("Update Post")}
-              </button>
+              <.btn type="submit" icon="save">{gettext("Update Post")}</.btn>
 
-              <button
-                type="button"
-                phx-click="cancel_edit"
-                class="px-6 py-3 bg-slate-600 hover:bg-slate-700 text-white font-medium rounded-xl transition-colors"
-              >
-                <i class="fas fa-times mr-2"></i>
+              <.btn variant="ghost" icon="times" phx-click="cancel_edit">
                 {gettext("Cancel")}
-              </button>
+              </.btn>
             </div>
           </.form>
-        </div>
+        </.card>
       <% else %>
         <!-- Original Post Display -->
           <!-- Article Header -->
@@ -227,9 +212,9 @@ defmodule WcsStudioWeb.BlogPostLive do
 
         <!-- Article Content -->
         <div class="prose prose-invert prose-lg max-w-none mb-16">
-          <div class="bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8 text-slate-200 leading-relaxed">
+          <.card class="text-slate-200 leading-relaxed backdrop-blur-sm">
             {format_content(@post.body)}
-          </div>
+          </.card>
         </div>
 
         <!-- Article Footer / Tags -->
@@ -237,9 +222,7 @@ defmodule WcsStudioWeb.BlogPostLive do
           <div class="flex flex-wrap items-center gap-3">
             <span class="text-slate-400">Tags:</span>
             <%= for tag <- Post.parse_tags(@post.tags) do %>
-              <span class="px-3 py-1 rounded-full text-sm bg-purple-500/20 text-purple-300 border border-purple-500/30">
-                {tag}
-              </span>
+              <.badge class="text-sm">{tag}</.badge>
             <% end %>
           </div>
         </div>
@@ -248,7 +231,7 @@ defmodule WcsStudioWeb.BlogPostLive do
       <!-- Comments Section (Only show when not editing) -->
       <%= if !@editing_post do %>
         <section class="mt-16">
-          <div class="bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8">
+          <.card class="backdrop-blur-sm">
             <h2 class="text-3xl font-bold text-white mb-8 flex items-center gap-3">
               <i class="fas fa-comments text-purple-400"></i>
               {gettext("Comments")}
@@ -272,25 +255,16 @@ defmodule WcsStudioWeb.BlogPostLive do
                     ></textarea>
                   </div>
                   <:actions>
-                    <button
-                      type="submit"
-                      class="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium rounded-xl hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300"
-                    >
-                      <i class="fas fa-paper-plane mr-2"></i>
-                      {gettext("Post Comment")}
-                    </button>
+                    <.btn type="submit" icon="paper-plane">{gettext("Post Comment")}</.btn>
                   </:actions>
                 </.simple_form>
               </div>
             <% else %>
               <div class="mb-10 p-6 bg-slate-900/50 border border-slate-600 rounded-xl text-center">
                 <p class="text-slate-300 mb-3">{gettext("Sign in to leave a comment")}</p>
-                <.link
-                  navigate={~p"/users/log_in"}
-                  class="inline-block px-6 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors"
-                >
+                <.btn navigate={~p"/users/log_in"} variant="primary">
                   {gettext("Sign In")}
-                </.link>
+                </.btn>
               </div>
             <% end %>
 
@@ -330,7 +304,7 @@ defmodule WcsStudioWeb.BlogPostLive do
                 <% end %>
               <% end %>
             </div>
-          </div>
+          </.card>
         </section>
       <% end %>
     </article>

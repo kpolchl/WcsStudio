@@ -274,53 +274,35 @@ defmodule WcsStudioWeb.LessonsLive do
     <!-- Add Lesson Button (Admin Only) -->
     <%= if @current_user && @current_user.role == "admin" do %>
       <div class="max-w-2xl mx-8 my-8">
-        <button
-          phx-click="open_modal"
-          class="w-full sm:w-auto bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
-        >
-          <i class="fas fa-plus"></i>
-          <span>{gettext("Add New Lesson")}</span>
-        </button>
+        <.btn icon="plus" phx-click="open_modal" class="w-full sm:w-auto">
+          {gettext("Add New Lesson")}
+        </.btn>
       </div>
     <% end %>
 
     <!-- Dance Type Filters -->
     <div class="flex flex-wrap justify-center gap-4 mt-8">
       <%= for dance_type <- @dance_types do %>
-        <button
+        <.btn
+          variant={if @selected_dance_type_id == dance_type.id, do: "primary", else: "ghost"}
           phx-click="choose_dance_type"
           phx-value-dance_type_id={dance_type.id}
-          class={[
-            "px-6 py-2 rounded-lg font-medium transition-all duration-300",
-            if(@selected_dance_type_id == dance_type.id,
-              do:
-                "bg-gradient-to-r from-pink-500 to-purple-500 text-white hover:shadow-lg hover:shadow-pink-500/25",
-              else: "bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 border border-slate-700/50"
-            )
-          ]}
         >
           {DanceType.get_name(dance_type, @locale)}
-        </button>
+        </.btn>
       <% end %>
     </div>
 
     <!-- Level Filters -->
     <div class="flex flex-wrap justify-center gap-4 mt-4">
       <%= for level <- @levels do %>
-        <button
+        <.btn
+          variant={if @selected_level_id == level.id, do: "info", else: "ghost"}
           phx-click="choose_level"
           phx-value-level_id={level.id}
-          class={[
-            "px-6 py-2 rounded-lg font-medium transition-all duration-300",
-            if(@selected_level_id == level.id,
-              do:
-                "bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-lg hover:shadow-blue-500/25",
-              else: "bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 border border-slate-700/50"
-            )
-          ]}
         >
           {level.name}
-        </button>
+        </.btn>
       <% end %>
     </div>
 
@@ -435,7 +417,7 @@ defmodule WcsStudioWeb.LessonsLive do
           on_cancel={JS.push("close_modal")}
           on_submit="update_lesson"
           submit_label={gettext("Update")}
-          submit_class="bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700"
+          submit_variant="info"
         >
           <.input type="text" field={@form[:title]} label={gettext("Title")} />
 

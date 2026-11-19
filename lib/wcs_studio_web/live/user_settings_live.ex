@@ -130,12 +130,9 @@ defmodule WcsStudioWeb.UserSettingsLive do
               required
             />
             <:actions>
-              <.button
-                phx-disable-with={gettext("Changing...")}
-                class="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-pink-500/25 hover:-translate-y-0.5"
-              >
+              <.btn type="submit" phx-disable-with={gettext("Changing...")}>
                 {gettext("Change Email")}
-              </.button>
+              </.btn>
             </:actions>
           </.simple_form>
         </div>
@@ -177,12 +174,9 @@ defmodule WcsStudioWeb.UserSettingsLive do
               required
             />
             <:actions>
-              <.button
-                phx-disable-with={gettext("Changing...")}
-                class="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-pink-500/25 hover:-translate-y-0.5"
-              >
+              <.btn type="submit" phx-disable-with={gettext("Changing...")}>
                 {gettext("Change Password")}
-              </.button>
+              </.btn>
             </:actions>
           </.simple_form>
         </div>

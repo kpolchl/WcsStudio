@@ -91,54 +91,36 @@ defmodule WcsStudioWeb.PracticeLive do
       <div class="max-w-6xl mx-auto">
         <!-- Style Filters -->
         <div class="flex flex-wrap justify-center gap-3 mb-8">
-          <button
-            type="button"
+          <.btn
+            variant={if @selected_filter == "all", do: "primary", else: "ghost"}
+            class="rounded-xl"
+            icon="layer-group"
             phx-click="selected_filter"
             phx-value-selected_filter="all"
-            class={[
-              "px-4 py-2 rounded-xl font-medium transition-all duration-300 flex items-center",
-              if @selected_filter == "all" do
-                "bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-lg shadow-pink-500/25"
-              else
-                "bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 border border-slate-700/50"
-              end
-            ]}
           >
-            <i class="fas fa-layer-group mr-2"></i> {gettext("All")}
-          </button>
+            {gettext("All")}
+          </.btn>
 
           <%= if @current_user do %>
-            <button
-              type="button"
+            <.btn
+              variant={if @selected_filter == "in_progress", do: "primary", else: "ghost"}
+              class="rounded-xl"
+              icon="spinner"
               phx-click="selected_filter"
               phx-value-selected_filter="in_progress"
-              class={[
-                "px-4 py-2 rounded-xl font-medium transition-all duration-300 flex items-center",
-                if @selected_filter == "in_progress" do
-                  "bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-lg shadow-pink-500/25"
-                else
-                  "bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 border border-slate-700/50"
-                end
-              ]}
             >
-              <i class="fas fa-spinner mr-2 "></i> {gettext("In Progress")}
-            </button>
+              {gettext("In Progress")}
+            </.btn>
 
-            <button
-              type="button"
+            <.btn
+              variant={if @selected_filter == "learned", do: "primary", else: "ghost"}
+              class="rounded-xl"
+              icon="check-circle"
               phx-click="selected_filter"
               phx-value-selected_filter="learned"
-              class={[
-                "px-4 py-2 rounded-xl font-medium transition-all duration-300 flex items-center",
-                if @selected_filter == "learned" do
-                  "bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-lg shadow-pink-500/25"
-                else
-                  "bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 border border-slate-700/50"
-                end
-              ]}
             >
-              <i class="fas fa-check-circle mr-2"></i> {gettext("Learned")}
-            </button>
+              {gettext("Learned")}
+            </.btn>
           <% end %>
         </div>
       </div>
@@ -205,14 +187,9 @@ defmodule WcsStudioWeb.PracticeLive do
 
     <!-- Random practice Button -->
     <div class="w-full max-w-2xl mx-auto px-4 mb-8">
-      <button
-        type="button"
-        phx-click="random_practice"
-        class="w-full bg-gradient-to-r from-pink-500 to-purple-500 text-white font-semibold py-4 px-6 rounded-lg shadow-lg flex items-center justify-center gap-2 hover:shadow-xl hover:scale-[1.02] transition-all duration-300"
-      >
-        <i class="fas fa-random"></i>
-        <span>{gettext("Start Practice")}</span>
-      </button>
+      <.btn icon="random" phx-click="random_practice" class="w-full">
+        {gettext("Start Practice")}
+      </.btn>
     </div>
 
     <!-- Selected random patterns -->

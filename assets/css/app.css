@@ -2,4 +2,9 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-/* This file is for your main application CSS */
+/* Global body defaults (previously scattered across layout templates).
+   Fonts are mapped in tailwind.config.js and loaded in root.html.heex. */
+body {
+  overscroll-behavior: auto;
+}
+

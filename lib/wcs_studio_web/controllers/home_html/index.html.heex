@@ -1,7 +1,7 @@
 <section
   id="hero-carousel"
   phx-hook="Carousel"
-  class="relative w-full overflow-hidden h-screen mt-[-128px]"
+  class="relative w-full overflow-hidden h-screen"
 >
   <div id="carousel" class="flex transition-transform duration-700 ease-in-out h-full">
     <!-- Slide 1 -->
@@ -11,7 +11,7 @@
       <div class="absolute inset-0 bg-black opacity-40"></div>
       <div class="absolute inset-0 bg-gradient-to-r from-pink-500/10 to-purple-500/10"></div>
       <div class="absolute inset-0 flex flex-col justify-center items-start text-left px-8 md:px-16 lg:px-24">
-        <h2 class="text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-6 opacity-0 animate-[slideUp_0.8s_ease-out_0.2s_forwards]">
+        <h2 class="font-display uppercase font-bold text-5xl md:text-7xl lg:text-8xl text-white mb-6 opacity-0 animate-[slideUp_0.8s_ease-out_0.2s_forwards]">
           {gettext("Dance ")}<span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-400">{gettext(
             "Elevated"
           )}</span>
@@ -29,7 +29,7 @@
       <div class="absolute inset-0 bg-black opacity-30"></div>
       <div class="absolute inset-0 bg-gradient-to-r from-pink-500/10 to-purple-500/10"></div>
       <div class="absolute inset-0 flex flex-col justify-center items-start text-left px-8 md:px-16 lg:px-24">
-        <h2 class="text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-6 opacity-0 animate-[slideUp_0.8s_ease-out_0.2s_forwards]">
+        <h2 class="font-display uppercase font-bold text-5xl md:text-7xl lg:text-8xl text-white mb-6 opacity-0 animate-[slideUp_0.8s_ease-out_0.2s_forwards]">
           {gettext("Perfect Your")}
           <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-400">
             {gettext("Technique")}
@@ -48,7 +48,7 @@
       <div class="absolute inset-0 bg-black opacity-25"></div>
       <div class="absolute inset-0 bg-gradient-to-r from-pink-500/10 to-purple-500/10"></div>
       <div class="absolute inset-0 flex flex-col justify-center items-start text-left px-8 md:px-16 lg:px-24">
-        <h2 class="text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-6 opacity-0 animate-[slideUp_0.8s_ease-out_0.2s_forwards]">
+        <h2 class="font-display uppercase font-bold text-5xl md:text-7xl lg:text-8xl text-white mb-6 opacity-0 animate-[slideUp_0.8s_ease-out_0.2s_forwards]">
           {gettext("Join my ")}<span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-400">{gettext(
             "Journey"
           )}</span>
@@ -86,7 +86,7 @@
 <section class="py-20 bg-slate-800/30 ">
   <div class="mx-auto max-w-7xl px-4 md:px-8">
     <div class="text-center mb-16 opacity-0 animate-[fadeIn_1s_ease-out_0.2s_forwards]">
-      <h2 class="text-4xl md:text-5xl font-bold text-white mb-4 bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
+      <h2 class="font-display uppercase font-bold text-4xl md:text-5xl text-white mb-4 bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
         {gettext("Some of my resources about dancing")}
       </h2>
       <p class="text-lg md:text-xl text-slate-400 max-w-3xl mx-auto">
@@ -96,217 +96,221 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       <!-- Card 1 -->
-      <a
-        href="/dance_types"
-        class="group relative flex flex-col h-80 rounded-2xl overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl border border-slate-700/30 hover:border-slate-600/50"
-      >
-        <!-- Background -->
-        <div class="absolute inset-0 bg-slate-800/50 backdrop-blur-sm"></div>
-        <div class="absolute inset-0 bg-gradient-to-br from-pink-500/10 via-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-        </div>
-
-        <!-- Image Section (Top 60%) -->
-        <div class="relative h-3/5 overflow-hidden">
-          <!-- Background Effects -->
-          <div class="absolute top-0 right-0 w-32 h-32 bg-pink-500 rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500">
-          </div>
-          <div class="absolute bottom-0 left-0 w-32 h-32 bg-purple-500 rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500">
+      <.link href={~p"/dance_types"} class="group block h-full">
+        <.card padding="none" hover class="relative flex flex-col h-80">
+          <!-- Background -->
+          <div class="absolute inset-0 bg-slate-800/50 backdrop-blur-sm"></div>
+          <div class="absolute inset-0 bg-gradient-to-br from-pink-500/10 via-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
           </div>
 
-          <!-- Gradient Overlay -->
-          <div class="absolute inset-0 bg-gradient-to-b from-slate-900/70 to-transparent z-10">
+          <!-- Image Section (Top 60%) -->
+          <div class="relative h-3/5 overflow-hidden">
+            <!-- Background Effects -->
+            <div class="absolute top-0 right-0 w-32 h-32 bg-pink-500 rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500">
+            </div>
+            <div class="absolute bottom-0 left-0 w-32 h-32 bg-purple-500 rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500">
+            </div>
+
+            <!-- Gradient Overlay -->
+            <div class="absolute inset-0 bg-gradient-to-b from-slate-900/70 to-transparent z-10">
+            </div>
+
+            <!-- Image -->
+            <img
+              src="/images/advertisement-51631_1280.webp"
+              alt={gettext("Dance styles illustration")}
+              class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+            />
+
+            <!-- Icon Badge -->
+            <.icon_badge
+              icon="music"
+              size="lg"
+              class="absolute top-4 left-4 z-20 group-hover:scale-110 transition-transform duration-300"
+            />
+          </div>
+          <!-- Content Section (Bottom 40%) -->
+          <div class="relative flex-1 flex flex-col justify-between p-6 z-10">
+            <div>
+              <h3 class="font-display uppercase font-bold text-xl text-white mb-2 group-hover:text-pink-200 transition-colors duration-300">
+                {gettext("Dance Styles")}
+              </h3>
+              <p class="text-slate-300 text-sm leading-relaxed line-clamp-2">
+                {gettext("View dance types I came across in my life")}
+              </p>
+            </div>
+            <!-- CTA -->
+            <div class="flex items-center justify-between pt-3 border-t border-slate-600/50 group-hover:border-slate-500/50 transition-colors duration-300">
+              <span class="text-pink-400 text-sm font-medium flex items-center gap-2 group-hover:gap-3 transition-all duration-300">
+                {gettext("Explore")}
+                <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-300"></i>
+              </span>
+            </div>
+          </div>
+        </.card>
+      </.link>
+
+      <.link href={~p"/patterns"} class="group block h-full">
+        <.card padding="none" hover class="relative flex flex-col h-80">
+          <!-- Background -->
+          <div class="absolute inset-0 bg-slate-800/50 backdrop-blur-sm"></div>
+          <div class="absolute inset-0 bg-gradient-to-br from-pink-500/10 via-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
           </div>
 
-          <!-- Image -->
-          <img
-            src="/images/advertisement-51631_1280.webp"
-            alt="Dance styles illustration"
-            class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 "
-          />
+          <!-- Image Section (Top 60%) -->
+          <div class="relative h-3/5 overflow-hidden">
+            <!-- Background Effects -->
+            <div class="absolute top-0 right-0 w-32 h-32 bg-pink-500 rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500">
+            </div>
+            <div class="absolute bottom-0 left-0 w-32 h-32 bg-purple-500 rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500">
+            </div>
 
-          <!-- Icon Badge -->
-          <div class="absolute top-4 left-4 w-12 h-12 rounded-xl bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300 z-20">
-            <i class="fas fa-music text-white text-lg"></i>
-          </div>
-        </div>
-        <!-- Content Section (Bottom 40%) -->
-        <div class="relative flex-1 flex flex-col justify-between p-6 z-10">
-          <div>
-            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-pink-200 transition-colors duration-300">
-              {gettext("Dance Styles")}
-            </h3>
-            <p class="text-slate-300 text-sm leading-relaxed line-clamp-2">
-              {gettext("View dance types I came across in my life")}
-            </p>
-          </div>
-          <!-- CTA -->
-          <div class="flex items-center justify-between pt-3 border-t border-slate-600/50 group-hover:border-slate-500/50 transition-colors duration-300">
-            <span class="text-pink-400 text-sm font-medium flex items-center gap-2 group-hover:gap-3 transition-all duration-300">
-              {gettext("Explore")}
-              <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-300"></i>
-            </span>
-          </div>
-        </div>
-      </a>
+            <!-- Gradient Overlay -->
+            <div class="absolute inset-0 bg-gradient-to-b from-slate-900/70 to-transparent z-10">
+            </div>
 
-      <a
-        href="/patterns"
-        class="group relative flex flex-col h-80 rounded-2xl overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl border border-slate-700/30 hover:border-slate-600/50"
-      >
-        <!-- Background -->
-        <div class="absolute inset-0 bg-slate-800/50 backdrop-blur-sm"></div>
-        <div class="absolute inset-0 bg-gradient-to-br from-pink-500/10 via-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-        </div>
+            <!-- Image -->
+            <img
+              src="/images/boots-7251230_1280.webp"
+              alt={gettext("Pattern steps illustration")}
+              class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+            />
 
-        <!-- Image Section (Top 60%) -->
-        <div class="relative h-3/5 overflow-hidden">
-          <!-- Background Effects -->
-          <div class="absolute top-0 right-0 w-32 h-32 bg-pink-500 rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500">
+            <!-- Icon Badge -->
+            <.icon_badge
+              icon="shapes"
+              size="lg"
+              class="absolute top-4 left-4 z-20 group-hover:scale-110 transition-transform duration-300"
+            />
           </div>
-          <div class="absolute bottom-0 left-0 w-32 h-32 bg-purple-500 rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500">
+          <!-- Content Section (Bottom 40%) -->
+          <div class="relative flex-1 flex flex-col justify-between p-6 z-10">
+            <div>
+              <h3 class="font-display uppercase font-bold text-xl text-white mb-2 group-hover:text-pink-200 transition-colors duration-300">
+                {gettext("Steps")}
+              </h3>
+              <p class="text-slate-300 text-sm leading-relaxed line-clamp-2">
+                {gettext("Explore complex descriptions of sequences ")}
+              </p>
+            </div>
+            <!-- CTA -->
+            <div class="flex items-center justify-between pt-3 border-t border-slate-600/50 group-hover:border-slate-500/50 transition-colors duration-300">
+              <span class="text-pink-400 text-sm font-medium flex items-center gap-2 group-hover:gap-3 transition-all duration-300">
+                {gettext("Learn more")}
+                <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-300"></i>
+              </span>
+            </div>
           </div>
+        </.card>
+      </.link>
 
-          <!-- Gradient Overlay -->
-          <div class="absolute inset-0 bg-gradient-to-b from-slate-900/70 to-transparent z-10">
-          </div>
-
-          <!-- Image -->
-          <img
-            src="/images/boots-7251230_1280.webp"
-            alt="image not found"
-            class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
-          />
-
-          <!-- Icon Badge -->
-          <div class="absolute top-4 left-4 w-12 h-12 rounded-xl bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300 z-20">
-            <i class="fas fa-shapes text-white"></i>
-          </div>
-        </div>
-        <!-- Content Section (Bottom 40%) -->
-        <div class="relative flex-1 flex flex-col justify-between p-6 z-10">
-          <div>
-            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-pink-200 transition-colors duration-300">
-              {gettext("Steps")}
-            </h3>
-            <p class="text-slate-300 text-sm leading-relaxed line-clamp-2">
-              {gettext("Explore complex descriptions of sequences ")}
-            </p>
-          </div>
-          <!-- CTA -->
-          <div class="flex items-center justify-between pt-3 border-t border-slate-600/50 group-hover:border-slate-500/50 transition-colors duration-300">
-            <span class="text-pink-400 text-sm font-medium flex items-center gap-2 group-hover:gap-3 transition-all duration-300">
-              {gettext("Learn more")}
-              <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-300"></i>
-            </span>
-          </div>
-        </div>
-      </a>
-
-      <a
-        href="/admin/lessons"
-        class="group relative flex flex-col h-80 rounded-2xl overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl border border-slate-700/30 hover:border-slate-600/50"
-      >
-        <!-- Background -->
-        <div class="absolute inset-0 bg-slate-800/50 backdrop-blur-sm"></div>
-        <div class="absolute inset-0 bg-gradient-to-br from-pink-500/10 via-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-        </div>
-
-        <!-- Image Section (Top 60%) -->
-        <div class="relative h-3/5 overflow-hidden">
-          <!-- Background Effects -->
-          <div class="absolute top-0 right-0 w-32 h-32 bg-pink-500 rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500">
-          </div>
-          <div class="absolute bottom-0 left-0 w-32 h-32 bg-purple-500 rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500">
+      <.link href={~p"/admin/lessons"} class="group block h-full">
+        <.card padding="none" hover class="relative flex flex-col h-80">
+          <!-- Background -->
+          <div class="absolute inset-0 bg-slate-800/50 backdrop-blur-sm"></div>
+          <div class="absolute inset-0 bg-gradient-to-br from-pink-500/10 via-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
           </div>
 
-          <!-- Gradient Overlay -->
-          <div class="absolute inset-0 bg-gradient-to-b from-slate-900/70 to-transparent z-10">
+          <!-- Image Section (Top 60%) -->
+          <div class="relative h-3/5 overflow-hidden">
+            <!-- Background Effects -->
+            <div class="absolute top-0 right-0 w-32 h-32 bg-pink-500 rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500">
+            </div>
+            <div class="absolute bottom-0 left-0 w-32 h-32 bg-purple-500 rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500">
+            </div>
+
+            <!-- Gradient Overlay -->
+            <div class="absolute inset-0 bg-gradient-to-b from-slate-900/70 to-transparent z-10">
+            </div>
+
+            <!-- Image -->
+            <img
+              src="/images/dance-971082_1280.webp"
+              alt={gettext("Dance lesson illustration")}
+              class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+            />
+
+            <!-- Icon Badge -->
+            <.icon_badge
+              icon="play-circle"
+              size="lg"
+              class="absolute top-4 left-4 z-20 group-hover:scale-110 transition-transform duration-300"
+            />
+          </div>
+          <!-- Content Section (Bottom 40%) -->
+          <div class="relative flex-1 flex flex-col justify-between p-6 z-10">
+            <div>
+              <h3 class="font-display uppercase font-bold text-xl text-white mb-2 group-hover:text-pink-200 transition-colors duration-300">
+                {gettext("Video Lessons")}
+              </h3>
+              <p class="text-slate-300 text-sm leading-relaxed line-clamp-2">
+                {gettext("Available only for admin unless I record my own videos ")}
+              </p>
+            </div>
+            <!-- CTA -->
+            <div class="flex items-center justify-between pt-3 border-t border-slate-600/50 group-hover:border-slate-500/50 transition-colors duration-300">
+              <span class="text-pink-400 text-sm font-medium flex items-center gap-2 group-hover:gap-3 transition-all duration-300">
+                {gettext("Watch now")}
+                <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-300"></i>
+              </span>
+            </div>
+          </div>
+        </.card>
+      </.link>
+
+      <.link href={~p"/blog"} class="group block h-full">
+        <.card padding="none" hover class="relative flex flex-col h-80">
+          <!-- Background -->
+          <div class="absolute inset-0 bg-slate-800/50 backdrop-blur-sm"></div>
+          <div class="absolute inset-0 bg-gradient-to-br from-pink-500/10 via-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
           </div>
 
-          <!-- Image -->
-          <img
-            src="/images/dance-971082_1280.webp"
-            alt="image not found"
-            class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
-          />
+          <!-- Image Section (Top 60%) -->
+          <div class="relative h-3/5 overflow-hidden">
+            <!-- Background Effects -->
+            <div class="absolute top-0 right-0 w-32 h-32 bg-pink-500 rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500">
+            </div>
+            <div class="absolute bottom-0 left-0 w-32 h-32 bg-purple-500 rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500">
+            </div>
 
-          <!-- Icon Badge -->
-          <div class="absolute top-4 left-4 w-12 h-12 rounded-xl bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300 z-20">
-            <i class="fas fa-play-circle text-white"></i>
-          </div>
-        </div>
-        <!-- Content Section (Bottom 40%) -->
-        <div class="relative flex-1 flex flex-col justify-between p-6 z-10">
-          <div>
-            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-pink-200 transition-colors duration-300">
-              {gettext("Video Lessons")}
-            </h3>
-            <p class="text-slate-300 text-sm leading-relaxed line-clamp-2">
-              {gettext("Available only for admin unless I record my own videos ")}
-            </p>
-          </div>
-          <!-- CTA -->
-          <div class="flex items-center justify-between pt-3 border-t border-slate-600/50 group-hover:border-slate-500/50 transition-colors duration-300">
-            <span class="text-pink-400 text-sm font-medium flex items-center gap-2 group-hover:gap-3 transition-all duration-300">
-              {gettext("Watch now")}
-              <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-300"></i>
-            </span>
-          </div>
-        </div>
-      </a>
+            <!-- Gradient Overlay -->
+            <div class="absolute inset-0 bg-gradient-to-b from-slate-900/70 to-transparent z-10">
+            </div>
 
-      <a
-        href="/blog"
-        class="group relative flex flex-col h-80 rounded-2xl overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl border border-slate-700/30 hover:border-slate-600/50"
-      >
-        <!-- Background -->
-        <div class="absolute inset-0 bg-slate-800/50 backdrop-blur-sm"></div>
-        <div class="absolute inset-0 bg-gradient-to-br from-pink-500/10 via-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-        </div>
+            <!-- Image -->
+            <img
+              src="/images/newspaper-664652_1280.jpg"
+              alt={gettext("Dance blog illustration")}
+              class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+            />
 
-        <!-- Image Section (Top 60%) -->
-        <div class="relative h-3/5 overflow-hidden">
-          <!-- Background Effects -->
-          <div class="absolute top-0 right-0 w-32 h-32 bg-pink-500 rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500">
+            <!-- Icon Badge -->
+            <.icon_badge
+              icon="newspaper"
+              size="lg"
+              class="absolute top-4 left-4 z-20 group-hover:scale-110 transition-transform duration-300"
+            />
           </div>
-          <div class="absolute bottom-0 left-0 w-32 h-32 bg-purple-500 rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500">
+          <!-- Content Section (Bottom 40%) -->
+          <div class="relative flex-1 flex flex-col justify-between p-6 z-10">
+            <div>
+              <h3 class="font-display uppercase font-bold text-xl text-white mb-2 group-hover:text-pink-200 transition-colors duration-300">
+                {gettext("Blog & Insights")}
+              </h3>
+              <p class="text-slate-300 text-sm leading-relaxed line-clamp-2">
+                {gettext("Enthusiast insight into dancing techniques ")}
+              </p>
+            </div>
+            <!-- CTA -->
+            <div class="flex items-center justify-between pt-3 border-t border-slate-600/50 group-hover:border-slate-500/50 transition-colors duration-300">
+              <span class="text-pink-400 text-sm font-medium flex items-center gap-2 group-hover:gap-3 transition-all duration-300">
+                {gettext("Read more")}
+                <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-300"></i>
+              </span>
+            </div>
           </div>
-
-          <!-- Gradient Overlay -->
-          <div class="absolute inset-0 bg-gradient-to-b from-slate-900/70 to-transparent z-10">
-          </div>
-
-          <!-- Image -->
-          <img
-            src="/images/newspaper-664652_1280.jpg"
-            alt="image not found"
-            class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
-          />
-
-          <!-- Icon Badge -->
-          <div class="absolute top-4 left-4 w-12 h-12 rounded-xl bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300 z-20">
-            <i class="fas fa-newspaper text-white"></i>
-          </div>
-        </div>
-        <!-- Content Section (Bottom 40%) -->
-        <div class="relative flex-1 flex flex-col justify-between p-6 z-10">
-          <div>
-            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-pink-200 transition-colors duration-300">
-              {gettext("Blog & Insights")}
-            </h3>
-            <p class="text-slate-300 text-sm leading-relaxed line-clamp-2">
-              {gettext("Enthusiast insight into dancing techniques ")}
-            </p>
-          </div>
-          <!-- CTA -->
-          <div class="flex items-center justify-between pt-3 border-t border-slate-600/50 group-hover:border-slate-500/50 transition-colors duration-300">
-            <span class="text-pink-400 text-sm font-medium flex items-center gap-2 group-hover:gap-3 transition-all duration-300">
-              {gettext("Read more")}
-              <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-300"></i>
-            </span>
-          </div>
-        </div>
-      </a>
+        </.card>
+      </.link>
     </div>
   </div>
 </section>
@@ -316,36 +320,36 @@
   <div class="mx-auto max-w-7xl px-4 md:px-8">
     <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
       <div class="text-center">
-        <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center mx-auto mb-4">
-          <i class="fas fa-newspaper text-white text-2xl"></i>
+        <.icon_badge icon="newspaper" size="lg" class="mx-auto mb-4 text-2xl" />
+        <div class="font-display uppercase font-bold text-3xl md:text-4xl text-white mb-2">
+          {@posts_number}+
         </div>
-        <div class="text-3xl md:text-4xl font-bold text-white mb-2">{@posts_number}+</div>
         <div class="text-lg text-slate-300 font-medium">{gettext("Articles")}</div>
         <div class="text-sm text-slate-400 mt-2">
           {gettext("Madman articles about dancing or something")}
         </div>
       </div>
       <div class="text-center">
-        <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center mx-auto mb-4">
-          <i class="fas fa-shapes text-white text-2xl"></i>
+        <.icon_badge icon="shapes" size="lg" class="mx-auto mb-4 text-2xl" />
+        <div class="font-display uppercase font-bold text-3xl md:text-4xl text-white mb-2">
+          {@patterns_number}+
         </div>
-        <div class="text-3xl md:text-4xl font-bold text-white mb-2">{@patterns_number}+</div>
         <div class="text-lg text-slate-300 font-medium">{gettext("Patterns")}</div>
         <div class="text-sm text-slate-400 mt-2">{gettext("Detailed breakdowns")}</div>
       </div>
       <div class="text-center">
-        <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center mx-auto mb-4">
-          <i class="fas fa-users text-white text-2xl"></i>
+        <.icon_badge icon="users" size="lg" class="mx-auto mb-4 text-2xl" />
+        <div class="font-display uppercase font-bold text-3xl md:text-4xl text-white mb-2">
+          {@users_number}+
         </div>
-        <div class="text-3xl md:text-4xl font-bold text-white mb-2">{@users_number}+</div>
         <div class="text-lg text-slate-300 font-medium">{gettext("Members")}</div>
         <div class="text-sm text-slate-400 mt-2">{gettext("Sort of community")}</div>
       </div>
       <div class="text-center">
-        <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center mx-auto mb-4">
-          <i class="fas fa-graduation-cap text-white text-2xl"></i>
+        <.icon_badge icon="graduation-cap" size="lg" class="mx-auto mb-4 text-2xl" />
+        <div class="font-display uppercase font-bold text-3xl md:text-4xl text-white mb-2">
+          {@lessons_number}+
         </div>
-        <div class="text-3xl md:text-4xl font-bold text-white mb-2">{@lessons_number}+</div>
         <div class="text-lg text-slate-300 font-medium">{gettext("Lessons")}</div>
         <div class="text-sm text-slate-400 mt-2">{gettext("Not sharable admin only")}</div>
       </div>
@@ -356,23 +360,19 @@
 <!-- Call to Action -->
 <section class="py-20 ">
   <div class="mx-auto max-w-4xl px-4 md:px-8 text-center">
-    <h2 class="text-4xl md:text-5xl font-bold text-white mb-6 bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
+    <h2 class="font-display uppercase font-bold text-4xl md:text-5xl text-white mb-6 bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
       {gettext("Ready to Track your progress?")}
     </h2>
     <p class="text-xl md:text-2xl mb-8 text-slate-300">
       {gettext("Join some community mastering their craft through this comprehensive platform")}
     </p>
     <div class="flex flex-col sm:flex-row gap-4 justify-center">
-      <.link href={~p"/users/log_in"}>
-        <button class="bg-gradient-to-r from-pink-500 to-purple-500 text-white font-semibold px-8 py-4 rounded-xl hover:shadow-2xl hover:shadow-pink-500/25 transition-all duration-300 hover:-translate-y-1 animate-pulse-glow">
-          {gettext("Start Learning Today")}
-        </button>
-      </.link>
-      <.link href={~p"/connect"}>
-        <button class="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 text-white font-semibold px-8 py-4 rounded-xl hover:bg-slate-700/50 transition-all duration-300 hover:-translate-y-1">
-          {gettext("Contact Me")}
-        </button>
-      </.link>
+      <.btn href={~p"/users/log_in"} size="lg">
+        {gettext("Start Learning Today")}
+      </.btn>
+      <.btn href={~p"/connect"} variant="ghost" size="lg">
+        {gettext("Contact Me")}
+      </.btn>
     </div>
   </div>
 </section>
@@ -445,18 +445,5 @@
       to {
           opacity: 1;
       }
-  }
-
-  @keyframes pulse-glow {
-      0% {
-          box-shadow: 0 0 20px rgba(236, 72, 153, 0.4);
-      }
-      100% {
-          box-shadow: 0 0 30px rgba(168, 85, 247, 0.6);
-      }
-  }
-
-  body {
-      font-family: 'Inter', sans-serif;
   }
 </style>

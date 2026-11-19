@@ -7,21 +7,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.1] - 2026-11-19
+
 ### Added
 
+- Styled 404/500 error pages and a `mix wcs.lint_ui` CI check.
 - `assets/js/hooks/nav_active.js` — marks the current navigation link with
   `aria-current="page"` for elements carrying `data-nav-path`.
 - `assets/js/hooks/modal_focus.js` — traps Tab focus inside a dialog and restores
   focus to the trigger on close.
 - `WcsStudio.Accounts.role_label/1` — localised display labels `Admin` / `Member`.
-- `WcsStudio.Pattern.hands_label/1` — display labels for hand-position atoms.
-  These helpers are retained but currently unused by the restored templates.
+- `WcsStudio.Pattern.hands_label/1` — display labels for hand-position atoms,
+  now used by `<.pattern>` instead of showing raw atoms like `left_left`.
 
 ### Changed
 
+- Unified buttons, cards, badges and icon containers on shared components matching the `/patterns` baseline; home now uses a dedicated full-bleed layout.
+- Typography switched to Josefin Sans display headings and Lato body text
 - `assets/js/hooks/carousel.js` — the 7-second auto-advance no longer starts when
   the user prefers reduced motion. Manual controls remain available. This is the
   only retained behaviour change with active master markup.
+
+### Fixed
+
+- Removed inline body styling and the light overscroll background; the home CTA glow now lives in `<.btn>`.
 
 ### Removed
 

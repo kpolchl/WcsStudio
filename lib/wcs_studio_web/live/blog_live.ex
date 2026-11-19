@@ -62,13 +62,9 @@ defmodule WcsStudioWeb.BlogLive do
     <!-- Add post Button (Admin Only) -->
     <%= if @current_user && @current_user.role == "admin" do %>
       <div class="w-full max-w-2xl mx-auto px-4 mb-8">
-        <button
-          phx-click="open_modal"
-          class="w-full sm:w-auto bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
-        >
-          <i class="fas fa-plus"></i>
-          <span>{gettext("Add New Pattern")}</span>
-        </button>
+        <.btn icon="plus" phx-click="open_modal" class="w-full sm:w-auto">
+          {gettext("Add New Pattern")}
+        </.btn>
       </div>
     <% end %>
 
@@ -88,7 +84,7 @@ defmodule WcsStudioWeb.BlogLive do
           <.input type="text" field={@form[:subject]} label="Subject" />
           <.input type="textarea" field={@form[:body]} label="Body" />
           <.input type="text" field={@form[:tags]} label="Tags format(:tag1:tag2:tag_n:)" />
-          <button class="btn">{gettext("Save")}</button>
+          <.btn type="submit">{gettext("Save")}</.btn>
         </.form>
       </.modal>
     <% end %>

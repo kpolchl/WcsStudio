@@ -239,6 +239,12 @@ defmodule WcsStudio.PatternTest do
                {"Right / Left", :right_left}
              ]
     end
+
+    test "hands_label/1 formats atoms for display" do
+      assert Pattern.hands_label(:left_left) == "Left / Left"
+      assert Pattern.hands_label(:right_right) == "Right / Right"
+      assert Pattern.hands_label(nil) == "—"
+    end
   end
 
   defp dance_type_for(%{dance_type_id: id}), do: dance_type_from_id(id)
