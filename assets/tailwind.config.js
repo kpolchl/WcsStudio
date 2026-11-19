@@ -32,6 +32,19 @@ module.exports = {
             fontFamily: {
                 sans: ['Inter', 'sans-serif'],
             },
+            fontSize: {
+                display: ['3.5rem', { lineHeight: '1.05', letterSpacing: '-0.025em' }],
+                'display-sm': ['3rem', { lineHeight: '1.1', letterSpacing: '-0.02em' }],
+                lead: ['1.25rem', { lineHeight: '1.5' }],
+                heading: ['1.875rem', { lineHeight: '1.2', letterSpacing: '-0.01em' }],
+                'heading-sm': ['1.25rem', { lineHeight: '1.3' }],
+                body: ['1rem', { lineHeight: '1.6' }],
+                caption: ['0.875rem', { lineHeight: '1.5' }],
+            },
+            spacing: {
+                section: '5rem',
+                'section-sm': '4rem',
+            },
             borderRadius: {
                 sm: '4px',
                 md: '6px',

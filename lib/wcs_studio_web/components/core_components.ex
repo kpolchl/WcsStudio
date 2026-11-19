@@ -164,15 +164,15 @@ defmodule WcsStudioWeb.CoreComponents do
             {@cancel_text}
           </button>
 
-          <button
+          <.button
             phx-click={@confirm_event}
             phx-value-id={@confirm_value}
             type="button"
-            class="bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white font-medium py-2.5 px-6 rounded-lg transition-all duration-300 hover:shadow-raised hover:shadow-red-500/25"
+            variant={:danger}
           >
-            <i class="fas fa-trash mr-2"></i>
+            <i class="fas fa-trash"></i>
             {@confirm_text}
-          </button>
+          </.button>
         </div>
       </div>
     </.modal>
@@ -492,22 +492,24 @@ defmodule WcsStudioWeb.CoreComponents do
               <% end %>
 
               <%= if @current_user && @current_user.role == "admin" do %>
-                <button
+                <.button
                   phx-click="open_update_modal"
                   phx-value-id={@pattern.id}
-                  class="bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 text-white font-medium py-2 px-4 rounded-lg transition-all duration-300 hover:shadow-raised hover:shadow-blue-500/25 hover:-translate-y-0.5 flex items-center"
+                  variant={:info}
+                  size={:sm}
                 >
-                  <i class="fas fa-edit mr-2"></i>
+                  <i class="fas fa-edit"></i>
                   {gettext("Update")}
-                </button>
+                </.button>
 
-                <button
+                <.button
                   phx-click={show_modal("confirm-delete-pattern-#{@pattern.id}")}
-                  class="bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white font-medium py-2 px-4 rounded-lg transition-all duration-300 hover:shadow-raised hover:shadow-red-500/25 hover:-translate-y-0.5 flex items-center"
+                  variant={:danger}
+                  size={:sm}
                 >
-                  <i class="fas fa-trash mr-2"></i>
+                  <i class="fas fa-trash"></i>
                   {gettext("Delete")}
-                </button>
+                </.button>
               <% end %>
             </div>
           </div>
@@ -753,22 +755,23 @@ defmodule WcsStudioWeb.CoreComponents do
           <% end %>
 
           <%= if @current_user && @current_user.role == "admin" do %>
-            <button
+            <.button
               phx-click="open_update_modal"
               phx-value-id={@lesson.id}
-              class="bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 text-white font-medium py-3 px-6 rounded-md transition-all duration-300 hover:shadow-raised hover:shadow-blue-500/25 hover:-translate-y-0.5 flex items-center"
+              variant={:info}
             >
-              <i class="fas fa-edit mr-2"></i>
+              <i class="fas fa-edit"></i>
               {gettext("Update Lesson")}
-            </button>
+            </.button>
 
-            <button
+            <.button
               phx-click={show_modal("confirm-delete-lesson-#{@lesson.id}")}
-              class="bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white font-medium py-2 px-4 rounded-lg transition-all duration-300 hover:shadow-raised hover:shadow-red-500/25 hover:-translate-y-0.5 flex items-center"
+              variant={:danger}
+              size={:sm}
             >
-              <i class="fas fa-trash mr-2"></i>
+              <i class="fas fa-trash"></i>
               {gettext("Delete")}
-            </button>
+            </.button>
           <% end %>
         </div>
       </div>
@@ -1031,7 +1034,11 @@ defmodule WcsStudioWeb.CoreComponents do
   """
   attr :type, :string, default: nil
   attr :href, :string, default: nil, doc: "renders a link styled as a button when set"
-  attr :variant, :atom, default: :primary, values: [:primary, :secondary, :ghost, :danger]
+
+  attr :variant, :atom,
+    default: :primary,
+    values: [:primary, :secondary, :ghost, :danger, :info, :success]
+
   attr :size, :atom, default: :md, values: [:sm, :md, :lg]
   attr :class, :string, default: nil
   attr :rest, :global, doc: "the arbitrary HTML attributes to apply to the button"
@@ -1072,7 +1079,15 @@ defmodule WcsStudioWeb.CoreComponents do
 
   defp button_variant(:danger),
     do:
-      "bg-gradient-to-r from-red-500 to-pink-600 text-white shadow-raised hover:shadow-red-500/25 hover:-translate-y-0.5"
+      "bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white shadow-raised hover:shadow-red-500/25 hover:-translate-y-0.5"
+
+  defp button_variant(:info),
+    do:
+      "bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 text-white shadow-raised hover:shadow-blue-500/25 hover:-translate-y-0.5"
+
+  defp button_variant(:success),
+    do:
+      "bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white shadow-raised hover:shadow-green-500/50 hover:-translate-y-0.5"
 
   defp button_size(:sm), do: "px-4 py-2 text-sm"
   defp button_size(:md), do: "px-5 py-2.5 text-sm"
@@ -1441,9 +1456,15 @@ defmodule WcsStudioWeb.CoreComponents do
   end
 
   @doc """
-  Renders a header with title.
+  Renders a page header with a title, optional subtitle and actions.
+
+  Use `size={:lg}` with `gradient` and `centered` for the full-width page headers.
   """
   attr :class, :string, default: nil
+  attr :size, :atom, default: :md, values: [:md, :lg]
+  attr :gradient, :boolean, default: false
+  attr :centered, :boolean, default: false
+  attr :rest, :global, doc: "additional attributes for the title element"
 
   slot :inner_block, required: true
   slot :subtitle
@@ -1451,12 +1472,28 @@ defmodule WcsStudioWeb.CoreComponents do
 
   def header(assigns) do
     ~H"""
-    <header class={[@actions != [] && "flex items-center justify-between gap-6", @class]}>
-      <div>
-        <h1 class="text-3xl font-bold text-white mb-4 bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
+    <header class={[
+      @actions != [] && "flex items-center justify-between gap-6",
+      @centered && "text-center mb-12 px-4",
+      @class
+    ]}>
+      <div class={[@centered && "mx-auto"]}>
+        <h1
+          class={[
+            "font-bold bg-clip-text text-transparent",
+            header_title_size(@size),
+            header_title_gradient(@gradient),
+            @size == :lg && "mb-6 py-2",
+            @size != :lg && "mb-4"
+          ]}
+          {@rest}
+        >
           {render_slot(@inner_block)}
         </h1>
-        <p :if={@subtitle != []} class="text-slate-400">
+        <p
+          :if={@subtitle != []}
+          class={["text-slate-400", @size == :lg && "text-lead max-w-2xl mx-auto"]}
+        >
           {render_slot(@subtitle)}
         </p>
       </div>
@@ -1464,6 +1501,12 @@ defmodule WcsStudioWeb.CoreComponents do
     </header>
     """
   end
+
+  defp header_title_size(:lg), do: "text-display-sm md:text-display"
+  defp header_title_size(:md), do: "text-heading"
+
+  defp header_title_gradient(true), do: "bg-gradient-to-r from-brand-from to-brand-to"
+  defp header_title_gradient(false), do: "bg-gradient-to-r from-white to-slate-300"
 
   @doc ~S"""
   Renders a table with generic styling.

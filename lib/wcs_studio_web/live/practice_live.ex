@@ -74,17 +74,12 @@ defmodule WcsStudioWeb.PracticeLive do
   def render(assigns) do
     ~H"""
     <!-- Header Section -->
-    <div class="mb-12 text-center px-4">
-      <h1
-        class="text-5xl md:text-6xl font-bold bg-gradient-to-r from-brand-from to-brand-to bg-clip-text text-transparent mb-6 py-2"
-        style="-webkit-background-clip: text; -webkit-text-fill-color: transparent;"
-      >
-        {gettext("Practice")}
-      </h1>
-      <p class="text-xl text-slate-400 max-w-2xl mx-auto">
+    <.header size={:lg} gradient centered style="-webkit-text-fill-color: transparent;">
+      {gettext("Practice")}
+      <:subtitle>
         {gettext("As the number of steps grows larger one must find a way to practice them.")}
-      </p>
-    </div>
+      </:subtitle>
+    </.header>
 
     <!-- Filter section -->
     <div class="px-4 mb-4">
@@ -275,7 +270,7 @@ defmodule WcsStudioWeb.PracticeLive do
     <%= if Enum.empty?(@random_patterns) do %>
       <%= cond do %>
         <% @selected_filter != "all" -> %>
-          <div class="text-center py-16">
+          <div class="text-center py-section-sm">
             <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-surface-raised/50 flex items-center justify-center">
               <i class="fas fa-dumpster-fire text-3xl text-slate-500"></i>
             </div>
@@ -284,7 +279,7 @@ defmodule WcsStudioWeb.PracticeLive do
             </h3>
           </div>
         <% true -> %>
-          <div class="text-center py-16">
+          <div class="text-center py-section-sm">
             <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-surface-raised/50 flex items-center justify-center">
               <i class="fas fa-dice text-3xl text-slate-500"></i>
             </div>

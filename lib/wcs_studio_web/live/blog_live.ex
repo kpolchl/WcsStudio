@@ -50,14 +50,10 @@ defmodule WcsStudioWeb.BlogLive do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="mb-12 text-center">
-      <h1 class="text-5xl md:text-6xl font-bold bg-gradient-to-r from-brand-from to-brand-to bg-clip-text text-transparent mb-6 py-2">
-        {gettext("Blog")}
-      </h1>
-      <p class="text-xl text-slate-400 max-w-2xl mx-auto">
-        {gettext("Read, cry and complain")}
-      </p>
-    </div>
+    <.header size={:lg} gradient centered>
+      {gettext("Blog")}
+      <:subtitle>{gettext("Read, cry and complain")}</:subtitle>
+    </.header>
 
     <!-- Add post Button (Admin Only) -->
     <%= if @current_user && @current_user.role == "admin" do %>

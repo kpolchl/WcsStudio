@@ -172,13 +172,10 @@ defmodule WcsStudioWeb.BlogPostLive do
             </div>
 
             <div class="flex gap-3 mt-6">
-              <button
-                type="submit"
-                class="px-6 py-3 bg-gradient-to-r from-green-500 to-blue-500 text-white font-medium rounded-md hover:shadow-raised hover:shadow-green-500/50 transition-all duration-300"
-              >
-                <i class="fas fa-save mr-2"></i>
+              <.button type="submit" variant={:success}>
+                <i class="fas fa-save"></i>
                 {gettext("Update Post")}
-              </button>
+              </.button>
 
               <button
                 type="button"

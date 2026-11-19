@@ -262,14 +262,10 @@ defmodule WcsStudioWeb.LessonsLive do
   def render(assigns) do
     ~H"""
     <!-- Header -->
-    <div class="mb-12 text-center px-4">
-      <h1 class="text-5xl md:text-6xl font-bold bg-gradient-to-r from-brand-from to-brand-to bg-clip-text text-transparent mb-6 py-2">
-        {gettext("Lessons")}
-      </h1>
-      <p class="text-xl text-slate-400 max-w-2xl mx-auto">
-        {gettext("Browse and track your dance lessons by type and level")}
-      </p>
-    </div>
+    <.header size={:lg} gradient centered>
+      {gettext("Lessons")}
+      <:subtitle>{gettext("Browse and track your dance lessons by type and level")}</:subtitle>
+    </.header>
 
     <!-- Add Lesson Button (Admin Only) -->
     <%= if @current_user && @current_user.role == "admin" do %>
@@ -352,7 +348,7 @@ defmodule WcsStudioWeb.LessonsLive do
 
     <!-- Empty State -->
     <%= if Enum.empty?(@lessons) do %>
-      <div class="text-center py-16">
+      <div class="text-center py-section-sm">
         <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-surface-raised/50 flex items-center justify-center">
           <i class="fas fa-chalkboard-teacher text-3xl text-slate-500"></i>
         </div>

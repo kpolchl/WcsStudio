@@ -77,19 +77,19 @@ defmodule WcsStudioWeb.DanceTypesLive do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="mb-12 text-center px-4">
-      <h1
-        class="text-5xl md:text-6xl font-bold bg-gradient-to-r from-brand-from to-brand-to bg-clip-text text-transparent mb-6 py-2"
-        style="-webkit-background-clip: text; -webkit-text-fill-color: transparent;"
-      >
-        {gettext("Dance Types")}
-      </h1>
-      <p class="text-xl text-slate-400 max-w-2xl mx-auto">
+    <.header
+      size={:lg}
+      gradient
+      centered
+      style="-webkit-text-fill-color: transparent;"
+    >
+      {gettext("Dance Types")}
+      <:subtitle>
         {gettext(
           "Browse through variable dance styles, from around the world that admin is learning or already knows."
         )}
-      </p>
-    </div>
+      </:subtitle>
+    </.header>
 
     <!-- Add Dance Type Button (Admin Only) -->
     <%= if @current_user && @current_user.role == "admin" do %>
@@ -245,7 +245,7 @@ defmodule WcsStudioWeb.DanceTypesLive do
 
         <!-- Empty State -->
         <%= if Enum.empty?(@dance_types) do %>
-          <div class="text-center py-16">
+          <div class="text-center py-section-sm">
             <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-surface-raised/50 flex items-center justify-center">
               <i class="fas fa-music text-3xl text-slate-500"></i>
             </div>

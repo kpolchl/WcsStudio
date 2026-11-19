@@ -285,7 +285,7 @@ defmodule WcsStudioWeb.UserProfile do
             <% end %>
           </div>
         <% else %>
-          <div class="text-center py-20">
+          <div class="text-center py-section">
             <div class="w-24 h-24 mx-auto mb-6 rounded-xl bg-surface-raised/50 flex items-center justify-center">
               <i class="fas fa-shapes text-4xl text-slate-400"></i>
             </div>
