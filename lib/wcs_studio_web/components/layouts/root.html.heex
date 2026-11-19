@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang={@locale} class="[scrollbar-gutter:stable]">
+<html lang={assigns[:locale] || "en"} class="[scrollbar-gutter:stable]">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -15,14 +15,6 @@
     <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
     </script>
   </head>
-  <style>
-    body {
-        overscroll-behavior: auto;
-    }
-    html {
-        background: #f0f0f0; /* the color shown in the overscroll area */
-    }
-  </style>
   <body class="bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 min-h-screen font-sans text-slate-200 flex flex-col">
     {@inner_content}
 
@@ -30,12 +22,12 @@
       <div class="px-4 py-4">
         <div class="flex flex-col md:flex-row justify-between items-start">
           <div class="md:mb-0">
-            <a
-              href="/"
+            <.link
+              href={~p"/"}
               class="text-xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent"
             >
               WcsStudio
-            </a>
+            </.link>
             <p class="text-slate-400 text-sm mt-2">
               {gettext("Master the art of partner dancing")}
             </p>

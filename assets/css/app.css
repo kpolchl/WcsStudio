@@ -2,4 +2,9 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-/* This file is for your main application CSS */
+/* Global body defaults (previously scattered across layout templates) */
+body {
+  font-family: 'Inter', sans-serif;
+  overscroll-behavior: auto;
+}
+

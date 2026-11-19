@@ -7,7 +7,9 @@ defmodule WcsStudioWeb.HomeController do
     patterns_number = round(WcsStudio.Pattern.count_patterns() / 10) * 10
     users_number = round(WcsStudio.Accounts.count_users() / 10) * 10
 
-    render(conn, :index,
+    conn
+    |> put_layout(html: {WcsStudioWeb.Layouts, :home})
+    |> render(:index,
       lessons_number: lessons_number,
       posts_number: posts_number,
       patterns_number: patterns_number,
