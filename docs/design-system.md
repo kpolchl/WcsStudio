@@ -65,8 +65,17 @@ needed, land in a separate PR that updates this document first.
 
 ## 5. Typography
 
+Fonts are loaded in `root.html.heex` and mapped in `assets/tailwind.config.js`:
+`font-sans` is Lato for all reading text, `font-display` is bold Josefin Sans and
+is reserved for short display headings (home hero/section/card/stat/CTA
+headings, error headings) in uppercase. The nav logo uses `font-display` but
+keeps its mixed-case `WcsStudio` spelling, so do not add `uppercase` to it.
+Never put `font-display` on body copy, navigation links, buttons, form fields
+or badges.
+
 | Role | Class |
 |---|---|
+| Display heading | `font-display uppercase font-bold` + the size/colour classes below |
 | Page heading | `text-3xl font-bold text-white` + `bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent` |
 | Section heading | `text-2xl font-bold text-white` |
 | Card title | `text-xl font-bold text-white` |
@@ -126,7 +135,7 @@ selects it with `put_layout(html: {WcsStudioWeb.Layouts, :home})`.
 | `<.badge>` | `variant`: `primary`, `variation`, `success`, `danger`, `muted`; `icon`: optional Font Awesome icon name. |
 | `<.icon_badge>` | `gradient`: `primary`, `info`, `warn`, `danger`, `success`; `size`: `sm`, `md`, `lg`; `icon` (required). |
 | `<.modal>`, `<.form_modal>`, `<.confirm_modal>` | Dark-themed dialogs built on the same tokens. |
-| `<.pattern>` | Reference component — the baseline. Do not change without updating this document. |
+| `<.pattern>` | Reference component — the baseline. Do not change without updating this document. Hand positions render through `WcsStudio.Pattern.hands_label/1` (`Left / Left`, not `left_left`). |
 
 ### Variant → token mapping
 

@@ -13,6 +13,10 @@ module.exports = {
     ],
     theme: {
         extend: {
+            fontFamily: {
+                sans: ['Lato', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                display: ['"Josefin Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+            },
             colors: {
                 'accent-start': '#ec4899', // pink-500
                 'accent-end': '#a855f7',   // purple-500

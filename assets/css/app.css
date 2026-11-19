@@ -2,9 +2,9 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-/* Global body defaults (previously scattered across layout templates) */
+/* Global body defaults (previously scattered across layout templates).
+   Fonts are mapped in tailwind.config.js and loaded in root.html.heex. */
 body {
-  font-family: 'Inter', sans-serif;
   overscroll-behavior: auto;
 }
 

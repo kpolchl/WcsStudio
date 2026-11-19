@@ -453,8 +453,8 @@ defmodule WcsStudioWeb.CoreComponentsTest do
         id: 1,
         name: "Whip",
         dance_type: %{name_en: "West Coast Swing", name_pl: "WCS PL"},
-        starting_hands: "left_left",
-        ending_hands: "right_right",
+        starting_hands: :left_left,
+        ending_hands: :right_right,
         count_num: 6,
         video_url: "https://www.youtube.com/embed/abc",
         children: []
@@ -485,8 +485,10 @@ defmodule WcsStudioWeb.CoreComponentsTest do
 
       assert html =~ "West Coast Swing"
       assert html =~ "Whip"
-      assert html =~ "left_left"
-      assert html =~ "right_right"
+      assert html =~ "Left / Left"
+      assert html =~ "Right / Right"
+      refute html =~ "left_left"
+      refute html =~ "right_right"
       assert html =~ "Update"
       assert html =~ "Delete"
       assert html =~ "Learned"
@@ -520,8 +522,8 @@ defmodule WcsStudioWeb.CoreComponentsTest do
         id: 2,
         name: "Whip Variation",
         dance_type: pattern.dance_type,
-        starting_hands: "left_left",
-        ending_hands: "right_right",
+        starting_hands: :left_left,
+        ending_hands: :right_right,
         count_num: 6,
         video_url: nil,
         children: []

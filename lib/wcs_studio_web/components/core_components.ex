@@ -18,6 +18,7 @@ defmodule WcsStudioWeb.CoreComponents do
 
   alias Phoenix.HTML.Form
   alias Phoenix.LiveView.JS
+  alias WcsStudio.Pattern
   use Gettext, backend: WcsStudioWeb.Gettext
 
   @default_avatar_url "/images/user_icon.png"
@@ -34,7 +35,7 @@ defmodule WcsStudioWeb.CoreComponents do
     "warn" =>
       "bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-white shadow-yellow-500/25",
     "ghost" =>
-      "bg-slate-700/50 border border-slate-600/50 text-slate-300 hover:bg-slate-600/50 hover:text-white"
+      "bg-slate-800/50 border border-slate-600/50 text-slate-300 hover:bg-slate-600/50 hover:text-white"
   }
 
   @btn_size_classes %{
@@ -642,10 +643,14 @@ defmodule WcsStudioWeb.CoreComponents do
                     <h2 class="text-2xl font-bold text-white">{gettext("Description")}</h2>
                   </div>
                   <p class="text-slate-300 text-base leading-relaxed">
-                    <strong>{gettext("Starting position:")}</strong> {@pattern.starting_hands}
+                    <strong>{gettext("Starting position:")}</strong> {Pattern.hands_label(
+                      @pattern.starting_hands
+                    )}
                   </p>
                   <p class="text-slate-300 text-base leading-relaxed">
-                    <strong>{gettext("Ending position:")}</strong> {@pattern.ending_hands}
+                    <strong>{gettext("Ending position:")}</strong> {Pattern.hands_label(
+                      @pattern.ending_hands
+                    )}
                   </p>
                   <p class="text-slate-300 text-base leading-relaxed">
                     <strong>{gettext("Count:")}</strong> {@pattern.count_num}
