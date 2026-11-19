@@ -35,6 +35,10 @@ These resolve conflicts between the remediation plan and the state of the codeba
 6. **Reduced-motion CSS already exists** in `assets/css/app.css` and is retained.
 7. **`#user-avatar` is retained.** It wraps the avatar *and* the green status dot;
    only the pointless `phx-update="ignore"` attribute is removed in Phase 7.
+8. **Master shadow hierarchy is the baseline (post-Phase 8 user decision).**
+   The older master pattern card's depth is now the default for all cards and
+   nested panels, expressed with brand-tinted shadow tokens. Radii are unchanged
+   by this decision.
 
 ---
 
@@ -152,13 +156,21 @@ These are the *only* permitted `*-900`-style palette references, and they are to
 
 ### Shadows (`theme.extend.boxShadow`)
 
-| Token | Basis |
-|---|---|
-| `shadow-raised` | violet + pink at low alpha |
-| `shadow-card` | deep violet at 60% |
-| `shadow-glow` | vivid pink at 70% |
+The master pattern card defines the depth hierarchy. Its Tailwind scale shadows
+are re-expressed as brand-tinted tokens; raw `shadow-lg` / `shadow-xl` /
+`shadow-2xl` are not used in templates.
 
-The `pulse-glow` keyframes use the same vivid pink/violet pair.
+| Token | Basis | Use |
+|---|---|---|
+| `shadow-panel` | master `shadow-lg` geometry, violet + pink at low alpha | nested panels, icon badges, inset controls |
+| `shadow-raised` | violet + pink at low alpha, slightly deeper than `panel` | buttons and small floating elements |
+| `shadow-card` | master `shadow-xl` geometry, violet + pink at low alpha | outer cards and panels at rest |
+| `shadow-lift` | master `shadow-2xl` geometry, deep violet at 60% | `hover:` lift on outer cards |
+| `shadow-glow` | vivid pink at 70% | primary CTA emphasis |
+
+Outer cards use `shadow-card` with `hover:shadow-lift`; nested panels use
+`shadow-panel`. Radius stays at `rounded-lg` for cards and `rounded-md` for inner
+panels. The `pulse-glow` keyframes use the same vivid pink/violet pair.
 
 ### Enforcement
 
@@ -281,6 +293,8 @@ Desktop 1440 / tablet 768 / phone 390:
 - [ ] Vibrancy — vivid pink/violet brand, blue→cyan / green→emerald /
       yellow→orange / red→pink gradients, violet-tinted dark surfaces, bright
       secondary text; no gray/bland panels remain
+- [ ] Depth — outer cards use `shadow-card` and lift to `shadow-lift` on hover;
+      nested panels and icon badges use `shadow-panel`; radii remain unchanged
 - [ ] Admin / Lessons — shared header/meta/expanded/footer structure
 - [ ] All modals — aligned headers/footers, identical cancel buttons, visible
       focus rings

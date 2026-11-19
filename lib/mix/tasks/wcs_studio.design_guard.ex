@@ -20,6 +20,7 @@ defmodule Mix.Tasks.WcsStudio.DesignGuard do
      ~r/\b(?:purple|pink|cyan|orange|amber|yellow|emerald|green|red|blue)-\d/},
     {"raw gray color", ~r/\b(?:bg|text|border|from|to)-gray-\d/},
     {"forbidden radius", ~r/\brounded-(?:none|2xl|3xl)\b/},
+    {"raw shadow scale", ~r/\b(?:hover:)?shadow-(?:sm|md|lg|xl|2xl)\b/},
     {"off-scale spacing",
      ~r/\b(?:py-2\.5|px-5|py-3\.5|px-3\.5|gap-5|gap-7|mt-1\.5|mb-1\.5|py-1\.5)\b/},
     {"raw neutral palette",

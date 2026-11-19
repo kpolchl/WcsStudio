@@ -359,7 +359,7 @@ defmodule WcsStudioWeb.PatternsLive do
 
     <!-- Filters Section -->
     <div class="w-full max-w-2xl mx-auto px-4 mb-8">
-      <div class="flex flex-col sm:flex-row gap-3 p-4 bg-surface-raised/30 rounded-md border border-surface-muted/50 shadow-raised">
+      <div class="flex flex-col sm:flex-row gap-3 p-4 bg-surface-raised/30 rounded-md border border-surface-muted/50 shadow-panel">
         <!-- Dance Type Selector -->
         <div class="flex-1 relative isolation-auto" id="dance-type-selector">
           <div phx-click-away="close_dropdown" class="relative h-full">
@@ -385,7 +385,7 @@ defmodule WcsStudioWeb.PatternsLive do
 
             <div
               :if={@dropdown_open}
-              class="absolute z-[9999] mt-2 w-full bg-surface-raised/90 border border-surface-muted/50 rounded-lg shadow-raised overflow-hidden animate-fade-in"
+              class="absolute z-[9999] mt-2 w-full bg-surface-raised/90 border border-surface-muted/50 rounded-lg shadow-card overflow-hidden animate-fade-in"
             >
               <ul class="max-h-56 overflow-y-auto">
                 <%= for dance_type <- @dance_types do %>

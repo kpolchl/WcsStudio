@@ -364,7 +364,7 @@ defmodule WcsStudioWeb.CoreComponents do
         if(@is_child,
           do: "bg-surface-muted/20 border-l-2 border-accent-info/40",
           else:
-            "rounded-lg border border-surface-muted/50 bg-surface-raised/50 shadow-card overflow-hidden transition-all duration-300 hover:border-brand-from/30 hover:shadow-card"
+            "rounded-lg border border-surface-muted/50 bg-surface-raised/50 shadow-card overflow-hidden transition-all duration-300 hover:border-brand-from/30 hover:shadow-lift"
         )
       ]}>
         <!-- Pattern card (no border/rounding of its own) -->
@@ -419,9 +419,9 @@ defmodule WcsStudioWeb.CoreComponents do
           >
             <div class="py-4">
               <div class="mb-4">
-                <div class="p-4 rounded-md bg-surface-muted/30 border border-surface-muted shadow-raised">
+                <div class="p-4 rounded-md bg-surface-muted/30 border border-surface-muted shadow-panel">
                   <div class="flex items-center mb-4">
-                    <div class="w-10 h-10 rounded-md bg-gradient-to-br from-accent-amber to-accent-warningHoverFrom flex items-center justify-center mr-3 shadow-raised">
+                    <div class="w-10 h-10 rounded-md bg-gradient-to-br from-accent-amber to-accent-warningHoverFrom flex items-center justify-center mr-3 shadow-panel">
                       <i class="fas fa-list-ul text-strong text-sm"></i>
                     </div>
                     <h2 class="text-2xl font-bold text-strong">{gettext("Description")}</h2>
@@ -446,14 +446,14 @@ defmodule WcsStudioWeb.CoreComponents do
               </div>
 
               <%= if @expanded_pattern_id == @pattern.id do %>
-                <div class="rounded-md bg-surface-muted/30 border border-surface-muted shadow-raised">
+                <div class="rounded-md bg-surface-muted/30 border border-surface-muted shadow-panel">
                   <div class="flex items-center mb-4 pt-4 pl-4 pr-4">
-                    <div class="w-10 h-10 rounded-md bg-gradient-to-br from-accent-danger to-accent-warningTo flex items-center justify-center mr-3 shadow-raised">
+                    <div class="w-10 h-10 rounded-md bg-gradient-to-br from-accent-danger to-accent-warningTo flex items-center justify-center mr-3 shadow-panel">
                       <i class="fas fa-play text-strong text-sm"></i>
                     </div>
                     <h2 class="text-2xl font-bold text-strong">{gettext("Showcase Video")}</h2>
                   </div>
-                  <div class="w-full rounded-md shadow-raised overflow-hidden pl-2 pr-2 pb-2">
+                  <div class="w-full rounded-md shadow-panel overflow-hidden pl-2 pr-2 pb-2">
                     <div class="relative" style="padding-bottom: 56.25%; height: 0;">
                       <iframe
                         class="absolute top-0 left-0 w-full h-full"
@@ -600,7 +600,7 @@ defmodule WcsStudioWeb.CoreComponents do
       id={"lesson-card-#{@lesson.id}"}
       phx-click="toggle_lesson"
       phx-value-id={@lesson.id}
-      class="group bg-surface-raised/50 backdrop-blur-sm rounded-lg border border-surface-muted/50 shadow-card transition-all duration-300 mb-6 cursor-pointer hover:shadow-card hover:border-brand-from/30 max-w-4xl md:w-1/2"
+      class="group bg-surface-raised/50 backdrop-blur-sm rounded-lg border border-surface-muted/50 shadow-card transition-all duration-300 mb-6 cursor-pointer hover:shadow-lift hover:border-brand-from/30 max-w-4xl md:w-1/2"
     >
       <div class="p-6 flex items-start justify-between">
         <div class="flex-1 min-w-0">
@@ -629,7 +629,7 @@ defmodule WcsStudioWeb.CoreComponents do
           </div>
         </div>
         <div class="flex-shrink-0 transition-transform duration-300 ml-4 group">
-          <div class="w-12 h-12 rounded-md bg-gradient-to-br from-accent-info to-accent-infoTo flex items-center justify-center shadow-raised">
+          <div class="w-12 h-12 rounded-md bg-gradient-to-br from-accent-info to-accent-infoTo flex items-center justify-center shadow-panel">
             <i class={[
               "fas fa-chevron-down text-strong transition-transform duration-300",
               if(@expanded_lesson_id == @lesson.id, do: "rotate-180", else: "group-hover:rotate-180")
@@ -662,9 +662,9 @@ defmodule WcsStudioWeb.CoreComponents do
       >
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4 pt-4">
           <!-- Patterns Box -->
-          <div class="p-4 rounded-md bg-surface-muted/30 backdrop-blur-sm border border-surface-muted shadow-raised">
+          <div class="p-4 rounded-md bg-surface-muted/30 backdrop-blur-sm border border-surface-muted shadow-panel">
             <div class="flex items-center mb-4">
-              <div class="w-10 h-10 rounded-md bg-gradient-to-br from-accent-info to-accent-infoTo flex items-center justify-center mr-3 shadow-raised">
+              <div class="w-10 h-10 rounded-md bg-gradient-to-br from-accent-info to-accent-infoTo flex items-center justify-center mr-3 shadow-panel">
                 <i class="fas fa-shapes text-strong text-sm"></i>
               </div>
               <h2 class="text-xl font-bold text-strong">{gettext("Patterns")}</h2>
@@ -680,9 +680,9 @@ defmodule WcsStudioWeb.CoreComponents do
           </div>
 
           <!-- Instructors Box -->
-          <div class="p-4 rounded-md bg-surface-muted/30 backdrop-blur-sm border border-surface-muted shadow-raised">
+          <div class="p-4 rounded-md bg-surface-muted/30 backdrop-blur-sm border border-surface-muted shadow-panel">
             <div class="flex items-center mb-4">
-              <div class="w-10 h-10 rounded-md bg-gradient-to-br from-brand-from to-brand-to flex items-center justify-center mr-3 shadow-raised">
+              <div class="w-10 h-10 rounded-md bg-gradient-to-br from-brand-from to-brand-to flex items-center justify-center mr-3 shadow-panel">
                 <i class="fas fa-users text-strong text-sm"></i>
               </div>
               <h2 class="text-xl font-bold text-strong">{gettext("Instructors")}</h2>
@@ -690,7 +690,7 @@ defmodule WcsStudioWeb.CoreComponents do
             <div class="space-y-4">
               <%= for instructor <- @lesson.instructors do %>
                 <div class="flex items-center p-3 rounded-lg bg-surface-muted/40 ">
-                  <div class="w-12 h-12 rounded-md bg-gradient-to-br from-brand-from to-brand-to flex items-center justify-center mr-3 shadow-raised">
+                  <div class="w-12 h-12 rounded-md bg-gradient-to-br from-brand-from to-brand-to flex items-center justify-center mr-3 shadow-panel">
                     <span class="font-bold text-strong text-sm">
                       {String.first(instructor.username)}
                     </span>
@@ -707,14 +707,14 @@ defmodule WcsStudioWeb.CoreComponents do
 
         <!-- Video Section -->
         <%= if @expanded_lesson_id == @lesson.id do %>
-          <div class="rounded-md bg-surface-muted/30 backdrop-blur-sm border border-surface-muted shadow-raised">
+          <div class="rounded-md bg-surface-muted/30 backdrop-blur-sm border border-surface-muted shadow-panel">
             <div class="flex items-center mb-4 pt-4 pl-4 pr-4">
-              <div class="w-10 h-10 rounded-md bg-gradient-to-br from-accent-danger to-accent-dangerTo flex items-center justify-center mr-3 shadow-raised">
+              <div class="w-10 h-10 rounded-md bg-gradient-to-br from-accent-danger to-accent-dangerTo flex items-center justify-center mr-3 shadow-panel">
                 <i class="fas fa-play text-strong text-sm"></i>
               </div>
               <h2 class="text-xl font-bold text-strong">{gettext("Video Lesson")}</h2>
             </div>
-            <div class="w-full rounded-md shadow-raised overflow-hidden">
+            <div class="w-full rounded-md shadow-panel overflow-hidden">
               <div class="relative" style="padding-bottom: 56.25%; height: 0;">
                 <iframe
                   class="absolute top-0 left-0 w-full h-full"
@@ -784,7 +784,7 @@ defmodule WcsStudioWeb.CoreComponents do
     ~H"""
     <.link
       href={"/blog/#{@post.id}"}
-      class="block group bg-surface-raised/50 backdrop-blur-sm rounded-lg border border-surface-muted/50 shadow-card transition-all duration-500 hover:shadow-card hover:border-brand-from/30  overflow-hidden"
+      class="block group bg-surface-raised/50 backdrop-blur-sm rounded-lg border border-surface-muted/50 shadow-card transition-all duration-500 hover:shadow-lift hover:border-brand-from/30  overflow-hidden"
     >
       <div class="p-8">
         <div class="flex items-center gap-2 mb-4">
@@ -861,7 +861,7 @@ defmodule WcsStudioWeb.CoreComponents do
       phx-click={JS.push("lv:clear-flash", value: %{key: @kind}) |> hide("##{@id}")}
       role="alert"
       class={[
-        "fixed top-16 right-4 z-50 rounded-lg p-4 backdrop-blur-sm border shadow-card max-w-sm transform transition-all duration-300 cursor-pointer group hover:-translate-y-1",
+        "fixed top-16 right-4 z-50 rounded-lg p-4 backdrop-blur-sm border shadow-card max-w-sm transform transition-all duration-300 cursor-pointer group hover:-translate-y-1 hover:shadow-lift",
         @kind == :info &&
           "bg-surface-raised/80 border-accent-info/30 text-accent-info shadow-accent-info/10 hover:border-accent-info/50",
         @kind == :error &&
@@ -877,7 +877,7 @@ defmodule WcsStudioWeb.CoreComponents do
       <div class="flex items-start gap-3">
         <!-- Icon Container -->
         <div class={[
-          "flex-shrink-0 w-10 h-10 rounded-md flex items-center justify-center shadow-raised",
+          "flex-shrink-0 w-10 h-10 rounded-md flex items-center justify-center shadow-panel",
           @kind == :info && "bg-gradient-to-br from-accent-infoTo to-accent-info",
           @kind == :error && "bg-gradient-to-br from-accent-danger to-accent-dangerTo",
           @kind == :warning && "bg-gradient-to-br from-accent-warning to-accent-warningTo",
@@ -1113,7 +1113,7 @@ defmodule WcsStudioWeb.CoreComponents do
       class={[
         "rounded-lg bg-surface-raised/50 backdrop-blur-sm border border-surface-muted/50 shadow-card transition-all duration-300",
         card_padding(@padding),
-        @interactive && "hover:-translate-y-1 hover:border-brand-from/40",
+        @interactive && "hover:-translate-y-1 hover:border-brand-from/40 hover:shadow-lift",
         @class
       ]}
       {@rest}
@@ -1157,7 +1157,7 @@ defmodule WcsStudioWeb.CoreComponents do
       href={@href}
       class={[
         "group relative flex flex-col min-h-80 rounded-lg overflow-hidden border border-surface-muted/30 shadow-card transition-all duration-500",
-        "hover:-translate-y-1 hover:border-brand-from/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-lightFrom/70",
+        "hover:-translate-y-1 hover:border-brand-from/40 hover:shadow-lift focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-lightFrom/70",
         @class
       ]}
     >
@@ -1178,7 +1178,7 @@ defmodule WcsStudioWeb.CoreComponents do
           decoding="async"
           class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
         />
-        <div class="absolute top-4 left-4 w-12 h-12 rounded-md bg-gradient-to-br from-brand-from to-brand-to flex items-center justify-center shadow-raised group-hover:scale-110 transition-transform duration-300 z-20">
+        <div class="absolute top-4 left-4 w-12 h-12 rounded-md bg-gradient-to-br from-brand-from to-brand-to flex items-center justify-center shadow-panel group-hover:scale-110 transition-transform duration-300 z-20">
           <i class={[@icon, "text-strong text-lg"]}></i>
         </div>
       </div>

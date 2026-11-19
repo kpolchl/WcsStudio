@@ -180,7 +180,7 @@ defmodule WcsStudioWeb.DanceTypesLive do
           <%= for dance_type <- @dance_types do %>
             <.link
               navigate={~p"/patterns?dance_type_id=#{dance_type.id}"}
-              class="group relative flex flex-col h-80 rounded-lg overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-card border border-surface-muted/30 hover:border-surface-muted"
+              class="group relative flex flex-col h-80 rounded-lg overflow-hidden shadow-card transition-all duration-500 hover:-translate-y-2 hover:shadow-lift border border-surface-muted/30 hover:border-surface-muted"
             >
               <!-- Background -->
               <div

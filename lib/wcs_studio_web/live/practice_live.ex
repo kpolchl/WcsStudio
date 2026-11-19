@@ -142,7 +142,7 @@ defmodule WcsStudioWeb.PracticeLive do
     <!-- Dance type dropdown buttons -->
     <div class="w-full max-w-2xl mx-auto px-4 mb-8 relative z-50">
       <div
-        class="flex flex-col sm:flex-row gap-3 p-4 bg-surface-raised/30 rounded-md border border-surface-muted/50 shadow-raised"
+        class="flex flex-col sm:flex-row gap-3 p-4 bg-surface-raised/30 rounded-md border border-surface-muted/50 shadow-panel"
         style="backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);"
       >
         <div class="flex-1 relative" id="dance-type-selector">
@@ -169,7 +169,7 @@ defmodule WcsStudioWeb.PracticeLive do
 
             <div
               :if={@dropdown_open}
-              class="absolute z-[9999] mt-2 w-full bg-surface-raised/90 border border-surface-muted/50 rounded-lg shadow-raised overflow-hidden animate-fade-in"
+              class="absolute z-[9999] mt-2 w-full bg-surface-raised/90 border border-surface-muted/50 rounded-lg shadow-card overflow-hidden animate-fade-in"
               style="backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);"
             >
               <ul class="max-h-56 overflow-y-auto">
@@ -209,7 +209,7 @@ defmodule WcsStudioWeb.PracticeLive do
     <!-- Selected random patterns -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:px-2">
       <%= for random_pattern <- @random_patterns do %>
-        <div class="group relative flex flex-col h-auto rounded-lg overflow-hidden transition-all duration-500  hover:shadow-card border border-surface-muted/30 hover:border-surface-muted">
+        <div class="group relative flex flex-col h-auto rounded-lg overflow-hidden shadow-card transition-all duration-500  hover:shadow-lift border border-surface-muted/30 hover:border-surface-muted">
           <!-- Background -->
           <div
             class="absolute inset-0 bg-surface-raised/50 backdrop-blur-sm pointer-events-none"

@@ -100,9 +100,13 @@ module.exports = {
         xl: "12px",
       },
       boxShadow: {
+        // Master pattern-card depth hierarchy, expressed with brand-tinted hues.
+        panel:
+          "0 10px 15px -3px rgb(103 45 180 / 0.22), 0 4px 6px -4px rgb(255 45 149 / 0.12)",
         raised:
           "0 10px 15px -3px rgb(103 45 180 / 0.3), 0 4px 6px -4px rgb(255 45 149 / 0.15)",
-        card: "0 25px 50px -12px rgb(60 15 110 / 0.6)",
+        card: "0 20px 25px -5px rgb(60 15 110 / 0.45), 0 8px 10px -6px rgb(255 45 149 / 0.18)",
+        lift: "0 25px 50px -12px rgb(60 15 110 / 0.6)",
         glow: "0 0 25px -5px rgb(255 45 149 / 0.7)",
       },
       keyframes: {

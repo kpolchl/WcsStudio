@@ -154,6 +154,20 @@ defmodule WcsStudioWeb.CoreComponentsTest do
     end
   end
 
+  describe "card/1" do
+    test "interactive cards use the master shadow baseline" do
+      assigns = %{}
+
+      html =
+        rendered_to_string(~H"""
+        <C.card interactive>Card content</C.card>
+        """)
+
+      assert html =~ "shadow-card"
+      assert html =~ "hover:shadow-lift"
+    end
+  end
+
   describe "simple_form/1" do
     test "renders a form with actions" do
       assigns = %{form: to_form(%{}, as: :item)}
@@ -446,6 +460,11 @@ defmodule WcsStudioWeb.CoreComponentsTest do
       assert html =~ "Delete"
       assert html =~ "Learned"
       assert html =~ "https://www.youtube.com/embed/abc"
+
+      assert html =~
+               "bg-surface-raised/50 shadow-card overflow-hidden transition-all duration-300 hover:border-brand-from/30 hover:shadow-lift"
+
+      assert html =~ "bg-surface-muted/30 border border-surface-muted shadow-panel"
     end
 
     test "renders collapsed preview without a user", %{pattern: pattern} do
