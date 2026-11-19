@@ -50,6 +50,7 @@ defmodule WcsStudioWeb.CoreComponents do
     ~H"""
     <div
       id={@id}
+      phx-hook="ModalFocus"
       phx-mounted={@show && show_modal(@id)}
       phx-remove={hide_modal(@id)}
       data-cancel={JS.exec(@on_cancel, "phx-remove")}
@@ -233,6 +234,7 @@ defmodule WcsStudioWeb.CoreComponents do
     ~H"""
     <div
       id={@id}
+      phx-hook="ModalFocus"
       phx-mounted={@show && show_modal(@id)}
       phx-remove={hide_modal(@id)}
       data-cancel={JS.exec(@on_cancel, "phx-remove")}
@@ -1754,7 +1756,6 @@ defmodule WcsStudioWeb.CoreComponents do
     |> hide("##{id}-container")
     |> JS.hide(to: "##{id}", transition: {"block", "block", "hidden"})
     |> JS.remove_class("overflow-hidden", to: "body")
-    |> JS.pop_focus()
   end
 
   @doc """
