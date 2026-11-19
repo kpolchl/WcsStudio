@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `assets/js/hooks/nav_active.js` — marks the current navigation link with
+  `aria-current="page"` for elements carrying `data-nav-path`.
+- `assets/js/hooks/modal_focus.js` — traps Tab focus inside a dialog and restores
+  focus to the trigger on close.
+- `WcsStudio.Accounts.role_label/1` — localised display labels `Admin` / `Member`.
+- `WcsStudio.Pattern.hands_label/1` — display labels for hand-position atoms.
+  These helpers are retained but currently unused by the restored templates.
+
+### Changed
+
+- `assets/js/hooks/carousel.js` — the 7-second auto-advance no longer starts when
+  the user prefers reduced motion. Manual controls remain available. This is the
+  only retained behaviour change with active master markup.
+
+### Removed
+
+- `heroicons` dependency and its `mix.lock` entry. It was unused; icons come from
+  Font Awesome.
+
 ## [1.3.0] - 2026-11-18
 
 ### Added

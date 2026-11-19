@@ -23,10 +23,14 @@ import { LiveSocket } from "phoenix_live_view";
 import topbar from "../vendor/topbar";
 import PieChart from "./hooks/pie_chart";
 import Carousel from "./hooks/carousel";
+import NavActive from "./hooks/nav_active";
+import ModalFocus from "./hooks/modal_focus";
 
 let Hooks = {
   PieChart: PieChart,
   Carousel: Carousel,
+  NavActive: NavActive,
+  ModalFocus: ModalFocus,
 };
 
 let csrfToken = document

@@ -66,6 +66,43 @@ msgstr ""
 msgid "close"
 msgstr ""
 
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:66
+#, elixir-autogen, elixir-format
+msgid "Previous slide"
+msgstr "Previous slide"
+
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:73
+#, elixir-autogen, elixir-format
+msgid "Next slide"
+msgstr "Next slide"
+
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:82
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:86
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:90
+#, elixir-autogen, elixir-format
+msgid "Go to slide %{number}"
+msgstr "Go to slide %{number}"
+
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:113
+#, elixir-autogen, elixir-format
+msgid "Dance styles illustration"
+msgstr "Dance styles illustration"
+
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:123
+#, elixir-autogen, elixir-format
+msgid "Dance shoes illustration"
+msgstr "Dance shoes illustration"
+
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:133
+#, elixir-autogen, elixir-format
+msgid "Dancers illustration"
+msgstr "Dancers illustration"
+
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:143
+#, elixir-autogen, elixir-format
+msgid "Newspaper illustration"
+msgstr "Newspaper illustration"
+
 #: lib/wcs_studio_web/components/layouts/app.html.heex:107
 #: lib/wcs_studio_web/live/user_settings_live.ex:338
 #, elixir-autogen, elixir-format
@@ -1009,4 +1046,14 @@ msgstr ""
 #: lib/wcs_studio/posts.ex:73
 #, elixir-autogen, elixir-format
 msgid "read"
+msgstr ""
+
+#: lib/wcs_studio/accounts.ex
+#, elixir-autogen, elixir-format
+msgid "Admin"
+msgstr ""
+
+#: lib/wcs_studio/accounts.ex
+#, elixir-autogen, elixir-format
+msgid "Member"
 msgstr ""

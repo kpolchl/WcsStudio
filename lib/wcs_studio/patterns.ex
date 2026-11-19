@@ -202,6 +202,14 @@ defmodule WcsStudio.Pattern do
     ]
   end
 
+  @doc "Human-readable label for a starting or ending hands atom."
+  def hands_label(:left_left), do: "Left / Left"
+  def hands_label(:left_right), do: "Left / Right"
+  def hands_label(:right_left), do: "Right / Left"
+  def hands_label(:right_right), do: "Right / Right"
+  def hands_label(nil), do: "—"
+  def hands_label(other), do: to_string(other)
+
   defp changeset(pattern, attrs) do
     pattern
     |> cast(attrs, [
