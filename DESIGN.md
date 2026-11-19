@@ -184,11 +184,41 @@ Each phase is committed independently and must pass its own acceptance criteria
 before the next begins:
 
 - [x] **Phase 0** — this document + tokens committed; no template edits
-- [ ] Phase 1 — palette sweep, zero forbidden palette hits
-- [ ] Phase 2 — all actions use `<.button>` variants
-- [ ] Phase 3 — confirm/form modals share chrome
-- [ ] Phase 4 — pattern card corners and panel radii
-- [ ] Phase 5 — text tokens, label/value pairs, `hands_label`, `role_label`
-- [ ] Phase 6 — spacing-scale hygiene
-- [ ] Phase 7 — micro-details
-- [ ] Phase 8 — grep guardrails + manual checklist
+- [x] Phase 1 — palette sweep, zero forbidden palette hits
+- [x] Phase 2 — all actions use `<.button>` variants
+- [x] Phase 3 — confirm/form modals share chrome
+- [x] Phase 4 — pattern card corners and panel radii
+- [x] Phase 5 — text tokens, label/value pairs, `hands_label`, `role_label`
+- [x] Phase 6 — spacing-scale hygiene
+- [x] Phase 7 — micro-details
+- [x] Phase 8 — grep guardrails (`mix wcs_studio.design_guard`, CI job)
+      and manual checklist below
+
+### Phase 8 notes
+
+- **Visual snapshots skipped** by user decision; no browser automation was
+  available. The manual checklist is the verification mechanism.
+- **Intentional sub-scale utilities:** `p-0.5` (avatar/thumbnail ring) and
+  `h-0.5` (progress bar height) are decorative dimensions, not layout spacing.
+- **Deferred debt:** raw `text-sm`/`text-xs`/`text-2xl`… font-size utilities
+  remain in templates. The semantic size tokens (`text-display`, `text-heading`,
+  `text-lead`, `text-body`, `text-caption`, `text-button`, `text-pill`) are
+  defined and used for primary text nodes; a full size migration is not part of
+  the remediation phases and is tracked separately.
+- **Home hero flush check:** `<main class="py-section-sm">` adds 4rem of top
+  padding and the hero uses `-mt-16` (-4rem), so they cancel exactly and the
+  carousel sits flush under the nav at all widths. No layout variant needed.
+
+### Manual checklist (run before merging)
+
+Desktop 1440 / tablet 768 / phone 390:
+
+- [ ] Home — hero text, brand-gradient stat icons, CTA button variants
+- [ ] Dance types — cards/chips/CTAs match home card style
+- [ ] Patterns — variations panel corners, `Left / Left` labels, status colors,
+      search-expanded variations
+- [ ] Admin / Lessons — shared header/meta/expanded/footer structure
+- [ ] All modals — aligned headers/footers, identical cancel buttons, visible
+      focus rings
+- [ ] Locale switcher — desktop/mobile match, no empty header, active locale clear
+- [ ] Nav — role reads "Admin" / "Member"

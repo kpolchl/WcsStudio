@@ -85,6 +85,24 @@ jobs:
       - name: Check formatting
         run: mix format --check-formatted
 
+  design_guard:
+    name: Design guardrails
+    needs: deps
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: ${{ env.ELIXIR_VERSION }}
+          otp-version: ${{ env.OTP_VERSION }}
+          version-type: strict
+
+      - name: Check DESIGN.md token rules
+        run: mix wcs_studio.design_guard
+
   compile:
     name: Compile
     needs: deps
