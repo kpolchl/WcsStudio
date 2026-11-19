@@ -79,28 +79,24 @@ defmodule WcsStudioWeb.CoreComponents do
               class="relative hidden transition"
             >
               <!-- Modal Content -->
-              <div class="bg-surface-raised/90 backdrop-blur-sm rounded-lg border border-surface-muted/50 shadow-card p-6">
-                <div :if={@title != [] || @subtitle != []} class="pr-8 mb-4">
-                  <h2 :if={@title != []} id={"#{@id}-title"} class="text-2xl font-bold text-white">
+              <div class="bg-surface-raised rounded-lg border border-surface-muted/50 shadow-card p-6">
+                <button
+                  phx-click={JS.exec("data-cancel", to: "##{@id}")}
+                  type="button"
+                  class="absolute top-4 right-4 w-8 h-8 rounded-md bg-surface-muted/50 hover:bg-surface-muted flex items-center justify-center transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-lightFrom/70"
+                  aria-label={gettext("close")}
+                >
+                  <i class="fas fa-times text-slate-400 group-hover:text-white text-sm"></i>
+                </button>
+                <div :if={@title != [] || @subtitle != []} class="pr-12 mb-4">
+                  <h2 :if={@title != []} id={"#{@id}-title"} class="text-heading font-bold text-white">
                     {render_slot(@title)}
                   </h2>
-                  <p :if={@subtitle != []} id={"#{@id}-description"} class="text-slate-400 text-sm">
+                  <p :if={@subtitle != []} id={"#{@id}-description"} class="text-caption text-muted">
                     {render_slot(@subtitle)}
                   </p>
                 </div>
                 {render_slot(@inner_block)}
-              </div>
-
-              <!-- Close Button -->
-              <div class="absolute -top-3 -right-3">
-                <button
-                  phx-click={JS.exec("data-cancel", to: "##{@id}")}
-                  type="button"
-                  class="w-8 h-8 rounded-full bg-surface-muted border border-surface-muted flex items-center justify-center text-slate-300 hover:text-white hover:bg-slate-600 transition-all duration-300 hover:shadow-raised focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-lightFrom/70"
-                  aria-label={gettext("close")}
-                >
-                  <i class="fas fa-times text-sm"></i>
-                </button>
               </div>
             </.focus_wrap>
           </div>
@@ -139,24 +135,16 @@ defmodule WcsStudioWeb.CoreComponents do
 
     ~H"""
     <.modal id={@id}>
-      <div class="text-center">
+      <:title>{@title}</:title>
+      <:subtitle>{@message}</:subtitle>
+      <div>
         <!-- Warning Icon -->
         <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-accent-danger to-accent-danger/80 mb-4">
           <i class="fas fa-exclamation-triangle text-white text-2xl"></i>
         </div>
 
-        <!-- Title -->
-        <h3 class="text-2xl font-bold text-white mb-3">
-          {@title}
-        </h3>
-
-        <!-- Message -->
-        <p class="text-slate-300 mb-8 leading-relaxed">
-          {@message}
-        </p>
-
         <!-- Actions -->
-        <div class="flex gap-3 justify-center">
+        <div class="flex justify-end gap-3 pt-2">
           <.button
             phx-click={JS.exec("data-cancel", to: "##{@id}")}
             type="button"
@@ -263,56 +251,56 @@ defmodule WcsStudioWeb.CoreComponents do
               phx-window-keydown={JS.exec("data-cancel", to: "##{@id}")}
               phx-key="escape"
               phx-click-away={JS.exec("data-cancel", to: "##{@id}")}
-              class="relative hidden rounded-lg bg-surface-raised border border-surface-muted/50 shadow-card transition-all transform"
+              class="relative hidden transition"
             >
               <!-- Header -->
-              <div class="relative p-6 pb-4 border-b border-surface-muted/50">
+              <div class="bg-surface-raised rounded-lg border border-surface-muted/50 shadow-card p-6">
                 <button
                   phx-click={JS.exec("data-cancel", to: "##{@id}")}
                   type="button"
-                  class="absolute top-4 right-4 w-8 h-8 rounded-lg bg-surface-muted/50 hover:bg-surface-muted flex items-center justify-center transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-lightFrom/70"
+                  class="absolute top-4 right-4 w-8 h-8 rounded-md bg-surface-muted/50 hover:bg-surface-muted flex items-center justify-center transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-lightFrom/70"
                   aria-label={gettext("close")}
                 >
                   <i class="fas fa-times text-slate-400 group-hover:text-white text-sm"></i>
                 </button>
 
-                <div class="pr-8">
-                  <h2 id={"#{@id}-title"} class="text-2xl font-bold text-white mb-1">
+                <div class="pr-12 mb-4">
+                  <h2 id={"#{@id}-title"} class="text-heading font-bold text-white">
                     {@title}
                   </h2>
-                  <p :if={@subtitle} id={"#{@id}-description"} class="text-slate-400 text-sm">
+                  <p :if={@subtitle} id={"#{@id}-description"} class="text-caption text-muted">
                     {@subtitle}
                   </p>
                 </div>
-              </div>
 
-              <!-- Form Content -->
-              <div id={"#{@id}-content"} class="p-6">
-                <.form
-                  for={@form}
-                  id={"#{@id}-form"}
-                  phx-submit={@on_submit}
-                  phx-change={@on_change}
-                >
-                  <div class="space-y-4">
-                    {render_slot(@inner_block)}
-                  </div>
+                <!-- Form Content -->
+                <div id={"#{@id}-content"}>
+                  <.form
+                    for={@form}
+                    id={"#{@id}-form"}
+                    phx-submit={@on_submit}
+                    phx-change={@on_change}
+                  >
+                    <div class="space-y-4">
+                      {render_slot(@inner_block)}
+                    </div>
 
-                  <!-- Actions -->
-                  <div class="mt-8 flex justify-end gap-3 pt-6 border-t border-surface-muted/50">
-                    <.button
-                      type="button"
-                      variant={:secondary}
-                      phx-click={JS.exec("data-cancel", to: "##{@id}")}
-                    >
-                      {@cancel_label}
-                    </.button>
-                    <.button type="submit" variant={@submit_variant}>
-                      <i class="fas fa-save"></i>
-                      {@submit_label}
-                    </.button>
-                  </div>
-                </.form>
+                    <!-- Actions -->
+                    <div class="mt-6 flex justify-end gap-3 pt-6 border-t border-surface-muted/50">
+                      <.button
+                        type="button"
+                        variant={:secondary}
+                        phx-click={JS.exec("data-cancel", to: "##{@id}")}
+                      >
+                        {@cancel_label}
+                      </.button>
+                      <.button type="submit" variant={@submit_variant}>
+                        <i class="fas fa-save"></i>
+                        {@submit_label}
+                      </.button>
+                    </div>
+                  </.form>
+                </div>
               </div>
             </.focus_wrap>
           </div>
@@ -867,7 +855,7 @@ defmodule WcsStudioWeb.CoreComponents do
         @kind == :info &&
           "bg-surface-raised/80 border-accent-info/30 text-accent-info shadow-accent-info/10 hover:border-accent-info/50",
         @kind == :error &&
-          "bg-surface-raised/80 border-rose-500/30 text-rose-300 shadow-rose-500/10 hover:border-rose-400/50",
+          "bg-surface-raised/80 border-accent-danger/30 text-accent-danger shadow-accent-danger/10 hover:border-accent-danger/50",
         @kind == :warning &&
           "bg-surface-raised/80 border-accent-warning/30 text-accent-warning shadow-accent-warning/10 hover:border-accent-warning/50",
         @kind == :success &&
@@ -917,7 +905,7 @@ defmodule WcsStudioWeb.CoreComponents do
       <div class={[
         "w-full h-1 rounded-full mt-3 overflow-hidden",
         @kind == :info && "bg-accent-info/20",
-        @kind == :error && "bg-rose-500/20",
+        @kind == :error && "bg-accent-danger/20",
         @kind == :warning && "bg-accent-warning/20",
         @kind == :success && "bg-accent-success/20"
       ]}>
@@ -1390,11 +1378,11 @@ defmodule WcsStudioWeb.CoreComponents do
           value="true"
           checked={@checked}
           class={[
-            "rounded border-slate-600 bg-surface-raised/50 text-brand-from focus:ring-2 focus:ring-brand-from focus:ring-opacity-20 transition-all duration-300",
+            "rounded border-slate-600 bg-surface-raised/50 text-brand-from focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-lightFrom/70 transition-all duration-300",
             "checked:bg-brand-from checked:border-brand-from hover:border-brand-lightFrom/50",
             "w-4 h-4",
             @errors == [] && "border-slate-600 focus:border-brand-from",
-            @errors != [] && "border-rose-400 focus:border-rose-400 focus:ring-rose-500"
+            @errors != [] && "border-accent-danger focus:border-accent-danger"
           ]}
           {@rest}
         />
@@ -1413,11 +1401,11 @@ defmodule WcsStudioWeb.CoreComponents do
         id={@id}
         name={@name}
         class={[
-          "block w-full rounded-lg text-white focus:ring-2 focus:ring-opacity-20 sm:text-sm sm:leading-6 transition-all duration-300 backdrop-blur-sm",
+          "block w-full rounded-lg text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-lightFrom/70 sm:text-sm sm:leading-6 transition-all duration-300 backdrop-blur-sm",
           "phx-no-feedback:border-surface-muted phx-no-feedback:focus:border-brand-from/50",
           "bg-surface-raised/50 border border-surface-muted px-4 py-3",
-          @errors == [] && "border-surface-muted focus:border-brand-from/50 focus:ring-brand-from",
-          @errors != [] && "border-rose-400 focus:border-rose-400 focus:ring-rose-500"
+          @errors == [] && "border-surface-muted focus:border-brand-from/50",
+          @errors != [] && "border-accent-danger focus:border-accent-danger"
         ]}
         multiple={@multiple}
         {@rest}
@@ -1425,7 +1413,7 @@ defmodule WcsStudioWeb.CoreComponents do
         <option :if={@prompt} value="">{@prompt}</option>
         {Phoenix.HTML.Form.options_for_select(@options, @value)}
       </select>
-      <.error :for={msg <- @errors} class="mt-2 text-sm text-rose-400">{msg}</.error>
+      <.error :for={msg <- @errors} class="mt-2 text-sm text-accent-danger">{msg}</.error>
     </div>
     """
   end
@@ -1438,11 +1426,11 @@ defmodule WcsStudioWeb.CoreComponents do
         id={@id}
         name={@name}
         class={[
-          "block w-full rounded-lg text-white placeholder-slate-400 focus:ring-2 focus:ring-opacity-20 sm:text-sm sm:leading-6 transition-all duration-300 backdrop-blur-sm",
+          "block w-full rounded-lg text-white placeholder-slate-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-lightFrom/70 sm:text-sm sm:leading-6 transition-all duration-300 backdrop-blur-sm",
           "min-h-[6rem] phx-no-feedback:border-surface-muted phx-no-feedback:focus:border-brand-from/50",
           "bg-surface-raised/50 border border-surface-muted",
-          @errors == [] && "border-surface-muted focus:border-brand-from/50 focus:ring-brand-from",
-          @errors != [] && "border-rose-400 focus:border-rose-400 focus:ring-rose-500"
+          @errors == [] && "border-surface-muted focus:border-brand-from/50",
+          @errors != [] && "border-accent-danger focus:border-accent-danger"
         ]}
         {@rest}
       ><%= Phoenix.HTML.Form.normalize_value("textarea", @value) %></textarea>
@@ -1462,11 +1450,11 @@ defmodule WcsStudioWeb.CoreComponents do
         id={@id}
         value={Phoenix.HTML.Form.normalize_value(@type, @value)}
         class={[
-          "block w-full rounded-lg text-white placeholder-slate-400 focus:ring-2 focus:ring-opacity-20 sm:text-sm sm:leading-6 transition-all duration-300 backdrop-blur-sm",
+          "block w-full rounded-lg text-white placeholder-slate-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-lightFrom/70 sm:text-sm sm:leading-6 transition-all duration-300 backdrop-blur-sm",
           "phx-no-feedback:border-surface-muted phx-no-feedback:focus:border-brand-from/50",
           "bg-surface-raised/50 border border-surface-muted px-4 py-3",
-          @errors == [] && "border-surface-muted focus:border-brand-from/50 focus:ring-brand-from",
-          @errors != [] && "border-rose-400 focus:border-rose-400 focus:ring-rose-500"
+          @errors == [] && "border-surface-muted focus:border-brand-from/50",
+          @errors != [] && "border-accent-danger focus:border-accent-danger"
         ]}
         {@rest}
       />
@@ -1499,7 +1487,7 @@ defmodule WcsStudioWeb.CoreComponents do
   def error(assigns) do
     ~H"""
     <p class={[
-      "mt-3 flex gap-3 text-sm leading-6 text-rose-600 phx-no-feedback:hidden",
+      "mt-3 flex gap-3 text-sm leading-6 text-accent-danger phx-no-feedback:hidden",
       @class
     ]}>
       <.icon name="fa-circle-exclamation" class="mt-0.5 text-lg flex-none" />

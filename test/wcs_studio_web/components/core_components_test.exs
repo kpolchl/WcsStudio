@@ -45,7 +45,7 @@ defmodule WcsStudioWeb.CoreComponentsTest do
         """)
 
       assert html =~ "is invalid"
-      assert html =~ "text-rose-600"
+      assert html =~ "text-accent-danger"
     end
   end
 
@@ -73,7 +73,7 @@ defmodule WcsStudioWeb.CoreComponentsTest do
         """)
 
       assert html =~ "is invalid"
-      assert html =~ "border-rose-400"
+      assert html =~ "border-accent-danger"
     end
 
     test "renders a plain input without a field" do
