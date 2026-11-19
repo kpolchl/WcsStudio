@@ -270,23 +270,15 @@ defmodule WcsStudioWeb.PracticeLive do
     <%= if Enum.empty?(@random_patterns) do %>
       <%= cond do %>
         <% @selected_filter != "all" -> %>
-          <div class="text-center py-section-sm">
-            <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-surface-raised/50 flex items-center justify-center">
-              <i class="fas fa-dumpster-fire text-3xl text-slate-500"></i>
-            </div>
-            <h3 class="text-xl font-semibold text-slate-400 mb-2">
-              {gettext("Gotta practice more to see something here")}
-            </h3>
-          </div>
+          <.empty_state
+            icon="fas fa-dumpster-fire"
+            title={gettext("Gotta practice more to see something here")}
+          />
         <% true -> %>
-          <div class="text-center py-section-sm">
-            <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-surface-raised/50 flex items-center justify-center">
-              <i class="fas fa-dice text-3xl text-slate-500"></i>
-            </div>
-            <h3 class="text-xl font-semibold text-slate-400 mb-2">
-              {gettext("Click Start Practice to draw 4 random steps")}
-            </h3>
-          </div>
+          <.empty_state
+            icon="fas fa-dice"
+            title={gettext("Click Start Practice to draw 4 random steps")}
+          />
       <% end %>
     <% end %>
     """

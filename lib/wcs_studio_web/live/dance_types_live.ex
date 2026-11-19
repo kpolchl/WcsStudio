@@ -245,15 +245,11 @@ defmodule WcsStudioWeb.DanceTypesLive do
 
         <!-- Empty State -->
         <%= if Enum.empty?(@dance_types) do %>
-          <div class="text-center py-section-sm">
-            <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-surface-raised/50 flex items-center justify-center">
-              <i class="fas fa-music text-3xl text-slate-500"></i>
-            </div>
-            <h3 class="text-xl font-semibold text-slate-400 mb-2">
-              {gettext("No dance types found ")}
-            </h3>
-            <p class="text-slate-500">{gettext("Try selecting a different filter")}</p>
-          </div>
+          <.empty_state
+            icon="fas fa-music"
+            title={gettext("No dance types found ")}
+            description={gettext("Try selecting a different filter")}
+          />
         <% end %>
       </div>
     </section>

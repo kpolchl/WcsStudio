@@ -291,12 +291,11 @@ defmodule WcsStudioWeb.BlogPostLive do
             <!-- Comments List -->
             <div class="space-y-6">
               <%= if Enum.empty?(@post.comments) do %>
-                <div class="text-center py-12">
-                  <i class="fas fa-comment-slash text-6xl text-slate-400 mb-4"></i>
-                  <p class="text-slate-400 text-lg">
-                    {gettext("No comments yet. Be the first to share your thoughts!")}
-                  </p>
-                </div>
+                <.empty_state
+                  icon="fas fa-comment-slash"
+                  title={gettext("No comments yet. Be the first to share your thoughts!")}
+                  compact
+                />
               <% else %>
                 <%= for comment <- @post.comments do %>
                   <div class="bg-surface-base/50 border-l-4 border-purple-500 rounded-r-xl p-6 hover:bg-surface-base/70 transition-colors">

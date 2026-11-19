@@ -285,22 +285,19 @@ defmodule WcsStudioWeb.UserProfile do
             <% end %>
           </div>
         <% else %>
-          <div class="text-center py-section">
-            <div class="w-24 h-24 mx-auto mb-6 rounded-xl bg-surface-raised/50 flex items-center justify-center">
-              <i class="fas fa-shapes text-4xl text-slate-400"></i>
-            </div>
-            <h3 class="text-xl font-semibold text-slate-300 mb-2">{gettext("No patterns yet")}</h3>
-            <p class="text-slate-500 mb-8 max-w-md mx-auto">
-              {gettext("Start your dance journey by exploring and tracking patterns")}
-            </p>
-            <a
-              href={~p"/patterns"}
-              class="inline-flex items-center gap-2 bg-gradient-to-r from-brand-from to-brand-to hover:from-brand-hoverFrom hover:to-brand-hoverTo text-white font-semibold py-3 px-8 rounded-md shadow-raised hover:shadow-card transition-all duration-300"
-            >
-              <i class="fas fa-plus"></i>
-              <span>{gettext("Browse Patterns")}</span>
-            </a>
-          </div>
+          <.empty_state
+            icon="fas fa-shapes"
+            title={gettext("No patterns yet")}
+            description={gettext("Start your dance journey by exploring and tracking patterns")}
+            class="py-section"
+          >
+            <:actions>
+              <.button href={~p"/patterns"}>
+                <i class="fas fa-plus"></i>
+                {gettext("Browse Patterns")}
+              </.button>
+            </:actions>
+          </.empty_state>
         <% end %>
       </div>
     </div>

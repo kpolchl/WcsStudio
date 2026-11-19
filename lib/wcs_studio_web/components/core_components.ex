@@ -1202,6 +1202,57 @@ defmodule WcsStudioWeb.CoreComponents do
   end
 
   @doc """
+  Renders an empty state with a themed icon badge, title and optional description.
+  """
+  attr :icon, :string, required: true, doc: "Font Awesome classes, e.g. \"fas fa-music\""
+  attr :title, :string, required: true
+  attr :description, :string, default: nil
+  attr :compact, :boolean, default: false
+  attr :class, :string, default: nil
+
+  slot :actions
+
+  def empty_state(assigns) do
+    ~H"""
+    <div class={["text-center py-section-sm", @class]}>
+      <div class={[
+        "mx-auto mb-4 rounded-full bg-surface-raised/50 flex items-center justify-center",
+        @compact && "w-16 h-16",
+        !@compact && "w-24 h-24"
+      ]}>
+        <i class={[@icon, @compact && "text-2xl", !@compact && "text-3xl", "text-slate-400"]}></i>
+      </div>
+      <h3 class="text-heading-sm font-semibold text-slate-300 mb-2">{@title}</h3>
+      <p :if={@description} class="text-slate-500">{@description}</p>
+      <div :if={@actions != []} class="mt-6 flex justify-center">
+        {render_slot(@actions)}
+      </div>
+    </div>
+    """
+  end
+
+  @doc """
+  Renders animated placeholder bars for content that is still loading.
+  """
+  attr :lines, :integer, default: 3
+  attr :class, :string, default: nil
+
+  def skeleton(assigns) do
+    ~H"""
+    <div class={["animate-pulse space-y-3", @class]} aria-hidden="true">
+      <%= for index <- 1..@lines do %>
+        <div class={[
+          "h-4 rounded-sm bg-surface-muted/60",
+          rem(index, 3) == 0 && "w-2/3",
+          rem(index, 3) != 0 && "w-full"
+        ]}>
+        </div>
+      <% end %>
+    </div>
+    """
+  end
+
+  @doc """
   Renders a navigation link with the shared hover underline (desktop) or
   surface treatment (mobile).
 
