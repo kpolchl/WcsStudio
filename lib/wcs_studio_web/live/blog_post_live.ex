@@ -272,13 +272,10 @@ defmodule WcsStudioWeb.BlogPostLive do
                     ></textarea>
                   </div>
                   <:actions>
-                    <button
-                      type="submit"
-                      class="px-6 py-3 bg-gradient-to-r from-brand-to to-brand-from text-white font-medium rounded-md hover:shadow-raised hover:shadow-purple-500/50 transition-all duration-300"
-                    >
-                      <i class="fas fa-paper-plane mr-2"></i>
+                    <.button type="submit">
+                      <i class="fas fa-paper-plane"></i>
                       {gettext("Post Comment")}
-                    </button>
+                    </.button>
                   </:actions>
                 </.simple_form>
               </div>

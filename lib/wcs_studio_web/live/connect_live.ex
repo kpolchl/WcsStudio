@@ -146,13 +146,10 @@ defmodule WcsStudioWeb.ConnectLive do
                   ></textarea>
                 </div>
 
-                <button
-                  type="submit"
-                  class="w-full px-6 py-3 bg-gradient-to-r from-brand-to to-brand-from text-white font-medium rounded-md hover:shadow-raised hover:shadow-purple-500/50 transition-all duration-300"
-                >
-                  <i class="fas fa-paper-plane mr-2"></i>
+                <.button type="submit" class="w-full">
+                  <i class="fas fa-paper-plane"></i>
                   {gettext("Send Message")}
-                </button>
+                </.button>
               </form>
             </div>
           </div>

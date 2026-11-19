@@ -352,13 +352,10 @@ defmodule WcsStudioWeb.PatternsLive do
     <!-- Add Pattern Button (Admin Only) -->
     <%= if @current_user && @current_user.role == "admin" do %>
       <div class="w-full max-w-2xl mx-auto px-4 mb-8">
-        <button
-          phx-click="open_modal"
-          class="w-full sm:w-auto bg-gradient-to-r from-brand-from to-brand-to hover:from-brand-hoverFrom hover:to-brand-hoverTo text-white font-semibold py-3 px-6 rounded-lg shadow-raised hover:shadow-card transition-all duration-300 flex items-center justify-center gap-2"
-        >
+        <.button phx-click="open_modal" class="w-full sm:w-auto">
           <i class="fas fa-plus"></i>
           <span>{gettext("Add New Pattern")}</span>
-        </button>
+        </.button>
       </div>
     <% end %>
 

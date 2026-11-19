@@ -205,14 +205,10 @@ defmodule WcsStudioWeb.PracticeLive do
 
     <!-- Random practice Button -->
     <div class="w-full max-w-2xl mx-auto px-4 mb-8">
-      <button
-        type="button"
-        phx-click="random_practice"
-        class="w-full bg-gradient-to-r from-brand-from to-brand-to text-white font-semibold py-4 px-6 rounded-lg shadow-raised flex items-center justify-center gap-2 hover:shadow-card hover:scale-[1.02] transition-all duration-300"
-      >
+      <.button type="button" phx-click="random_practice" size={:lg} class="w-full">
         <i class="fas fa-random"></i>
         <span>{gettext("Start Practice")}</span>
-      </button>
+      </.button>
     </div>
 
     <!-- Selected random patterns -->
