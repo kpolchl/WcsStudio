@@ -298,7 +298,7 @@ defmodule WcsStudioWeb.BlogPostLive do
             <div class="space-y-6">
               <%= if Enum.empty?(@post.comments) do %>
                 <div class="text-center py-12">
-                  <i class="fas fa-comment-slash text-6xl text-slate-600 mb-4"></i>
+                  <i class="fas fa-comment-slash text-6xl text-slate-400 mb-4"></i>
                   <p class="text-slate-400 text-lg">
                     {gettext("No comments yet. Be the first to share your thoughts!")}
                   </p>
