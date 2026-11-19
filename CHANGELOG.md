@@ -7,27 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Visual state
-
-- No visual changes versus `master`. CSS, Tailwind configuration, templates,
-  components and live views are byte-for-byte identical to `02345df`.
-- The design-token refactor, matte-colour experiment and master-shadow baseline
-  were all reverted. `DESIGN.md`, the design guard, its CI job and the dev-only
-  component-preview page were removed.
-
 ### Added
 
 - `assets/js/hooks/nav_active.js` — marks the current navigation link with
   `aria-current="page"` for elements carrying `data-nav-path`.
 - `assets/js/hooks/modal_focus.js` — traps Tab focus inside a dialog and restores
   focus to the trigger on close.
-- Both hooks are registered in `assets/js/app.js`. They are currently inert:
-  the restored `master` markup does not opt into them.
 - `WcsStudio.Accounts.role_label/1` — localised display labels `Admin` / `Member`.
 - `WcsStudio.Pattern.hands_label/1` — display labels for hand-position atoms.
   These helpers are retained but currently unused by the restored templates.
-- Gettext entries for carousel controls, feature-card image alt text and role
-  labels, with Polish translations.
 
 ### Changed
 
@@ -39,16 +27,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `heroicons` dependency and its `mix.lock` entry. It was unused; icons come from
   Font Awesome.
-
-### Validation
-
-- `mix format --check-formatted`
-- `mix compile --warnings-as-errors`
-- `MIX_ENV=dev mix tailwind wcs_studio`
-- `mix test` — 357 passed
-- `git diff --check`
-- `git diff 02345df -- assets/css assets/tailwind.config.js lib/wcs_studio_web`
-  is empty.
 
 ## [1.3.0] - 2026-11-18
 
