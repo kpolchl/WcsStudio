@@ -75,7 +75,7 @@ defmodule WcsStudioWeb.UserProfile do
             <!-- Profile Image -->
             <div class="flex-shrink-0 p-4">
               <div class="relative group">
-                <div class="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl blur opacity-25 group-hover:opacity-40 transition duration-300">
+                <div class="absolute -inset-1 bg-gradient-to-r from-blue-500 to-brand-to rounded-xl blur opacity-25 group-hover:opacity-40 transition duration-300">
                 </div>
                 <img
                   src={avatar_url(@current_user.profile_pic_url)}
@@ -137,7 +137,7 @@ defmodule WcsStudioWeb.UserProfile do
 
                 <div class="bg-surface-raised/60 backdrop-blur-sm rounded-lg p-4 border border-white/5 hover:border-purple-500/30 transition-all duration-300">
                   <div class="flex items-center justify-center mb-2">
-                    <div class="w-10 h-10 rounded-md bg-purple-500/20 flex items-center justify-center">
+                    <div class="w-10 h-10 rounded-md bg-brand-to/20 flex items-center justify-center">
                       <i class="fas fa-clock text-purple-400"></i>
                     </div>
                   </div>
@@ -295,7 +295,7 @@ defmodule WcsStudioWeb.UserProfile do
             </p>
             <a
               href={~p"/patterns"}
-              class="inline-flex items-center gap-2 bg-gradient-to-r from-brand-from to-brand-to hover:from-pink-600 hover:to-purple-600 text-white font-semibold py-3 px-8 rounded-md shadow-raised hover:shadow-card transition-all duration-300"
+              class="inline-flex items-center gap-2 bg-gradient-to-r from-brand-from to-brand-to hover:from-brand-hoverFrom hover:to-brand-hoverTo text-white font-semibold py-3 px-8 rounded-md shadow-raised hover:shadow-card transition-all duration-300"
             >
               <i class="fas fa-plus"></i>
               <span>{gettext("Browse Patterns")}</span>

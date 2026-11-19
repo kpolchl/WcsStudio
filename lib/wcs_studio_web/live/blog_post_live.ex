@@ -215,7 +215,7 @@ defmodule WcsStudioWeb.BlogPostLive do
           <div class="flex items-center gap-4">
             <img
               src={avatar_url(@post.user.profile_pic_url)}
-              class="w-14 h-14 rounded-md bg-gradient-to-br from-purple-500 to-pink-500 p-0.5"
+              class="w-14 h-14 rounded-md bg-gradient-to-br from-brand-to to-brand-from p-0.5"
               alt={@post.user.username}
             />
             <div>
@@ -237,7 +237,7 @@ defmodule WcsStudioWeb.BlogPostLive do
           <div class="flex flex-wrap items-center gap-3">
             <span class="text-slate-400">Tags:</span>
             <%= for tag <- Post.parse_tags(@post.tags) do %>
-              <span class="px-3 py-1 rounded-full text-sm bg-purple-500/20 text-purple-300 border border-purple-500/30">
+              <span class="px-3 py-1 rounded-full text-sm bg-brand-to/20 text-purple-300 border border-purple-500/30">
                 {tag}
               </span>
             <% end %>
@@ -274,7 +274,7 @@ defmodule WcsStudioWeb.BlogPostLive do
                   <:actions>
                     <button
                       type="submit"
-                      class="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium rounded-md hover:shadow-raised hover:shadow-purple-500/50 transition-all duration-300"
+                      class="px-6 py-3 bg-gradient-to-r from-brand-to to-brand-from text-white font-medium rounded-md hover:shadow-raised hover:shadow-purple-500/50 transition-all duration-300"
                     >
                       <i class="fas fa-paper-plane mr-2"></i>
                       {gettext("Post Comment")}
@@ -287,7 +287,7 @@ defmodule WcsStudioWeb.BlogPostLive do
                 <p class="text-slate-300 mb-3">{gettext("Sign in to leave a comment")}</p>
                 <.link
                   navigate={~p"/users/log_in"}
-                  class="inline-block px-6 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors"
+                  class="inline-block px-6 py-2 bg-brand-to text-white rounded-lg hover:bg-brand-hoverTo transition-colors"
                 >
                   {gettext("Sign In")}
                 </.link>
@@ -309,7 +309,7 @@ defmodule WcsStudioWeb.BlogPostLive do
                     <div class="flex items-start gap-4">
                       <img
                         src={avatar_url(comment.user.profile_pic_url)}
-                        class="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 p-0.5"
+                        class="w-10 h-10 rounded-lg bg-gradient-to-br from-brand-to to-brand-from p-0.5"
                         alt="User avatar"
                       />
                       <div class="flex-1">

@@ -307,7 +307,7 @@ defmodule WcsStudioWeb.CoreComponents do
                       class={[
                         "px-5 py-2.5 text-sm font-medium text-white rounded-lg transition-all duration-200 shadow-raised hover:shadow-card hover:-translate-y-0.5 flex items-center gap-2",
                         @submit_class ||
-                          "bg-gradient-to-r from-brand-from to-brand-to hover:from-pink-600 hover:to-purple-600"
+                          "bg-gradient-to-r from-brand-from to-brand-to hover:from-brand-hoverFrom hover:to-brand-hoverTo"
                       ]}
                     >
                       <i class="fas fa-save text-xs"></i>
@@ -394,11 +394,11 @@ defmodule WcsStudioWeb.CoreComponents do
           <div class="p-6 flex items-start justify-between">
             <div class="flex-1 min-w-0">
               <div class="flex flex-wrap gap-1 sm:gap-2 mb-2 sm:mb-3">
-                <span class="px-2 sm:px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-300 border border-purple-500/30">
+                <span class="px-2 sm:px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-brand-to/20 to-brand-from/20 text-purple-300 border border-purple-500/30">
                   {WcsStudio.DanceType.get_name(@pattern.dance_type, @locale)}
                 </span>
                 <%= if not @is_child && not Enum.empty?(@children) do %>
-                  <span class="px-2 sm:px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-pink-500/20 to-orange-500/20 text-pink-300 border border-pink-500/30">
+                  <span class="px-2 sm:px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-brand-from/20 to-orange-500/20 text-pink-300 border border-pink-500/30">
                     <i class="fas fa-sitemap mr-1"></i>
                     {length(@children)} {gettext("variations")}
                   </span>
@@ -526,9 +526,9 @@ defmodule WcsStudioWeb.CoreComponents do
             class={[
               "w-full flex items-center justify-between px-6 py-3 text-sm font-medium transition-colors duration-200 border-t",
               if(children_expanded,
-                do: "bg-pink-500/10 text-pink-300 border-pink-500/30 hover:bg-pink-500/20",
+                do: "bg-brand-from/10 text-pink-300 border-pink-500/30 hover:bg-brand-from/20",
                 else:
-                  "bg-surface-base/30 text-slate-400 border-surface-muted/50 hover:text-pink-300 hover:bg-pink-500/10"
+                  "bg-surface-base/30 text-slate-400 border-surface-muted/50 hover:text-pink-300 hover:bg-brand-from/10"
               )
             ]}
           >
@@ -612,7 +612,7 @@ defmodule WcsStudioWeb.CoreComponents do
       <div class="p-6 flex items-start justify-between">
         <div class="flex-1 min-w-0">
           <div class="flex flex-wrap gap-2 mb-3">
-            <span class="px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-300 border border-purple-500/30">
+            <span class="px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-brand-to/20 to-brand-from/20 text-purple-300 border border-purple-500/30">
               <i class="fas fa-music mr-1"></i>
               {WcsStudio.DanceType.get_name(@lesson.dance_type, @locale)}
             </span>
@@ -689,7 +689,7 @@ defmodule WcsStudioWeb.CoreComponents do
           <!-- Instructors Box -->
           <div class="p-4 rounded-md bg-surface-muted/30 backdrop-blur-sm border border-slate-600/50 shadow-raised">
             <div class="flex items-center mb-4">
-              <div class="w-10 h-10 rounded-md bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center mr-3 shadow-raised">
+              <div class="w-10 h-10 rounded-md bg-gradient-to-br from-brand-to to-brand-from flex items-center justify-center mr-3 shadow-raised">
                 <i class="fas fa-users text-white text-sm"></i>
               </div>
               <h2 class="text-xl font-bold text-white">{gettext("Instructors")}</h2>
@@ -697,7 +697,7 @@ defmodule WcsStudioWeb.CoreComponents do
             <div class="space-y-4">
               <%= for instructor <- @lesson.instructors do %>
                 <div class="flex items-center p-3 rounded-lg bg-slate-600/30 ">
-                  <div class="w-12 h-12 rounded-md bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center mr-3 shadow-raised">
+                  <div class="w-12 h-12 rounded-md bg-gradient-to-br from-brand-to to-brand-from flex items-center justify-center mr-3 shadow-raised">
                     <span class="font-bold text-white text-sm">
                       {String.first(instructor.username)}
                     </span>
@@ -798,7 +798,7 @@ defmodule WcsStudioWeb.CoreComponents do
           </span>
         </div>
 
-        <h2 class="text-2xl font-bold text-white mb-4 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-pink-500 group-hover:to-purple-500 group-hover:bg-clip-text transition-all duration-300">
+        <h2 class="text-2xl font-bold text-white mb-4 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-brand-from group-hover:to-brand-to group-hover:bg-clip-text transition-all duration-300">
           {@post.title}
         </h2>
 
@@ -810,7 +810,7 @@ defmodule WcsStudioWeb.CoreComponents do
           <div class="flex items-center gap-3">
             <img
               src={avatar_url(@post.user.profile_pic_url)}
-              class="w-10 h-10 rounded-md bg-gradient-to-br from-purple-500 to-pink-500 p-0.5"
+              class="w-10 h-10 rounded-md bg-gradient-to-br from-brand-to to-brand-from p-0.5"
               alt={@post.user.username}
             />
             <div>
@@ -1153,9 +1153,9 @@ defmodule WcsStudioWeb.CoreComponents do
       </div>
 
       <div class="relative h-3/5 overflow-hidden">
-        <div class="absolute top-0 right-0 w-32 h-32 bg-pink-500 rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500">
+        <div class="absolute top-0 right-0 w-32 h-32 bg-brand-from rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500">
         </div>
-        <div class="absolute bottom-0 left-0 w-32 h-32 bg-purple-500 rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500">
+        <div class="absolute bottom-0 left-0 w-32 h-32 bg-brand-to rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500">
         </div>
         <div class="absolute inset-0 bg-gradient-to-b from-surface-base/70 to-transparent z-10"></div>
         <img
@@ -1319,7 +1319,7 @@ defmodule WcsStudioWeb.CoreComponents do
           checked={@checked}
           class={[
             "rounded border-slate-600 bg-surface-raised/50 text-pink-500 focus:ring-2 focus:ring-pink-500 focus:ring-opacity-20 transition-all duration-300",
-            "checked:bg-pink-500 checked:border-pink-500 hover:border-pink-400/50",
+            "checked:bg-brand-from checked:border-pink-500 hover:border-pink-400/50",
             "w-4 h-4",
             @errors == [] && "border-slate-600 focus:border-pink-500",
             @errors != [] && "border-rose-400 focus:border-rose-400 focus:ring-rose-500"

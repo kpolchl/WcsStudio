@@ -91,7 +91,7 @@ defmodule WcsStudioWeb.Components.LocaleSwitcher do
             class={[
               "flex items-center px-3 py-3 rounded-lg text-sm transition-all duration-200 group",
               if locale.code == @current_locale do
-                "bg-gradient-to-r from-pink-500/20 to-purple-500/20 text-white border border-pink-500/30"
+                "bg-gradient-to-r from-brand-from/20 to-brand-to/20 text-white border border-pink-500/30"
               else
                 "text-slate-300 hover:bg-surface-raised/50 hover:text-white border border-transparent"
               end

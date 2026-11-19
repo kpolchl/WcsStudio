@@ -96,7 +96,7 @@ defmodule WcsStudioWeb.DanceTypesLive do
       <div class="w-full max-w-2xl mx-auto px-4 mb-8">
         <button
           phx-click="open_modal"
-          class="w-full sm:w-auto bg-gradient-to-r from-brand-from to-brand-to hover:from-pink-600 hover:to-purple-600 text-white font-semibold py-3 px-6 rounded-lg shadow-raised hover:shadow-card transition-all duration-300 flex items-center justify-center gap-2"
+          class="w-full sm:w-auto bg-gradient-to-r from-brand-from to-brand-to hover:from-brand-hoverFrom hover:to-brand-hoverTo text-white font-semibold py-3 px-6 rounded-lg shadow-raised hover:shadow-card transition-all duration-300 flex items-center justify-center gap-2"
         >
           <i class="fas fa-plus"></i>
           <span>{gettext("Add New Dance Type")}</span>
@@ -191,15 +191,15 @@ defmodule WcsStudioWeb.DanceTypesLive do
                 style="backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);"
               >
               </div>
-              <div class="absolute inset-0 bg-gradient-to-br from-pink-500/10 via-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+              <div class="absolute inset-0 bg-gradient-to-br from-brand-from/10 via-brand-to/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
               </div>
 
               <!-- Image Section (Top 60%) -->
               <div class="relative h-3/5 overflow-hidden">
                 <!-- Background Effects -->
-                <div class="absolute top-0 right-0 w-32 h-32 bg-pink-500 rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-brand-from rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500">
                 </div>
-                <div class="absolute bottom-0 left-0 w-32 h-32 bg-purple-500 rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500">
+                <div class="absolute bottom-0 left-0 w-32 h-32 bg-brand-to rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500">
                 </div>
 
                 <!-- Gradient Overlay -->

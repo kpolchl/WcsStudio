@@ -187,7 +187,7 @@ defmodule WcsStudioWeb.PracticeLive do
                       class={[
                         "w-full text-left px-4 py-2 text-sm transition-all duration-150",
                         if(dance_type.id == @dance_type_id,
-                          do: "bg-pink-600/40 text-white",
+                          do: "bg-brand-hoverFrom/40 text-white",
                           else: "hover:bg-surface-muted/70 text-slate-200"
                         )
                       ]}
@@ -225,7 +225,7 @@ defmodule WcsStudioWeb.PracticeLive do
             style="backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);"
           >
           </div>
-          <div class="absolute inset-0 bg-gradient-to-br from-pink-500/10 via-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+          <div class="absolute inset-0 bg-gradient-to-br from-brand-from/10 via-brand-to/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
           </div>
 
           <!-- Video Section -->
@@ -249,9 +249,9 @@ defmodule WcsStudioWeb.PracticeLive do
           <!-- Content Section -->
           <div class="relative flex-1 flex flex-col justify-between p-6 z-10">
             <!-- Background Effects (moved to content area) -->
-            <div class="absolute top-0 right-0 w-32 h-32 bg-pink-500 rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500 pointer-events-none">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-brand-from rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500 pointer-events-none">
             </div>
-            <div class="absolute bottom-0 left-0 w-32 h-32 bg-purple-500 rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500 pointer-events-none">
+            <div class="absolute bottom-0 left-0 w-32 h-32 bg-brand-to rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500 pointer-events-none">
             </div>
 
             <div class="relative z-10">

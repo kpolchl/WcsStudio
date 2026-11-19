@@ -17,9 +17,14 @@ module.exports = {
                 'accent-start': '#ec4899', // pink-500
                 'accent-end': '#a855f7',   // purple-500
                 brand: {
-                    from: '#ec4899', // pink-500 - canonical gradient start
-                    to: '#a855f7',   // purple-500 - canonical gradient end
-                    soft: '#fdf2f8', // pink-50 - subtle brand surface
+                    from: '#ec4899',     // pink-500 - canonical gradient start
+                    to: '#a855f7',       // purple-500 - canonical gradient end
+                    soft: '#fdf2f8',     // pink-50 - subtle brand surface
+                    lightFrom: '#f472b6', // pink-400 - hero text gradient
+                    lightTo: '#c084fc',   // purple-400 - hero text gradient
+                    hoverFrom: '#db2777', // pink-600 - gradient hover start
+                    hoverTo: '#9333ea',   // purple-600 - gradient hover end
+                    deepTo: '#7e22ce',    // purple-700 - deepest gradient hover
                 },
                 surface: {
                     base: '#0f172a',   // slate-900

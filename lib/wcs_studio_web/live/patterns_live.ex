@@ -354,7 +354,7 @@ defmodule WcsStudioWeb.PatternsLive do
       <div class="w-full max-w-2xl mx-auto px-4 mb-8">
         <button
           phx-click="open_modal"
-          class="w-full sm:w-auto bg-gradient-to-r from-brand-from to-brand-to hover:from-pink-600 hover:to-purple-600 text-white font-semibold py-3 px-6 rounded-lg shadow-raised hover:shadow-card transition-all duration-300 flex items-center justify-center gap-2"
+          class="w-full sm:w-auto bg-gradient-to-r from-brand-from to-brand-to hover:from-brand-hoverFrom hover:to-brand-hoverTo text-white font-semibold py-3 px-6 rounded-lg shadow-raised hover:shadow-card transition-all duration-300 flex items-center justify-center gap-2"
         >
           <i class="fas fa-plus"></i>
           <span>{gettext("Add New Pattern")}</span>
@@ -402,7 +402,7 @@ defmodule WcsStudioWeb.PatternsLive do
                       class={[
                         "w-full text-left px-4 py-2 text-sm transition-all duration-150",
                         if(dance_type.id == @dance_type_id,
-                          do: "bg-pink-600/40 text-white",
+                          do: "bg-brand-hoverFrom/40 text-white",
                           else: "hover:bg-surface-muted/70 text-slate-200"
                         )
                       ]}
@@ -533,7 +533,7 @@ defmodule WcsStudioWeb.PatternsLive do
                     class={[
                       "w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-150 border flex items-center justify-between",
                       if(MapSet.member?(@selected_child_ids, candidate.id),
-                        do: "bg-pink-500/20 border-pink-500/50 text-pink-200",
+                        do: "bg-brand-from/20 border-pink-500/50 text-pink-200",
                         else:
                           "bg-surface-muted/40 border-slate-600/40 text-slate-300 hover:border-pink-500/30"
                       )
@@ -595,7 +595,7 @@ defmodule WcsStudioWeb.PatternsLive do
                     class={[
                       "w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-150 border flex items-center justify-between",
                       if(MapSet.member?(@selected_child_ids, candidate.id),
-                        do: "bg-pink-500/20 border-pink-500/50 text-pink-200",
+                        do: "bg-brand-from/20 border-pink-500/50 text-pink-200",
                         else:
                           "bg-surface-muted/40 border-slate-600/40 text-slate-300 hover:border-pink-500/30"
                       )

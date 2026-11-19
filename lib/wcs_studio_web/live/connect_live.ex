@@ -15,7 +15,7 @@ defmodule WcsStudioWeb.ConnectLive do
       <section class="mb-8">
         <div class="bg-surface-raised/30 backdrop-blur-sm rounded-lg border border-surface-muted/50 p-8 md:p-12">
           <div class="flex flex-col md:flex-row gap-8 items-center mb-8">
-            <div class="w-40 h-40 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 p-1 flex-shrink-0">
+            <div class="w-40 h-40 rounded-lg bg-gradient-to-br from-brand-to to-brand-from p-1 flex-shrink-0">
               <img
                 src="/images/AuthorPic.jpg"
                 alt=" "
@@ -25,7 +25,7 @@ defmodule WcsStudioWeb.ConnectLive do
             <div>
               <h1 class="text-4xl md:text-5xl font-bold text-white mb-2">
                 {gettext("Hey, I'm")}
-                <span class="text-transparent bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text">
+                <span class="text-transparent bg-gradient-to-r from-brand-lightTo to-brand-lightFrom bg-clip-text">
                   Karol Półchłopek
                 </span>
               </h1>
@@ -63,7 +63,7 @@ defmodule WcsStudioWeb.ConnectLive do
             <!-- Contact Info -->
             <div class="space-y-6">
               <div class="flex items-center gap-4 text-slate-300">
-                <div class="w-12 h-12 rounded-lg bg-purple-500/20 flex items-center justify-center text-purple-400">
+                <div class="w-12 h-12 rounded-lg bg-brand-to/20 flex items-center justify-center text-purple-400">
                   <i class="fas fa-envelope text-xl"></i>
                 </div>
                 <div>
@@ -78,7 +78,7 @@ defmodule WcsStudioWeb.ConnectLive do
               </div>
 
               <div class="flex items-center gap-4 text-slate-300">
-                <div class="w-12 h-12 rounded-lg bg-pink-500/20 flex items-center justify-center text-pink-400">
+                <div class="w-12 h-12 rounded-lg bg-brand-from/20 flex items-center justify-center text-pink-400">
                   <i class="fab fa-github text-xl"></i>
                 </div>
                 <div>
@@ -148,7 +148,7 @@ defmodule WcsStudioWeb.ConnectLive do
 
                 <button
                   type="submit"
-                  class="w-full px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium rounded-md hover:shadow-raised hover:shadow-purple-500/50 transition-all duration-300"
+                  class="w-full px-6 py-3 bg-gradient-to-r from-brand-to to-brand-from text-white font-medium rounded-md hover:shadow-raised hover:shadow-purple-500/50 transition-all duration-300"
                 >
                   <i class="fas fa-paper-plane mr-2"></i>
                   {gettext("Send Message")}
