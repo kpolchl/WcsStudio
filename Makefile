@@ -5,10 +5,13 @@ MIX_ENV ?= test
 export MIX_ENV
 
 MIX := mix
+DOCKER ?= docker
+IMAGE ?= ghcr.io/kpolchl/wcsstudio
+TAG ?= local
 
 .DEFAULT_GOAL := help
 
-.PHONY: help setup deps format format-check compile audit credo sobelow db-setup test ci
+.PHONY: help setup deps format format-check compile audit credo sobelow db-setup test ci docker-build
 
 help: ## Show this help
 	@grep -hE '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) | \
@@ -47,3 +50,6 @@ test: ## Run the test suite
 
 ci: setup format-check compile audit credo sobelow test ## Run every CI check locally
 	@echo "All CI checks passed."
+
+docker-build: ## Build the production Docker image locally
+	$(DOCKER) build -f dockerfile -t $(IMAGE):$(TAG) .
