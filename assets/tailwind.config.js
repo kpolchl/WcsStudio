@@ -34,8 +34,10 @@ module.exports = {
                 sm: '8px',
                 md: '12px',
                 lg: '16px',
+                xl: '24px',
             },
             boxShadow: {
+                raised: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
                 card: '0 25px 50px -12px rgb(0 0 0 / 0.25)',
                 glow: '0 0 25px -5px rgb(236 72 153 / 0.5)',
                 focus: '0 0 0 3px rgb(236 72 153 / 0.35)',

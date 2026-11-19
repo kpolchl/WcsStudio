@@ -13,7 +13,7 @@ defmodule WcsStudioWeb.ConnectLive do
     <div class="max-w-5xl mx-auto px-2 ">
       <!-- About Me Section -->
       <section class="mb-8">
-        <div class="bg-slate-800/30 backdrop-blur-sm rounded-lg border border-slate-700/50 p-8 md:p-12">
+        <div class="bg-surface-raised/30 backdrop-blur-sm rounded-lg border border-surface-muted/50 p-8 md:p-12">
           <div class="flex flex-col md:flex-row gap-8 items-center mb-8">
             <div class="w-40 h-40 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 p-1 flex-shrink-0">
               <img
@@ -50,7 +50,7 @@ defmodule WcsStudioWeb.ConnectLive do
 
       <!-- Contact Section -->
       <section>
-        <div class="bg-slate-800/30 backdrop-blur-sm rounded-lg border border-slate-700/50 p-8 md:p-12">
+        <div class="bg-surface-raised/30 backdrop-blur-sm rounded-lg border border-surface-muted/50 p-8 md:p-12">
           <h2 class="text-3xl font-bold text-white mb-6">
             <i class="fas fa-paper-plane text-purple-400 mr-3"></i>
             {gettext("Get In Touch")}
@@ -119,7 +119,7 @@ defmodule WcsStudioWeb.ConnectLive do
                     type="text"
                     name="name"
                     required
-                    class="w-full px-4 py-3 bg-slate-900/50 border border-slate-600 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                    class="w-full px-4 py-3 bg-surface-base/50 border border-slate-600 rounded-md text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
                     placeholder={gettext("Your name")}
                   />
                 </div>
@@ -130,7 +130,7 @@ defmodule WcsStudioWeb.ConnectLive do
                     type="email"
                     name="email"
                     required
-                    class="w-full px-4 py-3 bg-slate-900/50 border border-slate-600 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                    class="w-full px-4 py-3 bg-surface-base/50 border border-slate-600 rounded-md text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
                     placeholder={gettext("your@email.com")}
                   />
                 </div>
@@ -141,14 +141,14 @@ defmodule WcsStudioWeb.ConnectLive do
                     name="message"
                     rows="4"
                     required
-                    class="w-full px-4 py-3 bg-slate-900/50 border border-slate-600 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                    class="w-full px-4 py-3 bg-surface-base/50 border border-slate-600 rounded-md text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
                     placeholder={gettext("Tell me about your project...")}
                   ></textarea>
                 </div>
 
                 <button
                   type="submit"
-                  class="w-full px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium rounded-xl hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300"
+                  class="w-full px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium rounded-md hover:shadow-raised hover:shadow-purple-500/50 transition-all duration-300"
                 >
                   <i class="fas fa-paper-plane mr-2"></i>
                   {gettext("Send Message")}

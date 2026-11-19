@@ -136,7 +136,7 @@ defmodule WcsStudioWeb.BlogPostLive do
     <article class="max-w-4xl mx-auto px-4 py-12">
       <%= if @editing_post do %>
         <!-- Edit Post Form -->
-        <div class="bg-slate-800/30 backdrop-blur-sm rounded-lg border border-slate-700/50 p-8">
+        <div class="bg-surface-raised/30 backdrop-blur-sm rounded-lg border border-surface-muted/50 p-8">
           <h2 class="text-3xl font-bold text-white mb-6">Edit Post</h2>
 
           <.form for={@edit_form} phx-submit="update_post">
@@ -145,21 +145,21 @@ defmodule WcsStudioWeb.BlogPostLive do
                 type="text"
                 field={@edit_form[:title]}
                 label="Title"
-                class="w-full px-4 py-3 bg-slate-900/50 border border-slate-600 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                class="w-full px-4 py-3 bg-surface-base/50 border border-slate-600 rounded-md text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
               />
 
               <.input
                 type="text"
                 field={@edit_form[:subject]}
                 label="Subject"
-                class="w-full px-4 py-3 bg-slate-900/50 border border-slate-600 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                class="w-full px-4 py-3 bg-surface-base/50 border border-slate-600 rounded-md text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
               />
 
               <.input
                 type="textarea"
                 field={@edit_form[:body]}
                 label="Body"
-                class="w-full px-4 py-3 bg-slate-900/50 border border-slate-600 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                class="w-full px-4 py-3 bg-surface-base/50 border border-slate-600 rounded-md text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                 rows="10"
               />
 
@@ -167,14 +167,14 @@ defmodule WcsStudioWeb.BlogPostLive do
                 type="text"
                 field={@edit_form[:tags]}
                 label="Tags (format: :tag1:tag2:tag_n:)"
-                class="w-full px-4 py-3 bg-slate-900/50 border border-slate-600 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                class="w-full px-4 py-3 bg-surface-base/50 border border-slate-600 rounded-md text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
               />
             </div>
 
             <div class="flex gap-3 mt-6">
               <button
                 type="submit"
-                class="px-6 py-3 bg-gradient-to-r from-green-500 to-blue-500 text-white font-medium rounded-xl hover:shadow-lg hover:shadow-green-500/50 transition-all duration-300"
+                class="px-6 py-3 bg-gradient-to-r from-green-500 to-blue-500 text-white font-medium rounded-md hover:shadow-raised hover:shadow-green-500/50 transition-all duration-300"
               >
                 <i class="fas fa-save mr-2"></i>
                 {gettext("Update Post")}
@@ -183,7 +183,7 @@ defmodule WcsStudioWeb.BlogPostLive do
               <button
                 type="button"
                 phx-click="cancel_edit"
-                class="px-6 py-3 bg-slate-600 hover:bg-slate-700 text-white font-medium rounded-xl transition-colors"
+                class="px-6 py-3 bg-slate-600 hover:bg-surface-muted text-white font-medium rounded-md transition-colors"
               >
                 <i class="fas fa-times mr-2"></i>
                 {gettext("Cancel")}
@@ -215,7 +215,7 @@ defmodule WcsStudioWeb.BlogPostLive do
           <div class="flex items-center gap-4">
             <img
               src={avatar_url(@post.user.profile_pic_url)}
-              class="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 p-0.5"
+              class="w-14 h-14 rounded-md bg-gradient-to-br from-purple-500 to-pink-500 p-0.5"
               alt={@post.user.username}
             />
             <div>
@@ -227,13 +227,13 @@ defmodule WcsStudioWeb.BlogPostLive do
 
         <!-- Article Content -->
         <div class="prose prose-invert prose-lg max-w-none mb-16">
-          <div class="bg-slate-800/30 backdrop-blur-sm rounded-lg border border-slate-700/50 p-8 text-slate-200 leading-relaxed">
+          <div class="bg-surface-raised/30 backdrop-blur-sm rounded-lg border border-surface-muted/50 p-8 text-slate-200 leading-relaxed">
             {format_content(@post.body)}
           </div>
         </div>
 
         <!-- Article Footer / Tags -->
-        <div class="border-t border-slate-700 pt-8 mb-12">
+        <div class="border-t border-surface-muted pt-8 mb-12">
           <div class="flex flex-wrap items-center gap-3">
             <span class="text-slate-400">Tags:</span>
             <%= for tag <- Post.parse_tags(@post.tags) do %>
@@ -248,7 +248,7 @@ defmodule WcsStudioWeb.BlogPostLive do
       <!-- Comments Section (Only show when not editing) -->
       <%= if !@editing_post do %>
         <section class="mt-16">
-          <div class="bg-slate-800/30 backdrop-blur-sm rounded-lg border border-slate-700/50 p-8">
+          <div class="bg-surface-raised/30 backdrop-blur-sm rounded-lg border border-surface-muted/50 p-8">
             <h2 class="text-3xl font-bold text-white mb-8 flex items-center gap-3">
               <i class="fas fa-comments text-purple-400"></i>
               {gettext("Comments")}
@@ -267,14 +267,14 @@ defmodule WcsStudioWeb.BlogPostLive do
                       name="comment[body]"
                       rows="4"
                       required
-                      class="w-full px-4 py-3 bg-slate-900/50 border border-slate-600 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                      class="w-full px-4 py-3 bg-surface-base/50 border border-slate-600 rounded-md text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
                       placeholder={gettext("Share your thoughts on this article...")}
                     ></textarea>
                   </div>
                   <:actions>
                     <button
                       type="submit"
-                      class="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium rounded-xl hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300"
+                      class="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium rounded-md hover:shadow-raised hover:shadow-purple-500/50 transition-all duration-300"
                     >
                       <i class="fas fa-paper-plane mr-2"></i>
                       {gettext("Post Comment")}
@@ -283,7 +283,7 @@ defmodule WcsStudioWeb.BlogPostLive do
                 </.simple_form>
               </div>
             <% else %>
-              <div class="mb-10 p-6 bg-slate-900/50 border border-slate-600 rounded-xl text-center">
+              <div class="mb-10 p-6 bg-surface-base/50 border border-slate-600 rounded-md text-center">
                 <p class="text-slate-300 mb-3">{gettext("Sign in to leave a comment")}</p>
                 <.link
                   navigate={~p"/users/log_in"}
@@ -305,7 +305,7 @@ defmodule WcsStudioWeb.BlogPostLive do
                 </div>
               <% else %>
                 <%= for comment <- @post.comments do %>
-                  <div class="bg-slate-900/50 border-l-4 border-purple-500 rounded-r-xl p-6 hover:bg-slate-900/70 transition-colors">
+                  <div class="bg-surface-base/50 border-l-4 border-purple-500 rounded-r-xl p-6 hover:bg-surface-base/70 transition-colors">
                     <div class="flex items-start gap-4">
                       <img
                         src={avatar_url(comment.user.profile_pic_url)}

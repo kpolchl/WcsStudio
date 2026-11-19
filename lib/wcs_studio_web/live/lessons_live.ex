@@ -276,7 +276,7 @@ defmodule WcsStudioWeb.LessonsLive do
       <div class="max-w-2xl mx-8 my-8">
         <button
           phx-click="open_modal"
-          class="w-full sm:w-auto bg-gradient-to-r from-brand-from to-brand-to hover:from-pink-600 hover:to-purple-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
+          class="w-full sm:w-auto bg-gradient-to-r from-brand-from to-brand-to hover:from-pink-600 hover:to-purple-600 text-white font-semibold py-3 px-6 rounded-lg shadow-raised hover:shadow-card transition-all duration-300 flex items-center justify-center gap-2"
         >
           <i class="fas fa-plus"></i>
           <span>{gettext("Add New Lesson")}</span>
@@ -294,8 +294,9 @@ defmodule WcsStudioWeb.LessonsLive do
             "px-6 py-2 rounded-lg font-medium transition-all duration-300",
             if(@selected_dance_type_id == dance_type.id,
               do:
-                "bg-gradient-to-r from-brand-from to-brand-to text-white hover:shadow-lg hover:shadow-pink-500/25",
-              else: "bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 border border-slate-700/50"
+                "bg-gradient-to-r from-brand-from to-brand-to text-white hover:shadow-raised hover:shadow-pink-500/25",
+              else:
+                "bg-surface-raised/50 hover:bg-surface-muted/50 text-slate-300 border border-surface-muted/50"
             )
           ]}
         >
@@ -314,8 +315,9 @@ defmodule WcsStudioWeb.LessonsLive do
             "px-6 py-2 rounded-lg font-medium transition-all duration-300",
             if(@selected_level_id == level.id,
               do:
-                "bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-lg hover:shadow-blue-500/25",
-              else: "bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 border border-slate-700/50"
+                "bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-raised hover:shadow-blue-500/25",
+              else:
+                "bg-surface-raised/50 hover:bg-surface-muted/50 text-slate-300 border border-surface-muted/50"
             )
           ]}
         >
@@ -354,7 +356,7 @@ defmodule WcsStudioWeb.LessonsLive do
     <!-- Empty State -->
     <%= if Enum.empty?(@lessons) do %>
       <div class="text-center py-16">
-        <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-slate-800/50 flex items-center justify-center">
+        <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-surface-raised/50 flex items-center justify-center">
           <i class="fas fa-chalkboard-teacher text-3xl text-slate-500"></i>
         </div>
         <h3 class="text-xl font-semibold text-slate-400 mb-2">{gettext("No lessons found")}</h3>
@@ -378,16 +380,16 @@ defmodule WcsStudioWeb.LessonsLive do
 
           <!-- Instructors -->
           <div class="space-y-2">
-            <label class="block text-sm font-semibold text-slate-800">{gettext("Instructors")}</label>
-            <div class="bg-slate-550 rounded-lg p-4 border border-slate-600 space-y-2 max-h-48 overflow-y-auto">
+            <label class="block text-sm font-semibold text-slate-200">{gettext("Instructors")}</label>
+            <div class="bg-surface-muted/30 rounded-lg p-4 border border-slate-600 space-y-2 max-h-48 overflow-y-auto">
               <%= for instructor <- @instructors do %>
-                <label class="flex items-center gap-3 p-2 hover:bg-slate-700/50 rounded-lg cursor-pointer transition-colors">
+                <label class="flex items-center gap-3 p-2 hover:bg-surface-muted/50 rounded-lg cursor-pointer transition-colors">
                   <input
                     type="checkbox"
                     name="lesson[instructor_ids][]"
                     value={instructor.id}
                     checked={instructor.id in (@form[:instructor_ids].value || [])}
-                    class="rounded border-slate-600 bg-slate-800/50 text-pink-500 focus:ring-2 focus:ring-pink-500 focus:ring-opacity-20 transition-all duration-300"
+                    class="rounded border-slate-600 bg-surface-raised/50 text-pink-500 focus:ring-2 focus:ring-pink-500 focus:ring-opacity-20 transition-all duration-300"
                   />
                   <span class="text-slate-200">{instructor.username}</span>
                 </label>
@@ -397,16 +399,16 @@ defmodule WcsStudioWeb.LessonsLive do
 
           <!-- Patterns -->
           <div class="space-y-2">
-            <label class="block text-sm font-semibold text-slate-800">{gettext("Patterns")}</label>
-            <div class="bg-slate-550 rounded-lg p-4 border border-slate-600 space-y-2 max-h-48 overflow-y-auto">
+            <label class="block text-sm font-semibold text-slate-200">{gettext("Patterns")}</label>
+            <div class="bg-surface-muted/30 rounded-lg p-4 border border-slate-600 space-y-2 max-h-48 overflow-y-auto">
               <%= for pattern <- @patterns do %>
-                <label class="flex items-center gap-3 p-2 hover:bg-slate-700/50 rounded-lg cursor-pointer transition-colors">
+                <label class="flex items-center gap-3 p-2 hover:bg-surface-muted/50 rounded-lg cursor-pointer transition-colors">
                   <input
                     type="checkbox"
                     name="lesson[pattern_ids][]"
                     value={pattern.id}
                     checked={pattern.id in (@form[:pattern_ids].value || [])}
-                    class="rounded border-slate-600 bg-slate-800/50 text-pink-500 focus:ring-2 focus:ring-pink-500 focus:ring-opacity-20 transition-all duration-300"
+                    class="rounded border-slate-600 bg-surface-raised/50 text-pink-500 focus:ring-2 focus:ring-pink-500 focus:ring-opacity-20 transition-all duration-300"
                   />
                   <span class="text-slate-200">{pattern.name}</span>
                 </label>
@@ -441,16 +443,16 @@ defmodule WcsStudioWeb.LessonsLive do
 
           <!-- Instructors -->
           <div class="space-y-2">
-            <label class="block text-sm font-semibold text-slate-800">{gettext("Instructors")}</label>
-            <div class="bg-slate-550 rounded-lg p-4 border border-slate-600 space-y-2 max-h-48 overflow-y-auto">
+            <label class="block text-sm font-semibold text-slate-200">{gettext("Instructors")}</label>
+            <div class="bg-surface-muted/30 rounded-lg p-4 border border-slate-600 space-y-2 max-h-48 overflow-y-auto">
               <%= for instructor <- @instructors do %>
-                <label class="flex items-center gap-3 p-2 hover:bg-slate-700/50 rounded-lg cursor-pointer transition-colors">
+                <label class="flex items-center gap-3 p-2 hover:bg-surface-muted/50 rounded-lg cursor-pointer transition-colors">
                   <input
                     type="checkbox"
                     name="lesson[instructor_ids][]"
                     value={instructor.id}
                     checked={instructor.id in instructor_ids}
-                    class="rounded border-slate-600 bg-slate-800/50 text-pink-500 focus:ring-2 focus:ring-pink-500 focus:ring-opacity-20 transition-all duration-300"
+                    class="rounded border-slate-600 bg-surface-raised/50 text-pink-500 focus:ring-2 focus:ring-pink-500 focus:ring-opacity-20 transition-all duration-300"
                   />
                   <span class="text-slate-200">{instructor.username}</span>
                 </label>
@@ -460,16 +462,16 @@ defmodule WcsStudioWeb.LessonsLive do
 
           <!-- Patterns -->
           <div class="space-y-2">
-            <label class="block text-sm font-semibold text-slate-800">{gettext("Patterns")}</label>
-            <div class="bg-slate-550 rounded-lg p-4 border border-slate-600 space-y-2 max-h-48 overflow-y-auto">
+            <label class="block text-sm font-semibold text-slate-200">{gettext("Patterns")}</label>
+            <div class="bg-surface-muted/30 rounded-lg p-4 border border-slate-600 space-y-2 max-h-48 overflow-y-auto">
               <%= for pattern <- @patterns do %>
-                <label class="flex items-center gap-3 p-2 hover:bg-slate-700/50 rounded-lg cursor-pointer transition-colors">
+                <label class="flex items-center gap-3 p-2 hover:bg-surface-muted/50 rounded-lg cursor-pointer transition-colors">
                   <input
                     type="checkbox"
                     name="lesson[pattern_ids][]"
                     value={pattern.id}
                     checked={pattern.id in pattern_ids}
-                    class="rounded border-slate-600 bg-slate-800/50 text-pink-500 focus:ring-2 focus:ring-pink-500 focus:ring-opacity-20 transition-all duration-300"
+                    class="rounded border-slate-600 bg-surface-raised/50 text-pink-500 focus:ring-2 focus:ring-pink-500 focus:ring-opacity-20 transition-all duration-300"
                   />
                   <span class="text-slate-200">{pattern.name}</span>
                 </label>

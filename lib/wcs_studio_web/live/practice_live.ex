@@ -96,11 +96,11 @@ defmodule WcsStudioWeb.PracticeLive do
             phx-click="selected_filter"
             phx-value-selected_filter="all"
             class={[
-              "px-4 py-2 rounded-xl font-medium transition-all duration-300 flex items-center",
+              "px-4 py-2 rounded-md font-medium transition-all duration-300 flex items-center",
               if @selected_filter == "all" do
-                "bg-gradient-to-r from-brand-from to-brand-to text-white shadow-lg shadow-pink-500/25"
+                "bg-gradient-to-r from-brand-from to-brand-to text-white shadow-raised shadow-pink-500/25"
               else
-                "bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 border border-slate-700/50"
+                "bg-surface-raised/50 hover:bg-surface-muted/50 text-slate-300 border border-surface-muted/50"
               end
             ]}
           >
@@ -113,11 +113,11 @@ defmodule WcsStudioWeb.PracticeLive do
               phx-click="selected_filter"
               phx-value-selected_filter="in_progress"
               class={[
-                "px-4 py-2 rounded-xl font-medium transition-all duration-300 flex items-center",
+                "px-4 py-2 rounded-md font-medium transition-all duration-300 flex items-center",
                 if @selected_filter == "in_progress" do
-                  "bg-gradient-to-r from-brand-from to-brand-to text-white shadow-lg shadow-pink-500/25"
+                  "bg-gradient-to-r from-brand-from to-brand-to text-white shadow-raised shadow-pink-500/25"
                 else
-                  "bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 border border-slate-700/50"
+                  "bg-surface-raised/50 hover:bg-surface-muted/50 text-slate-300 border border-surface-muted/50"
                 end
               ]}
             >
@@ -129,11 +129,11 @@ defmodule WcsStudioWeb.PracticeLive do
               phx-click="selected_filter"
               phx-value-selected_filter="learned"
               class={[
-                "px-4 py-2 rounded-xl font-medium transition-all duration-300 flex items-center",
+                "px-4 py-2 rounded-md font-medium transition-all duration-300 flex items-center",
                 if @selected_filter == "learned" do
-                  "bg-gradient-to-r from-brand-from to-brand-to text-white shadow-lg shadow-pink-500/25"
+                  "bg-gradient-to-r from-brand-from to-brand-to text-white shadow-raised shadow-pink-500/25"
                 else
-                  "bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 border border-slate-700/50"
+                  "bg-surface-raised/50 hover:bg-surface-muted/50 text-slate-300 border border-surface-muted/50"
                 end
               ]}
             >
@@ -147,7 +147,7 @@ defmodule WcsStudioWeb.PracticeLive do
     <!-- Dance type dropdown buttons -->
     <div class="w-full max-w-2xl mx-auto px-4 mb-8 relative z-50">
       <div
-        class="flex flex-col sm:flex-row gap-3 p-4 bg-slate-800/30 rounded-xl border border-slate-700/50 shadow-lg"
+        class="flex flex-col sm:flex-row gap-3 p-4 bg-surface-raised/30 rounded-md border border-surface-muted/50 shadow-raised"
         style="backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);"
       >
         <div class="flex-1 relative" id="dance-type-selector">
@@ -155,7 +155,7 @@ defmodule WcsStudioWeb.PracticeLive do
             <button
               type="button"
               phx-click="toggle_dropdown"
-              class="w-full h-full py-3 pl-4 pr-4 text-left bg-slate-700/50 text-slate-200 border border-slate-600/50 rounded-lg hover:border-pink-500/40 focus:outline-none focus:ring-1 focus:ring-pink-500 transition-all duration-200 flex items-center justify-between"
+              class="w-full h-full py-3 pl-4 pr-4 text-left bg-surface-muted/50 text-slate-200 border border-slate-600/50 rounded-lg hover:border-pink-500/40 focus:outline-none focus:ring-1 focus:ring-pink-500 transition-all duration-200 flex items-center justify-between"
             >
               <div class="flex items-center ">
                 <span>
@@ -174,7 +174,7 @@ defmodule WcsStudioWeb.PracticeLive do
 
             <div
               :if={@dropdown_open}
-              class="absolute z-[9999] mt-2 w-full bg-slate-800/90 border border-slate-700/50 rounded-lg shadow-lg overflow-hidden animate-fade-in"
+              class="absolute z-[9999] mt-2 w-full bg-surface-raised/90 border border-surface-muted/50 rounded-lg shadow-raised overflow-hidden animate-fade-in"
               style="backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);"
             >
               <ul class="max-h-56 overflow-y-auto">
@@ -188,7 +188,7 @@ defmodule WcsStudioWeb.PracticeLive do
                         "w-full text-left px-4 py-2 text-sm transition-all duration-150",
                         if(dance_type.id == @dance_type_id,
                           do: "bg-pink-600/40 text-white",
-                          else: "hover:bg-slate-700/70 text-slate-200"
+                          else: "hover:bg-surface-muted/70 text-slate-200"
                         )
                       ]}
                     >
@@ -208,7 +208,7 @@ defmodule WcsStudioWeb.PracticeLive do
       <button
         type="button"
         phx-click="random_practice"
-        class="w-full bg-gradient-to-r from-brand-from to-brand-to text-white font-semibold py-4 px-6 rounded-lg shadow-lg flex items-center justify-center gap-2 hover:shadow-xl hover:scale-[1.02] transition-all duration-300"
+        class="w-full bg-gradient-to-r from-brand-from to-brand-to text-white font-semibold py-4 px-6 rounded-lg shadow-raised flex items-center justify-center gap-2 hover:shadow-card hover:scale-[1.02] transition-all duration-300"
       >
         <i class="fas fa-random"></i>
         <span>{gettext("Start Practice")}</span>
@@ -218,10 +218,10 @@ defmodule WcsStudioWeb.PracticeLive do
     <!-- Selected random patterns -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:px-2">
       <%= for random_pattern <- @random_patterns do %>
-        <div class="group relative flex flex-col h-auto rounded-lg overflow-hidden transition-all duration-500  hover:shadow-card border border-slate-700/30 hover:border-slate-600/50">
+        <div class="group relative flex flex-col h-auto rounded-lg overflow-hidden transition-all duration-500  hover:shadow-card border border-surface-muted/30 hover:border-slate-600/50">
           <!-- Background -->
           <div
-            class="absolute inset-0 bg-slate-800/50 backdrop-blur-sm pointer-events-none"
+            class="absolute inset-0 bg-surface-raised/50 backdrop-blur-sm pointer-events-none"
             style="backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);"
           >
           </div>
@@ -280,7 +280,7 @@ defmodule WcsStudioWeb.PracticeLive do
       <%= cond do %>
         <% @selected_filter != "all" -> %>
           <div class="text-center py-16">
-            <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-slate-800/50 flex items-center justify-center">
+            <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-surface-raised/50 flex items-center justify-center">
               <i class="fas fa-dumpster-fire text-3xl text-slate-500"></i>
             </div>
             <h3 class="text-xl font-semibold text-slate-400 mb-2">
@@ -289,7 +289,7 @@ defmodule WcsStudioWeb.PracticeLive do
           </div>
         <% true -> %>
           <div class="text-center py-16">
-            <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-slate-800/50 flex items-center justify-center">
+            <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-surface-raised/50 flex items-center justify-center">
               <i class="fas fa-dice text-3xl text-slate-500"></i>
             </div>
             <h3 class="text-xl font-semibold text-slate-400 mb-2">

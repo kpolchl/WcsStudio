@@ -354,7 +354,7 @@ defmodule WcsStudioWeb.PatternsLive do
       <div class="w-full max-w-2xl mx-auto px-4 mb-8">
         <button
           phx-click="open_modal"
-          class="w-full sm:w-auto bg-gradient-to-r from-brand-from to-brand-to hover:from-pink-600 hover:to-purple-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
+          class="w-full sm:w-auto bg-gradient-to-r from-brand-from to-brand-to hover:from-pink-600 hover:to-purple-600 text-white font-semibold py-3 px-6 rounded-lg shadow-raised hover:shadow-card transition-all duration-300 flex items-center justify-center gap-2"
         >
           <i class="fas fa-plus"></i>
           <span>{gettext("Add New Pattern")}</span>
@@ -364,14 +364,14 @@ defmodule WcsStudioWeb.PatternsLive do
 
     <!-- Filters Section -->
     <div class="w-full max-w-2xl mx-auto px-4 mb-8">
-      <div class="flex flex-col sm:flex-row gap-3 p-4 bg-slate-800/30 rounded-xl border border-slate-700/50 shadow-lg">
+      <div class="flex flex-col sm:flex-row gap-3 p-4 bg-surface-raised/30 rounded-md border border-surface-muted/50 shadow-raised">
         <!-- Dance Type Selector -->
         <div class="flex-1 relative isolation-auto" id="dance-type-selector">
           <div phx-click-away="close_dropdown" class="relative h-full">
             <button
               type="button"
               phx-click="toggle_dropdown"
-              class="w-full h-full py-3 pl-4 pr-4 text-left bg-slate-700/50 text-slate-200 border border-slate-600/50 rounded-lg hover:border-pink-500/40 focus:outline-none focus:ring-1 focus:ring-pink-500 transition-all duration-200 flex items-center justify-between"
+              class="w-full h-full py-3 pl-4 pr-4 text-left bg-surface-muted/50 text-slate-200 border border-slate-600/50 rounded-lg hover:border-pink-500/40 focus:outline-none focus:ring-1 focus:ring-pink-500 transition-all duration-200 flex items-center justify-between"
             >
               <div class="flex items-center">
                 <span>
@@ -390,7 +390,7 @@ defmodule WcsStudioWeb.PatternsLive do
 
             <div
               :if={@dropdown_open}
-              class="absolute z-[9999] mt-2 w-full bg-slate-800/90 border border-slate-700/50 rounded-lg shadow-lg overflow-hidden animate-fade-in"
+              class="absolute z-[9999] mt-2 w-full bg-surface-raised/90 border border-surface-muted/50 rounded-lg shadow-raised overflow-hidden animate-fade-in"
             >
               <ul class="max-h-56 overflow-y-auto">
                 <%= for dance_type <- @dance_types do %>
@@ -403,7 +403,7 @@ defmodule WcsStudioWeb.PatternsLive do
                         "w-full text-left px-4 py-2 text-sm transition-all duration-150",
                         if(dance_type.id == @dance_type_id,
                           do: "bg-pink-600/40 text-white",
-                          else: "hover:bg-slate-700/70 text-slate-200"
+                          else: "hover:bg-surface-muted/70 text-slate-200"
                         )
                       ]}
                     >
@@ -431,7 +431,7 @@ defmodule WcsStudioWeb.PatternsLive do
                   placeholder="Type to search"
                   class="relative z-10 w-full h-full
                          pl-10 pr-8 py-3
-                         bg-slate-700/50 text-slate-200
+                         bg-surface-muted/50 text-slate-200
                          border border-slate-600/50
                          rounded-lg
                          focus:outline-none focus:ring-1 focus:ring-blue-500"
@@ -477,7 +477,7 @@ defmodule WcsStudioWeb.PatternsLive do
     <!-- Empty State -->
     <%= if Enum.empty?(@patterns) do %>
       <div class="text-center py-16">
-        <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-slate-800/50 flex items-center justify-center">
+        <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-surface-raised/50 flex items-center justify-center">
           <i class="fas fa-music text-3xl text-slate-500"></i>
         </div>
         <h3 class="text-xl font-semibold text-slate-400 mb-2">{gettext("No patterns found")}</h3>
@@ -535,7 +535,7 @@ defmodule WcsStudioWeb.PatternsLive do
                       if(MapSet.member?(@selected_child_ids, candidate.id),
                         do: "bg-pink-500/20 border-pink-500/50 text-pink-200",
                         else:
-                          "bg-slate-700/40 border-slate-600/40 text-slate-300 hover:border-pink-500/30"
+                          "bg-surface-muted/40 border-slate-600/40 text-slate-300 hover:border-pink-500/30"
                       )
                     ]}
                   >
@@ -597,7 +597,7 @@ defmodule WcsStudioWeb.PatternsLive do
                       if(MapSet.member?(@selected_child_ids, candidate.id),
                         do: "bg-pink-500/20 border-pink-500/50 text-pink-200",
                         else:
-                          "bg-slate-700/40 border-slate-600/40 text-slate-300 hover:border-pink-500/30"
+                          "bg-surface-muted/40 border-slate-600/40 text-slate-300 hover:border-pink-500/30"
                       )
                     ]}
                   >

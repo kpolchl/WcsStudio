@@ -31,7 +31,7 @@ defmodule WcsStudioWeb.Components.LocaleSwitcher do
             out: {"ease-in duration-75", "opacity-100 scale-100", "opacity-0 scale-95"}
           )
         }
-        class="flex items-center space-x-2 p-2 rounded-lg hover:bg-slate-800/50 transition-all duration-300 border border-transparent hover:border-slate-700/50 text-slate-300 hover:text-white group"
+        class="flex items-center space-x-2 p-2 rounded-lg hover:bg-surface-raised/50 transition-all duration-300 border border-transparent hover:border-surface-muted/50 text-slate-300 hover:text-white group"
       >
         <span class="text-sm font-medium uppercase">{@current_locale}</span>
         <i class="fas fa-chevron-down text-xs transition-transform duration-300 group-hover:rotate-180"></i>
@@ -39,7 +39,7 @@ defmodule WcsStudioWeb.Components.LocaleSwitcher do
 
       <div
         id="locale-dropdown"
-        class="hidden absolute right-0 mt-2 w-48 rounded-xl bg-slate-800/95 backdrop-blur-xl border border-slate-700/50 shadow-xl py-2 z-50"
+        class="hidden absolute right-0 mt-2 w-48 rounded-md bg-surface-raised/95 backdrop-blur-xl border border-surface-muted/50 shadow-card py-2 z-50"
         phx-update="ignore"
       >
         <div class="py-1">
@@ -50,9 +50,9 @@ defmodule WcsStudioWeb.Components.LocaleSwitcher do
               class={[
                 "flex items-center px-4 py-3 text-sm transition-colors duration-200 group",
                 if locale.code == @current_locale do
-                  "bg-slate-700/50 text-white"
+                  "bg-surface-muted/50 text-white"
                 else
-                  "text-slate-300 hover:bg-slate-700/50 hover:text-white"
+                  "text-slate-300 hover:bg-surface-muted/50 hover:text-white"
                 end
               ]}
             >
@@ -93,7 +93,7 @@ defmodule WcsStudioWeb.Components.LocaleSwitcher do
               if locale.code == @current_locale do
                 "bg-gradient-to-r from-pink-500/20 to-purple-500/20 text-white border border-pink-500/30"
               else
-                "text-slate-300 hover:bg-slate-800/50 hover:text-white border border-transparent"
+                "text-slate-300 hover:bg-surface-raised/50 hover:text-white border border-transparent"
               end
             ]}
           >

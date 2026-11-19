@@ -64,7 +64,7 @@ defmodule WcsStudioWeb.BlogLive do
       <div class="w-full max-w-2xl mx-auto px-4 mb-8">
         <button
           phx-click="open_modal"
-          class="w-full sm:w-auto bg-gradient-to-r from-brand-from to-brand-to hover:from-pink-600 hover:to-purple-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
+          class="w-full sm:w-auto bg-gradient-to-r from-brand-from to-brand-to hover:from-pink-600 hover:to-purple-600 text-white font-semibold py-3 px-6 rounded-lg shadow-raised hover:shadow-card transition-all duration-300 flex items-center justify-center gap-2"
         >
           <i class="fas fa-plus"></i>
           <span>{gettext("Add New Pattern")}</span>

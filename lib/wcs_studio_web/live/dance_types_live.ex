@@ -96,7 +96,7 @@ defmodule WcsStudioWeb.DanceTypesLive do
       <div class="w-full max-w-2xl mx-auto px-4 mb-8">
         <button
           phx-click="open_modal"
-          class="w-full sm:w-auto bg-gradient-to-r from-brand-from to-brand-to hover:from-pink-600 hover:to-purple-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
+          class="w-full sm:w-auto bg-gradient-to-r from-brand-from to-brand-to hover:from-pink-600 hover:to-purple-600 text-white font-semibold py-3 px-6 rounded-lg shadow-raised hover:shadow-card transition-all duration-300 flex items-center justify-center gap-2"
         >
           <i class="fas fa-plus"></i>
           <span>{gettext("Add New Dance Type")}</span>
@@ -114,11 +114,11 @@ defmodule WcsStudioWeb.DanceTypesLive do
             phx-click="select_type_type"
             phx-value-dance_type_type="all"
             class={[
-              "px-6 py-3 rounded-xl font-medium transition-all duration-300 flex items-center",
+              "px-6 py-3 rounded-md font-medium transition-all duration-300 flex items-center",
               if @selected_dance_type_type == "all" do
-                "bg-gradient-to-r from-brand-from to-brand-to text-white shadow-lg shadow-pink-500/25"
+                "bg-gradient-to-r from-brand-from to-brand-to text-white shadow-raised shadow-pink-500/25"
               else
-                "bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 border border-slate-700/50"
+                "bg-surface-raised/50 hover:bg-surface-muted/50 text-slate-300 border border-surface-muted/50"
               end
             ]}
           >
@@ -130,11 +130,11 @@ defmodule WcsStudioWeb.DanceTypesLive do
             phx-click="select_type_type"
             phx-value-dance_type_type="latin"
             class={[
-              "px-6 py-3 rounded-xl font-medium transition-all duration-300 flex items-center",
+              "px-6 py-3 rounded-md font-medium transition-all duration-300 flex items-center",
               if @selected_dance_type_type == "latin" do
-                "bg-gradient-to-r from-brand-from to-brand-to text-white shadow-lg shadow-pink-500/25"
+                "bg-gradient-to-r from-brand-from to-brand-to text-white shadow-raised shadow-pink-500/25"
               else
-                "bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 border border-slate-700/50"
+                "bg-surface-raised/50 hover:bg-surface-muted/50 text-slate-300 border border-surface-muted/50"
               end
             ]}
           >
@@ -146,11 +146,11 @@ defmodule WcsStudioWeb.DanceTypesLive do
             phx-click="select_type_type"
             phx-value-dance_type_type="swing"
             class={[
-              "px-6 py-3 rounded-xl font-medium transition-all duration-300 flex items-center",
+              "px-6 py-3 rounded-md font-medium transition-all duration-300 flex items-center",
               if @selected_dance_type_type == "swing" do
-                "bg-gradient-to-r from-brand-from to-brand-to text-white shadow-lg shadow-pink-500/25"
+                "bg-gradient-to-r from-brand-from to-brand-to text-white shadow-raised shadow-pink-500/25"
               else
-                "bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 border border-slate-700/50"
+                "bg-surface-raised/50 hover:bg-surface-muted/50 text-slate-300 border border-surface-muted/50"
               end
             ]}
           >
@@ -162,11 +162,11 @@ defmodule WcsStudioWeb.DanceTypesLive do
             phx-click="select_type_type"
             phx-value-dance_type_type="social"
             class={[
-              "px-6 py-3 rounded-xl font-medium transition-all duration-300 flex items-center",
+              "px-6 py-3 rounded-md font-medium transition-all duration-300 flex items-center",
               if @selected_dance_type_type == "social" do
-                "bg-gradient-to-r from-brand-from to-brand-to text-white shadow-lg shadow-pink-500/25"
+                "bg-gradient-to-r from-brand-from to-brand-to text-white shadow-raised shadow-pink-500/25"
               else
-                "bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 border border-slate-700/50"
+                "bg-surface-raised/50 hover:bg-surface-muted/50 text-slate-300 border border-surface-muted/50"
               end
             ]}
           >
@@ -183,11 +183,11 @@ defmodule WcsStudioWeb.DanceTypesLive do
           <%= for dance_type <- @dance_types do %>
             <.link
               navigate={~p"/patterns?dance_type_id=#{dance_type.id}"}
-              class="group relative flex flex-col h-80 rounded-lg overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-card border border-slate-700/30 hover:border-slate-600/50"
+              class="group relative flex flex-col h-80 rounded-lg overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-card border border-surface-muted/30 hover:border-slate-600/50"
             >
               <!-- Background -->
               <div
-                class="absolute inset-0 bg-slate-800/50 backdrop-blur-sm"
+                class="absolute inset-0 bg-surface-raised/50 backdrop-blur-sm"
                 style="backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);"
               >
               </div>
@@ -203,7 +203,7 @@ defmodule WcsStudioWeb.DanceTypesLive do
                 </div>
 
                 <!-- Gradient Overlay -->
-                <div class="absolute inset-0 bg-gradient-to-b from-slate-900/70 to-transparent z-10">
+                <div class="absolute inset-0 bg-gradient-to-b from-surface-base/70 to-transparent z-10">
                 </div>
 
                 <!-- Image -->
@@ -249,7 +249,7 @@ defmodule WcsStudioWeb.DanceTypesLive do
         <!-- Empty State -->
         <%= if Enum.empty?(@dance_types) do %>
           <div class="text-center py-16">
-            <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-slate-800/50 flex items-center justify-center">
+            <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-surface-raised/50 flex items-center justify-center">
               <i class="fas fa-music text-3xl text-slate-500"></i>
             </div>
             <h3 class="text-xl font-semibold text-slate-400 mb-2">

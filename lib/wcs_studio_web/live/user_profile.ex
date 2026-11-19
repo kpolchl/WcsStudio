@@ -44,13 +44,13 @@ defmodule WcsStudioWeb.UserProfile do
   defp status_class("learned"), do: "text-green-400"
 
   defp border_class("not_started"),
-    do: "hover:border-gray-500/30 hover:shadow-lg hover:shadow-gray-500/10"
+    do: "hover:border-gray-500/30 hover:shadow-raised hover:shadow-gray-500/10"
 
   defp border_class("in_progress"),
-    do: "hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10"
+    do: "hover:border-blue-500/30 hover:shadow-raised hover:shadow-blue-500/10"
 
   defp border_class("learned"),
-    do: "hover:border-green-500/30 hover:shadow-lg hover:shadow-green-500/10"
+    do: "hover:border-green-500/30 hover:shadow-raised hover:shadow-green-500/10"
 
   defp status_bg("not_started"), do: "bg-gray-500/20 text-gray-300 border-gray-500/30"
   defp status_bg("in_progress"), do: "bg-blue-500/20 text-blue-300 border-blue-500/30"
@@ -70,17 +70,17 @@ defmodule WcsStudioWeb.UserProfile do
     <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 -py-8">
       <!-- Hero Section with Profile -->
       <div class="mb-8">
-        <div class="bg-gradient-to-r from-blue-600/20 via-cyan-600/20 to-purple-600/20 backdrop-blur-xl border border-white/10 rounded-3xl p-2 shadow-card relative overflow-hidden">
+        <div class="bg-gradient-to-r from-blue-600/20 via-cyan-600/20 to-purple-600/20 backdrop-blur-xl border border-white/10 rounded-xl p-2 shadow-card relative overflow-hidden">
           <div class="relative flex flex-col lg:flex-row items-center lg:items-start gap-8">
             <!-- Profile Image -->
             <div class="flex-shrink-0 p-4">
               <div class="relative group">
-                <div class="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-3xl blur opacity-25 group-hover:opacity-40 transition duration-300">
+                <div class="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl blur opacity-25 group-hover:opacity-40 transition duration-300">
                 </div>
                 <img
                   src={avatar_url(@current_user.profile_pic_url)}
                   alt=" "
-                  class="relative w-32 h-32 rounded-3xl shadow-card object-cover ring-4 ring-white/10"
+                  class="relative w-32 h-32 rounded-xl shadow-card object-cover ring-4 ring-white/10"
                 />
               </div>
             </div>
@@ -109,9 +109,9 @@ defmodule WcsStudioWeb.UserProfile do
 
               <!-- Stats Grid -->
               <div class="grid grid-cols-3 gap-2 max-w-2xl">
-                <div class="bg-slate-800/60 backdrop-blur-sm rounded-lg p-4 border border-white/5">
+                <div class="bg-surface-raised/60 backdrop-blur-sm rounded-lg p-4 border border-white/5">
                   <div class="flex items-center justify-center mb-2">
-                    <div class="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center">
+                    <div class="w-10 h-10 rounded-md bg-blue-500/20 flex items-center justify-center">
                       <i class="fas fa-graduation-cap text-blue-400"></i>
                     </div>
                   </div>
@@ -121,9 +121,9 @@ defmodule WcsStudioWeb.UserProfile do
                   </p>
                 </div>
 
-                <div class="bg-slate-800/60 backdrop-blur-sm rounded-lg p-4 border border-white/5 hover:border-green-500/30 transition-all duration-300">
+                <div class="bg-surface-raised/60 backdrop-blur-sm rounded-lg p-4 border border-white/5 hover:border-green-500/30 transition-all duration-300">
                   <div class="flex items-center justify-center mb-2">
-                    <div class="w-10 h-10 rounded-xl bg-green-500/20 flex items-center justify-center">
+                    <div class="w-10 h-10 rounded-md bg-green-500/20 flex items-center justify-center">
                       <i class="fas fa-check-double text-green-400"></i>
                     </div>
                   </div>
@@ -135,9 +135,9 @@ defmodule WcsStudioWeb.UserProfile do
                   </p>
                 </div>
 
-                <div class="bg-slate-800/60 backdrop-blur-sm rounded-lg p-4 border border-white/5 hover:border-purple-500/30 transition-all duration-300">
+                <div class="bg-surface-raised/60 backdrop-blur-sm rounded-lg p-4 border border-white/5 hover:border-purple-500/30 transition-all duration-300">
                   <div class="flex items-center justify-center mb-2">
-                    <div class="w-10 h-10 rounded-xl bg-purple-500/20 flex items-center justify-center">
+                    <div class="w-10 h-10 rounded-md bg-purple-500/20 flex items-center justify-center">
                       <i class="fas fa-clock text-purple-400"></i>
                     </div>
                   </div>
@@ -197,7 +197,7 @@ defmodule WcsStudioWeb.UserProfile do
 
       <div class="gap-6 mb-8">
         <div class="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="bg-slate-800/40 backdrop-blur-xl border border-white/10 rounded-lg p-6 shadow-xl hover:border-white/20 transition-all duration-300">
+          <div class="bg-surface-raised/40 backdrop-blur-xl border border-white/10 rounded-lg p-6 shadow-card hover:border-white/20 transition-all duration-300">
             <div class="flex items-center justify-between mb-6">
               <h3 class="text-lg font-semibold text-white flex items-center gap-2">
                 <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-from to-brand-to flex items-center justify-center">
@@ -214,7 +214,7 @@ defmodule WcsStudioWeb.UserProfile do
             />
           </div>
 
-          <div class="bg-slate-800/40 backdrop-blur-xl border border-white/10 rounded-lg p-6 shadow-xl hover:border-white/20">
+          <div class="bg-surface-raised/40 backdrop-blur-xl border border-white/10 rounded-lg p-6 shadow-card hover:border-white/20">
             <div class="flex items-center justify-between mb-6">
               <h3 class="text-lg font-semibold text-white flex items-center gap-2">
                 <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
@@ -234,10 +234,10 @@ defmodule WcsStudioWeb.UserProfile do
       </div>
 
       <!-- Patterns Section -->
-      <div class="bg-slate-800/40 backdrop-blur-xl border border-white/10 rounded-lg p-8 shadow-xl">
+      <div class="bg-surface-raised/40 backdrop-blur-xl border border-white/10 rounded-lg p-8 shadow-card">
         <div class="flex items-center justify-between mb-8">
           <h2 class="text-2xl font-bold text-white flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-from to-brand-to flex items-center justify-center">
+            <div class="w-10 h-10 rounded-md bg-gradient-to-br from-brand-from to-brand-to flex items-center justify-center">
               <i class="fas fa-shapes"></i>
             </div>
             <span>{gettext("My Patterns")}</span>
@@ -257,7 +257,7 @@ defmodule WcsStudioWeb.UserProfile do
         <%= if Enum.any?(@user_patterns) do %>
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <%= for user_pattern <- @user_patterns do %>
-              <div class={"group bg-slate-800/60 backdrop-blur-sm border border-white/5 rounded-xl p-5 #{border_class(user_pattern.status)}"}>
+              <div class={"group bg-surface-raised/60 backdrop-blur-sm border border-white/5 rounded-md p-5 #{border_class(user_pattern.status)}"}>
                 <div class="flex items-start justify-between mb-3">
                   <h3 class="text-base font-semibold text-white group-hover:text-blue-300 transition-colors">
                     {user_pattern.pattern.name}
@@ -286,7 +286,7 @@ defmodule WcsStudioWeb.UserProfile do
           </div>
         <% else %>
           <div class="text-center py-20">
-            <div class="w-24 h-24 mx-auto mb-6 rounded-3xl bg-slate-800/50 flex items-center justify-center">
+            <div class="w-24 h-24 mx-auto mb-6 rounded-xl bg-surface-raised/50 flex items-center justify-center">
               <i class="fas fa-shapes text-4xl text-slate-600"></i>
             </div>
             <h3 class="text-xl font-semibold text-slate-300 mb-2">{gettext("No patterns yet")}</h3>
@@ -295,7 +295,7 @@ defmodule WcsStudioWeb.UserProfile do
             </p>
             <a
               href={~p"/patterns"}
-              class="inline-flex items-center gap-2 bg-gradient-to-r from-brand-from to-brand-to hover:from-pink-600 hover:to-purple-600 text-white font-semibold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+              class="inline-flex items-center gap-2 bg-gradient-to-r from-brand-from to-brand-to hover:from-pink-600 hover:to-purple-600 text-white font-semibold py-3 px-8 rounded-md shadow-raised hover:shadow-card transition-all duration-300"
             >
               <i class="fas fa-plus"></i>
               <span>{gettext("Browse Patterns")}</span>
