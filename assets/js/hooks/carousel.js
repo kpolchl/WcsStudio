@@ -27,7 +27,10 @@ const Carousel = {
       el.addEventListener("click", () => go(i)),
     );
 
-    this.timer = setInterval(() => go(this.index + 1), 7000);
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!reduceMotion) {
+      this.timer = setInterval(() => go(this.index + 1), 7000);
+    }
     this.update();
   },
   destroyed() {
