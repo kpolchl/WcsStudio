@@ -442,7 +442,7 @@ defmodule WcsStudioWeb.CoreComponents do
                     </div>
                     <h2 class="text-2xl font-bold text-white">{gettext("Showcase Video")}</h2>
                   </div>
-                  <div class="w-full rounded-lg shadow-raised overflow-hidden pl-2 pr-2 pb-2">
+                  <div class="w-full rounded-md shadow-raised overflow-hidden pl-2 pr-2 pb-2">
                     <div class="relative" style="padding-bottom: 56.25%; height: 0;">
                       <iframe
                         class="absolute top-0 left-0 w-full h-full"
@@ -529,7 +529,7 @@ defmodule WcsStudioWeb.CoreComponents do
           </button>
 
           <%= if children_expanded do %>
-            <div class="border-t border-surface-muted/50 divide-y divide-surface-muted/30">
+            <div class="rounded-b-lg overflow-hidden border-t border-surface-muted/50 divide-y divide-surface-muted/30">
               <%= for child <- @children do %>
                 <.pattern
                   pattern={child}
@@ -704,7 +704,7 @@ defmodule WcsStudioWeb.CoreComponents do
               </div>
               <h2 class="text-xl font-bold text-white">{gettext("Video Lesson")}</h2>
             </div>
-            <div class="w-full rounded-lg shadow-raised overflow-hidden">
+            <div class="w-full rounded-md shadow-raised overflow-hidden">
               <div class="relative" style="padding-bottom: 56.25%; height: 0;">
                 <iframe
                   class="absolute top-0 left-0 w-full h-full"
