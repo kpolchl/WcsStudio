@@ -14,12 +14,9 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                'accent-start': '#ec4899', // pink-500
-                'accent-end': '#a855f7',   // purple-500
                 brand: {
                     from: '#ec4899',     // pink-500 - canonical gradient start
                     to: '#a855f7',       // purple-500 - canonical gradient end
-                    soft: '#fdf2f8',     // pink-50 - subtle brand surface
                     lightFrom: '#f472b6', // pink-400 - hero text gradient
                     lightTo: '#c084fc',   // purple-400 - hero text gradient
                     hoverFrom: '#db2777', // pink-600 - gradient hover start
@@ -45,7 +42,6 @@ module.exports = {
                 raised: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
                 card: '0 25px 50px -12px rgb(0 0 0 / 0.25)',
                 glow: '0 0 25px -5px rgb(236 72 153 / 0.5)',
-                focus: '0 0 0 3px rgb(236 72 153 / 0.35)',
             },
             keyframes: {
                 slideUp: {

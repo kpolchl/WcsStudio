@@ -66,6 +66,43 @@ msgstr ""
 msgid "close"
 msgstr ""
 
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:66
+#, elixir-autogen, elixir-format
+msgid "Previous slide"
+msgstr ""
+
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:73
+#, elixir-autogen, elixir-format
+msgid "Next slide"
+msgstr ""
+
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:82
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:86
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:90
+#, elixir-autogen, elixir-format
+msgid "Go to slide %{number}"
+msgstr ""
+
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:113
+#, elixir-autogen, elixir-format
+msgid "Dance styles illustration"
+msgstr ""
+
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:123
+#, elixir-autogen, elixir-format
+msgid "Dance shoes illustration"
+msgstr ""
+
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:133
+#, elixir-autogen, elixir-format
+msgid "Dancers illustration"
+msgstr ""
+
+#: lib/wcs_studio_web/controllers/home_html/index.html.heex:143
+#, elixir-autogen, elixir-format
+msgid "Newspaper illustration"
+msgstr ""
+
 #: lib/wcs_studio_web/components/layouts/app.html.heex:107
 #: lib/wcs_studio_web/live/user_settings_live.ex:338
 #, elixir-autogen, elixir-format

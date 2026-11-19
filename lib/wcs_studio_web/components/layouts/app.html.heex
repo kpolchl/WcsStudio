@@ -150,15 +150,21 @@
         <!-- Mobile menu button -->
         <div class="md:hidden flex items-center">
           <button
+            id="mobile-menu-toggle"
             type="button"
             phx-click={
               JS.toggle(to: "#mobile-menu")
               |> JS.toggle(to: "#menu-icon-open")
               |> JS.toggle(to: "#menu-icon-close")
+              |> JS.toggle_attribute({"aria-expanded", "true", "false"},
+                to: "#mobile-menu-toggle"
+              )
+              |> JS.toggle_attribute({"aria-hidden", "false", "true"}, to: "#mobile-menu")
             }
             class="inline-flex items-center justify-center p-2 rounded-md text-slate-400 hover:text-white hover:bg-surface-raised transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-white"
             aria-label="Open main menu"
             aria-controls="mobile-menu"
+            aria-expanded="false"
           >
             <span class="sr-only">Open main menu</span>
             <svg
@@ -201,10 +207,13 @@
   <div
     class="md:hidden hidden backdrop-blur-lg bg-surface-base/95 border-b border-surface-muted/50 shadow-card"
     id="mobile-menu"
+    aria-hidden="true"
     phx-click-away={
       JS.add_class("hidden", to: "#mobile-menu")
       |> JS.add_class("hidden", to: "#menu-icon-close")
       |> JS.remove_class("hidden", to: "#menu-icon-open")
+      |> JS.set_attribute({"aria-expanded", "false"}, to: "#mobile-menu-toggle")
+      |> JS.set_attribute({"aria-hidden", "true"}, to: "#mobile-menu")
     }
   >
     <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
