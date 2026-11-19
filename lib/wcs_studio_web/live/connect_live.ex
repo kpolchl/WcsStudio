@@ -197,7 +197,7 @@ defmodule WcsStudioWeb.ConnectLive do
     |> subject("💬 New message from #{name}")
     |> html_body("""
     <div style="font-family: system-ui, -apple-system, sans-serif; max-width: 600px; margin: 0 auto;">
-      <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; border-radius: 10px 10px 0 0;">
+      <div style="background: linear-gradient(135deg, #ec4899 0%, #a855f7 100%); padding: 30px; border-radius: 10px 10px 0 0;">
         <h1 style="color: white; margin: 0; font-size: 24px;">New Contact Form Message</h1>
       </div>
 
@@ -210,7 +210,7 @@ defmodule WcsStudioWeb.ConnectLive do
         <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
           <p style="margin: 0 0 10px 0; color: #6b7280;"><strong>Email:</strong></p>
           <p style="margin: 0; color: #111827; font-size: 16px;">
-            <a href="mailto:#{email}" style="color: #667eea; text-decoration: none;">#{email}</a>
+            <a href="mailto:#{email}" style="color: #db2777; text-decoration: none;">#{email}</a>
           </p>
         </div>
 
