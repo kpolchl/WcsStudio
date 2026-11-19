@@ -136,7 +136,7 @@ defmodule WcsStudioWeb.BlogPostLive do
     <article class="max-w-4xl mx-auto px-4 py-12">
       <%= if @editing_post do %>
         <!-- Edit Post Form -->
-        <div class="bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8">
+        <div class="bg-slate-800/30 backdrop-blur-sm rounded-lg border border-slate-700/50 p-8">
           <h2 class="text-3xl font-bold text-white mb-6">Edit Post</h2>
 
           <.form for={@edit_form} phx-submit="update_post">
@@ -227,7 +227,7 @@ defmodule WcsStudioWeb.BlogPostLive do
 
         <!-- Article Content -->
         <div class="prose prose-invert prose-lg max-w-none mb-16">
-          <div class="bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8 text-slate-200 leading-relaxed">
+          <div class="bg-slate-800/30 backdrop-blur-sm rounded-lg border border-slate-700/50 p-8 text-slate-200 leading-relaxed">
             {format_content(@post.body)}
           </div>
         </div>
@@ -248,7 +248,7 @@ defmodule WcsStudioWeb.BlogPostLive do
       <!-- Comments Section (Only show when not editing) -->
       <%= if !@editing_post do %>
         <section class="mt-16">
-          <div class="bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8">
+          <div class="bg-slate-800/30 backdrop-blur-sm rounded-lg border border-slate-700/50 p-8">
             <h2 class="text-3xl font-bold text-white mb-8 flex items-center gap-3">
               <i class="fas fa-comments text-purple-400"></i>
               {gettext("Comments")}

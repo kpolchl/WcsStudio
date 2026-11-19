@@ -263,7 +263,7 @@ defmodule WcsStudioWeb.LessonsLive do
     ~H"""
     <!-- Header -->
     <div class="mb-12 text-center px-4">
-      <h1 class="text-5xl md:text-6xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent mb-6 py-2">
+      <h1 class="text-5xl md:text-6xl font-bold bg-gradient-to-r from-brand-from to-brand-to bg-clip-text text-transparent mb-6 py-2">
         {gettext("Lessons")}
       </h1>
       <p class="text-xl text-slate-400 max-w-2xl mx-auto">
@@ -276,7 +276,7 @@ defmodule WcsStudioWeb.LessonsLive do
       <div class="max-w-2xl mx-8 my-8">
         <button
           phx-click="open_modal"
-          class="w-full sm:w-auto bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
+          class="w-full sm:w-auto bg-gradient-to-r from-brand-from to-brand-to hover:from-pink-600 hover:to-purple-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
         >
           <i class="fas fa-plus"></i>
           <span>{gettext("Add New Lesson")}</span>
@@ -294,7 +294,7 @@ defmodule WcsStudioWeb.LessonsLive do
             "px-6 py-2 rounded-lg font-medium transition-all duration-300",
             if(@selected_dance_type_id == dance_type.id,
               do:
-                "bg-gradient-to-r from-pink-500 to-purple-500 text-white hover:shadow-lg hover:shadow-pink-500/25",
+                "bg-gradient-to-r from-brand-from to-brand-to text-white hover:shadow-lg hover:shadow-pink-500/25",
               else: "bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 border border-slate-700/50"
             )
           ]}

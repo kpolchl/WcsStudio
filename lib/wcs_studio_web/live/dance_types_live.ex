@@ -79,7 +79,7 @@ defmodule WcsStudioWeb.DanceTypesLive do
     ~H"""
     <div class="mb-12 text-center px-4">
       <h1
-        class="text-5xl md:text-6xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent mb-6 py-2"
+        class="text-5xl md:text-6xl font-bold bg-gradient-to-r from-brand-from to-brand-to bg-clip-text text-transparent mb-6 py-2"
         style="-webkit-background-clip: text; -webkit-text-fill-color: transparent;"
       >
         {gettext("Dance Types")}
@@ -96,7 +96,7 @@ defmodule WcsStudioWeb.DanceTypesLive do
       <div class="w-full max-w-2xl mx-auto px-4 mb-8">
         <button
           phx-click="open_modal"
-          class="w-full sm:w-auto bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
+          class="w-full sm:w-auto bg-gradient-to-r from-brand-from to-brand-to hover:from-pink-600 hover:to-purple-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
         >
           <i class="fas fa-plus"></i>
           <span>{gettext("Add New Dance Type")}</span>
@@ -116,7 +116,7 @@ defmodule WcsStudioWeb.DanceTypesLive do
             class={[
               "px-6 py-3 rounded-xl font-medium transition-all duration-300 flex items-center",
               if @selected_dance_type_type == "all" do
-                "bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-lg shadow-pink-500/25"
+                "bg-gradient-to-r from-brand-from to-brand-to text-white shadow-lg shadow-pink-500/25"
               else
                 "bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 border border-slate-700/50"
               end
@@ -132,7 +132,7 @@ defmodule WcsStudioWeb.DanceTypesLive do
             class={[
               "px-6 py-3 rounded-xl font-medium transition-all duration-300 flex items-center",
               if @selected_dance_type_type == "latin" do
-                "bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-lg shadow-pink-500/25"
+                "bg-gradient-to-r from-brand-from to-brand-to text-white shadow-lg shadow-pink-500/25"
               else
                 "bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 border border-slate-700/50"
               end
@@ -148,7 +148,7 @@ defmodule WcsStudioWeb.DanceTypesLive do
             class={[
               "px-6 py-3 rounded-xl font-medium transition-all duration-300 flex items-center",
               if @selected_dance_type_type == "swing" do
-                "bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-lg shadow-pink-500/25"
+                "bg-gradient-to-r from-brand-from to-brand-to text-white shadow-lg shadow-pink-500/25"
               else
                 "bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 border border-slate-700/50"
               end
@@ -164,7 +164,7 @@ defmodule WcsStudioWeb.DanceTypesLive do
             class={[
               "px-6 py-3 rounded-xl font-medium transition-all duration-300 flex items-center",
               if @selected_dance_type_type == "social" do
-                "bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-lg shadow-pink-500/25"
+                "bg-gradient-to-r from-brand-from to-brand-to text-white shadow-lg shadow-pink-500/25"
               else
                 "bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 border border-slate-700/50"
               end
@@ -183,7 +183,7 @@ defmodule WcsStudioWeb.DanceTypesLive do
           <%= for dance_type <- @dance_types do %>
             <.link
               navigate={~p"/patterns?dance_type_id=#{dance_type.id}"}
-              class="group relative flex flex-col h-80 rounded-2xl overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl border border-slate-700/30 hover:border-slate-600/50"
+              class="group relative flex flex-col h-80 rounded-lg overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-card border border-slate-700/30 hover:border-slate-600/50"
             >
               <!-- Background -->
               <div

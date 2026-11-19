@@ -95,7 +95,7 @@ defmodule WcsStudioWeb.CoreComponents do
                 <button
                   phx-click={JS.exec("data-cancel", to: "##{@id}")}
                   type="button"
-                  class="w-8 h-8 rounded-full bg-slate-700 border border-slate-600/50 flex items-center justify-center text-slate-300 hover:text-white hover:bg-slate-600 transition-all duration-300 hover:shadow-lg"
+                  class="w-8 h-8 rounded-full bg-slate-700 border border-slate-600/50 flex items-center justify-center text-slate-300 hover:text-white hover:bg-slate-600 transition-all duration-300 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-400/70"
                   aria-label={gettext("close")}
                 >
                   <i class="fas fa-times text-sm"></i>
@@ -265,7 +265,7 @@ defmodule WcsStudioWeb.CoreComponents do
                 <button
                   phx-click={JS.exec("data-cancel", to: "##{@id}")}
                   type="button"
-                  class="absolute top-4 right-4 w-8 h-8 rounded-lg bg-slate-700/50 hover:bg-slate-600/50 flex items-center justify-center transition-all duration-200 group"
+                  class="absolute top-4 right-4 w-8 h-8 rounded-lg bg-slate-700/50 hover:bg-slate-600/50 flex items-center justify-center transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-400/70"
                   aria-label={gettext("close")}
                 >
                   <i class="fas fa-times text-slate-400 group-hover:text-white text-sm"></i>
@@ -378,7 +378,7 @@ defmodule WcsStudioWeb.CoreComponents do
         if(@is_child,
           do: "bg-purple-950/30 border-l-2 border-purple-500/40",
           else:
-            "rounded-2xl border border-slate-700/50 bg-slate-800/50 shadow-xl overflow-hidden transition-all duration-300 hover:border-pink-500/30 hover:shadow-2xl"
+            "rounded-lg border border-slate-700/50 bg-slate-800/50 shadow-xl overflow-hidden transition-all duration-300 hover:border-pink-500/30 hover:shadow-card"
         )
       ]}>
         <!-- Pattern card (no border/rounding of its own) -->
@@ -607,7 +607,7 @@ defmodule WcsStudioWeb.CoreComponents do
       id={"lesson-card-#{@lesson.id}"}
       phx-click="toggle_lesson"
       phx-value-id={@lesson.id}
-      class="group bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 shadow-xl transition-all duration-300 mb-6 cursor-pointer hover:shadow-2xl hover:border-pink-500/30 max-w-4xl md:w-1/2"
+      class="group bg-slate-800/50 backdrop-blur-sm rounded-lg border border-slate-700/50 shadow-xl transition-all duration-300 mb-6 cursor-pointer hover:shadow-card hover:border-pink-500/30 max-w-4xl md:w-1/2"
     >
       <div class="p-6 flex items-start justify-between">
         <div class="flex-1 min-w-0">
@@ -789,7 +789,7 @@ defmodule WcsStudioWeb.CoreComponents do
     ~H"""
     <.link
       href={"/blog/#{@post.id}"}
-      class="block group bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 shadow-xl transition-all duration-500 hover:shadow-2xl hover:border-pink-500/30  overflow-hidden"
+      class="block group bg-slate-800/50 backdrop-blur-sm rounded-lg border border-slate-700/50 shadow-xl transition-all duration-500 hover:shadow-card hover:border-pink-500/30  overflow-hidden"
     >
       <div class="p-8">
         <div class="flex items-center gap-2 mb-4">
@@ -866,7 +866,7 @@ defmodule WcsStudioWeb.CoreComponents do
       phx-click={JS.push("lv:clear-flash", value: %{key: @kind}) |> hide("##{@id}")}
       role="alert"
       class={[
-        "fixed top-16 right-4 z-50 rounded-2xl p-4 backdrop-blur-sm border shadow-2xl max-w-sm transform transition-all duration-300 cursor-pointer group hover:-translate-y-1",
+        "fixed top-16 right-4 z-50 rounded-lg p-4 backdrop-blur-sm border shadow-card max-w-sm transform transition-all duration-300 cursor-pointer group hover:-translate-y-1",
         @kind == :info &&
           "bg-slate-800/80 border-cyan-500/30 text-cyan-300 shadow-cyan-500/10 hover:border-cyan-400/50",
         @kind == :error &&
@@ -909,7 +909,7 @@ defmodule WcsStudioWeb.CoreComponents do
         <button
           type="button"
           phx-click={JS.push("lv:clear-flash", value: %{key: @kind}) |> hide("##{@id}")}
-          class="flex-shrink-0 w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all duration-200 group-hover:scale-110"
+          class="flex-shrink-0 w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all duration-200 group-hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-400/70"
           aria-label={gettext("close")}
         >
           <i class="fas fa-times text-xs text-white/70 group-hover:text-white"></i>

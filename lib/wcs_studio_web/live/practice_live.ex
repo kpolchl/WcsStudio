@@ -76,7 +76,7 @@ defmodule WcsStudioWeb.PracticeLive do
     <!-- Header Section -->
     <div class="mb-12 text-center px-4">
       <h1
-        class="text-5xl md:text-6xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent mb-6 py-2"
+        class="text-5xl md:text-6xl font-bold bg-gradient-to-r from-brand-from to-brand-to bg-clip-text text-transparent mb-6 py-2"
         style="-webkit-background-clip: text; -webkit-text-fill-color: transparent;"
       >
         {gettext("Practice")}
@@ -98,7 +98,7 @@ defmodule WcsStudioWeb.PracticeLive do
             class={[
               "px-4 py-2 rounded-xl font-medium transition-all duration-300 flex items-center",
               if @selected_filter == "all" do
-                "bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-lg shadow-pink-500/25"
+                "bg-gradient-to-r from-brand-from to-brand-to text-white shadow-lg shadow-pink-500/25"
               else
                 "bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 border border-slate-700/50"
               end
@@ -115,7 +115,7 @@ defmodule WcsStudioWeb.PracticeLive do
               class={[
                 "px-4 py-2 rounded-xl font-medium transition-all duration-300 flex items-center",
                 if @selected_filter == "in_progress" do
-                  "bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-lg shadow-pink-500/25"
+                  "bg-gradient-to-r from-brand-from to-brand-to text-white shadow-lg shadow-pink-500/25"
                 else
                   "bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 border border-slate-700/50"
                 end
@@ -131,7 +131,7 @@ defmodule WcsStudioWeb.PracticeLive do
               class={[
                 "px-4 py-2 rounded-xl font-medium transition-all duration-300 flex items-center",
                 if @selected_filter == "learned" do
-                  "bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-lg shadow-pink-500/25"
+                  "bg-gradient-to-r from-brand-from to-brand-to text-white shadow-lg shadow-pink-500/25"
                 else
                   "bg-slate-800/50 hover:bg-slate-700/50 text-slate-300 border border-slate-700/50"
                 end
@@ -208,7 +208,7 @@ defmodule WcsStudioWeb.PracticeLive do
       <button
         type="button"
         phx-click="random_practice"
-        class="w-full bg-gradient-to-r from-pink-500 to-purple-500 text-white font-semibold py-4 px-6 rounded-lg shadow-lg flex items-center justify-center gap-2 hover:shadow-xl hover:scale-[1.02] transition-all duration-300"
+        class="w-full bg-gradient-to-r from-brand-from to-brand-to text-white font-semibold py-4 px-6 rounded-lg shadow-lg flex items-center justify-center gap-2 hover:shadow-xl hover:scale-[1.02] transition-all duration-300"
       >
         <i class="fas fa-random"></i>
         <span>{gettext("Start Practice")}</span>
@@ -218,7 +218,7 @@ defmodule WcsStudioWeb.PracticeLive do
     <!-- Selected random patterns -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:px-2">
       <%= for random_pattern <- @random_patterns do %>
-        <div class="group relative flex flex-col h-auto rounded-2xl overflow-hidden transition-all duration-500  hover:shadow-2xl border border-slate-700/30 hover:border-slate-600/50">
+        <div class="group relative flex flex-col h-auto rounded-lg overflow-hidden transition-all duration-500  hover:shadow-card border border-slate-700/30 hover:border-slate-600/50">
           <!-- Background -->
           <div
             class="absolute inset-0 bg-slate-800/50 backdrop-blur-sm pointer-events-none"

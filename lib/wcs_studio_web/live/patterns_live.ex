@@ -339,7 +339,7 @@ defmodule WcsStudioWeb.PatternsLive do
     ~H"""
     <!-- Header Section -->
     <div class="mb-12 text-center px-4">
-      <h1 class="text-5xl md:text-6xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent mb-6 py-2">
+      <h1 class="text-5xl md:text-6xl font-bold bg-gradient-to-r from-brand-from to-brand-to bg-clip-text text-transparent mb-6 py-2">
         {gettext("Steps")}
       </h1>
       <p class="text-xl text-slate-400 max-w-2xl mx-auto">
@@ -354,7 +354,7 @@ defmodule WcsStudioWeb.PatternsLive do
       <div class="w-full max-w-2xl mx-auto px-4 mb-8">
         <button
           phx-click="open_modal"
-          class="w-full sm:w-auto bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
+          class="w-full sm:w-auto bg-gradient-to-r from-brand-from to-brand-to hover:from-pink-600 hover:to-purple-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
         >
           <i class="fas fa-plus"></i>
           <span>{gettext("Add New Pattern")}</span>

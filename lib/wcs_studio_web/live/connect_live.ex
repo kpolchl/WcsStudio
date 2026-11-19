@@ -13,13 +13,13 @@ defmodule WcsStudioWeb.ConnectLive do
     <div class="max-w-5xl mx-auto px-2 ">
       <!-- About Me Section -->
       <section class="mb-8">
-        <div class="bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8 md:p-12">
+        <div class="bg-slate-800/30 backdrop-blur-sm rounded-lg border border-slate-700/50 p-8 md:p-12">
           <div class="flex flex-col md:flex-row gap-8 items-center mb-8">
-            <div class="w-40 h-40 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 p-1 flex-shrink-0">
+            <div class="w-40 h-40 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 p-1 flex-shrink-0">
               <img
                 src="/images/AuthorPic.jpg"
                 alt=" "
-                class="w-full h-full rounded-2xl object-cover"
+                class="w-full h-full rounded-lg object-cover"
               />
             </div>
             <div>
@@ -50,7 +50,7 @@ defmodule WcsStudioWeb.ConnectLive do
 
       <!-- Contact Section -->
       <section>
-        <div class="bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8 md:p-12">
+        <div class="bg-slate-800/30 backdrop-blur-sm rounded-lg border border-slate-700/50 p-8 md:p-12">
           <h2 class="text-3xl font-bold text-white mb-6">
             <i class="fas fa-paper-plane text-purple-400 mr-3"></i>
             {gettext("Get In Touch")}
