@@ -1158,7 +1158,7 @@ defmodule WcsStudioWeb.CoreComponents do
     <.link
       href={@href}
       class={[
-        "group relative flex flex-col h-80 rounded-lg overflow-hidden border border-surface-muted/30 shadow-card transition-all duration-500",
+        "group relative flex flex-col min-h-80 rounded-lg overflow-hidden border border-surface-muted/30 shadow-card transition-all duration-500",
         "hover:-translate-y-1 hover:border-pink-500/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-400/70",
         @class
       ]}
@@ -1167,7 +1167,7 @@ defmodule WcsStudioWeb.CoreComponents do
       <div class="absolute inset-0 bg-gradient-to-br from-brand-from/10 via-brand-to/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
       </div>
 
-      <div class="relative h-3/5 overflow-hidden">
+      <div class="relative aspect-video max-h-64 w-full shrink-0 overflow-hidden">
         <div class="absolute top-0 right-0 w-32 h-32 bg-brand-from rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500">
         </div>
         <div class="absolute bottom-0 left-0 w-32 h-32 bg-brand-to rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500">
@@ -1176,6 +1176,8 @@ defmodule WcsStudioWeb.CoreComponents do
         <img
           src={@image}
           alt={@image_alt}
+          loading="lazy"
+          decoding="async"
           class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
         />
         <div class="absolute top-4 left-4 w-12 h-12 rounded-md bg-gradient-to-br from-brand-from to-brand-to flex items-center justify-center shadow-raised group-hover:scale-110 transition-transform duration-300 z-20">
