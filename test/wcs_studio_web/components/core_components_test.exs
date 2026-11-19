@@ -388,16 +388,16 @@ defmodule WcsStudioWeb.CoreComponentsTest do
   end
 
   describe "icon/1" do
-    test "renders a heroicon span" do
+    test "renders a Font Awesome icon" do
       assigns = %{}
 
       html =
         rendered_to_string(~H"""
-        <C.icon name="hero-arrow-path" class="h-4 w-4" />
+        <C.icon name="fa-spinner" class="fa-spin h-4 w-4" />
         """)
 
-      assert html =~ "hero-arrow-path"
-      assert html =~ "h-4 w-4"
+      assert html =~ "fas fa-spinner"
+      assert html =~ "fa-spin h-4 w-4"
     end
   end
 

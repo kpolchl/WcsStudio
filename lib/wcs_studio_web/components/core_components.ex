@@ -12,7 +12,7 @@ defmodule WcsStudioWeb.CoreComponents do
   See the [Tailwind CSS documentation](https://tailwindcss.com) to learn
   how to customize them or feel free to swap in another framework altogether.
 
-  Icons are provided by [heroicons](https://heroicons.com). See `icon/1` for usage.
+  Icons are provided by [Font Awesome](https://fontawesome.com). See `icon/1` for usage.
   """
   use Phoenix.Component
 
@@ -967,7 +967,7 @@ defmodule WcsStudioWeb.CoreComponents do
         hidden
       >
         {gettext("Attempting to reconnect")}
-        <.icon name="hero-arrow-path" class="ml-1 h-3 w-3 animate-spin" />
+        <.icon name="fa-spinner" class="ml-1 fa-spin text-xs" />
       </.flash>
 
       <.flash
@@ -979,7 +979,7 @@ defmodule WcsStudioWeb.CoreComponents do
         hidden
       >
         {gettext("Hang in there while we get back on track")}
-        <.icon name="hero-arrow-path" class="ml-1 h-3 w-3 animate-spin" />
+        <.icon name="fa-spinner" class="ml-1 fa-spin text-xs" />
       </.flash>
     </div>
     """
@@ -1500,7 +1500,7 @@ defmodule WcsStudioWeb.CoreComponents do
       "mt-3 flex gap-3 text-sm leading-6 text-rose-600 phx-no-feedback:hidden",
       @class
     ]}>
-      <.icon name="hero-exclamation-circle-mini" class="mt-0.5 h-5 w-5 flex-none" />
+      <.icon name="fa-circle-exclamation" class="mt-0.5 text-lg flex-none" />
       {render_slot(@inner_block)}
     </p>
     """
@@ -1681,7 +1681,7 @@ defmodule WcsStudioWeb.CoreComponents do
         navigate={@navigate}
         class="text-sm font-semibold leading-6 text-zinc-900 hover:text-zinc-700"
       >
-        <.icon name="hero-arrow-left-solid" class="h-3 w-3" />
+        <.icon name="fa-arrow-left" class="text-xs" />
         {render_slot(@inner_block)}
       </.link>
     </div>
@@ -1689,29 +1689,22 @@ defmodule WcsStudioWeb.CoreComponents do
   end
 
   @doc """
-  Renders a [Heroicon](https://heroicons.com).
+  Renders a [Font Awesome](https://fontawesome.com) icon using the solid style.
 
-  Heroicons come in three styles – outline, solid, and mini.
-  By default, the outline style is used, but solid and mini may
-  be applied by using the `-solid` and `-mini` suffix.
-
-  You can customize the size and colors of the icons by setting
-  width, height, and background color classes.
-
-  Icons are extracted from the `deps/heroicons` directory and bundled within
-  your compiled app.css by the plugin in your `assets/tailwind.config.js`.
+  Pass the icon class name (without the `fas` prefix) in `name`, and use
+  Tailwind text-size/color utilities or Font Awesome modifiers in `class`.
 
   ## Examples
 
-      <.icon name="hero-x-mark-solid" />
-      <.icon name="hero-arrow-path" class="ml-1 w-3 h-3 animate-spin" />
+      <.icon name="fa-xmark" />
+      <.icon name="fa-spinner" class="fa-spin ml-1 text-xs" />
   """
   attr :name, :string, required: true
   attr :class, :string, default: nil
 
-  def icon(%{name: "hero-" <> _} = assigns) do
+  def icon(assigns) do
     ~H"""
-    <span class={[@name, @class]} />
+    <i class={["fas", @name, @class]}></i>
     """
   end
 
