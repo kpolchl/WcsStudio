@@ -114,7 +114,10 @@ px-2 sm:px-3 py-1 rounded-full text-xs font-medium
 
 All shared components live in `WcsStudioWeb.CoreComponents`. Templates must not
 hand-write gradient buttons, card shells, badges, or icon containers — use these
-instead.
+instead. Shared layout chrome lives in `WcsStudioWeb.Layouts`: `_nav.html.heex`
+holds the nav used by both `app.html.heex` (standard pages, `py-16` main) and
+`home.html.heex` (full-bleed home hero, no main padding). The home controller
+selects it with `put_layout(html: {WcsStudioWeb.Layouts, :home})`.
 
 | Component | Key options |
 |---|---|
@@ -131,7 +134,10 @@ instead.
   `danger` → `accent-danger`, `success` → `accent-success`, `warn` →
   `accent-warn`, `ghost` → `surface-card` + `border-inner`.
 - `btn` sizes: `sm` → `py-2 px-3 text-sm`, `md` → `py-2 px-4` (baseline),
-  `lg` → `py-3 px-6` (large CTA; matches the patterns page CTA).
+  `lg` → `py-3 px-6` (large CTA). `variant="primary"` + `size="lg"` also gets
+  `animate-pulse-glow` — this is the one deliberate extension of the baseline
+  and exists only for the home-page hero CTA. The keyframes live in
+  `assets/tailwind.config.js`; do not reintroduce a local `<style>` block.
 - `badge` variants: `primary` and `variation` are the two pill recipes in §8;
   `success`, `danger`, and `muted` reuse the same shell with green/red/slate
   tints.
@@ -141,3 +147,11 @@ instead.
   (`from-red-500 to-orange-500`), `success` → `from-green-500 to-emerald-600`.
 - `icon_badge` sizes: `sm` → `w-8 h-8 rounded-lg`, `md` → `w-10 h-10 rounded-xl`,
   `lg` → `w-12 h-12 rounded-xl`.
+
+## 10. Enforcement
+
+`mix wcs.lint_ui` scans `lib/wcs_studio_web/` and fails on hand-written gradient
+buttons, hand-written card shells (`rounded-2xl` + `bg-slate-800/50`), and raw
+`href="/..."` links. `core_components.ex` (component definitions) and
+`patterns_live.ex` (the baseline) are excluded. The check runs in CI as the
+`UI lint` job.

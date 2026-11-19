@@ -85,6 +85,38 @@ jobs:
       - name: Check formatting
         run: mix format --check-formatted
 
+  ui-lint:
+    name: UI lint
+    needs: deps
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up Elixir
+        id: beam
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: ${{ env.ELIXIR_VERSION }}
+          otp-version: ${{ env.OTP_VERSION }}
+          version-type: strict
+
+      - name: Restore deps and build cache
+        uses: actions/cache@v6
+        with:
+          path: |
+            deps
+            _build
+          key: mix-${{ runner.os }}-${{ steps.beam.outputs.otp-version }}-${{ steps.beam.outputs.elixir-version }}-${{ hashFiles('**/mix.lock') }}
+          restore-keys: |
+            mix-${{ runner.os }}-${{ steps.beam.outputs.otp-version }}-${{ steps.beam.outputs.elixir-version }}-
+
+      - name: Install dependencies
+        run: mix deps.get
+
+      - name: Lint UI components
+        run: mix wcs.lint_ui
+
   compile:
     name: Compile
     needs: deps
@@ -263,7 +295,7 @@ jobs:
   ci:
     name: CI
     if: always()
-    needs: [deps, format, compile, audit, credo, sobelow, test]
+    needs: [deps, format, ui-lint, compile, audit, credo, sobelow, test]
     runs-on: ubuntu-latest
     steps:
       - name: Fail if any check did not pass
