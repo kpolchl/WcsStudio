@@ -372,7 +372,7 @@ defmodule WcsStudioWeb.LessonsLive do
           <!-- Instructors -->
           <div class="space-y-2">
             <label class="block text-sm font-semibold text-body">{gettext("Instructors")}</label>
-            <div class="bg-surface-muted/30 rounded-lg p-4 border border-slate-600 space-y-2 max-h-48 overflow-y-auto">
+            <div class="bg-surface-muted/30 rounded-lg p-4 border border-strong space-y-2 max-h-48 overflow-y-auto">
               <%= for instructor <- @instructors do %>
                 <label class="flex items-center gap-3 p-2 hover:bg-surface-muted/50 rounded-lg cursor-pointer transition-colors">
                   <input
@@ -380,7 +380,7 @@ defmodule WcsStudioWeb.LessonsLive do
                     name="lesson[instructor_ids][]"
                     value={instructor.id}
                     checked={instructor.id in (@form[:instructor_ids].value || [])}
-                    class="rounded border-slate-600 bg-surface-raised/50 text-brand-from focus:ring-2 focus:ring-brand-from focus:ring-opacity-20 transition-all duration-300"
+                    class="rounded border-strong bg-surface-raised/50 text-brand-from focus:ring-2 focus:ring-brand-from focus:ring-opacity-20 transition-all duration-300"
                   />
                   <span class="text-body">{instructor.username}</span>
                 </label>
@@ -391,7 +391,7 @@ defmodule WcsStudioWeb.LessonsLive do
           <!-- Patterns -->
           <div class="space-y-2">
             <label class="block text-sm font-semibold text-body">{gettext("Patterns")}</label>
-            <div class="bg-surface-muted/30 rounded-lg p-4 border border-slate-600 space-y-2 max-h-48 overflow-y-auto">
+            <div class="bg-surface-muted/30 rounded-lg p-4 border border-strong space-y-2 max-h-48 overflow-y-auto">
               <%= for pattern <- @patterns do %>
                 <label class="flex items-center gap-3 p-2 hover:bg-surface-muted/50 rounded-lg cursor-pointer transition-colors">
                   <input
@@ -399,7 +399,7 @@ defmodule WcsStudioWeb.LessonsLive do
                     name="lesson[pattern_ids][]"
                     value={pattern.id}
                     checked={pattern.id in (@form[:pattern_ids].value || [])}
-                    class="rounded border-slate-600 bg-surface-raised/50 text-brand-from focus:ring-2 focus:ring-brand-from focus:ring-opacity-20 transition-all duration-300"
+                    class="rounded border-strong bg-surface-raised/50 text-brand-from focus:ring-2 focus:ring-brand-from focus:ring-opacity-20 transition-all duration-300"
                   />
                   <span class="text-body">{pattern.name}</span>
                 </label>
@@ -435,7 +435,7 @@ defmodule WcsStudioWeb.LessonsLive do
           <!-- Instructors -->
           <div class="space-y-2">
             <label class="block text-sm font-semibold text-body">{gettext("Instructors")}</label>
-            <div class="bg-surface-muted/30 rounded-lg p-4 border border-slate-600 space-y-2 max-h-48 overflow-y-auto">
+            <div class="bg-surface-muted/30 rounded-lg p-4 border border-strong space-y-2 max-h-48 overflow-y-auto">
               <%= for instructor <- @instructors do %>
                 <label class="flex items-center gap-3 p-2 hover:bg-surface-muted/50 rounded-lg cursor-pointer transition-colors">
                   <input
@@ -443,7 +443,7 @@ defmodule WcsStudioWeb.LessonsLive do
                     name="lesson[instructor_ids][]"
                     value={instructor.id}
                     checked={instructor.id in instructor_ids}
-                    class="rounded border-slate-600 bg-surface-raised/50 text-brand-from focus:ring-2 focus:ring-brand-from focus:ring-opacity-20 transition-all duration-300"
+                    class="rounded border-strong bg-surface-raised/50 text-brand-from focus:ring-2 focus:ring-brand-from focus:ring-opacity-20 transition-all duration-300"
                   />
                   <span class="text-body">{instructor.username}</span>
                 </label>
@@ -454,7 +454,7 @@ defmodule WcsStudioWeb.LessonsLive do
           <!-- Patterns -->
           <div class="space-y-2">
             <label class="block text-sm font-semibold text-body">{gettext("Patterns")}</label>
-            <div class="bg-surface-muted/30 rounded-lg p-4 border border-slate-600 space-y-2 max-h-48 overflow-y-auto">
+            <div class="bg-surface-muted/30 rounded-lg p-4 border border-strong space-y-2 max-h-48 overflow-y-auto">
               <%= for pattern <- @patterns do %>
                 <label class="flex items-center gap-3 p-2 hover:bg-surface-muted/50 rounded-lg cursor-pointer transition-colors">
                   <input
@@ -462,7 +462,7 @@ defmodule WcsStudioWeb.LessonsLive do
                     name="lesson[pattern_ids][]"
                     value={pattern.id}
                     checked={pattern.id in pattern_ids}
-                    class="rounded border-slate-600 bg-surface-raised/50 text-brand-from focus:ring-2 focus:ring-brand-from focus:ring-opacity-20 transition-all duration-300"
+                    class="rounded border-strong bg-surface-raised/50 text-brand-from focus:ring-2 focus:ring-brand-from focus:ring-opacity-20 transition-all duration-300"
                   />
                   <span class="text-body">{pattern.name}</span>
                 </label>

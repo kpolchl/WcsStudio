@@ -252,7 +252,7 @@ defmodule WcsStudioWeb.PracticeLive do
             </div>
 
             <!-- CTA -->
-            <div class="relative flex items-center justify-end pt-3 border-t border-surface-muted group-hover:border-slate-500/50 transition-colors duration-300 z-10">
+            <div class="relative flex items-center justify-end pt-3 border-t border-surface-muted group-hover:border-strong/50 transition-colors duration-300 z-10">
               <a
                 href={~p"/patterns"}
                 class="text-brand-lightFrom text-sm font-medium flex items-center gap-2 group-hover:gap-3 transition-all duration-300"

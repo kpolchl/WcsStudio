@@ -44,7 +44,7 @@ defmodule WcsStudioWeb.UserProfile do
   defp status_class("learned"), do: "text-accent-success"
 
   defp border_class("not_started"),
-    do: "hover:border-slate-500/30 hover:shadow-raised hover:shadow-slate-500/10"
+    do: "hover:border-strong/30 hover:shadow-raised hover:shadow-brand-from/15"
 
   defp border_class("in_progress"),
     do: "hover:border-accent-info/30 hover:shadow-raised hover:shadow-accent-info/10"
@@ -52,7 +52,7 @@ defmodule WcsStudioWeb.UserProfile do
   defp border_class("learned"),
     do: "hover:border-accent-success/30 hover:shadow-raised hover:shadow-accent-success/10"
 
-  defp status_bg("not_started"), do: "bg-slate-500/20 text-body border-slate-500/30"
+  defp status_bg("not_started"), do: "bg-strong/10 text-body border-strong/30"
   defp status_bg("in_progress"), do: "bg-accent-info/20 text-accent-info border-accent-info/30"
 
   defp status_bg("learned"),

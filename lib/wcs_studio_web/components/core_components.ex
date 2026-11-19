@@ -384,14 +384,14 @@ defmodule WcsStudioWeb.CoreComponents do
                   {WcsStudio.DanceType.get_name(@pattern.dance_type, @locale)}
                 </span>
                 <%= if not @is_child && not Enum.empty?(@children) do %>
-                  <span class="px-2 sm:px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-accent-warning/20 to-accent-warning/10 text-accent-warning border border-accent-warning/30">
+                  <span class="px-2 sm:px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-brand-from/20 to-accent-warningTo/20 text-brand-soft border border-brand-from/30">
                     <i class="fas fa-sitemap mr-1"></i>
                     {length(@children)} {gettext("variations")}
                   </span>
                 <% end %>
               </div>
 
-              <h2 class="text-3xl font-bold text-strong mb-2 bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
+              <h2 class="text-3xl font-bold text-strong mb-2 bg-gradient-to-r from-strong to-body bg-clip-text text-transparent">
                 {@pattern.name}
               </h2>
             </div>
@@ -421,7 +421,7 @@ defmodule WcsStudioWeb.CoreComponents do
               <div class="mb-4">
                 <div class="p-4 rounded-md bg-surface-muted/30 border border-surface-muted shadow-raised">
                   <div class="flex items-center mb-4">
-                    <div class="w-10 h-10 rounded-md bg-gradient-to-br from-accent-warning to-accent-warningTo flex items-center justify-center mr-3 shadow-raised">
+                    <div class="w-10 h-10 rounded-md bg-gradient-to-br from-accent-amber to-accent-warningHoverFrom flex items-center justify-center mr-3 shadow-raised">
                       <i class="fas fa-list-ul text-strong text-sm"></i>
                     </div>
                     <h2 class="text-2xl font-bold text-strong">{gettext("Description")}</h2>
@@ -448,7 +448,7 @@ defmodule WcsStudioWeb.CoreComponents do
               <%= if @expanded_pattern_id == @pattern.id do %>
                 <div class="rounded-md bg-surface-muted/30 border border-surface-muted shadow-raised">
                   <div class="flex items-center mb-4 pt-4 pl-4 pr-4">
-                    <div class="w-10 h-10 rounded-md bg-gradient-to-br from-accent-danger to-accent-dangerTo flex items-center justify-center mr-3 shadow-raised">
+                    <div class="w-10 h-10 rounded-md bg-gradient-to-br from-accent-danger to-accent-warningTo flex items-center justify-center mr-3 shadow-raised">
                       <i class="fas fa-play text-strong text-sm"></i>
                     </div>
                     <h2 class="text-2xl font-bold text-strong">{gettext("Showcase Video")}</h2>
@@ -522,10 +522,9 @@ defmodule WcsStudioWeb.CoreComponents do
             class={[
               "w-full flex items-center justify-between px-6 py-3 text-sm font-medium transition-colors duration-200 border-t",
               if(children_expanded,
-                do:
-                  "bg-brand-from/10 text-brand-lightFrom border-brand-from/30 hover:bg-brand-from/20",
+                do: "bg-brand-from/10 text-brand-soft border-brand-from/30 hover:bg-brand-from/20",
                 else:
-                  "bg-surface-base/30 text-muted border-surface-muted/50 hover:text-brand-lightFrom hover:bg-brand-from/10"
+                  "bg-surface-base/30 text-muted border-surface-muted/50 hover:text-brand-soft hover:bg-brand-from/10"
               )
             ]}
           >
@@ -615,7 +614,7 @@ defmodule WcsStudioWeb.CoreComponents do
               {@lesson.level.name}
             </span>
           </div>
-          <h2 class="text-2xl font-bold text-strong mb-3 bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
+          <h2 class="text-2xl font-bold text-strong mb-3 bg-gradient-to-r from-strong to-body bg-clip-text text-transparent">
             {@lesson.title}
           </h2>
           <div class="flex  text-sm text-muted gap-8">
@@ -672,7 +671,7 @@ defmodule WcsStudioWeb.CoreComponents do
             </div>
             <div class="space-y-3">
               <%= for pattern <- @lesson.patterns do %>
-                <div class="bg-slate-600/30 p-3 rounded-lg flex items-center">
+                <div class="bg-surface-muted/40 p-3 rounded-lg flex items-center">
                   <i class="fas fa-circle text-accent-info text-xs mr-3 animate-pulse"></i>
                   <span class="font-medium text-body">{pattern.name}</span>
                 </div>
@@ -690,7 +689,7 @@ defmodule WcsStudioWeb.CoreComponents do
             </div>
             <div class="space-y-4">
               <%= for instructor <- @lesson.instructors do %>
-                <div class="flex items-center p-3 rounded-lg bg-slate-600/30 ">
+                <div class="flex items-center p-3 rounded-lg bg-surface-muted/40 ">
                   <div class="w-12 h-12 rounded-md bg-gradient-to-br from-brand-from to-brand-to flex items-center justify-center mr-3 shadow-raised">
                     <span class="font-bold text-strong text-sm">
                       {String.first(instructor.username)}
@@ -1191,7 +1190,7 @@ defmodule WcsStudioWeb.CoreComponents do
           </h3>
           <p class="text-body text-sm leading-relaxed line-clamp-2">{@description}</p>
         </div>
-        <div class="flex items-center justify-between pt-3 border-t border-surface-muted group-hover:border-slate-500/50 transition-colors duration-300">
+        <div class="flex items-center justify-between pt-3 border-t border-surface-muted group-hover:border-strong/50 transition-colors duration-300">
           <span class="text-brand-lightFrom text-sm font-medium flex items-center gap-2 group-hover:gap-3 transition-all duration-300">
             {@cta}
             <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-300"></i>
@@ -1389,10 +1388,10 @@ defmodule WcsStudioWeb.CoreComponents do
           value="true"
           checked={@checked}
           class={[
-            "rounded border-slate-600 bg-surface-raised/50 text-brand-from focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-lightFrom/70 transition-all duration-300",
+            "rounded border-strong bg-surface-raised/50 text-brand-from focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-lightFrom/70 transition-all duration-300",
             "checked:bg-brand-from checked:border-brand-from hover:border-brand-lightFrom/50",
             "w-4 h-4",
-            @errors == [] && "border-slate-600 focus:border-brand-from",
+            @errors == [] && "border-strong focus:border-brand-from",
             @errors != [] && "border-accent-danger focus:border-accent-danger"
           ]}
           {@rest}
@@ -1558,7 +1557,7 @@ defmodule WcsStudioWeb.CoreComponents do
   defp header_title_size(:md), do: "text-heading"
 
   defp header_title_gradient(true), do: "bg-gradient-to-r from-brand-from to-brand-to"
-  defp header_title_gradient(false), do: "bg-gradient-to-r from-white to-slate-300"
+  defp header_title_gradient(false), do: "bg-gradient-to-r from-strong to-body"
 
   @doc ~S"""
   Renders a table with generic styling.
@@ -1594,7 +1593,7 @@ defmodule WcsStudioWeb.CoreComponents do
     ~H"""
     <div class="overflow-y-auto px-4 sm:overflow-visible sm:px-0">
       <table class="w-[40rem] mt-11 sm:w-full">
-        <thead class="text-sm text-left leading-6 text-zinc-500">
+        <thead class="text-sm text-left leading-6 text-subtle">
           <tr>
             <th :for={col <- @col} class="p-0 pb-4 pr-6 font-normal">{col[:label]}</th>
             <th :if={@action != []} class="relative p-0 pb-4">
@@ -1605,27 +1604,31 @@ defmodule WcsStudioWeb.CoreComponents do
         <tbody
           id={@id}
           phx-update={match?(%Phoenix.LiveView.LiveStream{}, @rows) && "stream"}
-          class="relative divide-y divide-zinc-100 border-t border-zinc-200 text-sm leading-6 text-zinc-700"
+          class="relative divide-y divide-surface-muted/50 border-t border-surface-muted/50 text-sm leading-6 text-body"
         >
-          <tr :for={row <- @rows} id={@row_id && @row_id.(row)} class="group hover:bg-zinc-50">
+          <tr
+            :for={row <- @rows}
+            id={@row_id && @row_id.(row)}
+            class="group hover:bg-surface-muted/50"
+          >
             <td
               :for={{col, i} <- Enum.with_index(@col)}
               phx-click={@row_click && @row_click.(row)}
               class={["relative p-0", @row_click && "hover:cursor-pointer"]}
             >
               <div class="block py-4 pr-6">
-                <span class="absolute -inset-y-px right-0 -left-4 group-hover:bg-zinc-50 sm:rounded-l-xl" />
-                <span class={["relative", i == 0 && "font-semibold text-zinc-900"]}>
+                <span class="absolute -inset-y-px right-0 -left-4 group-hover:bg-surface-muted/50 sm:rounded-l-xl" />
+                <span class={["relative", i == 0 && "font-semibold text-strong"]}>
                   {render_slot(col, @row_item.(row))}
                 </span>
               </div>
             </td>
             <td :if={@action != []} class="relative w-14 p-0">
               <div class="relative whitespace-nowrap py-4 text-right text-sm font-medium">
-                <span class="absolute -inset-y-px -right-4 left-0 group-hover:bg-zinc-50 sm:rounded-r-xl" />
+                <span class="absolute -inset-y-px -right-4 left-0 group-hover:bg-surface-muted/50 sm:rounded-r-xl" />
                 <span
                   :for={action <- @action}
-                  class="relative ml-4 font-semibold leading-6 text-zinc-900 hover:text-zinc-700"
+                  class="relative ml-4 font-semibold leading-6 text-strong hover:text-body"
                 >
                   {render_slot(action, @row_item.(row))}
                 </span>
@@ -1655,10 +1658,10 @@ defmodule WcsStudioWeb.CoreComponents do
   def list(assigns) do
     ~H"""
     <div class="mt-14">
-      <dl class="-my-4 divide-y divide-zinc-100">
+      <dl class="-my-4 divide-y divide-surface-muted/50">
         <div :for={item <- @item} class="flex gap-4 py-4 text-sm leading-6 sm:gap-8">
-          <dt class="w-1/4 flex-none text-zinc-500">{item.title}</dt>
-          <dd class="text-zinc-700">{render_slot(item)}</dd>
+          <dt class="w-1/4 flex-none text-subtle">{item.title}</dt>
+          <dd class="text-body">{render_slot(item)}</dd>
         </div>
       </dl>
     </div>
@@ -1680,7 +1683,7 @@ defmodule WcsStudioWeb.CoreComponents do
     <div class="mt-16">
       <.link
         navigate={@navigate}
-        class="text-sm font-semibold leading-6 text-zinc-900 hover:text-zinc-700"
+        class="text-sm font-semibold leading-6 text-strong hover:text-body"
       >
         <.icon name="fa-arrow-left" class="text-xs" />
         {render_slot(@inner_block)}

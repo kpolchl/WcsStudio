@@ -12,66 +12,68 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                // Text aliases — see DESIGN.md 0.1
+                // Text aliases — see DESIGN.md 0.1. Brightened for contrast on
+                // the saturated dark surfaces below.
                 strong: '#ffffff',
-                body: '#cbd5e1',   // slate-300
-                muted: '#94a3b8',  // slate-400
-                subtle: '#64748b', // slate-500
+                body: '#e4e9f7',
+                muted: '#b4c0dc',
+                subtle: '#8b9bc0',
 
                 brand: {
-                    from: '#ec4899',     // pink-500 - canonical gradient start
-                    to: '#a855f7',       // purple-500 - canonical gradient end
-                    lightFrom: '#f472b6', // pink-400 - hero text gradient
-                    lightTo: '#c084fc',   // purple-400 - hero text gradient
-                    hoverFrom: '#db2777', // pink-600 - gradient hover start
-                    hoverTo: '#9333ea',   // purple-600 - gradient hover end
-                    deepTo: '#7e22ce',    // purple-700 - deepest gradient hover
+                    from: '#ff2d95',       // vivid pink - canonical gradient start
+                    to: '#9d4dff',         // vivid violet - canonical gradient end
+                    lightFrom: '#ff74c2',  // hero text gradient start
+                    lightTo: '#c98cff',    // hero text gradient end
+                    soft: '#ffa8de',       // pink-300 - chip text (master hue)
+                    hoverFrom: '#e00078',  // gradient hover start
+                    hoverTo: '#7d1fd4',    // gradient hover end
+                    deepTo: '#5b0fa8',     // deepest gradient hover
                 },
                 accent: {
-                    // Each accent is a two-hue pair again, restored from the
-                    // original gradients: blue→cyan, green→emerald,
-                    // yellow→orange, red→pink. Templates only use these tokens.
-                    info: '#3b82f6',          // blue-500 - gradient start
-                    infoTo: '#06b6d4',        // cyan-500 - gradient end
-                    infoHoverFrom: '#2563eb', // blue-600
-                    infoHoverTo: '#0e7490',   // cyan-700
-                    infoLight: '#22d3ee',     // cyan-400 - progress bar start
-                    infoLightTo: '#60a5fa',   // blue-400 - progress bar end
+                    // Two-hue pairs, restored from master and saturated:
+                    // blue→cyan, green→emerald, yellow→orange, red→pink.
+                    info: '#2f6bff',          // vivid blue
+                    infoTo: '#00d5ff',        // vivid cyan
+                    infoHoverFrom: '#1f54e0',
+                    infoHoverTo: '#0098c9',
+                    infoLight: '#5ee7ff',
+                    infoLightTo: '#82b6ff',
 
-                    success: '#22c55e',          // green-500
-                    successTo: '#059669',        // emerald-600
-                    successHoverFrom: '#16a34a', // green-600
-                    successHoverTo: '#047857',   // emerald-700
-                    successLight: '#34d399',     // emerald-400
-                    successLightTo: '#4ade80',   // green-400
+                    success: '#00e05a',          // vivid green
+                    successTo: '#00b878',        // vivid emerald
+                    successHoverFrom: '#00c44d',
+                    successHoverTo: '#009a68',
+                    successLight: '#5affc4',
+                    successLightTo: '#6bff91',
 
-                    warning: '#facc15',          // yellow-400
-                    warningTo: '#f97316',        // orange-500
-                    warningHoverFrom: '#eab308', // yellow-500
-                    warningHoverTo: '#ea580c',   // orange-600
-                    warningLight: '#fbbf24',     // amber-400
-                    warningLightTo: '#fb923c',   // orange-400
+                    warning: '#ffd400',          // vivid yellow
+                    warningTo: '#ff7a00',        // vivid orange (master video hue)
+                    warningHoverFrom: '#f5b800', // master yellow-500
+                    warningHoverTo: '#e85d00',
+                    warningLight: '#ffcf3d',
+                    warningLightTo: '#ff9a4d',
+                    amber: '#ff9e00',            // master description-icon hue
 
-                    danger: '#ef4444',          // red-500
-                    dangerTo: '#ec4899',        // pink-500
-                    dangerHoverFrom: '#dc2626', // red-600
-                    dangerHoverTo: '#be185d',   // pink-700
-                    dangerLight: '#fb7185',     // rose-400
-                    dangerLightTo: '#f472b6',   // pink-400
+                    danger: '#ff3b4e',          // vivid red
+                    dangerTo: '#ff4fa3',        // vivid pink
+                    dangerHoverFrom: '#e01f35',
+                    dangerHoverTo: '#d10a63',
+                    dangerLight: '#ff7791',
+                    dangerLightTo: '#ff79bd',
                 },
                 hero: {
-                    'ambient-1': '#4c1d95', // purple-900 - tokenized hero wash
-                    'ambient-2': '#831843', // pink-900 - tokenized hero wash
+                    'ambient-1': '#6a1fb5', // vivid purple wash
+                    'ambient-2': '#b31769', // vivid pink wash
                 },
                 surface: {
-                    base: '#0f172a',   // slate-900
-                    raised: '#1e293b', // slate-800
-                    muted: '#334155',  // slate-700
+                    base: '#140f2e',   // deep indigo instead of neutral slate
+                    raised: '#211a40', // violet-tinted panel
+                    muted: '#352b57',  // violet-tinted inset
                 },
             },
             borderColor: {
-                subtle: '#334155', // slate-700
-                strong: '#475569', // slate-600
+                subtle: '#3a2f60',
+                strong: '#51447f',
             },
             fontFamily: {
                 sans: ['Inter', 'sans-serif'],
@@ -98,9 +100,9 @@ module.exports = {
                 xl: '12px',
             },
             boxShadow: {
-                raised: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
-                card: '0 25px 50px -12px rgb(0 0 0 / 0.25)',
-                glow: '0 0 25px -5px rgb(236 72 153 / 0.5)',
+                raised: '0 10px 15px -3px rgb(103 45 180 / 0.3), 0 4px 6px -4px rgb(255 45 149 / 0.15)',
+                card: '0 25px 50px -12px rgb(60 15 110 / 0.6)',
+                glow: '0 0 25px -5px rgb(255 45 149 / 0.7)',
             },
             keyframes: {
                 slideUp: {
@@ -112,8 +114,8 @@ module.exports = {
                     '100%': { opacity: '1' }
                 },
                 'pulse-glow': {
-                    '0%': { boxShadow: '0 0 20px rgba(236, 72, 153, 0.4)' },
-                    '100%': { boxShadow: '0 0 30px rgba(168, 85, 247, 0.6)' }
+                    '0%': { boxShadow: '0 0 20px rgba(255, 45, 149, 0.55)' },
+                    '100%': { boxShadow: '0 0 30px rgba(157, 77, 255, 0.75)' }
                 }
             },
             animation: {

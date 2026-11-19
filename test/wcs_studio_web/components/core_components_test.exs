@@ -485,7 +485,7 @@ defmodule WcsStudioWeb.CoreComponentsTest do
       assigns = %{
         pattern: Map.put(pattern, :children, [child]),
         current_user: nil,
-        expanded_pattern_id: nil,
+        expanded_pattern_id: pattern.id,
         expanded_children_id: nil,
         expanded_children_ids: MapSet.new([1]),
         locale: "en"
@@ -505,6 +505,9 @@ defmodule WcsStudioWeb.CoreComponentsTest do
 
       assert html =~ "Whip Variation"
       assert html =~ "variations"
+      assert html =~ "from-brand-from/20 to-accent-warningTo/20 text-brand-soft"
+      assert html =~ "from-accent-amber to-accent-warningHoverFrom"
+      assert html =~ "from-accent-danger to-accent-warningTo"
     end
   end
 

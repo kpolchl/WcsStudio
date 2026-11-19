@@ -6,7 +6,7 @@
 
 @layer base {
   html {
-    background: #f0f0f0; /* the color shown in the overscroll area */
+    background: #140f2e; /* overscroll area matches surface-base */
   }
 
   body {

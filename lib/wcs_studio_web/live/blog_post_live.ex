@@ -145,21 +145,21 @@ defmodule WcsStudioWeb.BlogPostLive do
                 type="text"
                 field={@edit_form[:title]}
                 label="Title"
-                class="w-full px-4 py-3 bg-surface-base/50 border border-slate-600 rounded-md text-strong placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-to focus:border-transparent"
+                class="w-full px-4 py-3 bg-surface-base/50 border border-strong rounded-md text-strong placeholder:text-subtle focus:outline-none focus:ring-2 focus:ring-brand-to focus:border-transparent"
               />
 
               <.input
                 type="text"
                 field={@edit_form[:subject]}
                 label="Subject"
-                class="w-full px-4 py-3 bg-surface-base/50 border border-slate-600 rounded-md text-strong placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-to focus:border-transparent"
+                class="w-full px-4 py-3 bg-surface-base/50 border border-strong rounded-md text-strong placeholder:text-subtle focus:outline-none focus:ring-2 focus:ring-brand-to focus:border-transparent"
               />
 
               <.input
                 type="textarea"
                 field={@edit_form[:body]}
                 label="Body"
-                class="w-full px-4 py-3 bg-surface-base/50 border border-slate-600 rounded-md text-strong placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-to focus:border-transparent"
+                class="w-full px-4 py-3 bg-surface-base/50 border border-strong rounded-md text-strong placeholder:text-subtle focus:outline-none focus:ring-2 focus:ring-brand-to focus:border-transparent"
                 rows="10"
               />
 
@@ -167,7 +167,7 @@ defmodule WcsStudioWeb.BlogPostLive do
                 type="text"
                 field={@edit_form[:tags]}
                 label="Tags (format: :tag1:tag2:tag_n:)"
-                class="w-full px-4 py-3 bg-surface-base/50 border border-slate-600 rounded-md text-strong placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-to focus:border-transparent"
+                class="w-full px-4 py-3 bg-surface-base/50 border border-strong rounded-md text-strong placeholder:text-subtle focus:outline-none focus:ring-2 focus:ring-brand-to focus:border-transparent"
               />
             </div>
 
@@ -180,7 +180,7 @@ defmodule WcsStudioWeb.BlogPostLive do
               <button
                 type="button"
                 phx-click="cancel_edit"
-                class="px-6 py-3 bg-slate-600 hover:bg-surface-muted text-strong font-medium rounded-md transition-colors"
+                class="px-6 py-3 bg-surface-muted hover:bg-surface-muted text-strong font-medium rounded-md transition-colors"
               >
                 <i class="fas fa-times mr-2"></i>
                 {gettext("Cancel")}
@@ -264,7 +264,7 @@ defmodule WcsStudioWeb.BlogPostLive do
                       name="comment[body]"
                       rows="4"
                       required
-                      class="w-full px-4 py-3 bg-surface-base/50 border border-slate-600 rounded-md text-strong placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-to focus:border-transparent transition-all"
+                      class="w-full px-4 py-3 bg-surface-base/50 border border-strong rounded-md text-strong placeholder:text-subtle focus:outline-none focus:ring-2 focus:ring-brand-to focus:border-transparent transition-all"
                       placeholder={gettext("Share your thoughts on this article...")}
                     ></textarea>
                   </div>
@@ -277,7 +277,7 @@ defmodule WcsStudioWeb.BlogPostLive do
                 </.simple_form>
               </div>
             <% else %>
-              <div class="mb-10 p-6 bg-surface-base/50 border border-slate-600 rounded-md text-center">
+              <div class="mb-10 p-6 bg-surface-base/50 border border-strong rounded-md text-center">
                 <p class="text-body mb-3">{gettext("Sign in to leave a comment")}</p>
                 <.link
                   navigate={~p"/users/log_in"}

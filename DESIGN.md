@@ -5,8 +5,8 @@
 Scope: CSS, markup, tokens, spacing, colors, shapes, and on-screen text presentation.
 Out of scope: behavior bugs, copy/voice rewrites, i18n extraction, accessibility audits.
 
-The goal is one coherent visual language: a pink→purple brand family, a dark utility
-surface system, and four semantic accents derived from that family.
+The goal is one coherent visual language: a vivid pink→violet brand family, a
+saturated indigo/violet surface system, and four bright semantic accents.
 
 ---
 
@@ -27,8 +27,8 @@ These resolve conflicts between the remediation plan and the state of the codeba
    checklist is the verification mechanism; `docs/visuals/` is not produced.
 4. **`text-body` is intentionally both a font-size and a color token.**
    Tailwind emits both `.text-body { font-size… }` and `.text-body { color… }`; both
-   rules apply. Using `text-body` therefore sets 1rem/1.6 type **and** slate-300
-   color. Combine with an explicit size token (e.g. `text-caption`) to override size.
+   rules apply. Using `text-body` therefore sets 1rem/1.6 type **and** the body
+   text color. Combine with an explicit size token (e.g. `text-caption`) to override size.
 5. **Carousel is already wired.** `phx-hook="Carousel"` drives prev/next, dots and a
    7s auto-advance. Phase 7 work is limited to deleting the dead commented-out
    `<script>` and making auto-advance respect reduced motion — not reimplementing it.
@@ -40,50 +40,56 @@ These resolve conflicts between the remediation plan and the state of the codeba
 
 ## 0.1 Palette
 
+**Vibrancy pass (after Phase 8):** every token was re-saturated and the dark
+surfaces were tinted indigo/violet instead of neutral slate. The pattern card's
+master color choices were retained and expressed as tokens.
+
 ### Brand family (`theme.extend.colors.brand`)
 
 | Token | Value | Purpose |
 |---|---|---|
-| `brand-from` | `#ec4899` | canonical gradient start (pink-500) |
-| `brand-to` | `#a855f7` | canonical gradient end (purple-500) |
-| `brand-hoverFrom` | `#db2777` | gradient hover start |
-| `brand-hoverTo` | `#9333ea` | gradient hover end |
-| `brand-lightFrom` | `#f472b6` | text-on-dark highlight start |
-| `brand-lightTo` | `#c084fc` | text-on-dark highlight end |
-| `brand-deepTo` | `#7e22ce` | deepest gradient hover end |
+| `brand-from` | `#ff2d95` | vivid pink — canonical gradient start |
+| `brand-to` | `#9d4dff` | vivid violet — canonical gradient end |
+| `brand-hoverFrom` | `#e00078` | gradient hover start |
+| `brand-hoverTo` | `#7d1fd4` | gradient hover end |
+| `brand-lightFrom` | `#ff74c2` | text-on-dark highlight start |
+| `brand-lightTo` | `#c98cff` | text-on-dark highlight end |
+| `brand-soft` | `#ffa8de` | pink-300 — variations / chip text (master hue) |
+| `brand-deepTo` | `#5b0fa8` | deepest gradient hover end |
 
 ### Semantic accents (`theme.extend.colors.accent`)
 
-Each accent is a **two-hue pair**. The original gradients were restored after
-the value-only color rollback: blue→cyan, green→emerald, yellow→orange and
-red→pink. Templates never contain raw palette names — every hue lives here.
+Each accent is a **two-hue pair**. The original master gradients were restored
+first (blue→cyan, green→emerald, yellow→orange, red→pink), then saturated.
+Templates never contain raw palette names — every hue lives here.
 
 | Token | Value | Purpose |
 |---|---|---|
-| `accent-info` | `#3b82f6` | blue-500 — gradient start, links, info chips |
-| `accent-infoTo` | `#06b6d4` | cyan-500 — gradient end |
-| `accent-infoHoverFrom` | `#2563eb` | blue-600 — hover start |
-| `accent-infoHoverTo` | `#0e7490` | cyan-700 — hover end |
-| `accent-infoLight` | `#22d3ee` | cyan-400 — progress bar start |
-| `accent-infoLightTo` | `#60a5fa` | blue-400 — progress bar end |
-| `accent-success` | `#22c55e` | green-500 — gradient start, "learned" |
-| `accent-successTo` | `#059669` | emerald-600 — gradient end |
-| `accent-successHoverFrom` | `#16a34a` | green-600 |
-| `accent-successHoverTo` | `#047857` | emerald-700 |
-| `accent-successLight` | `#34d399` | emerald-400 — progress bar start |
-| `accent-successLightTo` | `#4ade80` | green-400 — progress bar end |
-| `accent-warning` | `#facc15` | yellow-400 — gradient start, "in progress" |
-| `accent-warningTo` | `#f97316` | orange-500 — gradient end |
-| `accent-warningHoverFrom` | `#eab308` | yellow-500 |
-| `accent-warningHoverTo` | `#ea580c` | orange-600 |
-| `accent-warningLight` | `#fbbf24` | amber-400 — progress bar start |
-| `accent-warningLightTo` | `#fb923c` | orange-400 — progress bar end |
-| `accent-danger` | `#ef4444` | red-500 — gradient start, delete/error |
-| `accent-dangerTo` | `#ec4899` | pink-500 — gradient end |
-| `accent-dangerHoverFrom` | `#dc2626` | red-600 |
-| `accent-dangerHoverTo` | `#be185d` | pink-700 |
-| `accent-dangerLight` | `#fb7185` | rose-400 — progress bar start |
-| `accent-dangerLightTo` | `#f472b6` | pink-400 — progress bar end |
+| `accent-info` | `#2f6bff` | vivid blue — gradient start, links, info chips |
+| `accent-infoTo` | `#00d5ff` | vivid cyan — gradient end |
+| `accent-infoHoverFrom` | `#1f54e0` | hover start |
+| `accent-infoHoverTo` | `#0098c9` | hover end |
+| `accent-infoLight` | `#5ee7ff` | progress bar start |
+| `accent-infoLightTo` | `#82b6ff` | progress bar end |
+| `accent-success` | `#00e05a` | vivid green — gradient start, "learned" |
+| `accent-successTo` | `#00b878` | vivid emerald — gradient end |
+| `accent-successHoverFrom` | `#00c44d` | hover start |
+| `accent-successHoverTo` | `#009a68` | hover end |
+| `accent-successLight` | `#5affc4` | progress bar start |
+| `accent-successLightTo` | `#6bff91` | progress bar end |
+| `accent-warning` | `#ffd400` | vivid yellow — gradient start, "in progress" |
+| `accent-warningTo` | `#ff7a00` | vivid orange — gradient end, master video hue |
+| `accent-warningHoverFrom` | `#f5b800` | master yellow-500, description icon end |
+| `accent-warningHoverTo` | `#e85d00` | hover end |
+| `accent-warningLight` | `#ffcf3d` | progress bar start |
+| `accent-warningLightTo` | `#ff9a4d` | progress bar end |
+| `accent-amber` | `#ff9e00` | master amber-500, description icon start |
+| `accent-danger` | `#ff3b4e` | vivid red — gradient start, delete/error |
+| `accent-dangerTo` | `#ff4fa3` | vivid pink — gradient end |
+| `accent-dangerHoverFrom` | `#e01f35` | hover start |
+| `accent-dangerHoverTo` | `#d10a63` | hover end |
+| `accent-dangerLight` | `#ff7791` | progress bar start |
+| `accent-dangerLightTo` | `#ff79bd` | progress bar end |
 
 Gradient rules:
 
@@ -91,57 +97,78 @@ Gradient rules:
   `hover:from-accent-XHoverFrom hover:to-accent-XHoverTo`; flash progress bars
   use `from-accent-XLight to-accent-XLightTo`.
 - The single-hue `from-accent-X to-accent-X/80` form from Phase 1 is **retired**.
-  It was only a placeholder for the original two-hue pairs.
-- The brand gradient is unchanged: `from-brand-from to-brand-to`
-  (pink-500 → purple-500), with `brand-hoverFrom` / `brand-hoverTo` on hover.
-- The user-profile ambient wash restores blue→cyan→purple using
+- The brand gradient is `from-brand-from to-brand-to`
+  (vivid pink → vivid violet), with `brand-hoverFrom` / `brand-hoverTo` on hover.
+- The user-profile ambient wash uses
   `from-accent-infoHoverFrom/20 via-accent-infoTo/20 to-brand-hoverTo/20`.
+
+### Pattern card color identity (master hues)
+
+Reverted on user request, expressed through tokens:
+
+- Variations chip: `from-brand-from/20 to-accent-warningTo/20`,
+  `text-brand-soft`, `border-brand-from/30`.
+- Variations toggle: `text-brand-soft` for the active/expanded label.
+- Description icon: `from-accent-amber to-accent-warningHoverFrom` (amber→yellow).
+- Showcase Video icon: `from-accent-danger to-accent-warningTo` (red→orange).
 
 ### Text (`theme.extend.colors` top-level aliases)
 
 | Token | Value | Purpose |
 |---|---|---|
 | `text-strong` | `#ffffff` | primary copy |
-| `text-body` | `#cbd5e1` | secondary copy (slate-300) |
-| `text-muted` | `#94a3b8` | tertiary copy / labels (slate-400) |
-| `text-subtle` | `#64748b` | hints / meta (slate-500) |
+| `text-body` | `#e4e9f7` | secondary copy |
+| `text-muted` | `#b4c0dc` | tertiary copy / labels |
+| `text-subtle` | `#8b9bc0` | hints / meta |
 
 ### Borders (`theme.extend.borderColor`)
 
 | Token | Value | Purpose |
 |---|---|---|
-| `border-subtle` | `#334155` | low-emphasis separators (slate-700) |
-| `border-strong` | `#475569` | high-emphasis separators (slate-600) |
+| `border-subtle` | `#3a2f60` | low-emphasis separators |
+| `border-strong` | `#51447f` | high-emphasis separators |
 
-These are independent of the text tokens: `border-strong` is slate-600, while
-`text-strong` is white. Do not derive one from the other.
+These are independent of the text tokens: `border-strong` is a violet gray,
+while `text-strong` is white. Do not derive one from the other.
 
 ### Surfaces (`theme.extend.colors.surface`)
 
 | Token | Value |
 |---|---|
-| `surface-base` | `#0f172a` |
-| `surface-raised` | `#1e293b` |
-| `surface-muted` | `#334155` |
+| `surface-base` | `#140f2e` |
+| `surface-raised` | `#211a40` |
+| `surface-muted` | `#352b57` |
+
+The overscroll background in `assets/css/app.css` matches `surface-base`.
 
 ### Hero ambient (`theme.extend.colors.hero`)
 
 | Token | Value | Purpose |
 |---|---|---|
-| `hero-ambient-1` | `#4c1d95` | purple-900 wash in the hero |
-| `hero-ambient-2` | `#831843` | pink-900 wash in the hero |
+| `hero-ambient-1` | `#6a1fb5` | vivid purple wash in the hero |
+| `hero-ambient-2` | `#b31769` | vivid pink wash in the hero |
 
-These are the *only* permitted `*-900` palette references, and they are tokenized.
+These are the *only* permitted `*-900`-style palette references, and they are tokenized.
+
+### Shadows (`theme.extend.boxShadow`)
+
+| Token | Basis |
+|---|---|
+| `shadow-raised` | violet + pink at low alpha |
+| `shadow-card` | deep violet at 60% |
+| `shadow-glow` | vivid pink at 70% |
+
+The `pulse-glow` keyframes use the same vivid pink/violet pair.
 
 ### Enforcement
 
-No `.heex` or component file may reference these raw palettes directly:
+No `.heex` or component file may reference raw palettes directly:
 `purple-*`, `pink-*`, `blue-*`, `cyan-*`, `orange-*`, `amber-*`, `yellow-*`,
-`emerald-*`, `green-*`, `red-*`.
+`emerald-*`, `green-*`, `red-*`, `slate-*`, `zinc-*`, `gray-*`.
 
-`slate-*` is permitted only where no token exists (e.g. opacity modifiers on
-surfaces) and must be migrated when a token is added. `gray-*` and `zinc-*` are
-likewise non-tokenized and should be migrated opportunistically.
+Neutral white/black utilities (`bg-white/10`, `border-white/10`, `bg-black`
+scrims, `ring-white`) remain permitted where a literal neutral is intentional.
+The QR-code container keeps `bg-white` so the code scans correctly.
 
 ---
 
@@ -249,7 +276,11 @@ Desktop 1440 / tablet 768 / phone 390:
 - [ ] Home — hero text, brand-gradient stat icons, CTA button variants
 - [ ] Dance types — cards/chips/CTAs match home card style
 - [ ] Patterns — variations panel corners, `Left / Left` labels, status colors,
-      search-expanded variations
+      search-expanded variations; variations chip is pink→orange with pink-soft
+      text, description icon is amber→yellow, video icon is red→orange
+- [ ] Vibrancy — vivid pink/violet brand, blue→cyan / green→emerald /
+      yellow→orange / red→pink gradients, violet-tinted dark surfaces, bright
+      secondary text; no gray/bland panels remain
 - [ ] Admin / Lessons — shared header/meta/expanded/footer structure
 - [ ] All modals — aligned headers/footers, identical cancel buttons, visible
       focus rings

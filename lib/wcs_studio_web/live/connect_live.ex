@@ -119,7 +119,7 @@ defmodule WcsStudioWeb.ConnectLive do
                     type="text"
                     name="name"
                     required
-                    class="w-full px-4 py-3 bg-surface-base/50 border border-slate-600 rounded-md text-strong placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-to focus:border-transparent transition-all"
+                    class="w-full px-4 py-3 bg-surface-base/50 border border-strong rounded-md text-strong placeholder:text-subtle focus:outline-none focus:ring-2 focus:ring-brand-to focus:border-transparent transition-all"
                     placeholder={gettext("Your name")}
                   />
                 </div>
@@ -130,7 +130,7 @@ defmodule WcsStudioWeb.ConnectLive do
                     type="email"
                     name="email"
                     required
-                    class="w-full px-4 py-3 bg-surface-base/50 border border-slate-600 rounded-md text-strong placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-to focus:border-transparent transition-all"
+                    class="w-full px-4 py-3 bg-surface-base/50 border border-strong rounded-md text-strong placeholder:text-subtle focus:outline-none focus:ring-2 focus:ring-brand-to focus:border-transparent transition-all"
                     placeholder={gettext("your@email.com")}
                   />
                 </div>
@@ -141,7 +141,7 @@ defmodule WcsStudioWeb.ConnectLive do
                     name="message"
                     rows="4"
                     required
-                    class="w-full px-4 py-3 bg-surface-base/50 border border-slate-600 rounded-md text-strong placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-to focus:border-transparent transition-all"
+                    class="w-full px-4 py-3 bg-surface-base/50 border border-strong rounded-md text-strong placeholder:text-subtle focus:outline-none focus:ring-2 focus:ring-brand-to focus:border-transparent transition-all"
                     placeholder={gettext("Tell me about your project...")}
                   ></textarea>
                 </div>

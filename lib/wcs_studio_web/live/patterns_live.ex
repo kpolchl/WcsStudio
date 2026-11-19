@@ -526,7 +526,7 @@ defmodule WcsStudioWeb.PatternsLive do
                       if(MapSet.member?(@selected_child_ids, candidate.id),
                         do: "bg-brand-from/20 border-brand-from/50 text-brand-lightFrom",
                         else:
-                          "bg-surface-muted/40 border-slate-600/40 text-body hover:border-brand-from/30"
+                          "bg-surface-muted/40 border-strong/40 text-body hover:border-brand-from/30"
                       )
                     ]}
                   >
@@ -588,7 +588,7 @@ defmodule WcsStudioWeb.PatternsLive do
                       if(MapSet.member?(@selected_child_ids, candidate.id),
                         do: "bg-brand-from/20 border-brand-from/50 text-brand-lightFrom",
                         else:
-                          "bg-surface-muted/40 border-slate-600/40 text-body hover:border-brand-from/30"
+                          "bg-surface-muted/40 border-strong/40 text-body hover:border-brand-from/30"
                       )
                     ]}
                   >

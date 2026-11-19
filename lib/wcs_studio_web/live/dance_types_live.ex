@@ -225,7 +225,7 @@ defmodule WcsStudioWeb.DanceTypesLive do
                 </div>
 
                 <!-- CTA -->
-                <div class="flex items-center justify-between pt-3 border-t border-surface-muted group-hover:border-slate-500/50 transition-colors duration-300">
+                <div class="flex items-center justify-between pt-3 border-t border-surface-muted group-hover:border-strong/50 transition-colors duration-300">
                   <span
                     class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-strong backdrop-blur-sm border border-white/20"
                     style="backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);"
