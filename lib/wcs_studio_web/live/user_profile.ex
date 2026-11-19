@@ -94,7 +94,7 @@ defmodule WcsStudioWeb.UserProfile do
               </h1>
 
               <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3 mb-4">
-                <span class="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-medium bg-accent-info/20 text-accent-info border border-accent-info/30 backdrop-blur-sm">
+                <span class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-accent-info/20 text-accent-info border border-accent-info/30 backdrop-blur-sm">
                   <i class="fas fa-seedling text-xs mr-2"></i> {@current_user.role}
                 </span>
                 <span class="text-body text-sm flex items-center gap-2">
@@ -264,15 +264,15 @@ defmodule WcsStudioWeb.UserProfile do
                   <h3 class="text-base font-semibold text-strong group-hover:text-accent-info transition-colors">
                     {user_pattern.pattern.name}
                   </h3>
-                  <span class={"inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-medium border backdrop-blur-sm #{status_bg(user_pattern.status)}"}>
-                    <i class={"fas #{status_icon(user_pattern.status)} mr-1.5 text-xs"}></i>
+                  <span class={"inline-flex items-center px-2 py-1 rounded-lg text-xs font-medium border backdrop-blur-sm #{status_bg(user_pattern.status)}"}>
+                    <i class={"fas #{status_icon(user_pattern.status)} mr-2 text-xs"}></i>
                     {status_text(user_pattern.status)}
                   </span>
                 </div>
 
                 <div class="flex items-center justify-between pt-3 border-t border-white/5">
                   <div class={"flex items-center text-xs font-medium #{status_class(user_pattern.status)}"}>
-                    <i class={"fas #{status_icon(user_pattern.status)} mr-1.5"}></i>
+                    <i class={"fas #{status_icon(user_pattern.status)} mr-2"}></i>
                     {status_text(user_pattern.status)}
                   </div>
                   <a

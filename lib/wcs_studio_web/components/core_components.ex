@@ -417,8 +417,8 @@ defmodule WcsStudioWeb.CoreComponents do
                 else: "px-4 pb-4 pt-0 border-t border-surface-muted/50"
             }
           >
-            <div class="mb-4 py-4">
-              <div class="gap-4 mb-4">
+            <div class="py-4">
+              <div class="mb-4">
                 <div class="p-4 rounded-md bg-surface-muted/30 border border-surface-muted shadow-raised">
                   <div class="flex items-center mb-4">
                     <div class="w-10 h-10 rounded-md bg-gradient-to-br from-accent-warning to-accent-warning/80 flex items-center justify-center mr-3 shadow-raised">
@@ -1501,7 +1501,7 @@ defmodule WcsStudioWeb.CoreComponents do
       "mt-3 flex gap-3 text-sm leading-6 text-accent-danger phx-no-feedback:hidden",
       @class
     ]}>
-      <.icon name="fa-circle-exclamation" class="mt-0.5 text-lg flex-none" />
+      <.icon name="fa-circle-exclamation" class="mt-1 text-lg flex-none" />
       {render_slot(@inner_block)}
     </p>
     """
