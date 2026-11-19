@@ -22,6 +22,29 @@ defmodule WcsStudioWeb.CoreComponents do
 
   @default_avatar_url "/images/user_icon.png"
 
+  @btn_variant_classes %{
+    "primary" =>
+      "bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white shadow-pink-500/25",
+    "info" =>
+      "bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 text-white shadow-blue-500/25",
+    "danger" =>
+      "bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white shadow-red-500/25",
+    "success" =>
+      "bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white shadow-green-500/25",
+    "warn" =>
+      "bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-white shadow-yellow-500/25",
+    "ghost" =>
+      "bg-slate-700/50 border border-slate-600/50 text-slate-300 hover:bg-slate-600/50 hover:text-white"
+  }
+
+  @btn_size_classes %{
+    "sm" => "py-2 px-3 text-sm",
+    "md" => "py-2 px-4",
+    "lg" => "py-3 px-6"
+  }
+
+  @btn_rest_keys ~w(href method navigate patch disabled type)a
+
   @doc """
   Renders a baseline action button, or a link styled as one when `href` is given.
 
@@ -39,76 +62,40 @@ defmodule WcsStudioWeb.CoreComponents do
   slot :inner_block, required: true
 
   def btn(assigns) do
-    variant_classes = %{
-      "primary" =>
-        "bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white shadow-pink-500/25",
-      "info" =>
-        "bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 text-white shadow-blue-500/25",
-      "danger" =>
-        "bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white shadow-red-500/25",
-      "success" =>
-        "bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white shadow-green-500/25",
-      "warn" =>
-        "bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-white shadow-yellow-500/25",
-      "ghost" =>
-        "bg-slate-700/50 border border-slate-600/50 text-slate-300 hover:bg-slate-600/50 hover:text-white"
-    }
-
-    size_classes = %{
-      "sm" => "py-2 px-3 text-sm",
-      "md" => "py-2 px-4",
-      "lg" => "py-3 px-6"
-    }
-
-    rest = assigns[:rest] || %{}
-    href = Map.get(rest, :href) || Map.get(rest, "href")
-    method = Map.get(rest, :method) || Map.get(rest, "method")
-    navigate = Map.get(rest, :navigate) || Map.get(rest, "navigate")
-    patch = Map.get(rest, :patch) || Map.get(rest, "patch")
-    disabled = Map.get(rest, :disabled) || Map.get(rest, "disabled")
-    type = Map.get(rest, :type) || Map.get(rest, "type") || "button"
+    rest = assigns.rest || %{}
+    link_attrs = Map.new(@btn_rest_keys, fn key -> {key, rest_value(rest, key)} end)
+    type = rest_value(rest, :type, "button")
+    rest = Map.drop(rest, @btn_rest_keys ++ Enum.map(@btn_rest_keys, &Atom.to_string/1))
 
     classes = [
       "inline-flex items-center justify-center font-medium rounded-lg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg",
-      variant_classes[assigns.variant],
-      size_classes[assigns.size],
+      @btn_variant_classes[assigns.variant],
+      @btn_size_classes[assigns.size],
+      large_cta_glow(assigns.variant, assigns.size),
       assigns.class
     ]
 
+    link? =
+      link_attrs
+      |> Map.take([:href, :navigate, :patch])
+      |> Map.values()
+      |> Enum.any?()
+
     assigns =
       assigns
-      |> assign(:href, href)
-      |> assign(:method, method)
-      |> assign(:navigate, navigate)
-      |> assign(:patch, patch)
-      |> assign(:disabled, disabled)
+      |> assign(:link?, link?)
+      |> assign(:attrs, link_attrs)
       |> assign(:type, type)
-      |> assign(
-        :rest,
-        Map.drop(rest, [
-          :href,
-          :method,
-          :navigate,
-          :patch,
-          :disabled,
-          :type,
-          "href",
-          "method",
-          "navigate",
-          "patch",
-          "disabled",
-          "type"
-        ])
-      )
+      |> assign(:rest, rest)
       |> assign(:classes, classes)
 
     ~H"""
-    <%= if @href || @navigate || @patch do %>
+    <%= if @link? do %>
       <.link
-        href={@href}
-        navigate={@navigate}
-        patch={@patch}
-        method={@method}
+        href={@attrs.href}
+        navigate={@attrs.navigate}
+        patch={@attrs.patch}
+        method={@attrs.method}
         class={@classes}
         {@rest}
       >
@@ -116,13 +103,22 @@ defmodule WcsStudioWeb.CoreComponents do
         {render_slot(@inner_block)}
       </.link>
     <% else %>
-      <button type={@type} disabled={@disabled} class={@classes} {@rest}>
+      <button type={@type} disabled={@attrs.disabled} class={@classes} {@rest}>
         <i :if={@icon} class={"fas fa-#{@icon} mr-2"} aria-hidden="true"></i>
         {render_slot(@inner_block)}
       </button>
     <% end %>
     """
   end
+
+  defp rest_value(rest, key, default \\ nil) do
+    Map.get(rest, key) || Map.get(rest, Atom.to_string(key)) || default
+  end
+
+  # The large primary CTA keeps the pulsing glow that used to be hard-coded on
+  # the home page buttons (see docs/design-system.md, §9).
+  defp large_cta_glow("primary", "lg"), do: "animate-pulse-glow"
+  defp large_cta_glow(_variant, _size), do: ""
 
   @doc """
   Renders the baseline card shell.

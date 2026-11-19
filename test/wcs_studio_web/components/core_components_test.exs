@@ -21,6 +21,52 @@ defmodule WcsStudioWeb.CoreComponentsTest do
     end
   end
 
+  describe "btn/1" do
+    test "renders a button with baseline padding by default" do
+      assigns = %{}
+
+      html =
+        rendered_to_string(~H"""
+        <C.btn type="submit">Save</C.btn>
+        """)
+
+      assert html =~ ~s(type="submit")
+      assert html =~ "py-2 px-4"
+      refute html =~ "animate-pulse-glow"
+    end
+
+    test "renders a link when href is given" do
+      assigns = %{}
+
+      html =
+        rendered_to_string(~H"""
+        <C.btn href="/posts">Posts</C.btn>
+        """)
+
+      assert html =~ ~s(<a href="/posts")
+      assert html =~ "Posts"
+    end
+
+    test "adds the pulsing glow only to the large primary CTA" do
+      assigns = %{}
+
+      large =
+        rendered_to_string(~H"""
+        <C.btn size="lg">Join</C.btn>
+        """)
+
+      assert large =~ "py-3 px-6"
+      assert large =~ "animate-pulse-glow"
+
+      medium =
+        rendered_to_string(~H"""
+        <C.btn variant="info">Info</C.btn>
+        """)
+
+      refute medium =~ "animate-pulse-glow"
+    end
+  end
+
   describe "label/1" do
     test "renders a label bound to a field" do
       assigns = %{}
