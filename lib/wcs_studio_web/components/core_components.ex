@@ -1205,38 +1205,42 @@ defmodule WcsStudioWeb.CoreComponents do
 
   def nav_link(assigns) do
     ~H"""
-    <.link href={@href} class={nav_link_classes(assigns)} {@rest}>
+    <.link
+      href={@href}
+      class={nav_link_classes(assigns)}
+      data-nav-path={@href}
+      aria-current={@active && "page"}
+      {@rest}
+    >
       {render_slot(@inner_block)}
       <span
         :if={!@mobile}
         class={[
           "absolute bottom-0 left-1/2 h-0.5 bg-gradient-to-r from-brand-from to-brand-to transition-all duration-300",
-          @active && "w-full left-0",
-          !@active && "w-0 group-hover:w-full group-hover:left-0"
+          "w-0 group-hover:w-full group-hover:left-0",
+          "aria-[current=page]:w-full aria-[current=page]:left-0"
         ]}
       ></span>
     </.link>
     """
   end
 
-  defp nav_link_classes(%{mobile: true, active: active, class: class}) do
+  defp nav_link_classes(%{mobile: true, class: class}) do
     [
       "block px-3 py-3 rounded-sm text-base font-medium border transition-all duration-300",
       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-400/70",
-      if(active,
-        do: "bg-brand-from/10 text-pink-300 border-pink-500/30",
-        else:
-          "text-slate-300 hover:text-white hover:bg-surface-raised/50 border-transparent hover:border-surface-muted"
-      ),
+      "text-slate-300 hover:text-white hover:bg-surface-raised/50 border-transparent hover:border-surface-muted",
+      "aria-[current=page]:bg-brand-from/10 aria-[current=page]:text-pink-300 aria-[current=page]:border-pink-500/30",
       class
     ]
   end
 
-  defp nav_link_classes(%{mobile: false, active: active, class: class}) do
+  defp nav_link_classes(%{mobile: false, class: class}) do
     [
       "relative px-4 py-2 text-sm font-medium transition-all duration-300 group",
       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-400/70",
-      if(active, do: "text-white", else: "text-slate-300 hover:text-white"),
+      "text-slate-300 hover:text-white",
+      "aria-[current=page]:text-white",
       class
     ]
   end
