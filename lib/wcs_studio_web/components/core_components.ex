@@ -1042,6 +1042,7 @@ defmodule WcsStudioWeb.CoreComponents do
     values: [:primary, :secondary, :ghost, :danger, :info, :success]
 
   attr :size, :atom, default: :md, values: [:sm, :md, :lg]
+  attr :disabled, :boolean, default: false
   attr :class, :string, default: nil
   attr :rest, :global, doc: "the arbitrary HTML attributes to apply to the button"
 
@@ -1052,18 +1053,19 @@ defmodule WcsStudioWeb.CoreComponents do
     <.link :if={@href} href={@href} class={button_classes(assigns)} {@rest}>
       {render_slot(@inner_block)}
     </.link>
-    <button :if={!@href} type={@type} class={button_classes(assigns)} {@rest}>
+    <button :if={!@href} type={@type} disabled={@disabled} class={button_classes(assigns)} {@rest}>
       {render_slot(@inner_block)}
     </button>
     """
   end
 
-  defp button_classes(%{variant: variant, size: size, class: class}) do
+  defp button_classes(%{variant: variant, size: size, disabled: disabled, class: class}) do
     [
       "phx-submit-loading:opacity-75 inline-flex items-center justify-center gap-2 font-semibold rounded-sm transition-all duration-300",
       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-base",
       button_variant(variant),
       button_size(size),
+      disabled && "opacity-50 cursor-not-allowed hover:translate-y-0",
       class
     ]
   end

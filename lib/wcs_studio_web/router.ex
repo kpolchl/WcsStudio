@@ -60,6 +60,7 @@ defmodule WcsStudioWeb.Router do
       pipe_through :browser
 
       forward "/mailbox", Plug.Swoosh.MailboxPreview
+      get "/components", WcsStudioWeb.ComponentPreviewController, :index
     end
   end
 
