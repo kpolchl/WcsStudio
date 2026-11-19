@@ -36,10 +36,10 @@ module.exports = {
                 sans: ['Inter', 'sans-serif'],
             },
             borderRadius: {
-                sm: '8px',
-                md: '12px',
-                lg: '16px',
-                xl: '24px',
+                sm: '4px',
+                md: '6px',
+                lg: '8px',
+                xl: '12px',
             },
             boxShadow: {
                 raised: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',

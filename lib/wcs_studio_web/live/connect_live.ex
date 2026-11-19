@@ -197,29 +197,29 @@ defmodule WcsStudioWeb.ConnectLive do
     |> subject("💬 New message from #{name}")
     |> html_body("""
     <div style="font-family: system-ui, -apple-system, sans-serif; max-width: 600px; margin: 0 auto;">
-      <div style="background: linear-gradient(135deg, #ec4899 0%, #a855f7 100%); padding: 30px; border-radius: 10px 10px 0 0;">
+      <div style="background: linear-gradient(135deg, #ec4899 0%, #a855f7 100%); padding: 30px; border-radius: 8px 8px 0 0;">
         <h1 style="color: white; margin: 0; font-size: 24px;">New Contact Form Message</h1>
       </div>
 
-      <div style="background: #f9fafb; padding: 30px; border-radius: 0 0 10px 10px;">
-        <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+      <div style="background: #f9fafb; padding: 30px; border-radius: 0 0 8px 8px;">
+        <div style="background: white; padding: 20px; border-radius: 6px; margin-bottom: 20px;">
           <p style="margin: 0 0 10px 0; color: #6b7280;"><strong>From:</strong></p>
           <p style="margin: 0; color: #111827; font-size: 16px;">#{name}</p>
         </div>
 
-        <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+        <div style="background: white; padding: 20px; border-radius: 6px; margin-bottom: 20px;">
           <p style="margin: 0 0 10px 0; color: #6b7280;"><strong>Email:</strong></p>
           <p style="margin: 0; color: #111827; font-size: 16px;">
             <a href="mailto:#{email}" style="color: #db2777; text-decoration: none;">#{email}</a>
           </p>
         </div>
 
-        <div style="background: white; padding: 20px; border-radius: 8px;">
+        <div style="background: white; padding: 20px; border-radius: 6px;">
           <p style="margin: 0 0 10px 0; color: #6b7280;"><strong>Message:</strong></p>
           <p style="margin: 0; color: #111827; font-size: 16px; line-height: 1.6; white-space: pre-wrap;">#{message}</p>
         </div>
 
-        <div style="margin-top: 20px; padding: 15px; background: #e0e7ff; border-radius: 8px; text-align: center;">
+        <div style="margin-top: 20px; padding: 15px; background: #e0e7ff; border-radius: 6px; text-align: center;">
           <p style="margin: 0; color: #4338ca; font-size: 14px;">
             💡 <strong>Tip:</strong> Click "Reply" to respond directly to #{name}
           </p>
