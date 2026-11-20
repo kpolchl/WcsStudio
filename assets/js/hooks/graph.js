@@ -28,6 +28,33 @@ const BASE_POSITIONS = {
   starting_position: { x: 67, y: 273 },
 };
 
+// Space kept free around the layout (px) so outward loops aren't clipped
+const PAD = 80;
+const PAD_MOBILE = 36;
+
+// Self-loops: a narrow sweep + tall reach gives a sharp teardrop instead of a
+// flat arch. REACH = how far (px) the loop's control points sit beyond the
+// node box; SWEEP = angle (deg) between the loop's two legs.
+const LOOP_SWEEP = 34;
+const LOOP_SWEEP_MOBILE = 40;
+const LOOP_REACH = 64;
+const LOOP_REACH_MOBILE = 36;
+// Keep this many px between a loop's apex and the canvas edge (room for its
+// label while a pattern is being played)
+const LOOP_EDGE_MARGIN = 28;
+
+// Distance from a rectangle's centre to its border along `deg`
+// (0° = up, clockwise), for half-size hw × hh.
+const boxRadius = (hw, hh, deg) => {
+  const t = (deg * Math.PI) / 180;
+  const dx = Math.abs(Math.sin(t));
+  const dy = Math.abs(Math.cos(t));
+  return Math.min(
+    dx > 1e-6 ? hw / dx : Infinity,
+    dy > 1e-6 ? hh / dy : Infinity,
+  );
+};
+
 const BASE_W = 1200;
 const BASE_H = 500;
 
@@ -121,6 +148,11 @@ const PatternGraph = {
             "control-point-weights": 0.5,
             // Offset is computed per edge in assignEdgeSlots()
             "control-point-distances": (e) => e.data("_cpDist") || 0,
+            // Cytoscape forces self-loops to curve-style "bezier", which
+            // ignores control-point-distances: a loop's size comes from the
+            // step size instead (sized per node in layout()).
+            "control-point-step-size": (e) =>
+              e.isLoop() ? e.source().data("_loopDist") || m(80, 40) : 40,
             "source-endpoint": "outside-to-line",
             "target-endpoint": "outside-to-line",
             "source-distance-from-node": 2,
@@ -132,9 +164,10 @@ const PatternGraph = {
             "arrow-scale": () => m(1.1, 0.8),
             opacity: 0.9, // keep high: translucent lines blend into the purple background
             cursor: "pointer",
-            // Self-loop tuning: compact loops that stay close to the node
-            "loop-direction": "-45deg",
-            "loop-sweep": () => m("60deg", "50deg"),
+            // Self-loops point away from the middle of the graph; the angle
+            // (clockwise from 12 o'clock) is computed per node in layout().
+            "loop-direction": (e) => `${e.source().data("_loopDeg") || 0}deg`,
+            "loop-sweep": () => `${m(LOOP_SWEEP, LOOP_SWEEP_MOBILE)}deg`,
             "transition-property": "opacity, line-color, width",
             "transition-duration": "250ms",
           },
@@ -306,6 +339,9 @@ const PatternGraph = {
     });
 
     this.rebuild();
+    // Node boxes are only measured once the canvas has painted: lay out again
+    // so loop sizes use real dimensions rather than estimates.
+    this.cy.one("render", () => this.layout());
 
     // ── Interactions ────────────────────────────────────────────────
 
@@ -473,7 +509,7 @@ const PatternGraph = {
 
     const bw = isMobile ? BASE_W_MOBILE : BASE_W;
     const bh = isMobile ? BASE_H_MOBILE : BASE_H;
-    const pad = isMobile ? 16 : 60;
+    const pad = isMobile ? PAD_MOBILE : PAD;
 
     const scale = Math.min((cw - pad * 2) / bw, (ch - pad * 2) / bh);
     const offsetX = (cw - bw * scale) / 2;
@@ -521,7 +557,9 @@ const PatternGraph = {
       const isBundle = key.startsWith("b|");
       const n = group.length;
 
-      if (group[0].data("source") === group[0].data("target")) return; // loop
+      // Self-loops are sized via control-point-step-size (see the style); the
+      // renderer stacks several loops on one node by itself.
+      if (group[0].data("source") === group[0].data("target")) return;
 
       if (n === 1) {
         // Slight curve, so a lone edge looks intentional
@@ -617,33 +655,116 @@ const PatternGraph = {
     return mobile ? 1.5 + 2.5 * t : 2.5 + 5 * t;
   },
 
+  loopSweep() {
+    return this.isMobile() ? LOOP_SWEEP_MOBILE : LOOP_SWEEP;
+  },
+
+  // Half width/height of a node's box. Falls back to an estimate if Cytoscape
+  // hasn't measured the label yet (the first layout happens before first paint;
+  // a second layout is triggered right after the first render).
+  nodeHalfSize(n) {
+    const bb = n.boundingBox({
+      includeLabels: false,
+      includeOverlays: false,
+      includeEdges: false,
+    });
+    let w = bb.w;
+    let h = bb.h;
+    if (!(w > 20 && h > 10)) {
+      const mobile = this.isMobile();
+      const fs = mobile ? 12 : 18;
+      const pad = mobile ? 8 : 16;
+      w = String(n.data("label") || "").length * fs * 0.62 + pad * 2;
+      h = fs * 1.3 + pad * 2;
+    }
+    return { hw: w / 2, hh: h / 2 };
+  },
+
   layout() {
     const cw = this.el.clientWidth;
     const ch = this.el.clientHeight;
     const isMobile = this.isMobile();
 
-    this.assignEdgeSlots();
-
     const positions = isMobile ? BASE_POSITIONS_MOBILE : BASE_POSITIONS;
     const bw = isMobile ? BASE_W_MOBILE : BASE_W;
     const bh = isMobile ? BASE_H_MOBILE : BASE_H;
 
-    // Scale to fill the container with some padding
-    const pad = isMobile ? 16 : 60;
+    // Scale to fill the container. Padding leaves room for outward self-loops.
+    const pad = isMobile ? PAD_MOBILE : PAD;
     const scale = Math.min((cw - pad * 2) / bw, (ch - pad * 2) / bh);
     const offsetX = (cw - bw * scale) / 2;
     const offsetY = (ch - bh * scale) / 2;
 
+    const placed = {};
+    this.cy.nodes().forEach((n) => {
+      const base = positions[n.id()] || { x: 0, y: 0 };
+      placed[n.id()] = {
+        x: base.x * scale + offsetX,
+        y: base.y * scale + offsetY,
+      };
+    });
+
+    // Point each node's self-loops away from the centroid of all nodes.
+    // Cytoscape angles: 0° = up, clockwise positive.
+    const pts = Object.values(placed);
+    const mx = pts.reduce((s, p) => s + p.x, 0) / (pts.length || 1);
+    const my = pts.reduce((s, p) => s + p.y, 0) / (pts.length || 1);
+    this.cy.nodes().forEach((n) => {
+      const dx = placed[n.id()].x - mx;
+      const dy = placed[n.id()].y - my;
+      const deg =
+        Math.hypot(dx, dy) < 1 ? 0 : (Math.atan2(dx, -dy) * 180) / Math.PI;
+      n.data("_loopDeg", Math.round(deg));
+
+      // Loop size. Cytoscape puts the two loop control points at 1.4 × the
+      // control-point distance, at ±sweep/2 around the loop direction. They
+      // MUST lie outside the node box, otherwise the edge is flagged
+      // "bad" and silently not drawn (wide nodes pointing sideways/down did
+      // exactly that). So size each loop from the node's real box, plus a
+      // fixed reach beyond it that sets how tall/sharp the loop looks.
+      const { hw, hh } = this.nodeHalfSize(n);
+      const half = this.loopSweep() / 2;
+      const clear = Math.max(
+        boxRadius(hw, hh, deg - half),
+        boxRadius(hw, hh, deg + half),
+      );
+      let R = clear + (isMobile ? LOOP_REACH_MOBILE : LOOP_REACH);
+
+      // Never let a loop run off the canvas: cap R by the room left in the
+      // loop's direction (the apex sits at ≈ R·cos(half-sweep)), but keep it
+      // large enough to clear the node box.
+      const rad = (deg * Math.PI) / 180;
+      const ux = Math.sin(rad);
+      const uy = -Math.cos(rad);
+      const p = placed[n.id()];
+      const edge = LOOP_EDGE_MARGIN;
+      const room = Math.min(
+        ux > 1e-6
+          ? (cw - edge - p.x) / ux
+          : ux < -1e-6
+            ? (edge - p.x) / ux
+            : Infinity,
+        uy > 1e-6
+          ? (ch - edge - p.y) / uy
+          : uy < -1e-6
+            ? (edge - p.y) / uy
+            : Infinity,
+      );
+      R = Math.max(
+        clear + 14,
+        Math.min(R, room / Math.cos((half * Math.PI) / 180)),
+      );
+
+      n.data("_loopDist", R / 1.4);
+    });
+
+    // Needs the loop sizes above
+    this.assignEdgeSlots();
+
     this.cy
       .layout({
         name: "preset",
-        positions: (n) => {
-          const base = positions[n.id()] || { x: 0, y: 0 };
-          return {
-            x: base.x * scale + offsetX,
-            y: base.y * scale + offsetY,
-          };
-        },
+        positions: (n) => placed[n.id()],
         fit: false, // We handle sizing ourselves
         padding: 0,
       })
