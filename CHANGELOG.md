@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.0] - 2026-11-20
+
+### Added
+- For West Coast Swing dance style subpage with graph view of steps 
+
 ## [1.3.1] - 2026-11-19
 
 ### Added

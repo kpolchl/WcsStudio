@@ -25,12 +25,14 @@ import PieChart from "./hooks/pie_chart";
 import Carousel from "./hooks/carousel";
 import NavActive from "./hooks/nav_active";
 import ModalFocus from "./hooks/modal_focus";
+import PatternGraph from "./hooks/graph"
 
 let Hooks = {
   PieChart: PieChart,
   Carousel: Carousel,
   NavActive: NavActive,
   ModalFocus: ModalFocus,
+  PatternGraph: PatternGraph,
 };
 
 let csrfToken = document

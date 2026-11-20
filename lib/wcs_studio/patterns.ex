@@ -6,8 +6,8 @@ defmodule WcsStudio.Pattern do
 
   schema "patterns" do
     field :name, :string
-    field :starting_hands, Ecto.Enum, values: [:left_left, :left_right, :right_right, :right_left]
-    field :ending_hands, Ecto.Enum, values: [:left_left, :left_right, :right_right, :right_left]
+    field :starting_hands, Ecto.Enum, values: [:left_left, :left_right, :right_right, :right_left, :both_hands, :starting_position]
+    field :ending_hands, Ecto.Enum, values: [:left_left, :left_right, :right_right, :right_left, :both_hands, :starting_position]
     field :count_num, :integer
     field :video_url, :string
     field :depth, :integer, virtual: true

@@ -132,6 +132,7 @@ defmodule WcsStudioWeb.Router do
         {WcsStudioWeb.UserAuth, :set_locale}
       ] do
       live "/patterns", PatternsLive
+      live "/graph", GraphViewLive
       live "/dance_types", DanceTypesLive
       live "/blog", BlogLive, :index
       live "/blog/:id", BlogPostLive, :show
