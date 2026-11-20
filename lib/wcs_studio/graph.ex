@@ -9,7 +9,7 @@ defmodule WcsStudio.Graph do
   Every public function takes a `dance_type_id`; pass `nil` to use all patterns.
   """
   import Ecto.Query
-  alias WcsStudio.{Repo, Pattern}
+  alias WcsStudio.{Pattern, Repo}
 
   @hands [:left_left, :left_right, :right_right, :right_left, :both_hands, :starting_position]
   @practice_target 24
@@ -86,19 +86,20 @@ defmodule WcsStudio.Graph do
         # stable sort: avoid repeating the previous pattern unless nothing else fits
         |> Enum.sort_by(&(&1.id == prev_id))
 
-      result =
-        Enum.reduce_while(candidates, {:fail, failed}, fn p, {:fail, failed} ->
-          case search(p.ending_hands, remaining - p.count_num, p.id, by_start, failed) do
-            {:ok, rest, failed} -> {:halt, {:ok, [p | rest], failed}}
-            {:fail, failed} -> {:cont, {:fail, failed}}
-          end
-        end)
-
-      case result do
+      case search_candidates(candidates, remaining, by_start, failed) do
         {:ok, _, _} = ok -> ok
         {:fail, failed} -> {:fail, MapSet.put(failed, {hand, remaining})}
       end
     end
+  end
+
+  defp search_candidates(candidates, remaining, by_start, failed) do
+    Enum.reduce_while(candidates, {:fail, failed}, fn p, {:fail, failed} ->
+      case search(p.ending_hands, remaining - p.count_num, p.id, by_start, failed) do
+        {:ok, rest, failed} -> {:halt, {:ok, [p | rest], failed}}
+        {:fail, failed} -> {:cont, {:fail, failed}}
+      end
+    end)
   end
 
   # -- Helpers -----------------------------------------------------------------
